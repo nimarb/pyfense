@@ -36,9 +36,10 @@
 
 ## Aufteilung: 
 
- - Tower.py
- - Enemy.py
- - Game.py nimar
+ - pyfense_tower.py		contains tower class
+ - pyfense_enemy.py		contains enemy class
+ - pyfsense_menu.py		contains menu class
+ - pyfense.py			main function, read settings from file
  - input/output
 
 ## Git
