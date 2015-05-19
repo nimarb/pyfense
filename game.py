@@ -4,6 +4,9 @@
 import cocos
 from cocos.actions import *
 
+# import of other custom game files
+from pyfense_menu import *
+
 
 # settings (later to be read from cfg file)
 # some values might/will change during the course of the game
@@ -25,25 +28,6 @@ settings = {
 		"currency": 200	
 	}
 }
-
-class PyFenseMenu(cocos.menu.Menu):
-	def __init__(self):
-		super(PyFenseMenu, self).__init__("PyFense")
-		startGame = cocos.menu.MenuItem("Start Game", self.startGame)
-		settings = cocos.menu.MenuItem("Settings", self.settings)
-		about = cocos.menu.MenuItem("About", self.about)
-		exit = cocos.menu.MenuItem("Exit", self.on_quit)
-		menuItems = [startGame, settings, about, exit]
-		self.create_menu(menuItems)
-	def startGame(self):
-		exit()
-	def settings(self):
-		exit()
-	def about(self):
-		exit()
-	def on_quit(self):
-		exit()
-	
 	
 class PyFenseUi(cocos.layer.Layer):
 	def __init__(self):
