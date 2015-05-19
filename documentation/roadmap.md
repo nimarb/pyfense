@@ -41,6 +41,10 @@
  - Game.py nimar
  - input/output
 
+## Git
+ - master branch is always the last "stable" version
+ - active dev work should be done on beta branch or personal branches (to discuss)
+
 ### To-Do 
  - zeitplan für milestones festlegen (direkt in git?)
  - geschosse zeichnen
