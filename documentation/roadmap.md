@@ -1,5 +1,4 @@
-User Stories:
-=================
+## User Stories:
 
  - User opens program and is greeted by a welcome screen
  - User can click on the start button on the welcome screen and enter his name
@@ -20,7 +19,7 @@ User Stories:
  - In the statusbar, the following values are being displayed: current wave #, remaining lives, currency, next wave countdown
 
 
-Entwicklungsplan / Milestones:
+## Entwicklungsplan / Milestones:
 
  - Show 2D world (basically an image)
  - Show 2D world with tower placeholders, which can be build
@@ -29,13 +28,13 @@ Entwicklungsplan / Milestones:
  - Enemies and Towers get nice sprites, menus are visually pleasing to look at
 
 
-Interne und externe Schnittstellen:
+## Interne und externe Schnittstellen:
 
  - extern: load settings and enemy waves from text configuration file and maps, user-input from keyboard and mouse, output on screen
  - intern: communication between enemy/towers-modules and the main-routine 
 
 
-Aufteilung: 
+## Aufteilung: 
 
  - Tower.py
  - Enemy.py
