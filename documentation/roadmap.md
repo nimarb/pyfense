@@ -23,7 +23,7 @@
 
  - Show 2D world (basically an image)
  - Show 2D world with tower placeholders, which can be build
- - Additionally display enemies (no functionality yet, just moving)
+ - Additionally display enemies (no functionality yet, just moving) and tower projectiles
  - Enemies can die due to towers
  - Enemies and Towers get nice sprites, menus are visually pleasing to look at
 
@@ -41,3 +41,6 @@
  - Game.py nimar
  - input/output
 
+### To-Do 
+ - zeitplan für milestones festlegen (direkt in git?)
+ - geschosse zeichnen
