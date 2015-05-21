@@ -1,12 +1,12 @@
 ## File Names
 
  - pyfense.py : contains main function
- - pyfense_menu.py : contains PyFenseMenu class (scene)
- - pyfense_settings.py : contains PyFenseSettings class (scene)
- - pyfsnse_about.py : contains PyFenseAbout class (scene)
- - pyfense_highscore.py : contains PyFenseHighscore (scene)
- - pyfense_level.py : contains PyFenseLevel class (level selector) (scene)
- - pyfense_game.py : contains actual gameplay class PyFenseGame (scene)
+ - pyfense_menu.py : contains PyFenseMenu class (layer)
+ - pyfense_settings.py : contains PyFenseSettings class (layer)
+ - pyfsnse_about.py : contains PyFenseAbout class (layer)
+ - pyfense_highscore.py : contains PyFenseHighscore (layer)
+ - pyfense_level.py : contains PyFenseLevel class (level selector) (layer)
+ - pyfense_game.py : contains actual gameplay class PyFenseGame (layer)
  - pyfense_tower.py : contains PyFenseTower class (Sprite?)
  - pyfense_projectile.py : SINNVOLL?
  - pyfense_enemy.py : contains PyFenseEnemy class (Sprite?)
@@ -19,4 +19,5 @@
  - pyfense_game includes PyFenseTower, PyFenseEnemy
 
 ### scene structure
+ - menu class creates scenes by calling Scene(PyFenseSettings())
  - shall new scenes replace old scene or push onto stack?
