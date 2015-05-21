@@ -4,6 +4,7 @@ import cocos
 from cocos.scene import Scene
 from cocos.director import director
 from cocos.scenes import SplitRowsTransition
+from cocos.scenes import SlideInRTransition
 from cocos import menu
 
 from pyfense_about import *
@@ -22,13 +23,13 @@ class PyFenseMenu(menu.Menu):
 
 	#all functions save for the on_quit function still need logic
 	def startGame(self):
-		director.push(SplitRowsTransition(Scene(PyFenseLevel()), duration=2))
+		director.push(SlideInRTransition(Scene(PyFenseLevel()), duration=1))
 
 	def settings(self):
-		director.push(SplitRowsTransition(Scene(PyFenseSettings()), duration=2))
+		director.push(SlideInRTransition(Scene(PyFenseSettings()), duration=1))
 
 	def about(self):
-		director.push(SplitRowsTransition(Scene(PyFenseAbout()), duration=2))
+		director.push(SlideInRTransition(Scene(PyFenseAbout()), duration=1))
 
 	def on_quit(self):
 		exit()
