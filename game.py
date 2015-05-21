@@ -1,7 +1,11 @@
 # game.py
 # test
 
+import pyglet
+from pyglet.window import key
+
 import cocos
+from cocos.director import director
 from cocos.actions import *
 
 # import of other custom game files
@@ -26,25 +30,17 @@ settings = {
 	},
 	"player": {
 		"currency": 200	
+	},
+	"general": {
+		"showFps" : True
 	}
 }
-	
-class PyFenseUi(cocos.layer.Layer):
-	def __init__(self):
-		super(PyFenseUi, self).__init__()
-		welcomeLabel = cocos.text.Label('Welcome to PyFense', 
-										anchor_x='center', anchor_y='center')
-		welcomeLabel.position = 200, 200
-		self.add(welcomeLabel)
-		scale = ScaleBy(3, duration=0.5)
-		welcomeLabel.do(Repeat(scale + Reverse(scale)))
-
+		
 def main():
-	cocos.director.director.init(**settings['window'])
-	pyfense_ui_layer = PyFenseUi()
-	pyfense_menu = PyFenseMenu()
-	main_scene = cocos.scene.Scene(pyfense_menu)
-	cocos.director.director.run(main_scene)
+	director.init(**settings['window'])
+	scene_menu = cocos.scene.Scene(layer_menu)
+	director.set_show_FPS(settings["general"]["showFps"])
+	director.run(scene_menu)
 
 if __name__ == '__main__':
 	main()
