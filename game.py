@@ -37,10 +37,12 @@ settings = {
 }
 		
 def main():
-	director.init(**settings['window'])
-	scene_menu = cocos.scene.Scene(layer_menu)
-	director.set_show_FPS(settings["general"]["showFps"])
-	director.run(scene_menu)
+
+    director.init(**settings['window'])
+    layer_menu = PyFenseMenu()
+    scene_menu = cocos.scene.Scene(layer_menu)
+    director.set_show_FPS(settings["general"]["showFps"])
+    director.run(scene_menu)
 
 if __name__ == '__main__':
-	main()
+    main()
