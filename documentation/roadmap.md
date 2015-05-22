@@ -34,17 +34,14 @@
  - intern: communication between enemy/towers-modules and the main-routine 
 
 
-## Aufteilung: 
-
- - pyfense_tower.py		contains tower class
- - pyfense_enemy.py		contains enemy class
- - pyfsense_menu.py		contains menu class
- - pyfense.py			main function, read settings from file
- - input/output
-
 ## Git
  - master branch is always the last "stable" version
  - active dev work should be done on beta branch or personal branches (to discuss)
+
+
+## Assets
+ - textures/images are to be saved as *.png files 
+ - textrues/assets are to be stored in the assets/ directory
 
 ### To-Do 
  - zeitplan für milestones festlegen (direkt in git?)
