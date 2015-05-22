@@ -23,27 +23,17 @@ class PyFenseMenu(menu.Menu):
 
 	#all functions save for the on_quit function still need logic
 	def startGame(self):
-<<<<<<< HEAD
-		director.push(SplitRowsTransition(scene_level, duration=2))
+		director.push(SplitRowsTransition(scene_level, duration=1))
 		
 	def highscore(self):
 		director.push(SplitRowsTransition(Scene(PyFenseHighscore()),
-                                    duration=2))
-=======
-		director.push(SlideInRTransition(Scene(PyFenseLevel()), duration=1))
->>>>>>> 4920e04ecc51f6b1d0cdf705d8a7df3ca7a36f53
+                                    duration=1))
 
 	def settings(self):
 		director.push(SlideInRTransition(Scene(PyFenseSettings()), duration=1))
 
 	def about(self):
-<<<<<<< HEAD
 		director.push(SplitRowsTransition(Scene(PyFenseAbout()),
-                                    duration=2))
-		
-=======
-		director.push(SlideInRTransition(Scene(PyFenseAbout()), duration=1))
-
->>>>>>> 4920e04ecc51f6b1d0cdf705d8a7df3ca7a36f53
+                                    duration=1))
 	def on_quit(self):
 		exit()
