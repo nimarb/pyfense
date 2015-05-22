@@ -22,11 +22,16 @@ class PyFenseMenu(menu.Menu):
 	def startGame(self):
 		director.push(SplitRowsTransition(scene_level, duration=2))
 		
+	def highscore(self):
+		director.push(SplitRowsTransition(Scene(PyFenseHighscore()),
+                                    duration=2))
+
 	def settings(self):
 		director.replace(scene_settings)
 		
 	def about(self):
-		director.push(SplitRowsTransition(Scene(PyFenseAbout()), duration=2))
+		director.push(SplitRowsTransition(Scene(PyFenseAbout()),
+                                    duration=2))
 		
 	def on_quit(self):
 		exit()
