@@ -9,7 +9,7 @@ from cocos.director import director
 
 class PyFenseLevel(menu.Menu):
     def __init__(self):
-        super(PyFenseLevel, self).__init__("Select A Level")
+        super().__init__("Select A Level")
         lvl1 = menu.ImageMenuItem("assets/tower.png", lambda: self.start(1))
         lvl2 = menu.ImageMenuItem("assets/tower.png", lambda: self.start(2))
         lvl3 = menu.ImageMenuItem("assets/enemy.png", lambda: self.start(3))

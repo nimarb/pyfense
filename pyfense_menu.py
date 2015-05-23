@@ -13,7 +13,7 @@ from pyfense_level import *
 
 class PyFenseMenu(menu.Menu):
 	def __init__(self):
-		super(PyFenseMenu, self).__init__("PyFense")
+		super().__init__("PyFense")
 		startGame = cocos.menu.MenuItem("Start Game", self.startGame)
 		settings = cocos.menu.MenuItem("Settings", self.settings)
 		about = cocos.menu.MenuItem("About", self.about)
