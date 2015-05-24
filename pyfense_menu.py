@@ -40,3 +40,4 @@ class PyFenseMenu(menu.Menu):
         #import sys
         #sys.exit()
         exit() # does not work with iPython
+
