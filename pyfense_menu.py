@@ -39,5 +39,5 @@ class PyFenseMenu(menu.Menu):
             #Quits programm
             import sys
             sys.exit()
-            #does not work
-            #exit()
+            #exit() does not work
+            #
