@@ -21,5 +21,9 @@ class PyFenseAbout(menu.Menu):
 
 
     def backToMain(self):
+<<<<<<< HEAD
         director.p
     
+=======
+        director.pop(SplitRowsTransition(PyfenseMenu(),duration=1))
+>>>>>>> beee154... Fix indents in pyfense_menu to use 4 spaces

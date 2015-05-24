@@ -37,15 +37,21 @@ class PyFenseMenu(menu.Menu):
                                     duration=1))
     def on_quit(self):
 <<<<<<< HEAD
+<<<<<<< HEAD
         #Quits programm when using iPython
         #import sys
         #sys.exit()
         exit() # does not work with iPython
 =======
+=======
+>>>>>>> beee154... Fix indents in pyfense_menu to use 4 spaces
         #Quits programm
         import sys
         sys.exit()
         #exit() does not work
+<<<<<<< HEAD
+>>>>>>> beee154... Fix indents in pyfense_menu to use 4 spaces
+=======
 >>>>>>> beee154... Fix indents in pyfense_menu to use 4 spaces
             
     
