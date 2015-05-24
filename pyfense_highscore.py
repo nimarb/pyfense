@@ -14,7 +14,7 @@ class PyFenseHighscore(menu.Menu):
         entry = 5 * [None]
         for i in range(0,5):
             if i < len(highscore):
-                entry[i] = menu.MenuItem(highscore[i], self.on_quit)
+                entry[i] = menu.MenuItem(highscore[i].strip(), self.on_quit)
             else:
                 entry[i] = menu.MenuItem("Empty", self.on_quit)
 
