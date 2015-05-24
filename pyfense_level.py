@@ -6,6 +6,7 @@ import cocos
 from cocos import menu
 from cocos.director import director
 from cocos import scene
+from cocos.scenes import SplitRowsTransition
 
 from pyfense_game import *
 
@@ -36,9 +37,9 @@ class PyFenseLevel(menu.Menu):
         self.create_menu(menuItems)
 
     def start(self, lvl):
+        print("Start Game with map #%d" % lvl)
         director.replace(SplitRowsTransition(PyFenseGame(lvl),
                             duration=1))
-        print("Start Game with map #%d" % lvl)
 
     def on_quit(self):
         director.pop()
