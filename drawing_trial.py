@@ -5,6 +5,7 @@ from cocos.director import director
 from cocos.actions import *
 from cocos import layer
 from cocos import sprite
+from cocos.actions import *
 
     
 settings = {
@@ -40,11 +41,12 @@ class drawingTrial(layer.Layer):
      def __init__(self):
          super().__init__()
          background = sprite.Sprite('assets/tower.png')
-         background.position = 320,240
+         background.position = settings["window"]["width"]/2, settings["window"]["height"]/2
          background.scale = 1
          self.add(background, z=1)
-         scale = scaleBy(3, duration=4)
-         background.do( Repeat(scale+Reverse(scale)))
+         scale = ScaleBy(3, duration=4)
+         background.do(  scale )
+         
          #background.draw()
          
     
