@@ -36,9 +36,16 @@ class PyFenseMenu(menu.Menu):
         director.push(SplitRowsTransition(Scene(PyFenseAbout()),
                                     duration=1))
     def on_quit(self):
+<<<<<<< HEAD
         #Quits programm when using iPython
         #import sys
         #sys.exit()
         exit() # does not work with iPython
+=======
+        #Quits programm
+        import sys
+        sys.exit()
+        #exit() does not work
+>>>>>>> beee154... Fix indents in pyfense_menu to use 4 spaces
             
     
