@@ -37,7 +37,7 @@ class PyFenseLevel(menu.Menu):
 
     def start(self, lvl):
         director.replace(SplitRowsTransition(PyFenseGame(lvl),
-                            duration=1))
+                                             duration=1))
         print("Start Game with map #%d" % lvl)
 
     def on_quit(self):

@@ -36,4 +36,8 @@ class PyFenseMenu(menu.Menu):
 		director.push(SplitRowsTransition(Scene(PyFenseAbout()),
                                     duration=1))
 	def on_quit(self):
-		exit()
+            #Quits programm
+            import sys
+            sys.exit()
+            #does not work
+            #exit()
