@@ -21,4 +21,4 @@ class PyFenseAbout(menu.Menu):
 
 
     def backToMain(self):
-        director.pop()
+        director.pop(SplitRowsTransition(PyfenseMenu(),duration=1))
