@@ -45,7 +45,7 @@ class drawingTrial(layer.Layer):
          background.scale = 1
          self.add(background, z=1)
          scale = ScaleBy(3, duration=4)
-         background.do(  scale )
+         background.do(  scale + Reverse(scale) )
          
          #background.draw()
          
