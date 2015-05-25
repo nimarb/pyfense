@@ -2,3 +2,4 @@
 # each line defines an ignore pattern, blank lines are ignored
 __pycache__/
 *.swp
+.settings
