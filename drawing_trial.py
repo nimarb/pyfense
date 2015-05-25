@@ -40,7 +40,7 @@ def main():
 class drawingTrial(layer.Layer):
      def __init__(self):
          super().__init__()
-         background = sprite.Sprite('assets/background.jpg')
+         background = sprite.Sprite('assets/background.png')
          background.position = settings["window"]["width"]/2, settings["window"]["height"]/2
          background.scale = settings["window"]["height"]/background.height
          self.add(background, z=0)
@@ -52,6 +52,8 @@ class drawingTrial(layer.Layer):
          
          move = MoveTo((30, 40), 3)
          projectile.do(move)
+         
+         
       
          #scale = ScaleBy(3, duration=4)
          #background.do(  scale + Reverse(scale) )
