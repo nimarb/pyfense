@@ -37,3 +37,7 @@ class PyFenseMap(cocos.layer.Layer):
 		else:
 			self.scaleRatio = screen_w / img_w
 		self.backgroundSprite.scale = self.scaleRatio
+		
+	def on_draw(self):
+		self.scaleBackgroundToWindow()
+		print("draw!")
