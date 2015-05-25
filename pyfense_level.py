@@ -14,7 +14,7 @@ from pyfense_game import *
 class PyFenseLevel(menu.Menu):
     def __init__(self):
         super().__init__("Select A Level")
-        lvl1 = menu.ImageMenuItem("assets/tower.png", lambda: self.start(1))
+        lvl1 = menu.ImageMenuItem("assets/lvl1_test.png", lambda: self.start(1))
         lvl2 = menu.ImageMenuItem("assets/tower.png", lambda: self.start(2))
         lvl3 = menu.ImageMenuItem("assets/enemy.png", lambda: self.start(3))
         lvl4 = menu.ImageMenuItem("assets/enemy.png", lambda: self.start(4))
@@ -37,9 +37,9 @@ class PyFenseLevel(menu.Menu):
         self.create_menu(menuItems)
 
     def start(self, lvl):
-        director.replace(SplitRowsTransition(PyFenseGame(lvl),
-                                             duration=1))
         print("Start Game with map #%d" % lvl)
+        director.replace(SplitRowsTransition(PyFenseGame(lvl),
+                            duration=1))
 
     def on_quit(self):
         director.pop()
