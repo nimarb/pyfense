@@ -40,7 +40,7 @@ def main():
 class drawingTrial(layer.Layer):
      def __init__(self):
          super().__init__()
-         background = sprite.Sprite('assets/background.png')
+         background = sprite.Sprite('assets/background.jpg')
          background.position = settings["window"]["width"]/2, settings["window"]["height"]/2
          background.scale = settings["window"]["height"]/background.height
          self.add(background, z=0)
