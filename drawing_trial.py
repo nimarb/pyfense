@@ -42,36 +42,25 @@ class drawingTrial(layer.Layer):
     def __init__(self):
         super().__init__()
        
-        background = PySprite('assets/background.png', 'center', 'fitHeight')
-        enemy = PySprite('assets/enemy_ghost.png', (300,200) , 2)
-        projectile = PySprite('assets/projectile.png', 'center', 0.3)
-        self.add(background, z = 0)
-        self.add(enemy, z=1)
-        self.add(projectile, z= 2)
-
-
-
-
-      #Move sprites
-         
-        #Move to certain position in certain duration
-        #move = MoveTo(enemy.position, 2)
-        #projectile.do(move)
-         
-         
-        #Move Projectile to position with certain velocity
-#        speed = 100
- #       dist = distance(enemy.position, projectile.position)
-  #      duration = dist/speed
-   #     projectile.do(MoveTo(enemy.position, duration))
-
-        #scale = ScaleBy(3, duration=4)
-        #background.do(  scale + Reverse(scale) )
-         
-        #background.draw()
+        self.background = PySprite('assets/background.png', 'center', 'fitHeight')
+        self.enemy = PySprite('assets/enemy_ghost.png', (300,200) , 2)
+        self.projectile = PySprite('assets/projectile.png', 'center', 0.3)
+        self.add(self.background, z = 0)
+        self.add(self.enemy, z=1)
+        self.add(self.projectile, z= 2)
         
-#    def distance((x1, y1), (x2, y2)):
-#       return sqrt( (x2 - x1)**2 + (y2-y1)**2)
+        self.moveVel(self.projectile, 500)
+        
+        
+    #Move Projectile to enemy Position with certain velocity
+    def moveVel(self, obj, speed):
+        dist = self.distance(self.enemy.position, self.projectile.position)
+        duration = dist/speed
+        obj.do(MoveTo(self.enemy.position, duration))
+        
+       
+    def distance(self, a, b):
+        return math.sqrt( (b[0] - a[0])**2 + (b[1]-a[1])**2)
 
          
     
