@@ -40,9 +40,9 @@ def main():
 class drawingTrial(layer.Layer):
      def __init__(self):
          super().__init__()
-         background = sprite.Sprite('assets/tower.png')
+         background = sprite.Sprite('assets/background.png')
          background.position = settings["window"]["width"]/2, settings["window"]["height"]/2
-         background.scale = 1
+         background.scale = 0.2
          self.add(background, z=1)
          scale = ScaleBy(3, duration=4)
          background.do(  scale + Reverse(scale) )
