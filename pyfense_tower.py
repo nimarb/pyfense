@@ -1,7 +1,7 @@
 import cocos
 from cocos import sprite
 import pyglet
-import os
+#import os
 from pyglet.image.codecs.png import PNGImageDecoder
 
 #__path__ = os.path.dirname(os.path.abspath(__file__))
