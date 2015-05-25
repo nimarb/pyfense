@@ -2,18 +2,20 @@ import cocos
 from cocos import sprite
 import pyglet
 import os
+from pyglet.image.codecs.png import PNGImageDecoder
 
-__path__ = os.path.dirname(os.path.abspath(__file__))
-DATA = os.path.abspath(os.path.join(__path__,'assets','tower.png'))
-texture = pyglet.image.load(DATA)
+#__path__ = os.path.dirname(os.path.abspath(__file__))
+#DATA = os.path.abspath(os.path.join(__path__,'assets','tower.png'))
+#texture = pyglet.image.load(DATA)
+texture = pyglet.image.load("assets/tower.png", decoder=PNGImageDecoder())
 
 #The towers with dummy values 
 #Is a cocos.sprite.Sprite
 #Needs position in tuple (posx,posy)
 #Takes tower.png found in assets directory
 class PyFenseTower(sprite.Sprite):
-    def __init__(self,position):
-        super(PyFenseTower,self).__init__(texture,position)
+    def __init__(self, position):
+        super(PyFenseTower, self).__init__(texture, position)
         self.damage = 10
         self.rangeradius = 10
         self.firerate = 1
@@ -24,7 +26,7 @@ class PyFenseTower(sprite.Sprite):
     
     #get the current values of this tower    
     def get_values(self):
-        values = [self.level,self.damage,self.rangeradius,self.firerate,
+        values = [self.level, self.damage, self.rangeradius, self.firerate, 
                   self.cost] 
         return values
 
@@ -35,8 +37,8 @@ class PyFenseTower(sprite.Sprite):
         preview_firerate = self.firerate + 1
         preview_rangeradius = self.rangeradius + 2
         preview_cost = self.cost*2
-        preview_values = [preview_level,preview_damage,preview_firerate,
-                          preview_rangeradius,preview_cost]
+        preview_values = [preview_level, preview_damage, preview_firerate, 
+                          preview_rangeradius, preview_cost]
         return preview_values
        
     #upgrade this tower and increase the values
@@ -75,15 +77,4 @@ class PyFenseTower(sprite.Sprite):
         
     def get_level(self):
         return self.level
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+   
