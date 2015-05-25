@@ -6,6 +6,7 @@ import cocos
 from cocos import menu
 from cocos.director import director
 from cocos import scene
+from cocos.scenes import SplitRowsTransition
 
 from pyfense_game import *
 
