@@ -24,5 +24,5 @@ class PyFenseAbout(menu.Menu):
     def back(self):
         cocos.director.director.pop()
     def void(self):
-        return True
-    
+        pass
+        
