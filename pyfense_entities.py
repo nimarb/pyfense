@@ -84,7 +84,7 @@ class PyFenseEntities(cocos.layer.Layer):
         explosionSprites = textures[0:len(textures)]
                    
         #create pyglet animation objects
-        explosion = pyglet.image.Animation.from_image_sequence(explosionSprites, 0.1, loop=False)
+        explosion = pyglet.image.Animation.from_image_sequence(explosionSprites, 0.05, loop=False)
         explosionSprite = cocos.sprite.Sprite(explosion)
         explosionSprite.position = position
         explosionSprite.scale = 1
