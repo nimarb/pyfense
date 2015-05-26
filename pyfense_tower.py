@@ -1,16 +1,13 @@
 import cocos
 from cocos import sprite
+from cocos.director import clock
 import pyglet
-# import os
 from pyglet.image.codecs.png import PNGImageDecoder
+
 import pyfense_entities
 import pyfense_projectile
 import pyfense_game
-from cocos.director import clock
 
-# __path__ = os.path.dirname(os.path.abspath(__file__))
-# DATA = os.path.abspath(os.path.join(__path__,'assets','tower.png'))
-# texture = pyglet.image.load(DATA)
 texture = pyglet.image.load("assets/tower.png", decoder=PNGImageDecoder())
 
 # The towers with dummy values
