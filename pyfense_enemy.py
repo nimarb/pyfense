@@ -7,7 +7,7 @@ from cocos import actions
 from pyglet.image.codecs.png import PNGImageDecoder
 
 
-image = pyglet.image.load("assets/enemy.png", decoder=PNGImageDecoder())
+image = pyglet.image.load("assets/enemy1.png", decoder=PNGImageDecoder())
 
 
 class PyFenseEnemy(sprite.Sprite):
