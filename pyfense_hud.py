@@ -63,6 +63,10 @@ class PyFenseHud(cocos.layer.Layer):
     def on_mouse_release(self, x, y, buttons, modifiers):
         #TODO: only trigger if user clicked on buildable area
         (x, y) = cocos.director.director.get_virtual_coordinates(x, y)
+        #to know store where tower has to be build
+        #TODO: snap to grid
+        self.clicked_x = x
+        self.clicked_y = y
         if self.buildingHudDisplayed == False:
             self.displayTowerBuildingHud(x, y - self.towerThumbnails[0].height / 2)
         else:
@@ -76,12 +80,3 @@ class PyFenseHud(cocos.layer.Layer):
                             self.buildTower(i)
             self.removeTowerBuildingHud()
             
-            
-            
-            
-            
-            
-            
-            
-
-
