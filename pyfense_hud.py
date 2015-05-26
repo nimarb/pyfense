@@ -63,10 +63,8 @@ class PyFenseHud(cocos.layer.Layer):
         else:
             #check if player clicked on a menu item
             #if yes, carry out the attached action (build/upgrade/cash-in tower) 
-            print("min_x = " + str(self.menuMin_x) + ", max_x = " + str(self.menuMax_x))
-            print("min_y = " + str(self.menuMin_y) + ", max_y = " + str(self.menuMax_y))
+            #TODO: check on which Item the user clicked
             if x > self.menuMin_x and x < self.menuMax_x:
-                print("clicked on x range of menu")
-                if y < self.menuMax_y and y > self.menuMin_y:
-                    print("clicked on y range of menu")
+                if y < self.menuMax_y + self.towerThumbnails[0].height / 2 and y > self.menuMin_y:
+                    print("clicked on menu")
             self.removeTowerBuildingHud()
