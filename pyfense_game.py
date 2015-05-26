@@ -12,7 +12,6 @@ from pyfense_hud import *
 class PyFenseGame(scene.Scene):
 	def __init__(self, levelNumber):
 		super().__init__()
-		print(levelNumber)
 		self.levelMapName = "lvl" + str(levelNumber)
 		self.loadMap()
 		self.displayEntities()

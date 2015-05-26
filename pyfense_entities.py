@@ -38,7 +38,6 @@ class PyFenseEntities(cocos.layer.Layer):
                 enemy = t.find_next_enemy(self.enemies)
                 for p in t.projectilelist:
                     if(self.distance(p, enemy) < 50):
-                        print("collision")
                         self.enemies.remove(enemy)
                         enemy.kill()
                         t.projectilelist.remove(p)

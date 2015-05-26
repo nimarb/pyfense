@@ -58,7 +58,6 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.buildingHudDisplayed = False
         
     def buildTower(self, towerNumber):
-        print("tower number " + str(towerNumber) + " is being build")
         self.dispatch_event('on_build_tower', towerNumber, self.clicked_x, self.clicked_y)    
         
     def on_mouse_release(self, x, y, buttons, modifiers):
