@@ -5,6 +5,7 @@ import cocos
 
 from pyfense_tower import *
 from pyfense_enemy import *
+from pyfense_projectile import *
 
 class PyFenseEntities(cocos.layer.Layer):
     def __init__(self):
@@ -13,8 +14,4 @@ class PyFenseEntities(cocos.layer.Layer):
 
     def placeTower(self, pos_x, pos_y):
         self.add(PyFenseTower((pos_x, pos_y)))
-
-
-
-
-
+        
