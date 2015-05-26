@@ -39,6 +39,8 @@ class PyFenseHud(cocos.layer.Layer):
         
         self.menuMin_x = x - floor(len(self.towerThumbnails)/2)*self.towerThumbnails[0].width - self.towerThumbnails[0].width / 2
         self.menuMax_x = x + floor(len(self.towerThumbnails)/2)*self.towerThumbnails[0].width + self.towerThumbnails[0].width / 2
+        #only half subtracted because function is being called with one half already subtracted
+        #due to cocos2d assigning the sprite's center to specified location 
         self.menuMin_y = y - self.towerThumbnails[0].height / 2
         self.menuMax_y = y
         
@@ -66,13 +68,12 @@ class PyFenseHud(cocos.layer.Layer):
         else:
             #check if player clicked on a menu item
             #if yes, carry out the attached action (build/upgrade/cash-in tower) 
-            #TODO: check on which Item the user clicked
             if y < self.menuMax_y + self.towerThumbnails[0].height / 2 and y > self.menuMin_y:
+                #TODO: performance wise smart to check if menu being clicked instead of straight out jumping into the loop?
                 if x > self.menuMin_x and x < self.menuMax_x:
                     for i in range (0, len(self.towerThumbnails)):
                         if x > self.menuMin_x + i * self.towerThumbnails[i].width and x < self.menuMax_x - (len(self.towerThumbnails) - i - 1) * self.towerThumbnails[i].width:
                             self.buildTower(i)
-                    print("clicked on menu")
             self.removeTowerBuildingHud()
             
             
