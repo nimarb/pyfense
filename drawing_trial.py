@@ -36,8 +36,12 @@ def main():
     director.init(**settings["window"])
     layer = drawingTrial()
     main_scene = cocos.scene.Scene(layer)
+
+    if layer.projectile.position == (512, 384):
+        layer.startAnimation()
+       
+
     director.run(main_scene)
-    
     
 class drawingTrial(layer.Layer):
     def __init__(self):
@@ -51,51 +55,57 @@ class drawingTrial(layer.Layer):
         self.add(self.enemy, z=1)
         self.add(self.projectile, z= 2)
         
-        
-        
-#        #ANIMATION FOR EXPLOSION
-#        
-#        # load the example explosion as a pyglet image
-#        spritesheet = pyglet.image.load('assets/explosion01_128.png')
-#            
-#        # use ImageGrid to divide your sprite sheet into smaller regions
-#        grid = pyglet.image.ImageGrid(spritesheet, 10, 10, item_width=128, item_height=128)
-#        
-#            
-#        # convert to TextureGrid for memory efficiency
-#        textures = pyglet.image.TextureGrid(grid)
-#        
-#            
-#        # access the grid images as you would items in a list
-#        # this way you get a sequence for your animation
-#        # reads from bottom left corner to top right corner
-#        explosionSprites = textures[0:len(textures)]
-#        
-#            
-#        #create pyglet animation objects
-#        explosion = pyglet.image.Animation.from_image_sequence(explosionSprites, 1e-6, loop=True)
-#        explosionSprite = cocos.sprite.Sprite(explosion)
-#        explosionSprite.position = director.get_window_size()[0]/2, director.get_window_size()[1]/2 
-#        explosionSprite.scale = 0.4
-#        self.add(explosionSprite)
-    
         #Move Projectile with speed 500
         self.moveVel(self.projectile, 500)
+
+
         
+
+
+       
         
-    #Move Projectile to enemy Position with certain velocity
+
+        
+    #Move Projectile to enemy Position with certain velocity and Hide when enemy is hit
     def moveVel(self, obj, speed):
         dist = self.distance(self.enemy.position, self.projectile.position)
         duration = dist/speed
         #With Delay
         #obj.do(Delay(1) + MoveTo(self.enemy.position, duration))
-        obj.do(MoveTo(self.enemy.position, duration))
+        obj.do(MoveTo(self.enemy.position, duration)  + Hide())
+        
+
        
     #Distance between two Positions, ie tupel with x and y coordinate   
     def distance(self, a, b):
         return math.sqrt( (b[0] - a[0])**2 + (b[1]-a[1])**2)
 
          
+    def startAnimation(self):
+        print(self.projectile.position)
+        #ANIMATION FOR EXPLOSION
+        
+        # load the example explosion as a pyglet image
+        spritesheet = pyglet.image.load('assets/explosion01_128.png')
+            
+        # use ImageGrid to divide your sprite sheet into smaller regions
+        grid = pyglet.image.ImageGrid(spritesheet, 10, 10, item_width=128, item_height=128)
+                
+        # convert to TextureGrid for memory efficiency
+        textures = pyglet.image.TextureGrid(grid)
+                  
+        # access the grid images as you would items in a list
+        # this way you get a sequence for your animation
+        # reads from bottom left corner to top right corner
+        explosionSprites = textures[0:len(textures)]
+                   
+        #create pyglet animation objects
+        explosion = pyglet.image.Animation.from_image_sequence(explosionSprites, 1e-6, loop=False)
+        explosionSprite = cocos.sprite.Sprite(explosion)
+        explosionSprite.position = self.enemy.position
+        explosionSprite.scale = 0.4
+        self.add(explosionSprite, z=2)
+    
     
 class PySprite(sprite.Sprite):
     
