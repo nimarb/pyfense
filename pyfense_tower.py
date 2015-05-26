@@ -74,21 +74,3 @@ class PyFenseTower(sprite.Sprite):
                 if enemy.y < nearestenemy.y and enemy.x < nearestenemy.x:
                     nearestenemy = enemy
         return nearestenemy
-
-    def get_posx(self):
-        return self.posx
-
-    def get_posy(self):
-        return self.posy
-
-    def get_damage(self):
-        return self.damage
-
-    def get_range(self):
-        return self.rangeradius
-
-    def get_firerate(self):
-        return self.firerate
-
-    def get_level(self):
-        return self.level
