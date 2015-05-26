@@ -7,6 +7,7 @@ from cocos.director import director
 from cocos import scene
 from pyfense_map import *
 from pyfense_entities import *
+from pyfense_hud import *
 
 class PyFenseGame(scene.Scene):
 	def __init__(self, levelNumber):
@@ -15,6 +16,7 @@ class PyFenseGame(scene.Scene):
 		self.levelMapName = "lvl" + str(levelNumber)
 		self.loadMap()
 		self.displayEntities()
+		self.displayHud()
 		
 	def loadMap(self):
 		self.levelMap = PyFenseMap(self.levelMapName)
@@ -23,5 +25,9 @@ class PyFenseGame(scene.Scene):
 	def displayEntities(self):
 		self.entityMap = PyFenseEntities()
 		self.add(self.entityMap, z=1)
+		
+	def displayHud(self):
+		self.hud = PyFenseHud()
+		self.add(self.hud, z=2)
 	
 		
