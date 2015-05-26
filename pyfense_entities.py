@@ -20,7 +20,7 @@ class PyFenseEntities(cocos.layer.Layer):
         # create new enemy every x seconds
         self.__class__.enemies = []
         self.towers = []
-        clock.schedule_interval(self.addEnemy, 0.8)
+        clock.schedule_interval(self.addEnemy, 0.5)
 
 
         self.tower = self.placeTower(40, 30)
@@ -44,6 +44,8 @@ class PyFenseEntities(cocos.layer.Layer):
                         enemy.kill()
                         t.projectilelist.remove(p)
                         p.kill()
+                        self.startAnimation(enemy.position)
+                        
 
 
     def placeTower(self, pos_x, pos_y):
@@ -61,3 +63,29 @@ class PyFenseEntities(cocos.layer.Layer):
         enemy = PyFenseEnemy(1, 1)
         self.enemies.append(enemy)
         self.add(enemy)
+
+
+
+    def startAnimation(self, position):
+        #ANIMATION FOR EXPLOSION
+        
+        # load the example explosion as a pyglet image
+        spritesheet = pyglet.image.load('assets/explosion01_128.png')
+            
+        # use ImageGrid to divide your sprite sheet into smaller regions
+        grid = pyglet.image.ImageGrid(spritesheet, 10, 10, item_width=128, item_height=128)
+                
+        # convert to TextureGrid for memory efficiency
+        textures = pyglet.image.TextureGrid(grid)
+                  
+        # access the grid images as you would items in a list
+        # this way you get a sequence for your animation
+        # reads from bottom left corner to top right corner
+        explosionSprites = textures[0:len(textures)]
+                   
+        #create pyglet animation objects
+        explosion = pyglet.image.Animation.from_image_sequence(explosionSprites, 1e-6, loop=False)
+        explosionSprite = cocos.sprite.Sprite(explosion)
+        explosionSprite.position = position
+        explosionSprite.scale = 0.4
+        self.add(explosionSprite, z=2)  
