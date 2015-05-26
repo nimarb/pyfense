@@ -34,7 +34,6 @@ class PyFenseTower(sprite.Sprite):
 
     def fire(self, dt):
         enemies = pyfense_entities.PyFenseEntities.enemies
-        print(enemies)
         if(not enemies):
             pass
         else:
