@@ -53,32 +53,32 @@ class drawingTrial(layer.Layer):
         
         
         
-        #ANIMATION FOR EXPLOSION
-        
-        # load the example explosion as a pyglet image
-        spritesheet = pyglet.image.load('assets/explosion01_128.png')
-            
-        # use ImageGrid to divide your sprite sheet into smaller regions
-        grid = pyglet.image.ImageGrid(spritesheet, 10, 10, item_width=128, item_height=128)
-        
-            
-        # convert to TextureGrid for memory efficiency
-        textures = pyglet.image.TextureGrid(grid)
-        
-            
-        # access the grid images as you would items in a list
-        # this way you get a sequence for your animation
-        explosionSprites = textures[0:len(textures)]
-        
-        print(explosionSprites)
-            
-        #create pyglet animation objects
-        explosion = pyglet.image.Animation.from_image_sequence(explosionSprites, 1e-6, loop=True)
-        explosionSprite = cocos.sprite.Sprite(explosion)
-        explosionSprite.position = director.get_window_size()[0]/2, director.get_window_size()[1]/2 
-        explosionSprite.scale = 0.4
-        self.add(explosionSprite)
-        
+#        #ANIMATION FOR EXPLOSION
+#        
+#        # load the example explosion as a pyglet image
+#        spritesheet = pyglet.image.load('assets/explosion01_128.png')
+#            
+#        # use ImageGrid to divide your sprite sheet into smaller regions
+#        grid = pyglet.image.ImageGrid(spritesheet, 10, 10, item_width=128, item_height=128)
+#        
+#            
+#        # convert to TextureGrid for memory efficiency
+#        textures = pyglet.image.TextureGrid(grid)
+#        
+#            
+#        # access the grid images as you would items in a list
+#        # this way you get a sequence for your animation
+#        # reads from bottom left corner to top right corner
+#        explosionSprites = textures[0:len(textures)]
+#        
+#            
+#        #create pyglet animation objects
+#        explosion = pyglet.image.Animation.from_image_sequence(explosionSprites, 1e-6, loop=True)
+#        explosionSprite = cocos.sprite.Sprite(explosion)
+#        explosionSprite.position = director.get_window_size()[0]/2, director.get_window_size()[1]/2 
+#        explosionSprite.scale = 0.4
+#        self.add(explosionSprite)
+    
         #Move Projectile with speed 500
         self.moveVel(self.projectile, 500)
         
