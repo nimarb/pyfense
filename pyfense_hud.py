@@ -34,25 +34,28 @@ class PyFenseHud(cocos.layer.Layer):
         #displays the HUD to chose between towers to build
         #TODO: proper sourcing of available towers (read settings?)
         #TODO: lower tower opacity if funds to build tower are insufficient
+        #TODO: if player clicks on edge of map, shift HUD to still 
+        #   entirely display all buildable towers
         
-        self.menuMin_x = x - floor(len(self.towerThumbnails)/2)*self.towerThumbnails[0].width
-        self.menuMax_x = x + floor(len(self.towerThumbnails)/2)*self.towerThumbnails[0].width
+        self.menuMin_x = x - floor(len(self.towerThumbnails)/2)*self.towerThumbnails[0].width - self.towerThumbnails[0].width / 2
+        self.menuMax_x = x + floor(len(self.towerThumbnails)/2)*self.towerThumbnails[0].width + self.towerThumbnails[0].width / 2
         self.menuMin_y = y - self.towerThumbnails[0].height / 2
         self.menuMax_y = y
         
         #draw buildable tower array
-        for picture in range (0,len(self.towerThumbnails)):
+        for picture in range (0, len(self.towerThumbnails)):
             #use self.menuMin_x to center the menu below the coursor in x direction
-            self.towerThumbnails[picture].position = (self.menuMin_x + picture*self.towerThumbnails[picture].width, y)
+            #ATTENTION, cocos2d always draws the CENTER of the sprite at the specified location
+            self.towerThumbnails[picture].position = (self.menuMin_x + picture*self.towerThumbnails[picture].width + self.towerThumbnails[picture].width/2, y)
             self.add(self.towerThumbnails[picture])
         self.buildingHudDisplayed = True
         
     def removeTowerBuildingHud(self):
-        for picture in range (0,len(self.towerThumbnails)):
+        for picture in range (0, len(self.towerThumbnails)):
             self.remove(self.towerThumbnails[picture])
         self.buildingHudDisplayed = False
         
-    def buildTower(towerNumber):
+    def buildTower(self, towerNumber):
         print("tower number " + str(towerNumber) + " is being build")
         
     def on_mouse_release(self, x, y, buttons, modifiers):
@@ -64,7 +67,20 @@ class PyFenseHud(cocos.layer.Layer):
             #check if player clicked on a menu item
             #if yes, carry out the attached action (build/upgrade/cash-in tower) 
             #TODO: check on which Item the user clicked
-            if x > self.menuMin_x and x < self.menuMax_x:
-                if y < self.menuMax_y + self.towerThumbnails[0].height / 2 and y > self.menuMin_y:
+            if y < self.menuMax_y + self.towerThumbnails[0].height / 2 and y > self.menuMin_y:
+                if x > self.menuMin_x and x < self.menuMax_x:
+                    for i in range (0, len(self.towerThumbnails)):
+                        if x > self.menuMin_x + i * self.towerThumbnails[i].width and x < self.menuMax_x - (len(self.towerThumbnails) - i - 1) * self.towerThumbnails[i].width:
+                            self.buildTower(i)
                     print("clicked on menu")
             self.removeTowerBuildingHud()
+            
+            
+            
+            
+            
+            
+            
+            
+
+
