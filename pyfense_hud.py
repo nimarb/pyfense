@@ -35,11 +35,15 @@ class PyFenseHud(cocos.layer.Layer):
         #TODO: proper sourcing of available towers (read settings?)
         #TODO: lower tower opacity if funds to build tower are insufficient
         
-        #center the menu below the coursor
-        x = x - self.towerThumbnails[0].width * floor(len(self.towerThumbnails)/2)
+        self.menuMin_x = x - floor(len(self.towerThumbnails)/2)*self.towerThumbnails[0].width
+        self.menuMax_x = x + floor(len(self.towerThumbnails)/2)*self.towerThumbnails[0].width
+        self.menuMin_y = y - self.towerThumbnails[0].height / 2
+        self.menuMax_y = y
+        
         #draw buildable tower array
         for picture in range (0,len(self.towerThumbnails)):
-            self.towerThumbnails[picture].position = (x + picture*self.towerThumbnails[picture].width, y)
+            #use self.menuMin_x to center the menu below the coursor in x direction
+            self.towerThumbnails[picture].position = (self.menuMin_x + picture*self.towerThumbnails[picture].width, y)
             self.add(self.towerThumbnails[picture])
         self.buildingHudDisplayed = True
         
@@ -48,15 +52,21 @@ class PyFenseHud(cocos.layer.Layer):
             self.remove(self.towerThumbnails[picture])
         self.buildingHudDisplayed = False
         
+    def buildTower(towerNumber):
+        print("tower number " + str(towerNumber) + " is being build")
+        
     def on_mouse_release(self, x, y, buttons, modifiers):
-        #TODO: only trigger if clicked on buildable area
+        #TODO: only trigger if user clicked on buildable area
         (x, y) = cocos.director.director.get_virtual_coordinates(x, y)
-        (x, y) = (x, y - self.towerThumbnails[0].height / 2)
         if self.buildingHudDisplayed == False:
-            self.displayTowerBuildingHud(x, y)
+            self.displayTowerBuildingHud(x, y - self.towerThumbnails[0].height / 2)
         else:
-            #TODO: only remove if user did NOT click on HUD? or only 1level menu?
+            #check if player clicked on a menu item
+            #if yes, carry out the attached action (build/upgrade/cash-in tower) 
+            print("min_x = " + str(self.menuMin_x) + ", max_x = " + str(self.menuMax_x))
+            print("min_y = " + str(self.menuMin_y) + ", max_y = " + str(self.menuMax_y))
+            if x > self.menuMin_x and x < self.menuMax_x:
+                print("clicked on x range of menu")
+                if y < self.menuMax_y and y > self.menuMin_y:
+                    print("clicked on y range of menu")
             self.removeTowerBuildingHud()
-
-        #if self.children[self.selected_index][1].is_inside_box(x, y):
-        #    self._activate_item()
