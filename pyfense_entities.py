@@ -46,7 +46,7 @@ class PyFenseEntities(cocos.layer.Layer):
                                          
 
     def buildTower(self, towerNumber, pos_x, pos_y):
-        tower = PyFenseTower((pos_x, pos_y))
+        tower = PyFenseTower(towerNumber, (pos_x, pos_y))
         self.towers.append(tower)
         self.add(tower)
         

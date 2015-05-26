@@ -8,8 +8,6 @@ import pyfense_entities
 import pyfense_projectile
 import pyfense_game
 
-texture = pyglet.image.load("assets/tower.png", decoder=PNGImageDecoder())
-
 # The towers with dummy values
 # Is a cocos.sprite.Sprite
 # Needs position in tuple (posx,posy)
@@ -17,8 +15,9 @@ texture = pyglet.image.load("assets/tower.png", decoder=PNGImageDecoder())
 
 
 class PyFenseTower(sprite.Sprite):
-    def __init__(self, position):
-        super(PyFenseTower, self).__init__(texture, position)
+    def __init__(self, towerNumber, position):
+        self.texture = pyglet.image.load("assets/tower" + str(towerNumber) + ".png", decoder=PNGImageDecoder())
+        super().__init__(self.texture, position)
         self.damage = 10
         self.rangeradius = 10
         self.firerate = 1
@@ -68,9 +67,9 @@ class PyFenseTower(sprite.Sprite):
     # needs an array with all enemies
     # Dummy values at the moment
     def find_next_enemy(self,enemies):
-        nearestenemy = enemies[0]
+        nearestEnemy = enemies[0]
         for enemy in enemies:
             if enemy.y < self.posy and enemy.x < self.posx:
-                if enemy.y < nearestenemy.y and enemy.x < nearestenemy.x:
-                    nearestenemy = enemy
-        return nearestenemy
+                if enemy.y < nearestEnemy.y and enemy.x < nearestEnemy.x:
+                    nearestEnemy = enemy
+        return nearestEnemy
