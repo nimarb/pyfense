@@ -29,6 +29,7 @@ class PyFenseTower(sprite.Sprite):
         self.posx = position[0]
         self.posy = position[1]
         self.cost = 100
+        self.projectilelist = []
         clock.schedule_interval(self.fire, self.firerate)
 
     def fire(self, dt):
@@ -39,9 +40,7 @@ class PyFenseTower(sprite.Sprite):
         else:
             target = self.find_next_enemy(enemies).position
             projectile = pyfense_projectile.PyFenseProjectile(target, (self.posx, self.posy))
-            print(projectile)
-            # funktioniert nicht, weil entityMap nicht gefunden wird?
-            # pyfense_game.entityMap.add(projectile)
+            self.projectilelist.append(projectile)
 
     # get the current values of this tower
     def get_values(self):

@@ -23,15 +23,19 @@ class PyFenseEntities(cocos.layer.Layer):
 
 
         self.tower = self.placeTower(40, 30)
+        clock.schedule_interval(self.drawProjectiles, 1)
+
 
     def placeTower(self, pos_x, pos_y):
         t1 = PyFenseTower((pos_x, pos_y))
         self.towers.append(t1)
         self.add(t1)
 
-    def fire(self, dt):
-        for tower in self.towers:
-            tower.fire(self.enemies)
+    def drawProjectiles(self, dt):
+        for t in self.towers:
+            print(t)
+            for p in t.projectilelist:
+                self.add(p, z = 1)
 
 
     def addEnemy(self, dt):
