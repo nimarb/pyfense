@@ -10,6 +10,7 @@ from cocos.director import clock
 from pyfense_tower import *
 from pyfense_enemy import *
 from pyfense_projectile import *
+from pyfense_hud import *
 
 
 class PyFenseEntities(cocos.layer.Layer):
@@ -21,9 +22,9 @@ class PyFenseEntities(cocos.layer.Layer):
         self.__class__.enemies = []
         self.towers = []
         clock.schedule_interval(self.addEnemy, 0.5)
-        self.tower = self.placeTower(40, 30)
         clock.schedule_interval(self.drawProjectiles, 1)
         clock.schedule_interval(self.checkCollision, 0.1)
+
 
     def distance(self, a, b):
         return(math.sqrt((a.x-b.x)**2+(a.y-b.y)**2))
@@ -45,10 +46,10 @@ class PyFenseEntities(cocos.layer.Layer):
                         self.startAnimation(enemy.position)    
                                          
 
-    def placeTower(self, pos_x, pos_y):
-        t1 = PyFenseTower((pos_x, pos_y))
-        self.towers.append(t1)
-        self.add(t1)
+    def buildTower(self, towerNumber, pos_x, pos_y):
+        tower = PyFenseTower((pos_x, pos_y))
+        self.towers.append(tower)
+        self.add(tower)
         
 
     def drawProjectiles(self, dt):

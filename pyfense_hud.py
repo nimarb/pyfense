@@ -7,7 +7,7 @@ import pyglet
 from math import floor
 from pyglet.image.codecs.png import PNGImageDecoder
 
-class PyFenseHud(cocos.layer.Layer):
+class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
     is_event_handler = True
     def __init__(self):
         super().__init__()
@@ -59,6 +59,7 @@ class PyFenseHud(cocos.layer.Layer):
         
     def buildTower(self, towerNumber):
         print("tower number " + str(towerNumber) + " is being build")
+        self.dispatch_event('on_build_tower', towerNumber, self.clicked_x, self.clicked_y)    
         
     def on_mouse_release(self, x, y, buttons, modifiers):
         #TODO: only trigger if user clicked on buildable area
@@ -79,4 +80,5 @@ class PyFenseHud(cocos.layer.Layer):
                         if x > self.menuMin_x + i * self.towerThumbnails[i].width and x < self.menuMax_x - (len(self.towerThumbnails) - i - 1) * self.towerThumbnails[i].width:
                             self.buildTower(i)
             self.removeTowerBuildingHud()
-            
+               
+PyFenseHud.register_event_type('on_build_tower')
