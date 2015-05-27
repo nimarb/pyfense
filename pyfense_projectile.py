@@ -32,8 +32,8 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
     def dispatchHitEvent(self):
         #print('enemy hit!!')
         self.dispatch_event('on_enemy_hit', self) 
-        PyFenseEntities.startAnimation(self.position)   
-        self.kill()
+        #PyFenseEntities.startAnimation(self.position)   
+        #self.kill()
         
     # Move to position of target with certain velocity    
     def moveVel(self, projectile, enemy, velocity):

@@ -43,9 +43,9 @@ class PyFenseTower(sprite.Sprite):
             
     # Function that is called upon event
     def on_enemy_hit(self, projectile):
-        print('event registered')
+        print('Event registered in Tower Class')
         #pyfense_entities.startAnimation(projectile.position)
-        #self.projectilelist.remove(projectile)
+        self.projectilelist.remove(projectile)
 
 
     # get the current values of this tower

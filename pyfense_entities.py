@@ -26,6 +26,7 @@ class PyFenseEntities(cocos.layer.Layer):
         # Draws projectiles every x seconds
         clock.schedule_interval(self.drawProjectiles, 0.1)
         clock.schedule_interval(self.checkCollision, 0.1)
+        
 
 
     def distance(self, a, b):
@@ -43,7 +44,7 @@ class PyFenseEntities(cocos.layer.Layer):
                         self.enemies.remove(enemy)
                         enemy.kill()
                         t.projectilelist.remove(p)
- #                       p.kill()
+                        #p.kill()
                         #self.startAnimation(enemy.position)    
                                          
 
@@ -57,6 +58,7 @@ class PyFenseEntities(cocos.layer.Layer):
         for t in self.towers:
             for p in t.projectilelist:
                 self.add(p, z = 1)
+                p.push_handlers(self)
                 
 
     def addEnemy(self, dt):
@@ -64,6 +66,12 @@ class PyFenseEntities(cocos.layer.Layer):
         self.enemies.append(enemy)
         self.add(enemy)
         
+
+    def on_enemy_hit(self, projectile):
+        print('Event registered in Entity class')
+        self.startAnimation(projectile.position)
+        
+        #remove(projectile)
 
     def startAnimation(self, position):
         #ANIMATION FOR EXPLOSION
