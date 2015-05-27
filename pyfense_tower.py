@@ -8,6 +8,7 @@ import pyfense_entities
 import pyfense_projectile
 import pyfense_game
 
+
 # The towers with dummy values
 # Is a cocos.sprite.Sprite
 # Needs position in tuple (posx,posy)
@@ -20,7 +21,8 @@ class PyFenseTower(sprite.Sprite):
         super().__init__(self.texture, position)
         self.damage = 10
         self.rangeradius = 10
-        self.firerate = 1
+        self.firerate = 0.2
+        self.projectilevelocity = 1000
         self.level = 1
         self.posx = position[0]
         self.posy = position[1]
@@ -34,7 +36,7 @@ class PyFenseTower(sprite.Sprite):
             pass
         else:
             target = self.find_next_enemy(enemies).position
-            projectile = pyfense_projectile.PyFenseProjectile(target, (self.posx, self.posy))
+            projectile = pyfense_projectile.PyFenseProjectile(target, (self.posx, self.posy), self.projectilevelocity)
             self.projectilelist.append(projectile)
 
     # get the current values of this tower

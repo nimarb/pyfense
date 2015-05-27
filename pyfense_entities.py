@@ -22,7 +22,9 @@ class PyFenseEntities(cocos.layer.Layer):
         self.__class__.enemies = []
         self.towers = []
         clock.schedule_interval(self.addEnemy, 0.5)
-        clock.schedule_interval(self.drawProjectiles, 1)
+        
+        # Draws projectiles every x seconds
+        clock.schedule_interval(self.drawProjectiles, 0.1)
         clock.schedule_interval(self.checkCollision, 0.1)
 
 
