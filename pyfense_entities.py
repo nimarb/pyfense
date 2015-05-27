@@ -43,8 +43,8 @@ class PyFenseEntities(cocos.layer.Layer):
                         self.enemies.remove(enemy)
                         enemy.kill()
                         t.projectilelist.remove(p)
-                        p.kill()
-                        self.startAnimation(enemy.position)    
+ #                       p.kill()
+                        #self.startAnimation(enemy.position)    
                                          
 
     def buildTower(self, towerNumber, pos_x, pos_y):

@@ -9,6 +9,8 @@ from math import sqrt
 import pyglet
 from threading import Timer
 
+import pyfense_entities
+from pyfense_entities import *
 
 class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
     is_event_handler = True
@@ -28,9 +30,10 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
         
         # Remove projectile and dispatch event
     def dispatchHitEvent(self):
-        print('enemy hit!!')
-        self.dispatch_event('on_enemy_hit')    
-
+        #print('enemy hit!!')
+        self.dispatch_event('on_enemy_hit', self) 
+        PyFenseEntities.startAnimation(self.position)   
+        self.kill()
         
     # Move to position of target with certain velocity    
     def moveVel(self, projectile, enemy, velocity):

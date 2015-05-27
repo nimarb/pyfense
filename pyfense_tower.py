@@ -37,7 +37,16 @@ class PyFenseTower(sprite.Sprite):
         else:
             target = self.find_next_enemy(enemies).position
             projectile = pyfense_projectile.PyFenseProjectile(target, (self.posx, self.posy), self.projectilevelocity)
+            #trying out Event handlers
+            projectile.push_handlers(self)
             self.projectilelist.append(projectile)
+            
+    # Function that is called upon event
+    def on_enemy_hit(self, projectile):
+        print('event registered')
+        #pyfense_entities.startAnimation(projectile.position)
+        #self.projectilelist.remove(projectile)
+
 
     # get the current values of this tower
     def get_values(self):
