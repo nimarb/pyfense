@@ -17,6 +17,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         
         #load tower sprites here, so that they only have to be loaded once
         #TODO: create a loop to load images
+        #TODO: gracefully fail if pictures fail to load? (try/catch)
         self.towerThumbnail1 = cocos.sprite.Sprite(pyglet.image.load("assets/tower.png", decoder=PNGImageDecoder()))
         self.towerThumbnail2 = cocos.sprite.Sprite(pyglet.image.load("assets/tower1.png", decoder=PNGImageDecoder()))
         self.towerThumbnail3 = cocos.sprite.Sprite(pyglet.image.load("assets/enemy.png", decoder=PNGImageDecoder()))
@@ -32,7 +33,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         
     def displayTowerBuildingHud(self, x, y):
         #displays the HUD to chose between towers to build
-        #TODO: proper sourcing of available towers (read settings?)
+        #TODO: proper sourcing of available towers (read from settings?)
         #TODO: lower tower opacity if funds to build tower are insufficient
         #TODO: if player clicks on edge of map, shift HUD to still 
         #   entirely display all buildable towers
