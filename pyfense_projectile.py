@@ -29,7 +29,6 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
         # Remove projectile and dispatch event
     def dispatchHitEvent(self):
         print('enemy hit!!')
-        self.kill()
         self.dispatch_event('on_enemy_hit')    
 
         
