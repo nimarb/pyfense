@@ -40,4 +40,3 @@ class PyFenseMap(cocos.layer.Layer):
 		
 	def on_draw(self):
 		self.scaleBackgroundToWindow()
-		print("draw!")
