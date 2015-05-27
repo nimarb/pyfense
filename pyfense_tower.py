@@ -21,7 +21,7 @@ class PyFenseTower(sprite.Sprite):
         super().__init__(self.texture, position)
         self.damage = 10
         self.rangeradius = 10
-        self.firerate = 0.2
+        self.firerate = 1
         self.projectilevelocity = 1000
         self.level = 1
         self.posx = position[0]
