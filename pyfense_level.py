@@ -14,10 +14,10 @@ from pyfense_game import *
 class PyFenseLevel(menu.Menu):
     def __init__(self):
         super().__init__("Select A Level")
-        lvl1 = menu.ImageMenuItem("assets/lvl1_test.png", lambda: self.start(1))
-        lvl2 = menu.ImageMenuItem("assets/lvl2_test.png", lambda: self.start(2))
-        lvl3 = menu.ImageMenuItem("assets/lvl3_test.png", lambda: self.start(3))
-        lvl4 = menu.ImageMenuItem("assets/lvl4_test.png", lambda: self.start(4))
+        lvl1 = menu.ImageMenuItem("assets/lvl1.png", lambda: self.start(1))
+        lvl2 = menu.ImageMenuItem("assets/lvl2.png", lambda: self.start(2))
+        lvl3 = menu.ImageMenuItem("assets/lvl3.png", lambda: self.start(3))
+        lvl4 = menu.ImageMenuItem("assets/lvl4.png", lambda: self.start(4))
         back = menu.MenuItem("Back to menu", self.on_quit)
 
         width, height = director.get_window_size()

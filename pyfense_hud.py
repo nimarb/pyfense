@@ -18,9 +18,9 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         #load tower sprites here, so that they only have to be loaded once
         #TODO: create a loop to load images
         #TODO: gracefully fail if pictures fail to load? (try/catch)
-        self.towerThumbnail1 = cocos.sprite.Sprite(pyglet.image.load("assets/tower.png", decoder=PNGImageDecoder()))
+        self.towerThumbnail1 = cocos.sprite.Sprite(pyglet.image.load("assets/tower0.png", decoder=PNGImageDecoder()))
         self.towerThumbnail2 = cocos.sprite.Sprite(pyglet.image.load("assets/tower1.png", decoder=PNGImageDecoder()))
-        self.towerThumbnail3 = cocos.sprite.Sprite(pyglet.image.load("assets/enemy.png", decoder=PNGImageDecoder()))
+        self.towerThumbnail3 = cocos.sprite.Sprite(pyglet.image.load("assets/tower2.png", decoder=PNGImageDecoder()))
         self.towerThumbnails = [self.towerThumbnail1, self.towerThumbnail2, self.towerThumbnail3]
         
     def displayWaveNumber(self):

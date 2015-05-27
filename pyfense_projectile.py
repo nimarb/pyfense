@@ -11,7 +11,7 @@ import pyglet
 
 class PyFenseProjectile(sprite.Sprite):
     def __init__(self, target, origin):
-        super().__init__("assets/projectile.png", position = origin, scale = 0.3)
+        super().__init__("assets/projectile0.png", position = origin, scale = 0.3)
         self.target = target
         self.moveVel(self, self.target, 1000)
         
