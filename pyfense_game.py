@@ -12,7 +12,6 @@ from pyfense_hud import *
 class PyFenseGame(scene.Scene):
 	def __init__(self, levelNumber):
 		super().__init__()
-		print(levelNumber)
 		self.levelMapName = "lvl" + str(levelNumber)
 		self.loadMap()
 		self.displayEntities()
@@ -28,6 +27,9 @@ class PyFenseGame(scene.Scene):
 		
 	def displayHud(self):
 		self.hud = PyFenseHud()
+		self.hud.push_handlers(self)
 		self.add(self.hud, z=2)
-	
+		
+	def on_build_tower(self, towerNumber, pos_x, pos_y):
+		self.entityMap.buildTower(towerNumber, pos_x, pos_y)
 		

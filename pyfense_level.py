@@ -31,13 +31,10 @@ class PyFenseLevel(menu.Menu):
         lvl4.y -= 150
         back.y -= 225
 
-
-
         menuItems = [lvl1, lvl2, lvl3, lvl4, back]
         self.create_menu(menuItems)
 
     def start(self, lvl):
-        print("Start Game with map #%d" % lvl)
         director.push(SplitRowsTransition(PyFenseGame(lvl),
                             duration=1))
 
