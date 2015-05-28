@@ -17,7 +17,8 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
         self.texture = pyglet.image.load("assets/tower" + str(towerNumber) + ".png", decoder=PNGImageDecoder())
         super().__init__(self.texture, position)
         # Entity is parent class, that has called the tower, weakref.ref() makes it garbage collector safe
-        self.entityParent = weakref.ref(entityParent)
+        #self.entityParent = weakref.ref(entityParent)
+        self.entityParent = entityParent
         self.damage = 10
         self.rangeradius = 10
         self.firerate = 1
@@ -26,7 +27,6 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
         self.posx = position[0]
         self.posy = position[1]
         self.cost = 100
-        #self.projectilelist = []
         clock.schedule_interval(self.fire, self.firerate)
 
     def fire(self, dt):
@@ -35,19 +35,8 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
             pass
         else:
             target = self.find_next_enemy(enemies)
-            dispatch_event('on_projectile_fired', self, target, self.projectileVelocity)
-            #projectile.push_handlers(self)
-            #self.projectilelist.append(projectile)
+            self.dispatch_event('on_projectile_fired', self, target, self.projectileVelocity)
             
-    # Function that is called upon event
-#    def on_enemy_hit(self, projectile):
- #       print('Event registered in Tower Class')
-        #self.projectilelist.remove(projectile)
-
-
-
-
-
     # find the next enemy (that should be attacked next)
     # needs an array with all enemies
     # Dummy values at the moment
@@ -86,4 +75,4 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
         self.rangeradius = values[3]
         self.cost = values[4]
 
-PyFenseTower.register_event_type('on_project_fired')
+PyFenseTower.register_event_type('on_projectile_fired')

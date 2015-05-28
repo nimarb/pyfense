@@ -10,25 +10,21 @@ import pyglet
 from pyglet.image.codecs.png import PNGImageDecoder
 from threading import Timer
 
-import pyfense_entities
-from pyfense_entities import *
-
 class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
     is_event_handler = True
     
     def __init__(self, towerParent, target, velocity):
         projectilePng = pyglet.image.load("assets/projectile0.png", decoder=PNGImageDecoder())
-        super().__init__(projectilePng, position = towerParent.origin, scale = 0.3)
+        super().__init__(projectilePng, position = towerParent.position, scale = 0.3)
         self.moveVel(self, target, velocity)
         
         # After x seconds function is called
-        t = Timer(self.duration, self.dispatchHitEvent) 
+        t = Timer(self.duration, self.dispatchHitEvent, args=(target,)) 
         t.start()
         
-        
         # Dispatch event, when enemy is hit
-    def dispatchHitEvent(self):
-        self.dispatch_event('on_enemy_hit', self) 
+    def dispatchHitEvent(self, target):
+        self.dispatch_event('on_enemy_hit', self, target) 
 
         
     # Move to position of target with certain velocity    
