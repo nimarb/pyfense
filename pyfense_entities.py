@@ -37,14 +37,12 @@ class PyFenseEntities(cocos.layer.Layer):
         self.add(projectile, z=2)
         
     def on_enemy_hit(self, projectile, target):
-        #projectile.startAnimation(projectile)
+        projectile.startAnimation(self, (300,200))
         self.remove(projectile)
         self.projectiles.remove(projectile)
         if target in self.enemies:
             self.remove(target)
             self.enemies.remove(target)
-        else:
-            pass
 
 
     def addEnemy(self, dt):
