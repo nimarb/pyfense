@@ -52,8 +52,7 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
         explosion = pyglet.image.Animation.from_image_sequence(explosionSprites, 0.05, loop=False)
         explosionSprite = cocos.sprite.Sprite(explosion)
         explosionSprite.position = position
-        explosionSprite.scale = 1.8
-        
+        explosionSprite.scale = 2
         entityParent.add(explosionSprite, z=2) 
         
 PyFenseProjectile.register_event_type('on_enemy_hit')        
