@@ -3,10 +3,7 @@ from cocos import sprite
 from cocos.director import clock
 import pyglet
 from pyglet.image.codecs.png import PNGImageDecoder
-
-import pyfense_entities
-import pyfense_projectile
-import pyfense_game
+import weakref
 
 
 # The towers with dummy values
@@ -14,38 +11,53 @@ import pyfense_game
 # Needs position in tuple (posx,posy)
 # Takes tower.png found in assets directory
 
-
-class PyFenseTower(sprite.Sprite):
-    def __init__(self, towerNumber, position):
+class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
+    def __init__(self, entityParent, towerNumber, position):
+        is_event_handler = True
         self.texture = pyglet.image.load("assets/tower" + str(towerNumber) + ".png", decoder=PNGImageDecoder())
         super().__init__(self.texture, position)
+        # Entity is parent class, that has called the tower, weakref.ref() makes it garbage collector safe
+        self.entityParent = weakref.ref(entityParent)
         self.damage = 10
         self.rangeradius = 10
         self.firerate = 1
-        self.projectilevelocity = 1000
+        self.projectileVelocity = 1000
         self.level = 1
         self.posx = position[0]
         self.posy = position[1]
         self.cost = 100
-        self.projectilelist = []
+        #self.projectilelist = []
         clock.schedule_interval(self.fire, self.firerate)
 
     def fire(self, dt):
-        enemies = pyfense_entities.PyFenseEntities.enemies
-        if(not enemies):
+        enemies = self.entityParent.enemies
+        if(not enemies):  # <- if enemies is not empty
             pass
         else:
-            target = self.find_next_enemy(enemies).position
-            projectile = pyfense_projectile.PyFenseProjectile(target, (self.posx, self.posy), self.projectilevelocity)
-            #trying out Event handlers
-            projectile.push_handlers(self)
-            self.projectilelist.append(projectile)
+            target = self.find_next_enemy(enemies)
+            dispatch_event('on_projectile_fired', self, target, self.projectileVelocity)
+            #projectile.push_handlers(self)
+            #self.projectilelist.append(projectile)
             
     # Function that is called upon event
-    def on_enemy_hit(self, projectile):
-        print('Event registered in Tower Class')
-        #pyfense_entities.startAnimation(projectile.position)
-        self.projectilelist.remove(projectile)
+#    def on_enemy_hit(self, projectile):
+ #       print('Event registered in Tower Class')
+        #self.projectilelist.remove(projectile)
+
+
+
+
+
+    # find the next enemy (that should be attacked next)
+    # needs an array with all enemies
+    # Dummy values at the moment
+    def find_next_enemy(self,enemies):
+        nearestEnemy = enemies[0]
+        for enemy in enemies:
+            if enemy.y < self.posy and enemy.x < self.posx:
+                if enemy.y < nearestEnemy.y and enemy.x < nearestEnemy.x:
+                    nearestEnemy = enemy
+        return nearestEnemy
 
 
     # get the current values of this tower
@@ -74,13 +86,4 @@ class PyFenseTower(sprite.Sprite):
         self.rangeradius = values[3]
         self.cost = values[4]
 
-    # find the next enemy (that should be attacked next)
-    # needs an array with all enemies
-    # Dummy values at the moment
-    def find_next_enemy(self,enemies):
-        nearestEnemy = enemies[0]
-        for enemy in enemies:
-            if enemy.y < self.posy and enemy.x < self.posx:
-                if enemy.y < nearestEnemy.y and enemy.x < nearestEnemy.x:
-                    nearestEnemy = enemy
-        return nearestEnemy
+PyFenseTower.register_event_type('on_project_fired')

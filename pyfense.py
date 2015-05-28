@@ -1,5 +1,6 @@
 # game.py
 # test
+import weakref
 
 import pyglet
 from pyglet.window import key

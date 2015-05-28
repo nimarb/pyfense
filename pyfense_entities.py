@@ -14,21 +14,18 @@ from pyfense_hud import *
 
 
 class PyFenseEntities(cocos.layer.Layer):
-    enemies = []
-    
     def __init__(self):
         super().__init__()
         # create new enemy every x seconds
-        self.__class__.enemies = []
+        self.enemies = []
         self.towers = []
+        self.projectiles = []
         clock.schedule_interval(self.addEnemy, 0.5)
         
         # Draws projectiles every x seconds
         clock.schedule_interval(self.drawProjectiles, 0.1)
         clock.schedule_interval(self.checkCollision, 0.1)
         
-
-
     def distance(self, a, b):
         return(math.sqrt((a.x-b.x)**2+(a.y-b.y)**2))
         
@@ -49,16 +46,24 @@ class PyFenseEntities(cocos.layer.Layer):
                                          
 
     def buildTower(self, towerNumber, pos_x, pos_y):
-        tower = PyFenseTower(towerNumber, (pos_x, pos_y))
+        tower = PyFenseTower(self, towerNumber, (pos_x, pos_y))
+        tower.push_handlers(self)
         self.towers.append(tower)
-        self.add(tower)
+        self.add(tower, z=1)
+        
+    def on_projectile_fired(self, tower, target, projectileVelocity):
+        projectile = PyFenseProjectile(tower, target, projectileVelocity)
+        projectile.push_handlers(self)
+        self.projectiles.append(projectile)
+        self.add(projectile, z=2)
         
 
-    def drawProjectiles(self, dt):
-        for t in self.towers:
-            for p in t.projectilelist:
-                self.add(p, z = 1)
-                p.push_handlers(self)
+
+ #   def drawProjectiles(self, dt):
+  #      for t in self.towers:
+   #         for p in t.projectilelist:
+    #            self.add(p, z = 1)
+     #           p.push_handlers(self)
                 
 
     def addEnemy(self, dt):
@@ -69,34 +74,8 @@ class PyFenseEntities(cocos.layer.Layer):
 
     def on_enemy_hit(self, projectile):
         print('Event registered in Entity class')
-        self.startAnimation(projectile.position)
+        #self.startAnimation(projectile.position)
         
         #remove(projectile)
 
-    def startAnimation(self, position):
-        #ANIMATION FOR EXPLOSION
-        
-        # load the example explosion as a pyglet image
-
-        spritesheet = pyglet.image.load('assets/explosions-pack/spritesheets/explosion-1.png', decoder=PNGImageDecoder())
-
-            
-        # use ImageGrid to divide your sprite sheet into smaller regions
-        grid = pyglet.image.ImageGrid(spritesheet, 1, 8, item_width=32, item_height=32)
-                
-        # convert to TextureGrid for memory efficiency
-        textures = pyglet.image.TextureGrid(grid)
-                  
-        # access the grid images as you would items in a list
-        # this way you get a sequence for your animation
-        # reads from bottom left corner to top right corner
-        explosionSprites = textures[0:len(textures)]
-                   
-        #create pyglet animation objects
-
-        explosion = pyglet.image.Animation.from_image_sequence(explosionSprites, 0.05, loop=False)
-        explosionSprite = cocos.sprite.Sprite(explosion)
-        explosionSprite.position = position
-        explosionSprite.scale = 1.8
-
-        self.add(explosionSprite, z=2)  
+ 
