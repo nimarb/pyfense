@@ -22,7 +22,9 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
         self.damage = 10
         self.rangeradius = 10
         self.firerate = 1
+
         self.projectileVelocity = 1000
+
         self.level = 1
         self.posx = position[0]
         self.posy = position[1]
