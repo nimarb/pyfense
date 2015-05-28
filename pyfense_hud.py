@@ -12,7 +12,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
     def __init__(self):
         super().__init__()
         self.currentWave = 1
-        self.displayWaveNumber()
+        self.displayWaveNumber(self.currentWave)
         self.buildingHudDisplayed = False    
         #load tower sprites here, so that they only have to be loaded once
         #TODO: create a loop to load images
@@ -22,8 +22,9 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.towerThumbnail3 = cocos.sprite.Sprite(pyglet.image.load("assets/tower2.png", decoder=PNGImageDecoder()))
         self.towerThumbnails = [self.towerThumbnail1, self.towerThumbnail2, self.towerThumbnail3]
         
-    def displayWaveNumber(self):
+    def displayWaveNumber(self, currentWave):
         #displays the number of the current wave of enemies
+        self.currentWave = currentWave
         self.waveLabel = cocos.text.Label('Current Wave: ' + str(self.currentWave), 
                 anchor_x='center', anchor_y='center')
         w, h = cocos.director.director.get_window_size()
