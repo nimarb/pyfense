@@ -41,7 +41,7 @@ class PyFenseEntities(cocos.layer.Layer):
                         self.enemies.remove(enemy)
                         enemy.kill()
                         t.projectilelist.remove(p)
-                        p.kill()
+                        p.kill()  ##caused crash by trying to remove 'NoneType'
                         self.startAnimation(enemy.position)    
                                          
 
