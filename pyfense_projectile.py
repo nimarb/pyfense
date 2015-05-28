@@ -10,10 +10,12 @@ import pyglet
 
 
 class PyFenseProjectile(sprite.Sprite):
-    def __init__(self, target, origin):
-        super().__init__("assets/projectile.png", position = origin, scale = 0.3)
+    def __init__(self, target, origin, velocity):
+        super().__init__("assets/projectile0.png", position = origin, scale = 0.3)
+        
+        self.velocity = velocity
         self.target = target
-        self.moveVel(self, self.target, 1000)
+        self.moveVel(self, self.target, self.velocity)
         
         #self.kill
         
@@ -26,7 +28,4 @@ class PyFenseProjectile(sprite.Sprite):
         
         
     def distance(self, a, b):
-        return math.sqrt( (b[0] - a[0])**2 + (b[1]-a[1])**2)   
-        
-        
-       
+        return math.sqrt( (b[0] - a[0])**2 + (b[1]-a[1])**2)

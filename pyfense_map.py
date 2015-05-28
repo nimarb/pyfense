@@ -15,7 +15,7 @@ class PyFenseMap(cocos.layer.Layer):
 	def loadBackgroundImage(self):
 		#TODO: error handling for no image available case!
 		#use python's PNGImageDecoder due to segfault causing bug in gdk_pixbuf2
-		self.backgroundImage = pyglet.image.load("assets/" + self.levelMap + "_test.png", decoder=PNGImageDecoder())
+		self.backgroundImage = pyglet.image.load("assets/" + str(self.levelMap) + ".png", decoder=PNGImageDecoder())
 		self.backgroundSprite = cocos.sprite.Sprite(self.backgroundImage)
 		
 	def drawBackgroundImage(self):
