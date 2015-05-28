@@ -13,8 +13,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         super().__init__()
         self.currentWave = 1
         self.displayWaveNumber()
-        self.buildingHudDisplayed = False
-        
+        self.buildingHudDisplayed = False    
         #load tower sprites here, so that they only have to be loaded once
         #TODO: create a loop to load images
         #TODO: gracefully fail if pictures fail to load? (try/catch)
@@ -36,15 +35,13 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         #TODO: proper sourcing of available towers (read from settings?)
         #TODO: lower tower opacity if funds to build tower are insufficient
         #TODO: if player clicks on edge of map, shift HUD to still 
-        #   entirely display all buildable towers
-        
+        #   entirely display all buildable towers    
         self.menuMin_x = x - floor(len(self.towerThumbnails)/2)*self.towerThumbnails[0].width - self.towerThumbnails[0].width / 2
         self.menuMax_x = x + floor(len(self.towerThumbnails)/2)*self.towerThumbnails[0].width + self.towerThumbnails[0].width / 2
         #only half subtracted because function is being called with one half already subtracted
         #due to cocos2d assigning the sprite's center to specified location 
         self.menuMin_y = y - self.towerThumbnails[0].height / 2
-        self.menuMax_y = y
-        
+        self.menuMax_y = y      
         #draw buildable tower array
         for picture in range (0, len(self.towerThumbnails)):
             #use self.menuMin_x to center the menu below the coursor in x direction
@@ -61,7 +58,10 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
     def buildTower(self, towerNumber):
         self.dispatch_event('on_build_tower', towerNumber, self.clicked_x, self.clicked_y)    
         
+    # check if the click was on a tower or not
+    # return true if used clicked on tower
     def clickedOnTower(self, x, y):
+        # TODO: implement logic
         return False
         
     def displayTowerHud(self, kind, x, y):
@@ -80,17 +80,15 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                         return i
         return -1
         
-        
     def on_mouse_release(self, x, y, buttons, modifiers):
         #TODO: only trigger if user clicked on buildable area
-        (x, y) = cocos.director.director.get_virtual_coordinates(x, y)
-        
+        (x, y) = cocos.director.director.get_virtual_coordinates(x, y)    
+        # check if user clicked on tower
         if self.clickedOnTower(x, y):
             self.displayTowerHud("upgrade", x, y - self.towerThumbnails[0].height / 2)
             return
-
         if self.buildingHudDisplayed == False:
-            #to know store where tower has to be build
+            #to store where tower has to be build
             #TODO: snap to grid
             self.clicked_x = x
             self.clicked_y = y
@@ -99,17 +97,8 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             hudItem = self.clickedOnTowerHudItem(x, y)
             if hudItem != -1:
                 self.buildTower(hudItem)
+                self.removeTowerBuildingHud()
             elif hudItem == -1:
                 self.removeTowerBuildingHud()
-            
-            #check if player clicked on a menu item
-            #if yes, carry out the attached action (build/upgrade/cash-in tower) 
-            #if y < self.menuMax_y + self.towerThumbnails[0].height / 2 and y > self.menuMin_y:
-                #TODO: performance wise smart to check if menu being clicked instead of straight out jumping into the loop?
-            #    if x > self.menuMin_x and x < self.menuMax_x:
-            #        for i in range (0, len(self.towerThumbnails)):
-            #            if x > self.menuMin_x + i * self.towerThumbnails[i].width and x < self.menuMax_x - (len(self.towerThumbnails) - i - 1) * self.towerThumbnails[i].width:
-            #                self.buildTower(i)
-            #self.removeTowerBuildingHud()
                
 PyFenseHud.register_event_type('on_build_tower')
