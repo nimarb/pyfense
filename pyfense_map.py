@@ -15,8 +15,8 @@ class PyFenseMap(cocos.layer.Layer):
 	def loadBackgroundImage(self):
 		#TODO: error handling for no image available case!
 		#use python's PNGImageDecoder due to segfault causing bug in gdk_pixbuf2
-		self.backgroundImage = pyglet.image.load("assets/" + str(self.levelMap) + ".png", decoder=PNGImageDecoder())
-		self.backgroundSprite = cocos.sprite.Sprite(self.backgroundImage)
+		backgroundImage = pyglet.image.load("assets/" + str(self.levelMap) + ".png", decoder=PNGImageDecoder())
+		self.backgroundSprite = cocos.sprite.Sprite(backgroundImage)
 		
 	def drawBackgroundImage(self):
 		w, h = cocos.director.director.get_window_size()
@@ -27,8 +27,8 @@ class PyFenseMap(cocos.layer.Layer):
 	def scaleBackgroundToWindow(self):
 		#TODO: keep screen filled with bg image, no matter resize
 		#TODO: to eventually allow scrolling, apply "too large" scaling factor
-		img_w = self.backgroundImage.width
-		img_h = self.backgroundImage.height
+		img_w = self.backgroundSprite.width
+		img_h = self.backgroundSprite.height
 		imgRatio = img_w / img_h
 		screen_w, screen_h = cocos.director.director.get_window_size()
 		screenRatio = screen_w / screen_h
