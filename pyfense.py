@@ -17,8 +17,8 @@ from pyfense_menu import *
 # for those values, only starting values are being defined here
 settings = {
 	"window": {
-		"width": 1024,
-		"height": 768,
+		"width": 1920,
+		"height": 1080,
 		"caption": "PyFense",
 		"vsync": True,
 		"fullscreen": False,
