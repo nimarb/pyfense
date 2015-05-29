@@ -99,9 +99,7 @@ class OptionsMenu( Menu ):
         
 
 class ScoresLayer( ColorLayer ):
-    
-    FONT_SIZE = 30
-    
+        
     is_event_handler = True
     
     def __init__( self ):
@@ -117,6 +115,39 @@ class ScoresLayer( ColorLayer ):
         title.position = ( w/2. , h )
         self.add( title, z=1 )
         self.table = None
+        
+    def on_enter ( self ):
+        
+        super( ScoresLayer, self ).on_enter()
+        
+        if self.table:
+            self.remove_old()
+
+        self.table=[]
+        name = Label('Hier könnte Ihr Name stehen!',
+        font_name = 'Arial',
+        font_size = 20,
+        anchor_x = 'left',
+        anchor_y = 'top')
+        
+        self.table.append( (name) )
+        self.process_table()
+        
+    def remove_old( self ):
+        for item in self.table:
+            name = item
+            self.remove( name )
+        self.table = None
+        
+    def process_table( self ):
+        
+        w, h = director.get_window_size()
+        for idx, item in enumerate( self.table ):
+            name = item
+            name.position = ( 48, 100 )
+            
+            self.add( name, z = 2 )
+        
         
     def on_key_press( self, k, m ):
         if k in (key.ENTER, key.ESCAPE, key.SPACE):
@@ -146,6 +177,20 @@ class AboutLayer( ColorLayer ):
         title.position = ( w/2. , h )
         self.add( title, z=1 )
         self.table = None
+        
+    def on_enter ( self ):
+        
+        super( ScoresLayer, self ).on_enter()
+        w, h = director.get_window_size()
+
+        text = Label('PyFense ist geil und wir lieben Nippel!',
+        font_name = 'Arial',
+        font_size = 20,
+        anchor_x = 'center',
+        anchor_y = 'center')
+        
+        text.position = w/2. , h/2.
+        self.add(text)        
         
     def on_key_press( self, k, m ):
         if k in (key.ENTER, key.ESCAPE, key.SPACE):
