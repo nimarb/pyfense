@@ -18,7 +18,6 @@ class PyFenseGame(scene.Scene):
 		self.loadMap()
 		self.displayEntities()
 		self.displayHud()
-<<<<<<< HEAD
 		#initialise game grid to store where enemies can walk, 
 		# towers can be build and where towers are already built
 		#one grid cell is 60x60px large (full hd resolution scale) 
@@ -28,10 +27,7 @@ class PyFenseGame(scene.Scene):
 		#2 := tower can be build, no enemy can walk
 		#3 := tower has been built, no enemy can walk, no tower can be build (can upgrade (?))
 		self.gameGrid = [[0 for x in range (8)] for x in range(16)]
-		
-=======
 
->>>>>>> master
 	def loadMap(self):
 		self.levelMap = PyFenseMap(self.levelMapName)
 		self.add(self.levelMap, z=0)
@@ -44,7 +40,6 @@ class PyFenseGame(scene.Scene):
 		self.hud = PyFenseHud()
 		self.hud.push_handlers(self)
 		self.add(self.hud, z=2)
-<<<<<<< HEAD
 		
 	def setGridPix(self, x, y, kind)
 		if kind < 0 or kind > 3:
@@ -60,9 +55,6 @@ class PyFenseGame(scene.Scene):
 			return
 		self.gameGrid[grid_x][grid_y] = kind
 		
-=======
-
->>>>>>> master
 	def on_build_tower(self, towerNumber, pos_x, pos_y):
 		self.entityMap.buildTower(towerNumber, pos_x, pos_y)
 
