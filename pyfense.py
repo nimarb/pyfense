@@ -9,6 +9,8 @@ from cocos.menu import *
 from cocos.layer import *
 from cocos.text import *
 
+from pyfense_game import *
+
 class MainMenu( Menu ):
     
     def __init__( self ):
@@ -63,10 +65,15 @@ class LevelSelectMenu( Menu ):
         
         items = []
         
+        items.append( ImageMenuItem('assets/lvl1.png', 
+                                    lambda: self.on_start(1)) )        
         items.append( MenuItem('Back', self.on_quit) )
         
+        width, height = director.get_window_size()
         self.create_menu( items )
         
+    def on_start( self, lvl ):
+        director.push( PyFenseGame( lvl ), duration = 1 )
         
     def on_quit( self ):
         self.parent.switch_to( 0 )
@@ -180,7 +187,7 @@ class AboutLayer( ColorLayer ):
         
     def on_enter ( self ):
         
-        super( ScoresLayer, self ).on_enter()
+        super( AboutLayer, self ).on_enter()
         w, h = director.get_window_size()
 
         text = Label('PyFense ist geil und wir lieben Nippel!',
