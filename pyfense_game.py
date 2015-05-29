@@ -16,20 +16,22 @@ class PyFenseGame(scene.Scene):
 		self.loadMap()
 		self.displayEntities()
 		self.displayHud()
-		
+
 	def loadMap(self):
 		self.levelMap = PyFenseMap(self.levelMapName)
 		self.add(self.levelMap, z=0)
-		
+
 	def displayEntities(self):
 		self.entityMap = PyFenseEntities()
 		self.add(self.entityMap, z=1)
-		
+
 	def displayHud(self):
 		self.hud = PyFenseHud()
 		self.hud.push_handlers(self)
 		self.add(self.hud, z=2)
-		
+
 	def on_build_tower(self, towerNumber, pos_x, pos_y):
 		self.entityMap.buildTower(towerNumber, pos_x, pos_y)
-		
+
+	def on_timer_out(self, wave):
+		self.entityMap.startWave(wave)

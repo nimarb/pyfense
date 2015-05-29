@@ -13,7 +13,15 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         super().__init__()
         self.currentWave = 1
         self.displayWaveNumber(self.currentWave)
-        self.buildingHudDisplayed = False    
+        self.buildingHudDisplayed = False
+
+        self.time = 10
+        self.timeLabel = cocos.text.Label('Time until next Wave: ' +
+                str(self.time) + ' Seconds')
+        w, h = cocos.director.director.get_window_size()
+        self.timeLabel.position = w - 250, h - 30
+        self.add(self.timeLabel)
+        pyglet.clock.schedule_interval(self.updateTimer, 1)
         #load tower sprites here, so that they only have to be loaded once
         #TODO: create a loop to load images
         #TODO: gracefully fail if pictures fail to load? (try/catch)
@@ -21,28 +29,39 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.towerThumbnail2 = cocos.sprite.Sprite(pyglet.image.load("assets/tower1.png", decoder=PNGImageDecoder()))
         self.towerThumbnail3 = cocos.sprite.Sprite(pyglet.image.load("assets/tower2.png", decoder=PNGImageDecoder()))
         self.towerThumbnails = [self.towerThumbnail1, self.towerThumbnail2, self.towerThumbnail3]
-        
+
     def displayWaveNumber(self, currentWave):
         #displays the number of the current wave of enemies
         self.currentWave = currentWave
-        self.waveLabel = cocos.text.Label('Current Wave: ' + str(self.currentWave), 
+        self.waveLabel = cocos.text.Label('Current Wave: ' + str(self.currentWave),
                 anchor_x='center', anchor_y='center')
         w, h = cocos.director.director.get_window_size()
         self.waveLabel.position = w / 2, h - 30
         self.add(self.waveLabel)
-        
+
+    def updateTimer(self, dt):
+        self.time -= dt
+        self.timeLabel.element.text =('Time until next Wave: ' +
+                        str(round(self.time)) + ' Seconds')
+        if(self.time <= 0):
+            self.timeLabel.element.text =('GO')
+            pyglet.clock.unschedule(self.updateTimer)
+            self.dispatch_event('on_timer_out', self.currentWave)
+
+
+
     def displayTowerBuildingHud(self, x, y):
         #displays the HUD to chose between towers to build
         #TODO: proper sourcing of available towers (read from settings?)
         #TODO: lower tower opacity if funds to build tower are insufficient
-        #TODO: if player clicks on edge of map, shift HUD to still 
-        #   entirely display all buildable towers    
+        #TODO: if player clicks on edge of map, shift HUD to still
+        #   entirely display all buildable towers
         self.menuMin_x = x - floor(len(self.towerThumbnails)/2)*self.towerThumbnails[0].width - self.towerThumbnails[0].width / 2
         self.menuMax_x = x + floor(len(self.towerThumbnails)/2)*self.towerThumbnails[0].width + self.towerThumbnails[0].width / 2
         #only half subtracted because function is being called with one half already subtracted
-        #due to cocos2d assigning the sprite's center to specified location 
+        #due to cocos2d assigning the sprite's center to specified location
         self.menuMin_y = y - self.towerThumbnails[0].height / 2
-        self.menuMax_y = y      
+        self.menuMax_y = y
         #draw buildable tower array
         for picture in range (0, len(self.towerThumbnails)):
             #use self.menuMin_x to center the menu below the coursor in x direction
@@ -50,29 +69,29 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.towerThumbnails[picture].position = (self.menuMin_x + picture*self.towerThumbnails[picture].width + self.towerThumbnails[picture].width/2, y)
             self.add(self.towerThumbnails[picture])
         self.buildingHudDisplayed = True
-        
+
     def removeTowerBuildingHud(self):
         for picture in range (0, len(self.towerThumbnails)):
             self.remove(self.towerThumbnails[picture])
         self.buildingHudDisplayed = False
-        
+
     def buildTower(self, towerNumber):
-        self.dispatch_event('on_build_tower', towerNumber, self.clicked_x, self.clicked_y)    
-        
+        self.dispatch_event('on_build_tower', towerNumber, self.clicked_x, self.clicked_y)
+
     # check if the click was on a tower or not
     # return true if used clicked on tower
     def clickedOnTower(self, x, y):
         # TODO: implement logic
         return False
-        
+
     def displayTowerHud(self, kind, x, y):
         if kind == "build":
             self.displayTowerBuildingHud(x, y)
-        
+
     # check WHETHER the click was on Hud Item
     def clickedOnTowerHudItem(self, x, y):
         #check if player clicked on a menu item
-        #if yes, carry out the attached action (build/upgrade/cash-in tower) 
+        #if yes, carry out the attached action (build/upgrade/cash-in tower)
         if y < self.menuMax_y + self.towerThumbnails[0].height / 2 and y > self.menuMin_y:
             #TODO: performance wise smart to check if menu being clicked instead of straight out jumping into the loop?
             if x > self.menuMin_x and x < self.menuMax_x:
@@ -80,10 +99,10 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                     if x > self.menuMin_x + i * self.towerThumbnails[i].width and x < self.menuMax_x - (len(self.towerThumbnails) - i - 1) * self.towerThumbnails[i].width:
                         return i
         return -1
-        
+
     def on_mouse_release(self, x, y, buttons, modifiers):
         #TODO: only trigger if user clicked on buildable area
-        (x, y) = cocos.director.director.get_virtual_coordinates(x, y)    
+        (x, y) = cocos.director.director.get_virtual_coordinates(x, y)
         # check if user clicked on tower
         if self.clickedOnTower(x, y):
             self.displayTowerHud("upgrade", x, y - self.towerThumbnails[0].height / 2)
@@ -101,5 +120,6 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self.removeTowerBuildingHud()
             elif hudItem == -1:
                 self.removeTowerBuildingHud()
-               
+
 PyFenseHud.register_event_type('on_build_tower')
+PyFenseHud.register_event_type('on_timer_out')
