@@ -61,4 +61,8 @@ class PyFenseGame(scene.Scene):
 		#self.setGridPix(pos_x, pos_y, 3)
 
 	def on_timer_out(self, wave):
+<<<<<<< HEAD
 		self.entityMap.startWave(wave)
+=======
+		self.entityMap.startWave(wave)
+>>>>>>> robin

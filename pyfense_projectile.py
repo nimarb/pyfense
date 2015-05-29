@@ -49,7 +49,12 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
         # reads from bottom left corner to top right corner
         explosionSprites = textures[0:len(textures)]
         #create pyglet animation objects
+<<<<<<< HEAD
         explosion = pyglet.image.Animation.from_image_sequence(explosionSprites, 0.05, loop=False)
+=======
+        explosion = pyglet.image.Animation.from_image_sequence(
+                    explosionSprites, 0.05, loop=True)
+>>>>>>> robin
         explosionSprite = cocos.sprite.Sprite(explosion)
         explosionSprite.position = position
         explosionSprite.scale = 1.8
