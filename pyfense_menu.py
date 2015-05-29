@@ -24,6 +24,7 @@ class PyFenseMenu(menu.Menu):
 		self.create_menu(menuItems)
 
 	#all functions save for the on_quit function still need logic
+<<<<<<< Updated upstream
 	def startGame(self):
 		director.push(SplitRowsTransition(Scene(PyFenseLevel()),
                                     duration=1))
@@ -41,3 +42,26 @@ class PyFenseMenu(menu.Menu):
                                     duration=1))
 	def on_quit(self):
 		exit()
+=======
+    def startGame(self):
+        director.push(SplitRowsTransition(Scene(PyFenseLevel()),
+                                    duration=.3))
+		
+    def highscore(self):
+        director.push(SplitRowsTransition(Scene(PyFenseHighscore()),
+                                    duration=.3))
+
+    def settings(self):
+        director.push(SlideInRTransition(Scene(PyFenseSettings()),
+                                    duration=.3))
+
+    def about(self):
+        director.push(SplitRowsTransition(Scene(PyFenseAbout()),
+                                    duration=.3))
+    def on_quit(self):
+        #Quits programm when using iPython
+        #import sys
+        #sys.exit()
+        exit() # does not work with iPython
+
+>>>>>>> Stashed changes
