@@ -73,7 +73,7 @@ class LevelSelectMenu( Menu ):
         self.create_menu( items )
         
     def on_start( self, lvl ):
-        director.push( PyFenseGame( lvl ), duration = 1 )
+        director.push( PyFenseGame( lvl ) )
         
     def on_quit( self ):
         self.parent.switch_to( 0 )

@@ -14,8 +14,10 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
     is_event_handler = True
     
     def __init__(self, towerParent, target, velocity):
-        projectilePng = pyglet.image.load("assets/projectile0.png", decoder=PNGImageDecoder())
-        super().__init__(projectilePng, position = towerParent.position, scale = 0.3)
+        projectilePng = pyglet.image.load("assets/projectile0.png", 
+                                            decoder=PNGImageDecoder())
+        super().__init__(projectilePng, position = towerParent.position, 
+                                            scale = 0.3)
         self.moveVel(self, target, velocity)
         
         # After x seconds function is called
@@ -39,9 +41,12 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
     def startAnimation(self, entityParent, position):
         #ANIMATION FOR EXPLOSION
         # load the example explosion as a pyglet image
-        spritesheet = pyglet.image.load('assets/explosions-pack/spritesheets/explosion-1.png', decoder=PNGImageDecoder())
+        spritesheet = pyglet.image.load(
+        'assets/explosions-pack/spritesheets/explosion-1.png',
+        decoder=PNGImageDecoder())
         # use ImageGrid to divide your sprite sheet into smaller regions
-        grid = pyglet.image.ImageGrid(spritesheet, 1, 8, item_width=32, item_height=32)
+        grid = pyglet.image.ImageGrid(spritesheet, 
+                                      1, 8, item_width=32, item_height=32)
         # convert to TextureGrid for memory efficiency
         textures = pyglet.image.TextureGrid(grid)
         # access the grid images as you would items in a list
@@ -49,12 +54,10 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
         # reads from bottom left corner to top right corner
         explosionSprites = textures[0:len(textures)]
         #create pyglet animation objects
-<<<<<<< HEAD
-        explosion = pyglet.image.Animation.from_image_sequence(explosionSprites, 0.05, loop=False)
-=======
+
         explosion = pyglet.image.Animation.from_image_sequence(
                     explosionSprites, 0.05, loop=True)
->>>>>>> robin
+
         explosionSprite = cocos.sprite.Sprite(explosion)
         explosionSprite.position = position
         explosionSprite.scale = 1.8
