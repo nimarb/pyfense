@@ -24,7 +24,6 @@ class PyFenseEntities(cocos.layer.Layer):
     def startWave(self, waveNr):
         clock.schedule_interval(self.addEnemy, 0.8)
 
-
     def buildTower(self, towerNumber, pos_x, pos_y):
         tower = PyFenseTower(self, towerNumber, (pos_x, pos_y))
         tower.push_handlers(self)
@@ -45,7 +44,6 @@ class PyFenseEntities(cocos.layer.Layer):
         if target in self.enemies:
             self.remove(target)
             self.enemies.remove(target)
-
 
     def addEnemy(self, dt):
         enemy = PyFenseEnemy(1, 1)
