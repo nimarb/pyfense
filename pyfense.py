@@ -69,6 +69,9 @@ class LevelSelectMenu( Menu ):
                                     lambda: self.on_start(1)) )        
         items.append( MenuItem('Back', self.on_quit) )
         
+#        for entry in items:
+#                entry.scale = 5
+        
         width, height = director.get_window_size()
         self.create_menu( items )
         
@@ -92,7 +95,7 @@ class OptionsMenu( Menu ):
         
         items = []
         
-        items.append( ToggleMenuItem( 'Show FPS' , self.on_show_fps,
+        items.append( ToggleMenuItem( 'Show FPS: ' , self.on_show_fps,
                      director.show_FPS) )
         items.append( MenuItem( 'Back' , self.on_quit) )
         
@@ -112,7 +115,8 @@ class ScoresLayer( ColorLayer ):
     def __init__( self ):
         
         w, h = director.get_window_size()
-        super( ScoresLayer, self ).__init__( 0,0,0,1, width = w, height = h-86 )
+        super( ScoresLayer, self ).__init__( 0,0,0,1, 
+                                            width = w, height = h-86 )
         
         self.font_title = {}
         self.font_title['font_size'] = 72
@@ -131,11 +135,12 @@ class ScoresLayer( ColorLayer ):
             self.remove_old()
 
         self.table=[]
+        
         name = Label('Hier könnte Ihr Name stehen!',
-        font_name = 'Arial',
-        font_size = 20,
-        anchor_x = 'left',
-        anchor_y = 'top')
+                     font_name = 'Arial',
+                     font_size = 20,
+                     anchor_x = 'left',
+                     anchor_y = 'top')
         
         self.table.append( (name) )
         self.process_table()
@@ -151,7 +156,7 @@ class ScoresLayer( ColorLayer ):
         w, h = director.get_window_size()
         for idx, item in enumerate( self.table ):
             name = item
-            name.position = ( 48, 100 )
+            name.position = ( w/2. , h - 200 )
             
             self.add( name, z = 2 )
         
@@ -168,7 +173,6 @@ class ScoresLayer( ColorLayer ):
     
 class AboutLayer( ColorLayer ):
     
-    FONT_SIZE = 30
     is_event_handler = True
     
     def __init__( self ):
