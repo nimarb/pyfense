@@ -36,7 +36,7 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
     def distance(self, a, b):
         return math.sqrt( (b[0] - a[0])**2 + (b[1]-a[1])**2)
         
-    def startAnimation(self, position):
+    def startAnimation(self, entityParent, position):
         #ANIMATION FOR EXPLOSION
         # load the example explosion as a pyglet image
         spritesheet = pyglet.image.load('assets/explosions-pack/spritesheets/explosion-1.png', decoder=PNGImageDecoder())
@@ -54,6 +54,6 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
         explosionSprite.position = position
         explosionSprite.scale = 1.8
         
-        self.add(explosionSprite, z=2) 
+        entityParent.add(explosionSprite, z=2) 
         
 PyFenseProjectile.register_event_type('on_enemy_hit')        

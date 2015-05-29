@@ -4,6 +4,7 @@ from cocos.director import clock
 import pyglet
 from pyglet.image.codecs.png import PNGImageDecoder
 import weakref
+import math
 
 
 # The towers with dummy values
@@ -14,13 +15,14 @@ import weakref
 class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
     def __init__(self, entityParent, towerNumber, position):
         is_event_handler = True
-        self.texture = pyglet.image.load("assets/tower" + str(towerNumber) + ".png", decoder=PNGImageDecoder())
+        self.texture = pyglet.image.load("assets/tower" + str(towerNumber) +
+                                         ".png", decoder=PNGImageDecoder())
         super().__init__(self.texture, position)
         # Entity is parent class, that has called the tower, weakref.ref() makes it garbage collector safe
-        #self.entityParent = weakref.ref(entityParent)
+        # self.entityParent = weakref.ref(entityParent)
         self.entityParent = entityParent
         self.damage = 10
-        self.rangeradius = 10
+        self.rangeradius = 200
         self.firerate = 1
 
         self.projectileVelocity = 1000
@@ -37,19 +39,39 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
             pass
         else:
             target = self.find_next_enemy(enemies)
-            self.dispatch_event('on_projectile_fired', self, target, self.projectileVelocity)
-            
-    # find the next enemy (that should be attacked next)
-    # needs an array with all enemies
-    # Dummy values at the moment
-    def find_next_enemy(self,enemies):
-        nearestEnemy = enemies[0]
-        for enemy in enemies:
-            if enemy.y < self.posy and enemy.x < self.posx:
-                if enemy.y < nearestEnemy.y and enemy.x < nearestEnemy.x:
-                    nearestEnemy = enemy
-        return nearestEnemy
+            if (target is not None):
+                self.dispatch_event('on_projectile_fired', self,
+                                    target, self.projectileVelocity)
 
+    def distance(self, a, b):
+        return math.sqrt((b.x - a.x)**2 + (b.y-a.y)**2)
+
+    # find the next enemy (that should be attacked next)
+    # either first enemy in range or nearest Enemy
+    # standardvalue is first
+    def find_next_enemy(self, enemies, mode="first"):
+
+        nextEnemy = None
+        self.dist = self.rangeradius
+        for enemy in enemies:
+            if(enemy.x < cocos.director.director.get_window_size()[0]
+               and  # Enemy still in window
+               enemy.y < cocos.director.director.get_window_size()[1]):
+                # Distance to enemy smaller than range
+                if (self.distance(enemy, self) < self.rangeradius):
+                    if(mode == "nearest"):
+                        # Check for nearest Enemy
+                        # Distance smaller than previous smallest distance
+                        if(self.distance(enemy, self) < self.dist):
+                            nextEnemy = enemy
+                            self.dist = self.distance(enemy, self)
+                    elif(mode == "first"):
+                        # first Enemy in list, which is in range is the target
+                        nextEnemy = enemy
+                        break
+
+
+        return nextEnemy
 
     # get the current values of this tower
     def get_values(self):
