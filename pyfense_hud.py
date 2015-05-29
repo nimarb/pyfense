@@ -29,6 +29,8 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.towerThumbnail2 = cocos.sprite.Sprite(pyglet.image.load("assets/tower1.png", decoder=PNGImageDecoder()))
         self.towerThumbnail3 = cocos.sprite.Sprite(pyglet.image.load("assets/tower2.png", decoder=PNGImageDecoder()))
         self.towerThumbnails = [self.towerThumbnail1, self.towerThumbnail2, self.towerThumbnail3]
+        #load selector to highlight currently selected cell
+        self.addCellSelectorSprite()
 
     def displayWaveNumber(self, currentWave):
         #displays the number of the current wave of enemies
@@ -38,6 +40,14 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         w, h = cocos.director.director.get_window_size()
         self.waveLabel.position = w / 2, h - 30
         self.add(self.waveLabel)
+        
+    def addCellSelectorSprite(self):
+        self.cellSelectorSprite = cocos.sprite.Sprite("assets/selector0.png")
+        self.cellSelectorSprite.position = 960, 540
+        self.add(self.cellSelectorSprite)
+        (self.lastGrid_x, self.lastGrid_y) = self.cellSelectorSprite.position
+        self.lastGrid_x = int(self.lastGrid_x / 60) -1
+        self.lastGrid_y = int(self.lastGrid_y / 60) -1
 
     def updateTimer(self, dt):
         self.time -= dt
@@ -87,6 +97,8 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
     def displayTowerHud(self, kind, x, y):
         if kind == "build":
             self.displayTowerBuildingHud(x, y)
+        elif kind == "upgrade":
+            pass
 
     # check WHETHER the click was on Hud Item
     def clickedOnTowerHudItem(self, x, y):
@@ -120,6 +132,17 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self.removeTowerBuildingHud()
             elif hudItem == -1:
                 self.removeTowerBuildingHud()
+                
+    def on_mouse_motion(self, x, y, dx, dy):
+        #class to highlight currently selected cell
+        (x, y) = cocos.director.director.get_virtual_coordinates(x, y)
+        grid_x = int(x / 60) 
+        grid_y = int(y / 60) 
+        if self.lastGrid_x != grid_x or self.lastGrid_y != grid_y:
+            self.cellSelectorSprite.position = (grid_x * 60 + 30, grid_y * 60 + 30)
+        
+        
+        
 
 PyFenseHud.register_event_type('on_build_tower')
 PyFenseHud.register_event_type('on_timer_out')
