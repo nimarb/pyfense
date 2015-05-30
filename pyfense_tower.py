@@ -1,7 +1,7 @@
 import cocos
 from cocos import sprite
-from cocos.director import clock
 import pyglet
+from pyglet import clock
 from pyglet.image.codecs.png import PNGImageDecoder
 import weakref
 import math
@@ -22,7 +22,7 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
         # self.entityParent = weakref.ref(entityParent)
         self.entityParent = entityParent
         self.damage = 10
-        self.rangeradius = 200
+        self.rangeradius = 400
         self.firerate = 1
 
         self.projectileVelocity = 1000
@@ -31,6 +31,7 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
         self.posx = position[0]
         self.posy = position[1]
         self.cost = 100
+        self.fire(1)
         clock.schedule_interval(self.fire, self.firerate)
 
     def fire(self, dt):
