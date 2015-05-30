@@ -15,7 +15,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.displayWaveNumber(self.currentWave)
         self.buildingHudDisplayed = False
 
-        self.time = 10
+        self.time = 1
         self.timeLabel = cocos.text.Label('Time until next Wave: ' +
                 str(self.time) + ' Seconds')
         w, h = cocos.director.director.get_window_size()
