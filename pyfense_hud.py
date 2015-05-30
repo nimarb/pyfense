@@ -86,7 +86,9 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.buildingHudDisplayed = False
 
     def buildTower(self, towerNumber):
-        self.dispatch_event('on_build_tower', towerNumber, self.clicked_x, self.clicked_y)
+        clicked_x = int(self.clicked_x / 60) * 60 + 30
+        clicked_y = int(self.clicked_y / 60) * 60 + 30
+        self.dispatch_event('on_build_tower', towerNumber, clicked_x, clicked_y)
 
     # check if the click was on a tower or not
     # return true if used clicked on tower
