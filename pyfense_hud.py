@@ -11,11 +11,11 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
     is_event_handler = True
     def __init__(self):
         super().__init__()
-        self.currentWave = 1
-        self.time = 1
+        self.timeBetweenWaves = 3
+        self.time = self.timeBetweenWaves
         self.displayStatusBar()
         self.buildingHudDisplayed = False
-        pyglet.clock.schedule_interval(self.updateTimer, 1)
+        self.startNextWaveTimer()
         #load tower sprites here, so that they only have to be loaded once
         #TODO: create a loop to load images
         #TODO: gracefully fail if pictures fail to load? (try/catch)
@@ -27,7 +27,8 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.addCellSelectorSprite()
         
     def displayStatusBar(self):
-        self.updateWaveNumber()
+        self.waveLabel = cocos.text.Label('Current Wave: 1',
+                anchor_x='center', anchor_y='center')
         w, h = cocos.director.director.get_window_size()
         self.waveLabel.position = w / 2, h - 30
         self.add(self.waveLabel)
@@ -35,23 +36,22 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 str(self.time) + ' Seconds', anchor_x='center', anchor_y='center')
         self.timeLabel.position = w / 2 - 250, h - 30
         self.add(self.timeLabel)
-        
-    def increaseWaveNumber(self):
-        self.currentWave += 1
-        self.updateWaveNumber()
-        
-    def updateWaveNumber(self):
-        self.waveLabel = cocos.text.Label('Current Wave: ' + str(self.currentWave),
-                anchor_x='center', anchor_y='center')
                 
-    def updateTimer(self, dt):
+    def updateWaveNumber(self, waveNumber):
+        self.waveLabel.element.text = ('Current Wave: ' + str(waveNumber))
+                
+    def startNextWaveTimer(self):
+        pyglet.clock.schedule_interval(self.updateNextWaveTimer, 1)
+                
+    def updateNextWaveTimer(self, dt):
         self.time -= dt
-        self.timeLabel.element.text =('Time until next Wave: ' +
+        self.timeLabel.element.text = ('Time until next Wave: ' +
                         str(round(self.time)) + ' Seconds')
-        if(self.time <= 0):
+        if (self.time <= 0):
             self.timeLabel.element.text =('GO')
-            pyglet.clock.unschedule(self.updateTimer)
-            self.dispatch_event('on_next_wave', self.currentWave)
+            pyglet.clock.unschedule(self.updateNextWaveTimer)
+            self.dispatch_event('on_next_wave_timer_finished')
+            self.time = self.timeBetweenWaves
 
     def addCellSelectorSprite(self):
         self.cellSelectorSprite = cocos.sprite.Sprite("assets/selector0.png")
@@ -146,4 +146,4 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         
 
 PyFenseHud.register_event_type('on_build_tower')
-PyFenseHud.register_event_type('on_next_wave')
+PyFenseHud.register_event_type('on_next_wave_timer_finished')

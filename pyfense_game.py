@@ -17,7 +17,7 @@ class PyFenseGame(scene.Scene):
 		self.loadMap()
 		self.displayEntities()
 		self.displayHud()
-		self.currentWave = 1
+		self.currentWave = 0
 		#initialise game grid to store where enemies can walk, 
 		# towers can be build and where towers are already built
 		#one grid cell is 60x60px large (full hd resolution scale) 
@@ -35,6 +35,7 @@ class PyFenseGame(scene.Scene):
 
 	def displayEntities(self):
 		self.entityMap = PyFenseEntities()
+		self.entityMap.push_handlers(self)
 		self.add(self.entityMap, z=1)
 
 	def displayHud(self):
@@ -61,6 +62,12 @@ class PyFenseGame(scene.Scene):
 		self.entityMap.buildTower(towerNumber, pos_x, pos_y)
 		self.setGridPix(pos_x, pos_y, 3)
 
-	def on_next_wave(self, waveNumber):
-		self.entityMap.startWave(waveNumber)
+	def on_next_wave(self):
+		self.hud.startNextWaveTimer()
+		
+	def on_next_wave_timer_finished(self):
+		self.currentWave += 1
+		self.entityMap.nextWave(self.currentWave)
+		self.hud.updateWaveNumber(self.currentWave)
+		print(self.currentWave)
 

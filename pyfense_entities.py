@@ -13,16 +13,21 @@ from pyfense_projectile import *
 from pyfense_hud import *
 
 
-class PyFenseEntities(cocos.layer.Layer):
+class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
+    is_event_handler = True
     def __init__(self):
         super().__init__()
         self.enemies = []
+        self.spawnedEnemies = 0
+        self.diedEnemies = 0
         self.towers = []
         self.projectiles = []
+        
         # create new enemy every x seconds
-
-    def startWave(self, waveNumber):
+    def nextWave(self, waveNumber):
         clock.schedule_interval(self.addEnemy, 1.5)
+        self.spawnedEnemies = 0
+        self.diedEnemies = 0
 
     def buildTower(self, towerNumber, pos_x, pos_y):
         tower = PyFenseTower(self.enemies, towerNumber, (pos_x, pos_y))
@@ -42,16 +47,28 @@ class PyFenseEntities(cocos.layer.Layer):
         #self.startAnimation(projectile.position)
         target.healthPoints -= projectile.damage
         self.remove(projectile)
-        self.projectiles.remove(projectile)        
+        self.projectiles.remove(projectile)
         if target in self.enemies and target.healthPoints <= 0:
             self.remove(target)
             self.enemies.remove(target)
+            self.diedEnemies += 1
+            self.isWaveFinished()
+                
+    def isWaveFinished(self):
+            #TODO: change hardcoded enemies per wave number
+            # to be read from cfg file, wave specific
+        if self.spawnedEnemies >= 10:
+            clock.unschedule(self.addEnemy)
+            if self.diedEnemies == self.spawnedEnemies:
+                self.dispatch_event('on_next_wave')             
 
     def addEnemy(self, dt):
         enemy = PyFenseEnemy(1, 1)
         self.enemies.append(enemy)
+        self.spawnedEnemies += 1
         self.add(enemy)
-        self.add(enemy.drawHealthBar())
+        #self.add(enemy.drawHealthBar())
+        self.isWaveFinished()
 
 
     def startAnimation(self, position):
@@ -77,3 +94,5 @@ class PyFenseEntities(cocos.layer.Layer):
         explosionSprite.position = position
         explosionSprite.scale = 2
         self.add(explosionSprite, z=2)
+        
+PyFenseEntities.register_event_type('on_next_wave')
