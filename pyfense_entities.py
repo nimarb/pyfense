@@ -25,7 +25,7 @@ class PyFenseEntities(cocos.layer.Layer):
         clock.schedule_interval(self.addEnemy, 1.5)
 
     def buildTower(self, towerNumber, pos_x, pos_y):
-        tower = PyFenseTower(self, towerNumber, (pos_x, pos_y))
+        tower = PyFenseTower(self.enemies, towerNumber, (pos_x, pos_y))
         tower.push_handlers(self)
         self.towers.append(tower)
         self.add(tower, z=1)

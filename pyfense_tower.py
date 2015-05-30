@@ -6,6 +6,9 @@ from pyglet.image.codecs.png import PNGImageDecoder
 import weakref
 import math
 
+import pyfense_entities
+from pyfense_entities import *
+
 
 # The towers with dummy values
 # Is a cocos.sprite.Sprite
@@ -13,29 +16,28 @@ import math
 # Takes tower.png found in assets directory
 
 class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
-    def __init__(self, entityParent, towerNumber, position):
+    def __init__(self, enemies, towerNumber, position):
         is_event_handler = True
         self.texture = pyglet.image.load("assets/tower" + str(towerNumber) +
                                          ".png", decoder=PNGImageDecoder())
         super().__init__(self.texture, position)
         # Entity is parent class, that has called the tower, weakref.ref() makes it garbage collector safe
         # self.entityParent = weakref.ref(entityParent)
-        self.entityParent = entityParent
+        self.enemies = enemies
         self.damage = 10
         self.rangeradius = 400
         self.firerate = 1
-
         self.projectileVelocity = 1000
 
         self.level = 1
         self.posx = position[0]
         self.posy = position[1]
         self.cost = 100
-        self.fire(1)
+        #self.fire(10)
         clock.schedule_interval(self.fire, self.firerate)
 
     def fire(self, dt):
-        enemies = self.entityParent.enemies
+        enemies = self.enemies
         if(not enemies):  # <- if enemies is not empty
             pass
         else:
