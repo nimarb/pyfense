@@ -7,14 +7,14 @@ from cocos import actions
 from pyglet.image.codecs.png import PNGImageDecoder
 
 
-image = pyglet.image.load("assets/enemy1.png", decoder=PNGImageDecoder())
-
-
 class PyFenseEnemy(sprite.Sprite):
     def __init__(self, lvl, wave):
-        self.curpos = (0, 340)
+        # TODO: Different assets and values for stronger enemies to be loaded from textfile
+        self.curpos = (0, 340) 
+        image = pyglet.image.load("assets/enemy1.png", decoder=PNGImageDecoder())
         super(PyFenseEnemy, self).__init__(image, position = self.curpos)
-        self.hitpoints = 10
+        
+        self.healthpoints = 10
         self.speed = 10
         self.reward = 20
         self.damage = 1
