@@ -14,7 +14,7 @@ class PyFenseEnemy(sprite.Sprite):
         image = pyglet.image.load("assets/enemy1.png", decoder=PNGImageDecoder())
         super(PyFenseEnemy, self).__init__(image, position = self.curpos)
         
-        self.healthpoints = 10
+        self.healthpoints = 40
         self.speed = 10
         self.reward = 20
         self.damage = 1

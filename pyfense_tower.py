@@ -41,7 +41,7 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
             target = self.find_next_enemy(enemies)
             if (target is not None):
                 self.dispatch_event('on_projectile_fired', self,
-                                    target, self.projectileVelocity)
+                                    target, self.projectileVelocity, self.damage)
 
     def distance(self, a, b):
         return math.sqrt((b.x - a.x)**2 + (b.y-a.y)**2)

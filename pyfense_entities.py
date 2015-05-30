@@ -22,7 +22,7 @@ class PyFenseEntities(cocos.layer.Layer):
         # create new enemy every x seconds
 
     def startWave(self, waveNr):
-        clock.schedule_interval(self.addEnemy, 0.8)
+        clock.schedule_interval(self.addEnemy, 1.5)
 
     def buildTower(self, towerNumber, pos_x, pos_y):
         tower = PyFenseTower(self, towerNumber, (pos_x, pos_y))
@@ -30,8 +30,8 @@ class PyFenseEntities(cocos.layer.Layer):
         self.towers.append(tower)
         self.add(tower, z=1)
 
-    def on_projectile_fired(self, tower, target, projectileVelocity):
-        projectile = PyFenseProjectile(tower, target, projectileVelocity)
+    def on_projectile_fired(self, tower, target, projectileVelocity, damage):
+        projectile = PyFenseProjectile(tower, target, projectileVelocity, damage)
         self.projectiles.append(projectile)
         i = self.projectiles.index(projectile)
         self.projectiles[i].push_handlers(self)
@@ -40,9 +40,10 @@ class PyFenseEntities(cocos.layer.Layer):
     def on_enemy_hit(self, projectile, target):
         #Animation not working at the moment, no idea why...
         #self.startAnimation(projectile.position)
+        target.healthpoints -= projectile.damage
         self.remove(projectile)
-        self.projectiles.remove(projectile)
-        if target in self.enemies:
+        self.projectiles.remove(projectile)        
+        if target in self.enemies and target.healthpoints <= 0:
             self.remove(target)
             self.enemies.remove(target)
 
