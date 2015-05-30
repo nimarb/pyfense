@@ -21,7 +21,7 @@ class PyFenseEntities(cocos.layer.Layer):
         self.projectiles = []
         # create new enemy every x seconds
 
-    def startWave(self, waveNr):
+    def startWave(self, waveNumber):
         clock.schedule_interval(self.addEnemy, 1.5)
 
     def buildTower(self, towerNumber, pos_x, pos_y):
