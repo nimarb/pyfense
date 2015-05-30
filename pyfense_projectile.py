@@ -7,8 +7,9 @@ from cocos.actions import *
 import math
 from math import sqrt
 import pyglet
+from pyglet import clock
 from pyglet.image.codecs.png import PNGImageDecoder
-from threading import Timer
+
 
 class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
     is_event_handler = True
@@ -20,13 +21,10 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
                                             scale = 0.3)
         self.moveVel(self, target, velocity)
         self.damage = damage
-        
-        # After x seconds function is called
-        t = Timer(self.duration, self.dispatchHitEvent, args=(target,)) 
-        t.start()
+        clock.schedule_once(self.dispatchHitEvent, self.duration, target)
         
         # Dispatch event, when enemy is hit
-    def dispatchHitEvent(self, target):
+    def dispatchHitEvent(self, dt, target):
         self.dispatch_event('on_enemy_hit', self, target) 
 
         
