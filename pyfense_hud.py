@@ -51,7 +51,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         if(self.time <= 0):
             self.timeLabel.element.text =('GO')
             pyglet.clock.unschedule(self.updateTimer)
-            self.dispatch_event('on_timer_out', self.currentWave)
+            self.dispatch_event('on_next_wave', self.currentWave)
 
     def addCellSelectorSprite(self):
         self.cellSelectorSprite = cocos.sprite.Sprite("assets/selector0.png")
@@ -144,8 +144,6 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         if self.lastGrid_x != grid_x or self.lastGrid_y != grid_y:
             self.cellSelectorSprite.position = (grid_x * 60 + 30, grid_y * 60 + 30)
         
-        
-        
 
 PyFenseHud.register_event_type('on_build_tower')
-PyFenseHud.register_event_type('on_timer_out')
+PyFenseHud.register_event_type('on_next_wave')
