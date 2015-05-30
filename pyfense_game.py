@@ -53,7 +53,6 @@ class PyFenseGame(scene.Scene):
 		if kind < 0 or kind > 3:
 			print("WRONG GRID TYPE, fix ur shit")
 			return
-		print("x: " + str(grid_x) + ", y: " + str(grid_y))
 		self.gameGrid[grid_y][grid_x] = kind
 		
 	def on_build_tower(self, towerNumber, pos_x, pos_y):
