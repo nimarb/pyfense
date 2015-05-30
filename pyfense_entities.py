@@ -38,7 +38,8 @@ class PyFenseEntities(cocos.layer.Layer):
         self.add(projectile, z=2)
 
     def on_enemy_hit(self, projectile, target):
-        self.startAnimation(projectile.position)
+        #Animation not working at the moment, no idea why...
+        #self.startAnimation(projectile.position)
         self.remove(projectile)
         self.projectiles.remove(projectile)
         if target in self.enemies:
@@ -52,7 +53,6 @@ class PyFenseEntities(cocos.layer.Layer):
 
 
     def startAnimation(self, position):
-        #ANIMATION FOR EXPLOSION
         # load the example explosion as a pyglet image
         spritesheet = pyglet.image.load(
         'assets/explosions-pack/spritesheets/explosion-1.png',
