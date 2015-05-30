@@ -12,15 +12,9 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
     def __init__(self):
         super().__init__()
         self.currentWave = 1
-        self.displayWaveNumber(self.currentWave)
-        self.buildingHudDisplayed = False
-
         self.time = 1
-        self.timeLabel = cocos.text.Label('Time until next Wave: ' +
-                str(self.time) + ' Seconds')
-        w, h = cocos.director.director.get_window_size()
-        self.timeLabel.position = w - 250, h - 30
-        self.add(self.timeLabel)
+        self.displayStatusBar()
+        self.buildingHudDisplayed = False
         pyglet.clock.schedule_interval(self.updateTimer, 1)
         #load tower sprites here, so that they only have to be loaded once
         #TODO: create a loop to load images
@@ -31,24 +25,25 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.towerThumbnails = [self.towerThumbnail1, self.towerThumbnail2, self.towerThumbnail3]
         #load selector to highlight currently selected cell
         self.addCellSelectorSprite()
-
-    def displayWaveNumber(self, currentWave):
-        #displays the number of the current wave of enemies
-        self.currentWave = currentWave
-        self.waveLabel = cocos.text.Label('Current Wave: ' + str(self.currentWave),
-                anchor_x='center', anchor_y='center')
+        
+    def displayStatusBar(self):
+        self.updateWaveNumber()
         w, h = cocos.director.director.get_window_size()
         self.waveLabel.position = w / 2, h - 30
         self.add(self.waveLabel)
+        self.timeLabel = cocos.text.Label('Time until next Wave: ' +
+                str(self.time) + ' Seconds', anchor_x='center', anchor_y='center')
+        self.timeLabel.position = w / 2 - 250, h - 30
+        self.add(self.timeLabel)
         
-    def addCellSelectorSprite(self):
-        self.cellSelectorSprite = cocos.sprite.Sprite("assets/selector0.png")
-        self.cellSelectorSprite.position = 960, 540
-        self.add(self.cellSelectorSprite)
-        (self.lastGrid_x, self.lastGrid_y) = self.cellSelectorSprite.position
-        self.lastGrid_x = int(self.lastGrid_x / 60) -1
-        self.lastGrid_y = int(self.lastGrid_y / 60) -1
-
+    def increaseWaveNumber(self):
+        self.currentWave += 1
+        self.updateWaveNumber()
+        
+    def updateWaveNumber(self):
+        self.waveLabel = cocos.text.Label('Current Wave: ' + str(self.currentWave),
+                anchor_x='center', anchor_y='center')
+                
     def updateTimer(self, dt):
         self.time -= dt
         self.timeLabel.element.text =('Time until next Wave: ' +
@@ -58,7 +53,13 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             pyglet.clock.unschedule(self.updateTimer)
             self.dispatch_event('on_timer_out', self.currentWave)
 
-
+    def addCellSelectorSprite(self):
+        self.cellSelectorSprite = cocos.sprite.Sprite("assets/selector0.png")
+        self.cellSelectorSprite.position = 960, 540
+        self.add(self.cellSelectorSprite)
+        (self.lastGrid_x, self.lastGrid_y) = self.cellSelectorSprite.position
+        self.lastGrid_x = int(self.lastGrid_x / 60) -1
+        self.lastGrid_y = int(self.lastGrid_y / 60) -1
 
     def displayTowerBuildingHud(self, x, y):
         #displays the HUD to chose between towers to build
