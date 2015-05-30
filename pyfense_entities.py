@@ -40,10 +40,10 @@ class PyFenseEntities(cocos.layer.Layer):
     def on_enemy_hit(self, projectile, target):
         #Animation not working at the moment, no idea why...
         #self.startAnimation(projectile.position)
-        target.healthpoints -= projectile.damage
+        target.healthPoints -= projectile.damage
         self.remove(projectile)
         self.projectiles.remove(projectile)        
-        if target in self.enemies and target.healthpoints <= 0:
+        if target in self.enemies and target.healthPoints <= 0:
             self.remove(target)
             self.enemies.remove(target)
 
@@ -51,6 +51,7 @@ class PyFenseEntities(cocos.layer.Layer):
         enemy = PyFenseEnemy(1, 1)
         self.enemies.append(enemy)
         self.add(enemy)
+        self.add(enemy.drawHealthBar())
 
 
     def startAnimation(self, position):
