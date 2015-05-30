@@ -38,7 +38,7 @@ class PyFenseEntities(cocos.layer.Layer):
         self.add(projectile, z=2)
 
     def on_enemy_hit(self, projectile, target):
-        #projectile.startAnimation(self, projectile.position)
+        self.startAnimation(projectile.position)
         self.remove(projectile)
         self.projectiles.remove(projectile)
         if target in self.enemies:
@@ -49,3 +49,29 @@ class PyFenseEntities(cocos.layer.Layer):
         enemy = PyFenseEnemy(1, 1)
         self.enemies.append(enemy)
         self.add(enemy)
+
+
+    def startAnimation(self, position):
+        #ANIMATION FOR EXPLOSION
+        # load the example explosion as a pyglet image
+        spritesheet = pyglet.image.load(
+        'assets/explosions-pack/spritesheets/explosion-1.png',
+        decoder=PNGImageDecoder())
+        # use ImageGrid to divide your sprite sheet into smaller regions
+        grid = pyglet.image.ImageGrid(spritesheet, 
+                                      1, 8, item_width=32, item_height=32)
+        # convert to TextureGrid for memory efficiency
+        textures = pyglet.image.TextureGrid(grid)
+        # access the grid images as you would items in a list
+        # this way you get a sequence for your animation
+        # reads from bottom left corner to top right corner
+        explosionSprites = textures[0:len(textures)]
+        #create pyglet animation objects
+
+        explosion = pyglet.image.Animation.from_image_sequence(
+                    explosionSprites, 0.05, loop=True)
+
+        explosionSprite = cocos.sprite.Sprite(explosion)
+        explosionSprite.position = position
+        explosionSprite.scale = 2
+        self.add(explosionSprite, z=2)
