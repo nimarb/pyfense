@@ -18,6 +18,7 @@ class PyFenseGame(scene.Scene):
 		self.displayEntities()
 		self.displayHud()
 		self.currentWave = 0
+		self.currentLives = 30
 		#initialise game grid to store where enemies can walk, 
 		# towers can be build and where towers are already built
 		#one grid cell is 60x60px large (full hd resolution scale) 
@@ -69,5 +70,10 @@ class PyFenseGame(scene.Scene):
 		self.currentWave += 1
 		self.entityMap.nextWave(self.currentWave)
 		self.hud.updateWaveNumber(self.currentWave)
-		print(self.currentWave)
+		
+	def on_enemy_reached_goal(self):
+		self.currentLives -= 1
+		self.hud.updateLiveNumber(self.currentLives)
+		if self.currentLives == 0:
+			print("YOU LOST THE GAME")
 

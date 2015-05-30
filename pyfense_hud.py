@@ -36,6 +36,13 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 str(self.time) + ' Seconds', anchor_x='center', anchor_y='center')
         self.timeLabel.position = w / 2 - 250, h - 30
         self.add(self.timeLabel)
+        self.liveLabel = cocos.text.Label('Remaining Lives: 30', 
+                anchor_x='center', anchor_y='center')
+        self.liveLabel.position = w / 2 + 250, h - 30
+        self.add(self.liveLabel)
+        
+    def updateLiveNumber(self, liveNumber):
+        self.liveLabel.element.text = ("Remaining Lives: " + str(liveNumber))
                 
     def updateWaveNumber(self, waveNumber):
         self.waveLabel.element.text = ('Current Wave: ' + str(waveNumber))
