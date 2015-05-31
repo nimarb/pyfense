@@ -59,6 +59,10 @@ class PyFenseGame(scene.Scene):
 			return
 		self.gameGrid[grid_y][grid_x] = kind
 		
+	def on_enemy_death(self, enemy):
+		self.currentCurrency += enemy.worth
+		self.hud.updateCurrencyNumber(self.currentCurrency)
+		
 	def on_build_tower(self, towerNumber, pos_x, pos_y):
 		#TODO: check if tower can be build here?
 		#TODO: check if sufficient currency available to build tower

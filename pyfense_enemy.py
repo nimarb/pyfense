@@ -18,6 +18,7 @@ class PyFenseEnemy(sprite.Sprite):
         self.speed = 10
         self.reward = 20
         self.damage = 1
+        self.worth = 5
         self.move(lvl)
 
     movePathlvl1 = (actions.MoveBy((195, 0)) + actions.MoveBy((0, 230))

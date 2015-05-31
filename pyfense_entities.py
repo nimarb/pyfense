@@ -52,6 +52,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.remove(target)
             self.enemies.remove(target)
             self.diedEnemies += 1
+            self.dispatch_event('on_enemy_death', target)
             self.isWaveFinished()
                 
     def isWaveFinished(self):
@@ -96,3 +97,4 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.add(explosionSprite, z=2)
         
 PyFenseEntities.register_event_type('on_next_wave')
+PyFenseEntities.register_event_type('on_enemy_death')
