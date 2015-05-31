@@ -38,14 +38,21 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.add(self.timeLabel)
         self.liveLabel = cocos.text.Label('Remaining Lives: 30', 
                 anchor_x='center', anchor_y='center')
-        self.liveLabel.position = w / 2 + 250, h - 30
+        self.liveLabel.position = w / 2 + 200, h - 30
         self.add(self.liveLabel)
+        self.currencyLabel = cocos.text.Label('500 Currency', 
+                anchor_x='center', anchor_y='center')
+        self.currencyLabel.position = w / 2 + 350, h - 30
+        self.add(self.currencyLabel)
         
     def updateLiveNumber(self, liveNumber):
         self.liveLabel.element.text = ("Remaining Lives: " + str(liveNumber))
                 
     def updateWaveNumber(self, waveNumber):
         self.waveLabel.element.text = ('Current Wave: ' + str(waveNumber))
+        
+    def updateCurrencyNumber(self, currencyNumber):
+        self.currencyLabel.element.text = str(currencyNumber) + " Currency"
                 
     def startNextWaveTimer(self):
         pyglet.clock.schedule_interval(self.updateNextWaveTimer, 1)

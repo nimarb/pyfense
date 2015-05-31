@@ -19,6 +19,7 @@ class PyFenseGame(scene.Scene):
 		self.displayHud()
 		self.currentWave = 0
 		self.currentLives = 30
+		self.currentCurrency = 500
 		#initialise game grid to store where enemies can walk, 
 		# towers can be build and where towers are already built
 		#one grid cell is 60x60px large (full hd resolution scale) 
@@ -60,8 +61,11 @@ class PyFenseGame(scene.Scene):
 		
 	def on_build_tower(self, towerNumber, pos_x, pos_y):
 		#TODO: check if tower can be build here?
+		#TODO: check if sufficient currency available to build tower
 		self.entityMap.buildTower(towerNumber, pos_x, pos_y)
 		self.setGridPix(pos_x, pos_y, 3)
+		self.currentCurrency -= 30
+		self.hud.updateCurrencyNumber(self.currentCurrency)
 
 	def on_next_wave(self):
 		self.hud.startNextWaveTimer()
