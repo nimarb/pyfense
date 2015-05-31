@@ -59,9 +59,17 @@ class PyFenseGame(scene.Scene):
 			return
 		self.gameGrid[grid_y][grid_x] = kind
 		
+	def getGridPix(self, x, y):
+		grid_x = int(x / 60)
+		grid_y = int(y / 60)
+		return self.gameGrid[grid_y][grid_x]
+		
 	def on_enemy_death(self, enemy):
 		self.currentCurrency += enemy.worth
 		self.hud.updateCurrencyNumber(self.currentCurrency)
+		
+	def on_user_click(self, x, y):
+		self.hud.currentCellStatus = self.getGridPix(x, y)		
 		
 	def on_build_tower(self, towerNumber, pos_x, pos_y):
 		#TODO: check if tower can be build here?

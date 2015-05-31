@@ -25,6 +25,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.towerThumbnails = [self.towerThumbnail1, self.towerThumbnail2, self.towerThumbnail3]
         #load selector to highlight currently selected cell
         self.addCellSelectorSprite()
+        self.currentCellStatus = 0
         
     def displayStatusBar(self):
         self.waveLabel = cocos.text.Label('Current Wave: 1',
@@ -75,7 +76,17 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.lastGrid_x = int(self.lastGrid_x / 60) -1
         self.lastGrid_y = int(self.lastGrid_y / 60) -1
 
-    def displayTowerBuildingHud(self, x, y):
+    def removeTowerBuildingHud(self):
+        for picture in range (0, len(self.towerThumbnails)):
+            self.remove(self.towerThumbnails[picture])
+        self.buildingHudDisplayed = False
+
+    def buildTower(self, towerNumber):
+        clicked_x = int(self.clicked_x / 60) * 60 + 30
+        clicked_y = int(self.clicked_y / 60) * 60 + 30
+        self.dispatch_event('on_build_tower', towerNumber, clicked_x, clicked_y)
+
+    def displayTowerHud(self, kind, x, y):
         #displays the HUD to chose between towers to build
         #TODO: proper sourcing of available towers (read from settings?)
         #TODO: lower tower opacity if funds to build tower are insufficient
@@ -88,32 +99,13 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.menuMin_y = y - self.towerThumbnails[0].height / 2
         self.menuMax_y = y
         #draw buildable tower array
-        for picture in range (0, len(self.towerThumbnails)):
-            #use self.menuMin_x to center the menu below the coursor in x direction
-            #ATTENTION, cocos2d always draws the CENTER of the sprite at the specified location
-            self.towerThumbnails[picture].position = (self.menuMin_x + picture*self.towerThumbnails[picture].width + self.towerThumbnails[picture].width/2, y)
-            self.add(self.towerThumbnails[picture])
-        self.buildingHudDisplayed = True
-
-    def removeTowerBuildingHud(self):
-        for picture in range (0, len(self.towerThumbnails)):
-            self.remove(self.towerThumbnails[picture])
-        self.buildingHudDisplayed = False
-
-    def buildTower(self, towerNumber):
-        clicked_x = int(self.clicked_x / 60) * 60 + 30
-        clicked_y = int(self.clicked_y / 60) * 60 + 30
-        self.dispatch_event('on_build_tower', towerNumber, clicked_x, clicked_y)
-
-    # check if the click was on a tower or not
-    # return true if used clicked on tower
-    def clickedOnTower(self, x, y):
-        # TODO: implement logic
-        return False
-
-    def displayTowerHud(self, kind, x, y):
         if kind == "build":
-            self.displayTowerBuildingHud(x, y)
+            for picture in range (0, len(self.towerThumbnails)):
+                #use self.menuMin_x to center the menu below the coursor in x direction
+                #ATTENTION, cocos2d always draws the CENTER of the sprite at the specified location
+                self.towerThumbnails[picture].position = (self.menuMin_x + picture*self.towerThumbnails[picture].width + self.towerThumbnails[picture].width/2, y)
+                self.add(self.towerThumbnails[picture])
+            self.buildingHudDisplayed = True
         elif kind == "upgrade":
             pass
 
@@ -132,11 +124,12 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
     def on_mouse_release(self, x, y, buttons, modifiers):
         #TODO: only trigger if user clicked on buildable area
         (x, y) = cocos.director.director.get_virtual_coordinates(x, y)
+        self.dispatch_event('on_user_click', x, y)
         # check if user clicked on tower
-        if self.clickedOnTower(x, y):
+        if 3 == self.currentCellStatus and False == self.buildingHudDisplayed:
             self.displayTowerHud("upgrade", x, y - self.towerThumbnails[0].height / 2)
             return
-        if self.buildingHudDisplayed == False:
+        if False == self.buildingHudDisplayed:
             #to store where tower has to be build
             #TODO: snap to grid
             self.clicked_x = x
@@ -161,3 +154,4 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
 PyFenseHud.register_event_type('on_build_tower')
 PyFenseHud.register_event_type('on_next_wave_timer_finished')
+PyFenseHud.register_event_type('on_user_click')
