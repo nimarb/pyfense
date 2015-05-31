@@ -62,13 +62,18 @@ class PyFenseGame(scene.Scene):
 	def getGridPix(self, x, y):
 		grid_x = int(x / 60)
 		grid_y = int(y / 60)
+		#gracefully fail for resolution edge cases
+		if grid_x > 31:
+			grid_x = 31
+		if grid_y > 17:
+			grid_y = 17
 		return self.gameGrid[grid_y][grid_x]
 		
 	def on_enemy_death(self, enemy):
 		self.currentCurrency += enemy.worth
 		self.hud.updateCurrencyNumber(self.currentCurrency)
 		
-	def on_user_click(self, x, y):
+	def on_user_mouse_motion(self, x, y):
 		self.hud.currentCellStatus = self.getGridPix(x, y)		
 		
 	def on_build_tower(self, towerNumber, pos_x, pos_y):

@@ -69,10 +69,15 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.time = self.timeBetweenWaves
 
     def addCellSelectorSprite(self):
-        self.cellSelectorSprite = cocos.sprite.Sprite("assets/selector0.png")
-        self.cellSelectorSprite.position = 960, 540
-        self.add(self.cellSelectorSprite)
-        (self.lastGrid_x, self.lastGrid_y) = self.cellSelectorSprite.position
+        self.cellSelectorSpriteRed = cocos.sprite.Sprite("assets/selector0.png")
+        self.cellSelectorSpriteBlue = cocos.sprite.Sprite("assets/selector1.png")
+        self.cellSelectorSpriteRed.position = 960, 540
+        self.cellSelectorSpriteBlue.position = 960, 540
+        self.cellSelectorSpriteBlue.visible = False
+        self.cellSelectorSpriteRed.visible = False
+        self.add(self.cellSelectorSpriteRed)
+        self.add(self.cellSelectorSpriteBlue)
+        (self.lastGrid_x, self.lastGrid_y) = self.cellSelectorSpriteRed.position
         self.lastGrid_x = int(self.lastGrid_x / 60) -1
         self.lastGrid_y = int(self.lastGrid_y / 60) -1
 
@@ -124,7 +129,6 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
     def on_mouse_release(self, x, y, buttons, modifiers):
         #TODO: only trigger if user clicked on buildable area
         (x, y) = cocos.director.director.get_virtual_coordinates(x, y)
-        self.dispatch_event('on_user_click', x, y)
         # check if user clicked on tower
         if 3 == self.currentCellStatus and False == self.buildingHudDisplayed:
             self.displayTowerHud("upgrade", x, y - self.towerThumbnails[0].height / 2)
@@ -146,12 +150,20 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
     def on_mouse_motion(self, x, y, dx, dy):
         #class to highlight currently selected cell
         (x, y) = cocos.director.director.get_virtual_coordinates(x, y)
+        self.dispatch_event('on_user_mouse_motion', x, y)
         grid_x = int(x / 60) 
         grid_y = int(y / 60) 
         if self.lastGrid_x != grid_x or self.lastGrid_y != grid_y:
-            self.cellSelectorSprite.position = (grid_x * 60 + 30, grid_y * 60 + 30)
+            if self.currentCellStatus <= 1:
+                self.cellSelectorSpriteBlue.visible = False
+                self.cellSelectorSpriteRed.position = (grid_x * 60 + 30, grid_y * 60 + 30)
+                self.cellSelectorSpriteRed.visible = True
+            elif self.currentCellStatus > 1:
+                self.cellSelectorSpriteRed.visible = False
+                self.cellSelectorSpriteBlue.position = (grid_x * 60 + 30, grid_y * 60 + 30)
+                self.cellSelectorSpriteBlue.visible = True
         
 
 PyFenseHud.register_event_type('on_build_tower')
 PyFenseHud.register_event_type('on_next_wave_timer_finished')
-PyFenseHud.register_event_type('on_user_click')
+PyFenseHud.register_event_type('on_user_mouse_motion')
