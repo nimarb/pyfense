@@ -79,9 +79,8 @@ class PyFenseGame(scene.Scene):
 	def on_build_tower(self, towerNumber, pos_x, pos_y):
 		#TODO: check if tower can be build here?
 		#TODO: check if sufficient currency available to build tower
-		self.entityMap.buildTower(towerNumber, pos_x, pos_y)
+		self.currentCurrency -= self.entityMap.buildTower(towerNumber, pos_x, pos_y)
 		self.setGridPix(pos_x, pos_y, 3)
-		self.currentCurrency -= 30
 		self.hud.updateCurrencyNumber(self.currentCurrency)
 
 	def on_next_wave(self):

@@ -28,7 +28,6 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
         self.rangeradius = 400
         self.firerate = 1
         self.projectileVelocity = 1000
-
         self.level = 1
         self.posx = position[0]
         self.posy = position[1]
@@ -53,7 +52,6 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
     # either first enemy in range or nearest Enemy
     # standardvalue is first
     def find_next_enemy(self, enemies, mode="first"):
-
         nextEnemy = None
         self.dist = self.rangeradius
         for enemy in enemies:
@@ -72,8 +70,6 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
                         # first Enemy in list, which is in range is the target
                         nextEnemy = enemy
                         break
-
-
         return nextEnemy
 
     # get the current values of this tower

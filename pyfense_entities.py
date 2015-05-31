@@ -34,6 +34,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         tower.push_handlers(self)
         self.towers.append(tower)
         self.add(tower, z=1)
+        return tower.cost
 
     def on_projectile_fired(self, tower, target, projectileVelocity, damage):
         projectile = PyFenseProjectile(tower, target, projectileVelocity, damage)
