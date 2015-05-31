@@ -9,7 +9,15 @@ from cocos.menu import *
 from cocos.layer import *
 from cocos.text import *
 
-from pyfense_game import *
+import pyfense_game
+import pyfense_highscore
+
+"""
+Mainfile, draws Menu including Level Select, Highscore, Options and About page.
+Reads settings from /data/settings.txt #TODO, About from /data/about.txt #TODO 
+and gets Highscore data from pyfense_highscore. Level Select starts game with
+selected level from pyfense_game.
+"""
 
 class MainMenu( Menu ):
     
@@ -76,10 +84,132 @@ class LevelSelectMenu( Menu ):
         self.create_menu( items )
         
     def on_start( self, lvl ):
-        director.push( PyFenseGame( lvl ) )
+        director.push( pyfense_game.PyFenseGame( lvl ) )
         
     def on_quit( self ):
         self.parent.switch_to( 0 )
+        
+
+class ScoresLayer( ColorLayer ):
+        
+    is_event_handler = True
+    fontsize = 40
+    
+    def __init__( self ):
+        
+        w, h = director.get_window_size()
+        super( ScoresLayer, self ).__init__( 0,0,0,1, 
+                                            width = w, height = h-86 )
+        
+        self.font_title = {}
+        self.font_title['font_size'] = 72
+        self.font_title['anchor_y'] ='top'
+        self.font_title['anchor_x'] ='center'
+        title = Label( 'PyFense', **self.font_title )
+        title.position = ( w/2. , h )
+        self.add( title, z=1 )
+        self.table = None
+        
+    def on_enter ( self ):
+        
+        super( ScoresLayer, self ).on_enter()
+        score = pyfense_highscore.get_score()
+        
+        if self.table:
+            self.remove_old()
+
+        self.table=[]
+       
+        Head_Pos = Label( '',
+                         bold = True,
+                         font_name = 'Arial',
+                         font_size = self.fontsize,
+                         anchor_x = 'right',
+                         anchor_y = 'top')
+        Head_Name = Label('Name',
+                          bold = True,
+                         font_name = 'Arial',
+                         font_size = self.fontsize,
+                         anchor_x = 'left',
+                         anchor_y = 'top')
+        Head_Score = Label('Score',
+                           bold = True,
+                           font_name = 'Arial',
+                           font_size = self.fontsize,
+                           anchor_x = 'right',
+                           anchor_y = 'top')
+        Head_Level = Label('Reached Level',
+                         bold = True,
+                         font_name = 'Arial',
+                         font_size = self.fontsize,
+                         anchor_x = 'center',
+                         anchor_y = 'top')
+        self.table.append( ( Head_Pos, Head_Name, Head_Score, Head_Level ) )
+        self.table.append( ( Label(''), Label(''), Label(''), Label('') ) )
+      
+        for i, entry in enumerate(score):
+            
+            pos = Label( '%i.    ' %(i+1),
+                     font_name = 'Arial',
+                     font_size = self.fontsize,
+                     anchor_x = 'right',
+                     anchor_y = 'top')
+            name = Label(entry[0],
+                     font_name = 'Arial',
+                     font_size = self.fontsize,
+                     anchor_x = 'left',
+                     anchor_y = 'top')
+            score = Label(entry[1],
+                     font_name = 'Arial',
+                     font_size = self.fontsize,
+                     anchor_x = 'right',
+                     anchor_y = 'top')
+            level = Label(entry[2].strip(),
+                     font_name = 'Arial',
+                     font_size = self.fontsize,
+                     anchor_x = 'right',
+                     anchor_y = 'top')
+            self.table.append( (pos, name, score, level) )
+            
+        self.process_table()
+        
+    def remove_old( self ):
+        for item in self.table:
+            pos, name, score, level = item
+            self.remove( pos )
+            self.remove( name )
+            self.remove( score )
+            self.remove( level )
+        self.table = None
+        
+    def process_table( self ):
+        
+        w, h = director.get_window_size()
+        
+        for i, item in enumerate( self.table ):
+            
+            pos, name, score, level = item
+            pos_y = h-200 - ( self.fontsize + 15 ) * i
+            
+            pos.position = ( w/2 - 400. , pos_y )
+            name.position = ( w/2 - 380. , pos_y )
+            score.position = ( w/2 + 130. , pos_y )
+            level.position = ( w/2 + 430 , pos_y )
+            
+            self.add( pos, z = 2 )
+            self.add( name, z = 2 )
+            self.add( score, z = 2 )
+            self.add( level, z = 2 )
+        
+        
+    def on_key_press( self, k, m ):
+        if k in (key.ENTER, key.ESCAPE, key.SPACE):
+            self.parent.switch_to( 0 )
+            return True
+
+    def on_mouse_release( self, x, y, b, m ):
+        self.parent.switch_to( 0 )
+        return True
         
 
 class OptionsMenu( Menu ):
@@ -108,69 +238,6 @@ class OptionsMenu( Menu ):
         self.parent.switch_to( 0 )
         
 
-class ScoresLayer( ColorLayer ):
-        
-    is_event_handler = True
-    
-    def __init__( self ):
-        
-        w, h = director.get_window_size()
-        super( ScoresLayer, self ).__init__( 0,0,0,1, 
-                                            width = w, height = h-86 )
-        
-        self.font_title = {}
-        self.font_title['font_size'] = 72
-        self.font_title['anchor_y'] ='top'
-        self.font_title['anchor_x'] ='center'
-        title = Label( 'PyFense', **self.font_title )
-        title.position = ( w/2. , h )
-        self.add( title, z=1 )
-        self.table = None
-        
-    def on_enter ( self ):
-        
-        super( ScoresLayer, self ).on_enter()
-        
-        if self.table:
-            self.remove_old()
-
-        self.table=[]
-        
-        name = Label('Hier könnte Ihr Name stehen!',
-                     font_name = 'Arial',
-                     font_size = 20,
-                     anchor_x = 'left',
-                     anchor_y = 'top')
-        
-        self.table.append( (name) )
-        self.process_table()
-        
-    def remove_old( self ):
-        for item in self.table:
-            name = item
-            self.remove( name )
-        self.table = None
-        
-    def process_table( self ):
-        
-        w, h = director.get_window_size()
-        for idx, item in enumerate( self.table ):
-            name = item
-            name.position = ( w/2. , h - 200 )
-            
-            self.add( name, z = 2 )
-        
-        
-    def on_key_press( self, k, m ):
-        if k in (key.ENTER, key.ESCAPE, key.SPACE):
-            self.parent.switch_to( 0 )
-            return True
-
-    def on_mouse_release( self, x, y, b, m ):
-        self.parent.switch_to( 0 )
-        return True
-    
-    
 class AboutLayer( ColorLayer ):
     
     is_event_handler = True

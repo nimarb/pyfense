@@ -1,18 +1,15 @@
-# pyfense_highscore.py
-# contains PyFenseHighscore class (layer)
+"""
+Manages highscore
+"""
 
 import cocos
 from cocos import layer
 from cocos import menu
 from cocos.director import director
 
-class PyFenseHighscore(menu.Menu):
-    def __init__(self):
+"""    def __init__(self):
         super().__init__("Highscore")
-        highscore = readFile("data/highscore.txt")
-        hs_splitted = [row.split(", ") for row in highscore]
-        entry = 5 * [None]
-        for i in range(0,5):
+
             if i < len(highscore):
                 entry[i] = menu.MenuItem(highscore[i].strip(), self.on_quit)
             else:
@@ -25,10 +22,21 @@ class PyFenseHighscore(menu.Menu):
         
     def on_quit(self):
         director.pop() 
+"""
+
+def get_score():
+    
+    highscore = readFile("data/highscore.txt")
+    hs_splitted = [row.split(", ") for row in highscore] 
+    
+    return hs_splitted    
+
+
 
 
 def readFile(fileName):
 
     with open(fileName, "r") as openedFile:
+        openedFile.readline()
         fileData = openedFile.readlines()
     return fileData

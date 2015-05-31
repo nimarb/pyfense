@@ -1,3 +1,11 @@
-User 2, 15
-User 1, 10
-User 3, 2
+#User, Score, reached Level
+Lala, 5999, 20
+User 2, 15, 4
+User 1, 10, 1
+User 3, 2, 3
+Dipsi, 1, 1
+Po, 1, 1
+Sieben, 1, 1
+Acht, 1, 1
+Neun, 1, 1
+Zehn, 1, 1
