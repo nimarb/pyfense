@@ -14,7 +14,7 @@ class PyFenseGame(scene.Scene):
 	def __init__(self, levelNumber):
 		super().__init__()
 		self.levelMapName = "lvl" + str(levelNumber)
-		self.loadMap()
+		self.loadMap()	
 		self.displayEntities()
 		self.displayHud()
 		self.currentWave = 0
@@ -100,4 +100,3 @@ class PyFenseGame(scene.Scene):
 		self.hud.updateLiveNumber(self.currentLives)
 		if self.currentLives == 0:
 			print("YOU LOST THE GAME")
-
