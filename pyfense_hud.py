@@ -69,8 +69,8 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.time = self.timeBetweenWaves
 
     def addCellSelectorSprite(self):
-        self.cellSelectorSpriteRed = cocos.sprite.Sprite("assets/selector0.png")
-        self.cellSelectorSpriteBlue = cocos.sprite.Sprite("assets/selector1.png")
+        self.cellSelectorSpriteRed = cocos.sprite.Sprite(pyfense_resources.selector0)
+        self.cellSelectorSpriteBlue = cocos.sprite.Sprite(pyfense_resources.selector1)
         self.cellSelectorSpriteRed.position = 960, 540
         self.cellSelectorSpriteBlue.position = 960, 540
         self.cellSelectorSpriteBlue.visible = False

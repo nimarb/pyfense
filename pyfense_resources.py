@@ -35,5 +35,8 @@ tower.append(loadImage("assets/tower2.png"))
 
 projectile = loadImage("assets/projectile0.png")
 
+selector0 = loadImage("assets/selector0.png")
+selector1 = loadImage("assets/selector1.png")
+
 explosion = loadAnimation('assets/explosions-pack/spritesheets/explosion-1.png', 
                    8, 1, 32, 32, 0.03, False)    
