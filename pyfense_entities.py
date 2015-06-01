@@ -21,7 +21,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.diedEnemies = 0
         self.towers = []
         self.projectiles = []
-        clock.schedule_interval(self.hasEnemyReached, 1/120) #check if enemy has reached every 1/120 seconds
+        #clock.schedule_interval(self.hasEnemyReached, 1/120) #check if enemy has reached every 1/120 seconds
         
     def nextWave(self, waveNumber):
         clock.schedule_interval(self.addEnemy, 1.5)
