@@ -79,7 +79,11 @@ class PyFenseGame(scene.Scene):
 	def on_build_tower(self, towerNumber, pos_x, pos_y):
 		#TODO: check if tower can be build here?
 		#TODO: check if sufficient currency available to build tower
-		self.currentCurrency -= self.entityMap.buildTower(towerNumber, pos_x, pos_y)
+		tower = PyFenseTower(self.entityMap.enemies, towerNumber, (pos_x, pos_y))
+		if tower.cost > self.currentCurrency:
+			print("not enough cash, building tower failed")
+			return
+		self.currentCurrency -= self.entityMap.buildTower(tower)
 		self.setGridPix(pos_x, pos_y, 3)
 		self.hud.updateCurrencyNumber(self.currentCurrency)
 

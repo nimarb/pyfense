@@ -28,8 +28,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.spawnedEnemies = 0
         self.diedEnemies = 0
 
-    def buildTower(self, towerNumber, pos_x, pos_y):
-        tower = PyFenseTower(self.enemies, towerNumber, (pos_x, pos_y))
+    def buildTower(self, tower):
         tower.push_handlers(self)
         self.towers.append(tower)
         self.add(tower, z=1)

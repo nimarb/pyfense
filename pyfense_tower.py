@@ -20,8 +20,6 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
     def __init__(self, enemies, towerNumber, position):
         is_event_handler = True
         texture = pyfense_resources.tower[towerNumber]
-        
-        
         super().__init__(texture, position)
         # Entity is parent class, that has called the tower, weakref.ref() makes it garbage collector safe
         # self.entityParent = weakref.ref(entityParent)
@@ -46,7 +44,6 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
             if (target is not None):
                 self.dispatch_event('on_projectile_fired', self,
                                     target, self.projectileVelocity, self.damage)
-
     def distance(self, a, b):
         return math.sqrt((b.x - a.x)**2 + (b.y-a.y)**2)
 
