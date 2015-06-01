@@ -4,14 +4,13 @@ import cocos
 import pyglet
 from cocos import sprite
 from cocos import actions
-from pyglet.image.codecs.png import PNGImageDecoder
-
+import pyfense_resources
 
 class PyFenseEnemy(sprite.Sprite):
     def __init__(self, lvl, wave):
         # TODO: Different assets and values for stronger enemies to be loaded from textfile
         self.currentPos = (0, 340) 
-        image = pyglet.image.load("assets/enemy1.png", decoder=PNGImageDecoder())
+        image = pyfense_resources.enemy[1]
         super(PyFenseEnemy, self).__init__(image, position = self.currentPos)
         self.healthPoints = 40
         #self.drawHealthBar()

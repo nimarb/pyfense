@@ -8,15 +8,14 @@ import math
 from math import sqrt
 import pyglet
 from pyglet import clock
-from pyglet.image.codecs.png import PNGImageDecoder
+import pyfense_resources
 
 
 class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
     is_event_handler = True
     
     def __init__(self, towerParent, target, velocity, damage):
-        projectilePng = pyglet.image.load("assets/projectile0.png", 
-                                            decoder=PNGImageDecoder())
+        projectilePng = pyfense_resources.projectile
         super().__init__(projectilePng, position = towerParent.position, 
                                             scale = 0.3)
         self.moveVel(self, target, velocity)
