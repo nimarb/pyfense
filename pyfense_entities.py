@@ -22,7 +22,6 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.towers = []
         self.projectiles = []
         
-        # create new enemy every x seconds
     def nextWave(self, waveNumber):
         clock.schedule_interval(self.addEnemy, 1.5)
         self.spawnedEnemies = 0
@@ -37,8 +36,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
     def on_projectile_fired(self, tower, target, projectileVelocity, damage):
         projectile = PyFenseProjectile(tower, target, projectileVelocity, damage)
         self.projectiles.append(projectile)
-        i = self.projectiles.index(projectile)
-        self.projectiles[i].push_handlers(self)
+        projectile.push_handlers(self)
         self.add(projectile, z=2)
 
     def on_enemy_hit(self, projectile, target):
@@ -68,19 +66,16 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.add(enemy)
         #self.add(enemy.drawHealthBar())
         self.isWaveFinished()
-
-
+        
     def startAnimation(self, position):
         explosionSprite = cocos.sprite.Sprite(pyfense_resources.explosion)
         explosionSprite.push_handlers(self)
         explosionSprite.position = position
         explosionSprite.scale = 2
         self.add(explosionSprite, z=2)
-        clock.schedule_once(self.dummyRemove, 8*0.03, explosionSprite)
+        clock.schedule_once(lambda dt, x: self.remove(x), 8*0.03, explosionSprite)
         
-    def dummyRemove(self, dt, explosionSprite):
-        self.remove(explosionSprite)
-
+    
                     
         
 PyFenseEntities.register_event_type('on_next_wave')
