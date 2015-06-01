@@ -5,7 +5,7 @@
 import cocos
 import pyglet
 from math import floor
-from pyglet.image.codecs.png import PNGImageDecoder
+import pyfense_resources
 
 class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
     is_event_handler = True
@@ -19,9 +19,9 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         #load tower sprites here, so that they only have to be loaded once
         #TODO: create a loop to load images
         #TODO: gracefully fail if pictures fail to load? (try/catch)
-        self.towerThumbnail1 = cocos.sprite.Sprite(pyglet.image.load("assets/tower0.png", decoder=PNGImageDecoder()))
-        self.towerThumbnail2 = cocos.sprite.Sprite(pyglet.image.load("assets/tower1.png", decoder=PNGImageDecoder()))
-        self.towerThumbnail3 = cocos.sprite.Sprite(pyglet.image.load("assets/tower2.png", decoder=PNGImageDecoder()))
+        self.towerThumbnail1 = cocos.sprite.Sprite(pyfense_resources.tower[0])
+        self.towerThumbnail2 = cocos.sprite.Sprite(pyfense_resources.tower[1])
+        self.towerThumbnail3 = cocos.sprite.Sprite(pyfense_resources.tower[2])
         self.towerThumbnails = [self.towerThumbnail1, self.towerThumbnail2, self.towerThumbnail3]
         #load selector to highlight currently selected cell
         self.addCellSelectorSprite()
