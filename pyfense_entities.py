@@ -1,8 +1,7 @@
 # pyfense_entities.py
 # contains the layer on which all enemies and towers are placed (layer)
-
+import pyglet
 from pyglet.image.codecs.png import PNGImageDecoder
-import math
 
 import cocos
 from cocos.director import clock
@@ -44,8 +43,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.add(projectile, z=2)
 
     def on_enemy_hit(self, projectile, target):
-        #Animation not working at the moment, no idea why...
-        #self.startAnimation(projectile.position)
+        self.startAnimation(target.position)
         target.healthPoints -= projectile.damage
         self.remove(projectile)
         self.projectiles.remove(projectile)
@@ -74,28 +72,17 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
 
     def startAnimation(self, position):
-        # load the example explosion as a pyglet image
-        spritesheet = pyglet.image.load(
-        'assets/explosions-pack/spritesheets/explosion-1.png',
-        decoder=PNGImageDecoder())
-        # use ImageGrid to divide your sprite sheet into smaller regions
-        grid = pyglet.image.ImageGrid(spritesheet, 
-                                      1, 8, item_width=32, item_height=32)
-        # convert to TextureGrid for memory efficiency
-        textures = pyglet.image.TextureGrid(grid)
-        # access the grid images as you would items in a list
-        # this way you get a sequence for your animation
-        # reads from bottom left corner to top right corner
-        explosionSprites = textures[0:len(textures)]
-        #create pyglet animation objects
-
-        explosion = pyglet.image.Animation.from_image_sequence(
-                    explosionSprites, 0.05, loop=True)
-
-        explosionSprite = cocos.sprite.Sprite(explosion)
+        explosionSprite = cocos.sprite.Sprite(pyfense_resources.explosion)
+        explosionSprite.push_handlers(self)
         explosionSprite.position = position
         explosionSprite.scale = 2
         self.add(explosionSprite, z=2)
+        clock.schedule_once(self.dummyRemove, 8*0.03, explosionSprite)
+        
+    def dummyRemove(self, dt, explosionSprite):
+        self.remove(explosionSprite)
+
+                    
         
 PyFenseEntities.register_event_type('on_next_wave')
 PyFenseEntities.register_event_type('on_enemy_death')

@@ -261,7 +261,7 @@ class AboutLayer( ColorLayer ):
         super( AboutLayer, self ).on_enter()
         w, h = director.get_window_size()
 
-        text = Label('PyFense ist geil und wir lieben Nippel!',
+        text = Label('PyFense ist geil und wir lieben Nippel!', #LOL
         font_name = 'Arial',
         font_size = 20,
         anchor_x = 'center',

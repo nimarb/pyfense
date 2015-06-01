@@ -5,6 +5,7 @@ from pyglet import clock
 from pyglet.image.codecs.png import PNGImageDecoder
 import weakref
 import math
+import pyfense_resources
 
 import pyfense_entities
 from pyfense_entities import *
@@ -18,9 +19,10 @@ from pyfense_entities import *
 class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
     def __init__(self, enemies, towerNumber, position):
         is_event_handler = True
-        self.texture = pyglet.image.load("assets/tower" + str(towerNumber) +
-                                         ".png", decoder=PNGImageDecoder())
-        super().__init__(self.texture, position)
+        texture = pyfense_resources.tower[towerNumber]
+        
+        
+        super().__init__(texture, position)
         # Entity is parent class, that has called the tower, weakref.ref() makes it garbage collector safe
         # self.entityParent = weakref.ref(entityParent)
         self.enemies = enemies
