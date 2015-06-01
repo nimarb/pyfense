@@ -3,9 +3,11 @@
 import pyglet
 from pyglet.image.codecs.png import PNGImageDecoder	
 
+# Loads PNG files
 def loadImage(filename):
     return pyglet.image.load(filename, decoder=PNGImageDecoder())
 
+# Loads spritesheets as animation with frames from bottom left to top right
 def loadAnimation(filepath, spritesheet_x, spritesheet_y, width, height, duration, loop):
     spritesheet = pyglet.image.load(filepath, decoder=PNGImageDecoder())
     grid = pyglet.image.ImageGrid(spritesheet, 
