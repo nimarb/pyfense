@@ -138,7 +138,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             #TODO: snap to grid
             self.clicked_x = x
             self.clicked_y = y
-            self.displayTowerHud("build", self.clicked_x, self.clicked_y - self.towerThumbnails[0].height)
+            self.displayTowerHud("build", self.clicked_x + 1.5*self.towerThumbnails[0].height, self.clicked_y - 0.5*self.towerThumbnails[0].height)
         else:
             hudItem = self.clickedOnTowerHudItem(x, y)
             if hudItem != -1:
