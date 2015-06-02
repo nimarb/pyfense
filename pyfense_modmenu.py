@@ -521,12 +521,14 @@ class MenuItem (BaseMenuItem):
             self.item.draw()
         glPopMatrix()
 
-
+"""Modified ImageMenuItem Class to show pictures in the Menu without scaling
+or overlapping
+"""
 class ImageMenuItem (BaseMenuItem):
     """ A menu item that shows a selectable Image """
     def __init__(self, image, callback_func, *args, **kwargs):
         if isinstance(image, string_types):
-            image = loadImage(image)
+            image = loadImage(image) #loading method replaced
         self.image = image
         super(ImageMenuItem, self).__init__(callback_func, *args, **kwargs)
 
@@ -537,7 +539,8 @@ class ImageMenuItem (BaseMenuItem):
         self.item = Sprite(self.image, anchor=anchor, opacity=255,
                            color=font_item['color'][:3])
 #        self.item.scale = font_item['font_size'] / float(self.item.height)
-        self.item.position = int(pos_x), int(pos_y + (self.image.height/2.))
+        #position modified: addition term for pos_y
+        self.item.position = int(pos_x), int(pos_y + (self.image.height/2.)) 
         self.selected_item = Sprite(self.image, anchor=anchor,
                                     color=font_item_selected['color'][:3])
 #        self.selected_item.scale = (font_item_selected['font_size'] /
