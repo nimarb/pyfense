@@ -77,9 +77,6 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.cellSelectorSpriteRed.visible = False
         self.add(self.cellSelectorSpriteRed)
         self.add(self.cellSelectorSpriteBlue)
-        (self.lastGrid_x, self.lastGrid_y) = self.cellSelectorSpriteRed.position
-        self.lastGrid_x = int(self.lastGrid_x / 60) -1
-        self.lastGrid_y = int(self.lastGrid_y / 60) -1
 
     def removeTowerBuildingHud(self):
         for picture in range (0, len(self.towerThumbnails)):
@@ -152,8 +149,8 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         (x, y) = cocos.director.director.get_virtual_coordinates(x, y)
         self.dispatch_event('on_user_mouse_motion', x, y)
         grid_x = int(x / 60) 
-        grid_y = int(y / 60) 
-        if self.lastGrid_x != grid_x or self.lastGrid_y != grid_y:
+        grid_y = int(y / 60)
+        if False == self.buildingHudDisplayed: 
             if self.currentCellStatus <= 1:
                 self.cellSelectorSpriteBlue.visible = False
                 self.cellSelectorSpriteRed.position = (grid_x * 60 + 30, grid_y * 60 + 30)
