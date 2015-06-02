@@ -87,39 +87,35 @@ class PyFenseGame(scene.Scene):
     def loadPath(self):
         currentTile = self.startTile
         move = actions.MoveBy((0,0), 0.1)
-        for i in self.gameGrid:
-            print(i)
 
         while(currentTile[0] != self.endTile[0] or currentTile[1] != self.endTile[1]):
             if(self.gameGrid[currentTile[0]][currentTile[1]-1] == 99):
                 move += actions.MoveBy((-60, 0), 0.5) #MoveLeft
                 currentTile[1] -= 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
-                print("moveLeft")
+                # print("moveLeft")
 
             elif(self.gameGrid[currentTile[0]][currentTile[1]+1] == 99):
                 move += actions.MoveBy((60,0), 0.5) #MoveRight
                 currentTile[1] += 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
-                print("moveRight")
+                # print("moveRight")
 
             elif(self.gameGrid[currentTile[0]+1][currentTile[1]] == 99):
                 move += actions.MoveBy((0,60), 0.5) #MoveUp
                 currentTile[0] += 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
-                print("moveUp")
+                # print("moveUp")
 
             elif(self.gameGrid[currentTile[0]-1][currentTile[1]] == 99):
                 move += actions.MoveBy((0,-60), 0.5) #MoveDown
                 currentTile[0] -= 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
-                print("moveDown")
+                # print("moveDown")
 
             else:
                 break
-            for i in self.gameGrid:
-                print(i)
-            print(currentTile)
+
         self.movePath = move
 
     def loadMap(self):
