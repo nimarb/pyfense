@@ -21,11 +21,23 @@ tower = []
 
 tower.append({
     "image" : loadImage("assets/tower0.png"),
+    "image_up1" : loadImage("assets/tower01.png"),
+    "image_up2" : loadImage("assets/tower02.png"),
     "damage" : 10,
+    "damage_up1" : 20,
+    "damage_up2" : 30,
     "range" : 200,
+    "range_up1" : 200,
+    "range_up2" : 400,
     "firerate" : 1,
+    "firerate_up1" : 1.5,
+    "firerate_up2" : 1.5,
     "projectileVelocity" : 1000,
-    "cost" : 100
+    "projectileVelocity_up1" : 1000,
+    "projectileVelocity_up2" : 1000,
+    "cost" : 100,
+    "cost_up1" : 250,
+    "cost_up2" : 400
 })    
 
 tower.append({
@@ -38,7 +50,6 @@ tower.append({
 })    
 
 tower.append({
-    
     "image" : loadImage("assets/tower2.png"),
     "damage" : 10,
     "range" : 200,
@@ -46,6 +57,8 @@ tower.append({
     "projectileVelocity" : 1000,
     "cost" : 100
 })    
+
+noCashOverlay = loadImage("assets/tower-nocashoverlay.png")
     
 background = {
     "lvl1" : loadImage("assets/lvl1.png"),
