@@ -7,9 +7,9 @@ from cocos import actions
 import pyfense_resources
 
 class PyFenseEnemy(sprite.Sprite):
-    def __init__(self, lvl, wave):
+    def __init__(self, lvl, wave, path):
         # TODO: Different assets and values for stronger enemies to be loaded from textfile
-        self.currentPos = (0, 340) 
+        self.currentPos = (110, 500) 
         image = pyfense_resources.enemy[1]
         super(PyFenseEnemy, self).__init__(image, position = self.currentPos)
         self.healthPoints = 40
@@ -18,15 +18,16 @@ class PyFenseEnemy(sprite.Sprite):
         self.reward = 20
         self.damage = 1
         self.worth = 5
+        self.path = path
         self.move(lvl)
 
-    movePathlvl1 = (actions.MoveBy((195, 0)) + actions.MoveBy((0, 230))
-                    + actions.MoveBy((230, 0)) + actions.MoveBy((0, -300))
-                    + actions.MoveBy((300, 0)) + actions.MoveBy((0, 130))
-                    + actions.MoveBy((400, 0), 3))
+    # movePathlvl1 = (actions.MoveBy((195, 0)) + actions.MoveBy((0, 230))
+    #                + actions.MoveBy((230, 0)) + actions.MoveBy((0, -300))
+    #                + actions.MoveBy((300, 0)) + actions.MoveBy((0, 130))
+    #                + actions.MoveBy((400, 0), 3))
 
     def move(self, lvl):
-        self.do(self.movePathlvl1)
+        self.do(self.path)
         
     def drawHealthBar(self):
         (x, y) = self.position

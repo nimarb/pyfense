@@ -14,17 +14,18 @@ from pyfense_hud import *
 
 class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
     is_event_handler = True
-    def __init__(self):
+    def __init__(self, Path):
         super().__init__()
         self.enemies = []
         self.spawnedEnemies = 0
         self.diedEnemies = 0
         self.towers = []
         self.projectiles = []
+        self.path = Path
         clock.schedule(self.hasEnemyReachedEnd)
         
     def nextWave(self, waveNumber):
-        clock.schedule_interval(self.addEnemy, 1.5)
+        clock.schedule_interval(self.addEnemy, 1.5, self.path)
         self.spawnedEnemies = 0
         self.diedEnemies = 0
 
@@ -60,8 +61,8 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             if self.diedEnemies == self.spawnedEnemies:
                 self.dispatch_event('on_next_wave')             
 
-    def addEnemy(self, dt):
-        enemy = PyFenseEnemy(1, 1)
+    def addEnemy(self, dt, path):
+        enemy = PyFenseEnemy(1, 1, path)
         self.enemies.append(enemy)
         self.spawnedEnemies += 1
         self.add(enemy)
