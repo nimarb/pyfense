@@ -18,20 +18,50 @@ def loadAnimation(filepath, spritesheet_x, spritesheet_y, width, height, duratio
             images, duration, loop=loop)                      
     
     
+    
+tower = []
+
+tower.append({
+    "image" : loadImage("assets/tower0.png"),
+    "damage" : 10,
+    "range" : 200,
+    "firerate" : 1,
+    "projectileVelocity" : 1000,
+    "cost" : 100
+})    
+
+tower.append({
+    "image" : loadImage("assets/tower1.png"),
+    "damage" : 10,
+    "range" : 200,
+    "firerate" : 1,
+    "projectileVelocity" : 1000,
+    "cost" : 100
+})    
+
+tower.append({
+    
+    "image" : loadImage("assets/tower2.png"),
+    "damage" : 10,
+    "range" : 200,
+    "firerate" : 1,
+    "projectileVelocity" : 1000,
+    "cost" : 100
+})    
+
+
+    
+    
 background = {
     "lvl1" : loadImage("assets/lvl1.png"),
     "lvl2" : loadImage("assets/lvl2.png"),
     "lvl3" : loadImage("assets/lvl3.png"),
     "lvl4" : loadImage("assets/lvl4.png")
                }
+               
 enemy = []
 enemy.append(loadImage("assets/enemy0.png"))
 enemy.append(loadImage("assets/enemy1.png"))
-
-tower = []
-tower.append(loadImage("assets/tower0.png"))
-tower.append(loadImage("assets/tower1.png"))
-tower.append(loadImage("assets/tower2.png"))
 
 projectile = loadImage("assets/projectile0.png")
 
