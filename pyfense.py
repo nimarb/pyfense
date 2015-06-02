@@ -76,7 +76,7 @@ class LevelSelectMenu( Menu ):
         
         items = []
         
-        items.append( LevelMenuItem('assets/lvl1.png', 
+        items.append( ImageMenuItem('assets/lvl1.png', 
                                     lambda: self.on_start(1)) )        
         items.append( MenuItem('Back', self.on_quit) )
         
@@ -283,7 +283,7 @@ class AboutLayer( ColorLayer ):
         return True    
         
         
-class LevelMenuItem (BaseMenuItem):
+"""class LevelMenuItem (BaseMenuItem):
     def __init__(self, image, callback_func, *args, **kwargs):
         if isinstance(image, string_types):
             image = loadImage(image)
@@ -311,7 +311,7 @@ class LevelMenuItem (BaseMenuItem):
         else:
             self.item.draw()
         glPopMatrix()
-
+"""
 
 # settings (later to be read from cfg file)
 # some values might/will change during the course of the game
