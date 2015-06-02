@@ -19,7 +19,7 @@ from pyfense_entities import *
 class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
     def __init__(self, enemies, towerNumber, position):
         is_event_handler = True
-        texture = pyfense_resources.tower[towerNumber]
+        texture = pyfense_resources.tower[towerNumber]["image"]
         super().__init__(texture, position)
         # Entity is parent class, that has called the tower, weakref.ref() makes it garbage collector safe
         # self.entityParent = weakref.ref(entityParent)

@@ -19,9 +19,9 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         #load tower sprites here, so that they only have to be loaded once
         #TODO: create a loop to load images
         #TODO: gracefully fail if pictures fail to load? (try/catch)
-        self.towerThumbnail1 = cocos.sprite.Sprite(pyfense_resources.tower[0])
-        self.towerThumbnail2 = cocos.sprite.Sprite(pyfense_resources.tower[1])
-        self.towerThumbnail3 = cocos.sprite.Sprite(pyfense_resources.tower[2])
+        self.towerThumbnail1 = cocos.sprite.Sprite(pyfense_resources.tower[0]["image"])
+        self.towerThumbnail2 = cocos.sprite.Sprite(pyfense_resources.tower[1]["image"])
+        self.towerThumbnail3 = cocos.sprite.Sprite(pyfense_resources.tower[2]["image"])
         self.towerThumbnails = [self.towerThumbnail1, self.towerThumbnail2, self.towerThumbnail3]
         #load selector to highlight currently selected cell
         self.addCellSelectorSprite()
