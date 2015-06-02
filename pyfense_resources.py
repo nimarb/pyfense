@@ -16,9 +16,7 @@ def loadAnimation(filepath, spritesheet_x, spritesheet_y, width, height, duratio
     images = textures[0:len(textures)]
     return pyglet.image.Animation.from_image_sequence(
             images, duration, loop=loop)                      
-    
-    
-    
+  
 tower = []
 
 tower.append({
@@ -48,9 +46,6 @@ tower.append({
     "projectileVelocity" : 1000,
     "cost" : 100
 })    
-
-
-    
     
 background = {
     "lvl1" : loadImage("assets/lvl1.png"),
