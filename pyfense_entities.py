@@ -21,7 +21,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.diedEnemies = 0
         self.towers = []
         self.projectiles = []
-        clock.schedule_interval(self.hasEnemyReached, 1/10)
+        clock.schedule_interval(self.hasEnemyReachedEnd, 1/10)
         
     def nextWave(self, waveNumber):
         clock.schedule_interval(self.addEnemy, 1.5)
@@ -69,12 +69,13 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.isWaveFinished()
         
     # Removes enemy from entity when no action is running, ie the enemy has reached   
-    def hasEnemyReached(self, dt):
+    def hasEnemyReachedEnd(self, dt):
         if self.enemies and not self.enemies[0].actions:
-                self.dispatch_event('on_enemy_reached_goal')
-                print('enemy has reached goal')
-                self.remove(self.enemies[0])
-                self.enemies.remove(self.enemies[0])
+            self.dispatch_event('on_enemy_reached_goal')
+            self.remove(self.enemies[0])
+            self.enemies.remove(self.enemies[0])
+            self.diedEnemies += 1
+            self.isWaveFinished()
         
     def startAnimation(self, position):
         explosionSprite = cocos.sprite.Sprite(pyfense_resources.explosion)
@@ -82,10 +83,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         explosionSprite.position = position
         explosionSprite.scale = 2
         self.add(explosionSprite, z=2)
-        clock.schedule_once(lambda dt, x: self.remove(x), 8*0.03, explosionSprite)
-        
-    
-                    
+        clock.schedule_once(lambda dt, x: self.remove(x), 8*0.03, explosionSprite)                  
         
 PyFenseEntities.register_event_type('on_next_wave')
 PyFenseEntities.register_event_type('on_enemy_death')
