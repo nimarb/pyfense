@@ -21,7 +21,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.diedEnemies = 0
         self.towers = []
         self.projectiles = []
-        #clock.schedule_interval(self.hasEnemyReached, 1/120) #check if enemy has reached every 1/120 seconds
+        clock.schedule_interval(self.hasEnemyReached, 1/60)
         
     def nextWave(self, waveNumber):
         clock.schedule_interval(self.addEnemy, 1.5)
@@ -68,12 +68,13 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         #self.add(enemy.drawHealthBar())
         self.isWaveFinished()
         
-    # Not sure why function doesnt work..   
+    # Removes enemy from entity when no action is running, ie the enemy has reached   
     def hasEnemyReached(self, dt):
-        if self.enemies and self.enemies[0].are_actions_running == False:
+        if self.enemies and not self.enemies[0].actions:
                 self.dispatch_event('on_enemy_reached_goal')
                 print('enemy has reached goal')
                 self.remove(self.enemies[0])
+                self.enemies.remove(self.enemies[0])
         
     def startAnimation(self, position):
         explosionSprite = cocos.sprite.Sprite(pyfense_resources.explosion)
