@@ -5,12 +5,11 @@ import cocos
 from cocos.director import director
 from cocos.actions import *
 from cocos.scene import Scene
-from cocos.menu import *
 from cocos.layer import *
 from cocos.text import *
-from cocos.menu import BaseMenuItem
-from six import string_types
 
+
+from pyfense_modmenu import *
 import pyfense_game
 import pyfense_highscore
 from pyfense_resources import *
@@ -80,8 +79,6 @@ class LevelSelectMenu( Menu ):
                                     lambda: self.on_start(1)) )        
         items.append( MenuItem('Back', self.on_quit) )
         
-#        for entry in items:
-#                entry.scale = 5
         
         width, height = director.get_window_size()
         self.create_menu( items )
@@ -281,37 +278,7 @@ class AboutLayer( ColorLayer ):
     def on_mouse_release( self, x, y, b, m ):
         self.parent.switch_to( 0 )
         return True    
-        
-        
-"""class LevelMenuItem (BaseMenuItem):
-    def __init__(self, image, callback_func, *args, **kwargs):
-        if isinstance(image, string_types):
-            image = loadImage(image)
-        self.image = image
-        Menu(ImageMenuItem, self).__init__(callback_func, *args, **kwargs)
-    def generateWidgets(self, pos_x, pos_y, font_item, font_item_selected):
-        anchors = {'left': 0, 'center': 0.5, 'right': 1, 'top': 1, 'bottom': 0}
-        anchor = (anchors[font_item['anchor_x']] * self.image.width,
-                  anchors[font_item['anchor_y']] * self.image.height)
-        self.item = Sprite(self.image, anchor=anchor, opacity=255,
-                           color=font_item['color'][:3])
-        self.item.scale = font_item['font_size'] / float(self.item.height)
-        self.item.position = int(pos_x), int(pos_y)
-        self.selected_item = Sprite(self.image, anchor=anchor,
-                                    color=font_item_selected['color'][:3])
-        self.selected_item.scale = (font_item_selected['font_size'] /
-                                    float(self.selected_item.height))
-        self.selected_item.position = int(pos_x), int(pos_y)
 
-    def draw(self):
-        glPushMatrix()
-        self.transform()
-        if self.is_selected:
-            self.selected_item.draw()
-        else:
-            self.item.draw()
-        glPopMatrix()
-"""
 
 # settings (later to be read from cfg file)
 # some values might/will change during the course of the game
