@@ -58,7 +58,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.currentCurrency = currencyNumber
                 
     def startNextWaveTimer(self):
-        pyglet.clock.schedule_interval(self.updateNextWaveTimer, 1)
+        self.schedule_interval(self.updateNextWaveTimer, 1)
                 
     def updateNextWaveTimer(self, dt):
         self.time -= dt
@@ -66,7 +66,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                         str(round(self.time)) + ' Seconds')
         if (self.time <= 0):
             self.timeLabel.element.text =('GO')
-            pyglet.clock.unschedule(self.updateNextWaveTimer)
+            self.unschedule(self.updateNextWaveTimer)
             self.dispatch_event('on_next_wave_timer_finished')
             self.time = self.timeBetweenWaves
 
