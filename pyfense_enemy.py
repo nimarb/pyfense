@@ -22,8 +22,8 @@ class PyFenseEnemy(sprite.Sprite):
         self.damage = 1
         self.worth = 5
         self.path = path
-        self.move(lvl)
         self.healthBar = self.drawHealthBar()
+        self.move(lvl)
 
 
     # movePathlvl1 = (actions.MoveBy((195, 0)) + actions.MoveBy((0, 230))
@@ -33,12 +33,13 @@ class PyFenseEnemy(sprite.Sprite):
 
     def move(self, lvl):
         self.do(self.path)
+        self.healthBar.do(self.path)
         
     def drawHealthBar(self):
         self.bar_x = self.x - self.width / 2 
         self.bar_y = self.y + self.height / 2 + 20
-        self.healthBar = cocos.draw.Line((self.bar_x, self.bar_y), (self.bar_x + self.width, self.bar_y), (0, 237, 55, 0), 4)
-        self.healthBar.do(self.path)
+        self.healthBar = cocos.draw.Line((self.bar_x, self.bar_y), (self.bar_x + self.width, self.bar_y), (0, 237, 55, 0), 3)
+        #self.healthBar.set_endcap('BUTT_CAP')
         return self.healthBar
 
     def updateHealthBar(self):
