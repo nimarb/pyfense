@@ -8,4 +8,5 @@ Make only logical and clear and unambiguous paths, otherwise the program may cra
 Hit Enter to save the path
 You should then get back to the MainMenu and should be able to select the new level in the levelselect (should be second option, not displayed at correct position)
 Play the Game :)
-Please tell me if something doesn\'92t work even though you followed the instructions and it should work ;)
+You have to create a new Map everytime you start the program and can only have one custom Map at a time for the moment
+Please tell me if something doesn't work even though you followed the instructions and it should work ;)
