@@ -10,6 +10,7 @@ from cocos import actions
 from pyfense_map import *
 from pyfense_entities import *
 from pyfense_hud import *
+import pyfense_resources
 
 class PyFenseGame(scene.Scene):
     def __init__(self, levelNumber):
@@ -24,57 +25,60 @@ class PyFenseGame(scene.Scene):
         #2 := tower can be build, no enemy can walk
         #3 := tower has been built, no enemy can walk, no tower can be build (can upgrade (?))
         self.gameGrid = [[0 for x in range (32)] for x in range(18)]
+        if(levelNumber=="custom"):
+            self.gameGrid = pyfense_resources.gameGrid
 
-        self.gameGrid[8][3] = 99
-        self.gameGrid[8][4] = 99
-        self.gameGrid[8][5] = 99
-        self.gameGrid[8][6] = 99
-        self.gameGrid[8][7] = 99
-        self.gameGrid[9][7] = 99
-        self.gameGrid[10][7] = 99
-        self.gameGrid[11][7] = 99
-        self.gameGrid[12][7] = 99
-        self.gameGrid[13][7] = 99
-        self.gameGrid[14][7] = 99
-        self.gameGrid[14][8] = 99
-        self.gameGrid[14][9] = 99
-        self.gameGrid[14][10] = 99
-        self.gameGrid[14][11] = 99
-        self.gameGrid[14][12] = 99
-        self.gameGrid[13][12] = 99
-        self.gameGrid[12][12] = 99
-        self.gameGrid[11][12] = 99
-        self.gameGrid[10][12] = 99
-        self.gameGrid[9][12] = 99
-        self.gameGrid[8][12] = 99
-        self.gameGrid[7][12] = 99
-        self.gameGrid[6][12] = 99
-        self.gameGrid[6][13] = 99
-        self.gameGrid[6][14] = 99
-        self.gameGrid[6][15] = 99
-        self.gameGrid[6][16] = 99
-        self.gameGrid[6][17] = 99
-        self.gameGrid[6][18] = 99
-        self.gameGrid[6][19] = 99
-        self.gameGrid[7][19] = 99
-        self.gameGrid[8][19] = 99
-        self.gameGrid[9][19] = 99
-        self.gameGrid[9][20] = 99
-        self.gameGrid[9][21] = 99
-        self.gameGrid[9][22] = 99
-        self.gameGrid[9][23] = 99
-        self.gameGrid[9][24] = 99
-        self.gameGrid[9][25] = 99
-        self.gameGrid[9][26] = 99
-        self.gameGrid[9][27] = 99
-        self.gameGrid[9][28] = 99
-        self.gameGrid[9][29] = 99
-
-
+        else: #(if levelNumber == 1)
+            self.gameGrid[8][3] = 99
+            self.gameGrid[8][4] = 99
+            self.gameGrid[8][5] = 99
+            self.gameGrid[8][6] = 99
+            self.gameGrid[8][7] = 99
+            self.gameGrid[9][7] = 99
+            self.gameGrid[10][7] = 99
+            self.gameGrid[11][7] = 99
+            self.gameGrid[12][7] = 99
+            self.gameGrid[13][7] = 99
+            self.gameGrid[14][7] = 99
+            self.gameGrid[14][8] = 99
+            self.gameGrid[14][9] = 99
+            self.gameGrid[14][10] = 99
+            self.gameGrid[14][11] = 99
+            self.gameGrid[14][12] = 99
+            self.gameGrid[13][12] = 99
+            self.gameGrid[12][12] = 99
+            self.gameGrid[11][12] = 99
+            self.gameGrid[10][12] = 99
+            self.gameGrid[9][12] = 99
+            self.gameGrid[8][12] = 99
+            self.gameGrid[7][12] = 99
+            self.gameGrid[6][12] = 99
+            self.gameGrid[6][13] = 99
+            self.gameGrid[6][14] = 99
+            self.gameGrid[6][15] = 99
+            self.gameGrid[6][16] = 99
+            self.gameGrid[6][17] = 99
+            self.gameGrid[6][18] = 99
+            self.gameGrid[6][19] = 99
+            self.gameGrid[7][19] = 99
+            self.gameGrid[8][19] = 99
+            self.gameGrid[9][19] = 99
+            self.gameGrid[9][20] = 99
+            self.gameGrid[9][21] = 99
+            self.gameGrid[9][22] = 99
+            self.gameGrid[9][23] = 99
+            self.gameGrid[9][24] = 99
+            self.gameGrid[9][25] = 99
+            self.gameGrid[9][26] = 99
+            self.gameGrid[9][27] = 99
+            self.gameGrid[9][28] = 99
+            self.gameGrid[9][29] = 99
         self.startTile = [8, 2]
         self.endTile = [9, 29]
         self.movePath = actions.MoveBy((0,0))
         self.loadPath()
+
+
         self.levelMapName = "lvl" + str(levelNumber)
         self.loadMap()
         self.displayEntities()
