@@ -21,10 +21,14 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.diedEnemies = 0
         self.towers = []
         self.projectiles = []
-        clock.schedule(self.hasEnemyReachedEnd)
+        self.schedule(self.update)
         
+        #update runs every tick
+    def update(self, dt):
+        self.hasEnemyReachedEnd()
+
     def nextWave(self, waveNumber):
-        clock.schedule_interval(self.addEnemy, 1.5)
+        self.schedule_interval(self.addEnemy, 1.5)
         self.spawnedEnemies = 0
         self.diedEnemies = 0
 
@@ -45,7 +49,9 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         target.healthPoints -= projectile.damage
         self.remove(projectile)
         self.projectiles.remove(projectile)
+        target.updateHealthBar()
         if target in self.enemies and target.healthPoints <= 0:
+            self.remove(target.healthBar)
             self.remove(target)
             self.enemies.remove(target)
             self.diedEnemies += 1
@@ -56,7 +62,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             #TODO: change hardcoded enemies per wave number
             # to be read from cfg file, wave specific
         if self.spawnedEnemies >= 10:
-            clock.unschedule(self.addEnemy)
+            self.unschedule(self.addEnemy)
             if self.diedEnemies == self.spawnedEnemies:
                 self.dispatch_event('on_next_wave')             
 
@@ -65,11 +71,11 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.enemies.append(enemy)
         self.spawnedEnemies += 1
         self.add(enemy)
-        #self.add(enemy.drawHealthBar())
+        self.add(enemy.healthBar, z = 3)
         self.isWaveFinished()
         
     # Removes enemy from entity when no action is running, ie the enemy has reached   
-    def hasEnemyReachedEnd(self, dt):
+    def hasEnemyReachedEnd(self):
         if self.enemies and not self.enemies[0].actions:
             self.dispatch_event('on_enemy_reached_goal')
             self.remove(self.enemies[0])
