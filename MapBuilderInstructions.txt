@@ -1,0 +1,11 @@
+How to use the MapBuilder:
+
+Select MapBuilder in LevelSelect menu
+Add path by click on the respective cell
+Click on path to remove it again
+Connect the two red path tiles, which should appear at beginning
+Make only logical and clear and unambiguous paths, otherwise the program may crash or the paths will be broken
+Hit Enter to save the path
+You should then get back to the MainMenu and should be able to select the new level in the levelselect (should be second option, not displayed at correct position)
+Play the Game :)
+Please tell me if something doesn\'92t work even though you followed the instructions and it should work ;)
