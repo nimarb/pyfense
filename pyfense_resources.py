@@ -19,6 +19,73 @@ def loadAnimation(filepath, spritesheet_x, spritesheet_y, width, height, duratio
   
 tower = []
 
+towerdict = {}
+enemydict = {}
+with open("data/entities.cfg") as conf_file:
+    for line in conf_file:
+        
+        line = line[:-1]
+        #Leerzeilen oder auskommentierte Zeilen auslassen
+        if line == "" or line[0] == "#":
+            continue
+        else:
+            line = line.replace(",","")
+            line = line.lower()
+            line_data = line.split(" ")
+            if line.find("tower:") != -1:
+                print("Found Tower")
+                attribute_dict = {}
+                for attribute in line_data:
+                    attribute = attribute.split(":")
+                    try:
+                        attribute[1] = float(attribute[1])
+                    except ValueError:
+                        pass
+                    if attribute[0] == "tower" or attribute[0] == "towername":
+                        towername = attribute[1]
+                    elif attribute[0] == "level" or attribute[0] == "lvl":
+                        towerlevel = attribute[1]
+                    attribute_dict[attribute[0]] = attribute[1]
+                #erstellt dict fuer neuen turm, falls nicht vorhanden
+                if towername not in towerdict:
+                    towerdict[towername] = {}
+                #prueft, ob level fuer turm schon vorhanden, wenn ja, dann fehler    
+                if towerlevel in towerdict[towername]:
+                    print("Error: Level fuer diesen Turm bereits vorhanden")
+                    break
+                #ansonsten einfuegen der attribute in das dict
+                else:
+                    try:
+                        attribute_dict["image"] = pyglet.image.load("assets/{}".format(attribute_dict["image"]), decoder=PNGImageDecoder())
+                    except FileNotFoundError:
+                        print("Error: Image not found: {}".format(attribute_dict["image"]))
+                    towerdict[towername][towerlevel] = attribute_dict
+                        
+            elif line.find("enemy:") != -1:
+                print("Found Enemy")
+                attribute_dict = {}
+                for attribute in line_data:
+                    attribute = attribute.split(":")
+                    try:
+                        attribute[1] = float(attribute[1])
+                    except ValueError:
+                        pass
+                    if attribute[0] == "enemy" or attribute[0] == "enemyname":
+                        enemyname = attribute[1]
+                    attribute_dict[attribute[0]] = attribute[1]
+                if enemyname in enemydict:
+                    print("Error: Enemy already existing")
+                    break
+                else:
+                    try:
+                        attribute_dict["image"] = pyglet.image.load("assets/{}".format(attribute_dict["image"]), decoder=PNGImageDecoder())
+                    except FileNotFoundError:
+                        print("Error: Image not found: {}".format(attribute_dict["image"]))
+                    enemydict[enemyname] = attribute_dict
+            else:
+                print("not defined")   
+                
+"""                
 tower.append({
     "image" : loadImage("assets/tower0.png"),
     "image_up1" : loadImage("assets/tower01.png"),
@@ -57,7 +124,7 @@ tower.append({
     "projectileVelocity" : 1000,
     "cost" : 100
 })    
-
+"""
 noCashOverlay = loadImage("assets/tower-nocashoverlay.png")
     
 background = {
@@ -66,11 +133,11 @@ background = {
     "lvl3" : loadImage("assets/lvl3.png"),
     "lvl4" : loadImage("assets/lvl4.png")
                }
-               
+"""               
 enemy = []
 enemy.append(loadImage("assets/enemy0.png"))
 enemy.append(loadImage("assets/enemy1.png"))
-
+"""
 projectile = loadImage("assets/projectile0.png")
 
 selector0 = loadImage("assets/selector0.png")
