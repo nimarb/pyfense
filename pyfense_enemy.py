@@ -10,13 +10,11 @@ import pyfense_resources
 class PyFenseEnemy(sprite.Sprite):
     def __init__(self, lvl, wave, path):
         # TODO: Different assets and values for stronger enemies to be loaded from textfile
-
-        self.healthPointsMax = 40
-
         self.currentPos = (110, 500) 
         image = pyfense_resources.enemy[0]
         super(PyFenseEnemy, self).__init__(image, position = self.currentPos, scale = 1.5)
-        self.healthPoints = 40
+        self.healthPointsMax = 100
+        self.healthPoints = 100
         self.speed = 10
         self.reward = 20
         self.damage = 1
