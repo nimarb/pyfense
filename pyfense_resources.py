@@ -47,10 +47,10 @@ with open("data/entities.cfg") as conf_file:
                         towerlevel = attribute[1]
                     attribute_dict[attribute[0]] = attribute[1]
                 #erstellt dict fuer neuen turm, falls nicht vorhanden
-                if towername not in towerdict:
-                    towerdict[towername] = {}
+                if towername not in tower:
+                    tower[towername] = {}
                 #prueft, ob level fuer turm schon vorhanden, wenn ja, dann fehler    
-                if towerlevel in towerdict[towername]:
+                if towerlevel in tower[towername]:
                     print("Error: Level fuer diesen Turm bereits vorhanden")
                     break
                 #ansonsten einfuegen der attribute in das dict
@@ -59,7 +59,7 @@ with open("data/entities.cfg") as conf_file:
                         attribute_dict["image"] = pyglet.image.load("assets/{}".format(attribute_dict["image"]), decoder=PNGImageDecoder())
                     except FileNotFoundError:
                         print("Error: Image not found: {}".format(attribute_dict["image"]))
-                    towerdict[towername][towerlevel] = attribute_dict
+                    tower[towername][towerlevel] = attribute_dict
                         
             elif line.find("enemy:") != -1:
                 print("Found Enemy")
@@ -73,7 +73,7 @@ with open("data/entities.cfg") as conf_file:
                     if attribute[0] == "enemy" or attribute[0] == "enemyname":
                         enemyname = attribute[1]
                     attribute_dict[attribute[0]] = attribute[1]
-                if enemyname in enemydict:
+                if enemyname in enemy:
                     print("Error: Enemy already existing")
                     break
                 else:
@@ -81,7 +81,7 @@ with open("data/entities.cfg") as conf_file:
                         attribute_dict["image"] = pyglet.image.load("assets/{}".format(attribute_dict["image"]), decoder=PNGImageDecoder())
                     except FileNotFoundError:
                         print("Error: Image not found: {}".format(attribute_dict["image"]))
-                    enemydict[enemyname] = attribute_dict
+                    enemy[enemyname] = attribute_dict
             else:
                 print("not defined")   
                 
