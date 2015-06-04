@@ -4,10 +4,12 @@ import pyglet
 from pyglet.image.codecs.png import PNGImageDecoder	
 
 # Loads PNG files
+
 def loadImage(filename):
-    return pyglet.image.load(filename, decoder=PNGImageDecoder())
+    return pyglet.image.load(filename) #, decoder=PNGImageDecoder())
 
 # Loads spritesheets as animation with frames from bottom left to top right
+
 def loadAnimation(filepath, spritesheet_x, spritesheet_y, width, height, duration, loop):
     spritesheet = pyglet.image.load(filepath, decoder=PNGImageDecoder())
     grid = pyglet.image.ImageGrid(spritesheet, 
@@ -76,7 +78,7 @@ projectile = loadImage("assets/projectile0.png")
 selector0 = loadImage("assets/selector0.png")
 selector1 = loadImage("assets/selector1.png")
 
-#range2000 = loadImage("assets/range2000.png")
+range2000 = loadImage("assets/range2000.png")
 
-explosion = loadAnimation('assets/explosions-pack/spritesheets/explosion-1.png', 
+explosion = loadAnimation('assets/explosion0.png', 
                    8, 1, 32, 32, 0.03, False)    
