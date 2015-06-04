@@ -14,7 +14,7 @@ class PyFenseEnemy(sprite.Sprite):
         self.healthPointsMax = 40
 
         self.currentPos = (110, 500) 
-        image = pyfense_resources.enemy[0]
+        image = pyfense_resources.enemy[0]["image"]
         super(PyFenseEnemy, self).__init__(image, position = self.currentPos, scale = 1.5)
         self.healthPoints = 40
         self.speed = 10
