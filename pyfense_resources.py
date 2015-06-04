@@ -71,7 +71,8 @@ background = {
                
 enemy = []
 enemy.append(loadImage("assets/enemy0.png"))
-enemy.append(loadImage("assets/enemy1.png"))
+enemy.append(loadAnimation('assets/enemyAnimation.png', 
+                   4, 1, 60, 60, 0.15, True) )
 
 projectile = loadImage("assets/projectile0.png")
 
@@ -82,3 +83,4 @@ range2000 = loadImage("assets/range2000.png")
 
 explosion = loadAnimation('assets/explosion0.png', 
                    8, 1, 32, 32, 0.03, False)    
+                   
