@@ -19,8 +19,8 @@ def loadAnimation(filepath, spritesheet_x, spritesheet_y, width, height, duratio
   
 tower = []
 
-towerdict = {}
-enemydict = {}
+tower = {}
+enemy = {}
 with open("data/entities.cfg") as conf_file:
     for line in conf_file:
         
