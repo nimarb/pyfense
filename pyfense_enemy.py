@@ -11,7 +11,7 @@ class PyFenseEnemy(sprite.Sprite):
     def __init__(self, lvl, wave, path):
         # TODO: Different assets and values for stronger enemies to be loaded from textfile
         self.currentPos = (110, 500) 
-        image = pyfense_resources.enemy[0]
+        image = pyfense_resources.enemy[1]
         super(PyFenseEnemy, self).__init__(image, position = self.currentPos, scale = 1.5)
         self.healthPointsMax = 100
         self.healthPoints = 100
@@ -34,13 +34,14 @@ class PyFenseEnemy(sprite.Sprite):
         self.healthBar.do(self.path)
         
     def drawHealthBar(self):
-        self.bar_x = self.x - self.width / 2 
+        self.healthBarWidth = 50
+        self.bar_x = self.x - self.healthBarWidth / 2 
         self.bar_y = self.y + self.height / 2 + 20
-        self.healthBar = cocos.draw.Line((self.bar_x, self.bar_y), (self.bar_x + self.width, self.bar_y), (0, 237, 55, 0), 3)
+        self.healthBar = cocos.draw.Line((self.bar_x, self.bar_y), (self.bar_x + self.healthBarWidth, self.bar_y), (0, 237, 55, 0), 3)
         #self.healthBar.set_endcap('BUTT_CAP')
         return self.healthBar
 
     def updateHealthBar(self):
         self.healthBar.color = (0, 237, 55, 255)
-        self.healthBar.end = (self.bar_x + self.width * (self.healthPoints/self.healthPointsMax), self.bar_y)
+        self.healthBar.end = (self.bar_x + self.healthBarWidth * (self.healthPoints/self.healthPointsMax), self.bar_y)
     
