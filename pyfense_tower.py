@@ -27,7 +27,7 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
         self.posx = position[0]
         self.posy = position[1]
         #self.fire(10)
-        self.schedule_interval(self.fire, self.firerate)
+        self.schedule_interval(self.fire, self.attributes["firerate"])
 
     def fire(self, dt):
         enemies = self.enemies
@@ -37,8 +37,8 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
             target = self.find_next_enemy(enemies)
             if (target is not None):
                 self.dispatch_event('on_projectile_fired', self, target, 
-                                    self.attributes[projectileVelocity],
-                                    self.attributes[damage])
+                                    self.attributes["projectilevelocity"],
+                                    self.attributes["damage"])
     def distance(self, a, b):
         return math.sqrt((b.x - a.x)**2 + (b.y-a.y)**2)
 
