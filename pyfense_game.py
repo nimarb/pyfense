@@ -157,7 +157,7 @@ class PyFenseGame(scene.Scene):
         return self.gameGrid[grid_y][grid_x]
 
     def on_enemy_death(self, enemy):
-        self.currentCurrency += enemy.worth
+        self.currentCurrency += enemy.attributes["worth"]
         self.hud.updateCurrencyNumber(self.currentCurrency)
 
     def on_user_mouse_motion(self, x, y):
