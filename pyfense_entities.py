@@ -38,7 +38,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
     def buildTower(self, tower):
         tower.push_handlers(self)
         self.towers.append(tower)
-        self.add(tower, z=1)
+        self.add(tower, z = 0)
         return tower.cost
 
     def on_projectile_fired(self, tower, target, projectileVelocity, damage):
@@ -73,7 +73,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         enemy = PyFenseEnemy(1, 1, path)
         self.enemies.append(enemy)
         self.spawnedEnemies += 1
-        self.add(enemy)
+        self.add(enemy, z = 1)
         self.add(enemy.healthBar, z = 3)
         self.isWaveFinished()
         
