@@ -31,7 +31,6 @@ with open("data/entities.cfg") as conf_file:
             line = line.lower()
             line_data = line.split(" ")
             if line.find("tower:") != -1:
-                print("Found Tower")
                 attribute_dict = {}
                 for attribute in line_data:
                     attribute = attribute.split(":")
@@ -60,7 +59,6 @@ with open("data/entities.cfg") as conf_file:
                     tower[towername][towerlevel] = attribute_dict
                         
             elif line.find("enemy:") != -1:
-                print("Found Enemy")
                 attribute_dict = {}
                 for attribute in line_data:
                     attribute = attribute.split(":")
