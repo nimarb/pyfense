@@ -11,6 +11,8 @@ from pyfense_enemy import *
 from pyfense_projectile import *
 from pyfense_hud import *
 
+#Just for testing different enemies
+import random
 
 class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
     is_event_handler = True
@@ -38,8 +40,8 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
     def buildTower(self, tower):
         tower.push_handlers(self)
         self.towers.append(tower)
-        self.add(tower, z = 0)
-        return tower.cost
+        self.add(tower, z=0)
+        return tower.attributes["cost"]
 
     def on_projectile_fired(self, tower, target, projectileVelocity, damage):
         projectile = PyFenseProjectile(tower, target, projectileVelocity, damage)
@@ -70,7 +72,9 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self.dispatch_event('on_next_wave')             
 
     def addEnemy(self, dt, path):
-        enemy = PyFenseEnemy(1, 1, path)
+        #Just for testing different enemies
+        number = random.randint(0,1)
+        enemy = PyFenseEnemy(number, 1, 1, path)
         self.enemies.append(enemy)
         self.spawnedEnemies += 1
         self.add(enemy, z = 1)
