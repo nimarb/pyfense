@@ -82,6 +82,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         if self.enemies and not self.enemies[0].actions:
             self.dispatch_event('on_enemy_reached_goal')
             self.remove(self.enemies[0])
+            self.remove(self.enemies[0].healthBar)
             self.enemies.remove(self.enemies[0])
             self.diedEnemies += 1
             self.isWaveFinished()
