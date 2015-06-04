@@ -10,16 +10,13 @@ import pyfense_resources
 class PyFenseEnemy(sprite.Sprite):
     def __init__(self, lvl, wave, path):
         # TODO: Different assets and values for stronger enemies to be loaded from textfile
+        enemyname = 0
+        self.attributes = pyfense_resources.enemy[enemyname]
         self.currentPos = (110, 500) 
-        image = pyfense_resources.enemy[1]
-        super(PyFenseEnemy, self).__init__(image, position = self.currentPos, scale = 2)
-        self.healthPointsMax = 100
-        self.healthPoints = 100
-        self.speed = 10
-        self.reward = 20
-        self.damage = 1
-        self.worth = 5
+        texture = self.attributes["image"]
+        super(PyFenseEnemy, self).__init__(texture, position = self.currentPos, scale = 2)
         self.path = path
+        self.healthPoints = self.attributes["maxhealth"]
         self.healthBar = self.drawHealthBar()
         self.move(lvl)
 
@@ -43,5 +40,5 @@ class PyFenseEnemy(sprite.Sprite):
 
     def updateHealthBar(self):
         self.healthBar.color = (0, 237, 55, 255)
-        self.healthBar.end = (self.bar_x + self.healthBarWidth * (self.healthPoints/self.healthPointsMax), self.bar_y)
+        self.healthBar.end = (self.bar_x + self.healthBarWidth * (self.healthPoints/self.attributes["maxhealth"]), self.bar_y)
     

@@ -19,9 +19,9 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         #load tower sprites here, so that they only have to be loaded once
         #TODO: create a loop to load images
         #TODO: gracefully fail if pictures fail to load? (try/catch)
-        self.towerThumbnail1 = cocos.sprite.Sprite(pyfense_resources.tower[0]["image"])
-        self.towerThumbnail2 = cocos.sprite.Sprite(pyfense_resources.tower[1]["image"])
-        self.towerThumbnail3 = cocos.sprite.Sprite(pyfense_resources.tower[2]["image"])
+        self.towerThumbnail1 = cocos.sprite.Sprite(pyfense_resources.tower[0][1]["image"])
+        self.towerThumbnail2 = cocos.sprite.Sprite(pyfense_resources.tower[1][1]["image"])
+        self.towerThumbnail3 = cocos.sprite.Sprite(pyfense_resources.tower[2][1]["image"])
         self.towerThumbnails = [self.towerThumbnail1, self.towerThumbnail2, self.towerThumbnail3]
         self.noCashOverlay1 = cocos.sprite.Sprite(pyfense_resources.noCashOverlay)
         self.noCashOverlay2 = cocos.sprite.Sprite(pyfense_resources.noCashOverlay)
@@ -116,7 +116,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 #ATTENTION, cocos2d always draws the CENTER of the sprite at the specified location
                 self.towerThumbnails[picture].position = (self.menuMin_x + picture*self.towerThumbnails[picture].width + self.towerThumbnails[picture].width/2, y)
                 self.add(self.towerThumbnails[picture])
-                if self.currentCurrency < pyfense_resources.tower[picture]['cost']:
+                if self.currentCurrency < pyfense_resources.tower[picture][1]['cost']:
                     self.add(self.noCashOverlays[picture])
                     self.noCashOverlays[picture].position = (self.menuMin_x + picture*self.towerThumbnails[picture].width + self.towerThumbnails[picture].width/2, y)
                     self.noCashOverlays[picture].opacity = 127

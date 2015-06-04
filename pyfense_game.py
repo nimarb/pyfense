@@ -157,7 +157,7 @@ class PyFenseGame(scene.Scene):
         return self.gameGrid[grid_y][grid_x]
 
     def on_enemy_death(self, enemy):
-        self.currentCurrency += enemy.worth
+        self.currentCurrency += enemy.attributes["worth"]
         self.hud.updateCurrencyNumber(self.currentCurrency)
 
     def on_user_mouse_motion(self, x, y):
@@ -167,7 +167,7 @@ class PyFenseGame(scene.Scene):
         #TODO: check if tower can be build here?
         #TODO: check if sufficient currency available to build tower
         tower = PyFenseTower(self.entityMap.enemies, towerNumber, (pos_x, pos_y))
-        if tower.cost > self.currentCurrency:
+        if tower.attributes["cost"] > self.currentCurrency:
             print("not enough cash, building tower failed")
             return
         self.currentCurrency -= self.entityMap.buildTower(tower)
