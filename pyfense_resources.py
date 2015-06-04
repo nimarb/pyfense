@@ -55,7 +55,7 @@ with open("data/entities.cfg") as conf_file:
                 #ansonsten einfuegen der attribute in das dict
                 else:
                     try:
-                        attribute_dict["image"] = pyglet.image.load("assets/{}".format(attribute_dict["image"]), decoder=PNGImageDecoder())
+                        attribute_dict["image"] = loadImage("assets/{}".format(attribute_dict["image"]))
                     except FileNotFoundError:
                         print("Error: Image not found: {}".format(attribute_dict["image"]))
                     tower[towername][towerlevel] = attribute_dict
@@ -76,7 +76,7 @@ with open("data/entities.cfg") as conf_file:
                     break
                 else:
                     try:
-                        attribute_dict["image"] = pyglet.image.load("assets/{}".format(attribute_dict["image"]), decoder=PNGImageDecoder())
+                        attribute_dict["image"] = loadAnimation("assets/{}".format(attribute_dict["image"]),  4, 1, 60, 60, 0.15, True)
                     except FileNotFoundError:
                         print("Error: Image not found: {}".format(attribute_dict["image"]))
                     enemy[enemyname] = attribute_dict
