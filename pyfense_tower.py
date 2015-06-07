@@ -11,6 +11,7 @@ import pyfense_entities
 from pyfense_entities import *
 
 
+
 # The towers with dummy values
 # Is a cocos.sprite.Sprite
 # Needs position in tuple (posx,posy)
@@ -26,26 +27,38 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
         self.posx = position[0]
         self.posy = position[1]
         self.rotation = 0
-        self.target = self.find_next_enemy()
-        self.schedule_interval(self.fire, self.attributes["firerate"])
+        self.target = None
+        self.counter = 0
+        self.canFire = True
+        self.schedule(lambda dt: self.fire())
+        #clock.schedule_once(lambda dt: self.fire(), 0.01)
         self.schedule(lambda dt: self.find_next_enemy())
         self.schedule(lambda dt: self.rotateToTarget())
-        
+        #self.schedule_interval(lambda dt: self.fire(), self.attributes["firerate"])
 
-    def fire(self, dt):
-        if(not self.enemies):  # <- if enemies is not empty
+    def fire(self):
+        if (not self.enemies) or not self.target:  
             pass
-        else:
-            if (self.target is not None):
-                self.dispatch_event('on_projectile_fired', self, self.target, 
+        elif self.canFire:
+            self.canFire = False
+            self.dispatch_event('on_projectile_fired', self, self.target, 
                                     self.attributes["projectilevelocity"],
                                     self.attributes["damage"])
+            self.schedule_interval(self.fireInterval, self.attributes['firerate'])                                    
+                               
+    # Fire the projectile only after firerate interval                                
+    def fireInterval(self, dt):
+        if self.canFire == False:
+            self.canFire = True
+            self.unschedule(self.fireInterval)                                    
+                                    
     def distance(self, a, b):
         return math.sqrt((b.x - a.x)**2 + (b.y-a.y)**2)
 
     # find the next enemy (that should be attacked next)
     # either first enemy in range or nearest Enemy
     # standardvalue is first
+    
     def find_next_enemy(self, mode="first"):
         self.target = None
         self.dist = self.attributes["range"]
