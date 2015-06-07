@@ -1,4 +1,4 @@
-#projectile class
+# projectile class
 
 import cocos
 from cocos import sprite
@@ -13,29 +13,28 @@ import pyfense_resources
 
 class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
     is_event_handler = True
-    
+
     def __init__(self, towerParent, target, velocity, damage):
         projectilePng = pyfense_resources.projectile
-        super().__init__(projectilePng, position = towerParent.position, 
-                                            scale = 0.3)
+        super().__init__(projectilePng, position=towerParent.position,
+                         scale=0.3)
         self.moveVel(self, target, velocity)
         self.damage = damage
         clock.schedule_once(self.dispatchHitEvent, self.duration, target)
-        
+
         # Dispatch event, when enemy is hit
     def dispatchHitEvent(self, dt, target):
-        self.dispatch_event('on_enemy_hit', self, target) 
+        self.dispatch_event('on_enemy_hit', self, target)
 
-        
-    # Move to position of target with certain velocity    
+    # Move to position of target with certain velocity
     def moveVel(self, projectile, target, velocity):
         dist = self.distance(target.position, self.position)
         self.duration = dist/velocity
         projectile.do(MoveTo(target.position, self.duration))
-        
+
     def distance(self, a, b):
-        return math.sqrt( (b[0] - a[0])**2 + (b[1]-a[1])**2)
-        
+        return math.sqrt((b[0] - a[0])**2 + (b[1]-a[1])**2)
+
 #    def startAnimation(self, entityParent, position):
 #        #ANIMATION FOR EXPLOSION
 #        # load the example explosion as a pyglet image
@@ -43,7 +42,7 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
 #        'assets/explosions-pack/spritesheets/explosion-1.png',
 #        decoder=PNGImageDecoder())
 #        # use ImageGrid to divide your sprite sheet into smaller regions
-#        grid = pyglet.image.ImageGrid(spritesheet, 
+#        grid = pyglet.image.ImageGrid(spritesheet,
 #                                      1, 8, item_width=32, item_height=32)
 #        # convert to TextureGrid for memory efficiency
 #        textures = pyglet.image.TextureGrid(grid)
@@ -59,6 +58,6 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
 #        explosionSprite = cocos.sprite.Sprite(explosion)
 #        explosionSprite.position = position
 #        explosionSprite.scale = 2
-#        entityParent.add(explosionSprite, z=2) 
-        
-PyFenseProjectile.register_event_type('on_enemy_hit')        
+#        entityParent.add(explosionSprite, z=2)
+
+PyFenseProjectile.register_event_type('on_enemy_hit')

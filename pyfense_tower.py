@@ -21,12 +21,13 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
         self.attributes = pyfense_resources.tower[towerNumber][1]
         texture = self.attributes["image"]
         super().__init__(texture, position)
-        # Entity is parent class, that has called the tower, weakref.ref() makes it garbage collector safe
+        # Entity is parent class, that has called the tower,
+        # weakref.ref() makes it garbage collector safe
         # self.entityParent = weakref.ref(entityParent)
         self.enemies = enemies
         self.posx = position[0]
         self.posy = position[1]
-        #self.fire(10)
+        # self.fire(10)
         self.schedule_interval(self.fire, self.attributes["firerate"])
 
     def fire(self, dt):
@@ -36,9 +37,10 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
         else:
             target = self.find_next_enemy(enemies)
             if (target is not None):
-                self.dispatch_event('on_projectile_fired', self, target, 
+                self.dispatch_event('on_projectile_fired', self, target,
                                     self.attributes["projectilevelocity"],
                                     self.attributes["damage"])
+
     def distance(self, a, b):
         return math.sqrt((b.x - a.x)**2 + (b.y-a.y)**2)
 
@@ -49,8 +51,8 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
         nextEnemy = None
         self.dist = self.attributes["range"]
         for enemy in enemies:
-            if(enemy.x < cocos.director.director.get_window_size()[0]
-               and  # Enemy still in window
+            if(enemy.x < cocos.director.director.get_window_size()[0] and
+               # Enemy still in window
                enemy.y < cocos.director.director.get_window_size()[1]):
                 # Distance to enemy smaller than range
                 if (self.distance(enemy, self) < self.attributes["range"]):

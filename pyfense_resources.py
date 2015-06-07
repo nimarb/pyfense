@@ -1,35 +1,39 @@
-# Assets are loaded in this file and used throughout the application efficiently
+# Assets are loaded in this file and used throughout the 
+# application efficiently
 
 import pyglet
-from pyglet.image.codecs.png import PNGImageDecoder	
+from pyglet.image.codecs.png import PNGImageDecoder
 
 # Loads PNG files
 
+
 def loadImage(filename):
-    return pyglet.image.load(filename) #, decoder=PNGImageDecoder())
+    return pyglet.image.load(filename)  # , decoder=PNGImageDecoder())
 
 # Loads spritesheets as animation with frames from bottom left to top right
 
-def loadAnimation(filepath, spritesheet_x, spritesheet_y, width, height, duration, loop):
+
+def loadAnimation(filepath, spritesheet_x, spritesheet_y, width,
+                  height, duration, loop):
     spritesheet = pyglet.image.load(filepath, decoder=PNGImageDecoder())
-    grid = pyglet.image.ImageGrid(spritesheet, 
-                              spritesheet_y, spritesheet_x, item_width=width, item_height=width)
+    grid = pyglet.image.ImageGrid(spritesheet, spritesheet_y, spritesheet_x,
+                                  item_width=width, item_height=width)
     textures = pyglet.image.TextureGrid(grid)
     images = textures[0:len(textures)]
     return pyglet.image.Animation.from_image_sequence(
-            images, duration, loop=loop)                      
+            images, duration, loop=loop)            
 
 tower = {}
 enemy = {}
 with open("data/entities.cfg") as conf_file:
     for line in conf_file:
-        
+
         line = line[:-1]
-        #Leerzeilen oder auskommentierte Zeilen auslassen
+        # Leerzeilen oder auskommentierte Zeilen auslassen
         if line == "" or line[0] == "#":
             continue
         else:
-            line = line.replace(",","")
+            line = line.replace(",", "")
             line = line.lower()
             line_data = line.split(" ")
             if line.find("tower:") != -1:
@@ -45,21 +49,23 @@ with open("data/entities.cfg") as conf_file:
                     elif attribute[0] == "level" or attribute[0] == "lvl":
                         towerlevel = attribute[1]
                     attribute_dict[attribute[0]] = attribute[1]
-                #erstellt dict fuer neuen turm, falls nicht vorhanden
+                # erstellt dict fuer neuen turm, falls nicht vorhanden
                 if towername not in tower:
                     tower[towername] = {}
-                #prueft, ob level fuer turm schon vorhanden, wenn ja, dann fehler    
+                # prueft, ob level fuer turm schon vorhanden, wenn ja, dann fehler    
                 if towerlevel in tower[towername]:
                     print("Error: Level fuer diesen Turm bereits vorhanden")
                     break
-                #ansonsten einfuegen der attribute in das dict
+                # ansonsten einfuegen der attribute in das dict
                 else:
                     try:
-                        attribute_dict["image"] = loadImage("assets/{}".format(attribute_dict["image"]))
+                        attribute_dict["image"] = loadImage(
+                            "assets/{}".format(attribute_dict["image"]))
                     except FileNotFoundError:
-                        print("Error: Image not found: {}".format(attribute_dict["image"]))
+                        print("Error: Image not found: {}".format(
+                            attribute_dict["image"]))
                     tower[towername][towerlevel] = attribute_dict
-                        
+
             elif line.find("enemy:") != -1:
                 attribute_dict = {}
                 for attribute in line_data:
@@ -76,14 +82,17 @@ with open("data/entities.cfg") as conf_file:
                     break
                 else:
                     try:
-                        attribute_dict["image"] = loadAnimation("assets/{}".format(attribute_dict["image"]),  4, 1, 60, 60, 0.15, True)
+                        attribute_dict["image"] = loadAnimation(
+                            "assets/{}".format(attribute_dict["image"]),
+                            4, 1, 60, 60, 0.15, True)
                     except FileNotFoundError:
-                        print("Error: Image not found: {}".format(attribute_dict["image"]))
+                        print("Error: Image not found: {}".format(
+                            attribute_dict["image"]))
                     enemy[enemyname] = attribute_dict
             else:
-                print("not defined")   
-                
-"""                
+                print("not defined")
+
+"""
 tower.append({
     "image" : loadImage("assets/tower0.png"),
     "image_up1" : loadImage("assets/tower01.png"),
@@ -103,7 +112,7 @@ tower.append({
     "cost" : 100,
     "cost_up1" : 250,
     "cost_up2" : 400
-})    
+})
 
 tower.append({
     "image" : loadImage("assets/tower1.png"),
@@ -112,7 +121,7 @@ tower.append({
     "firerate" : 1,
     "projectileVelocity" : 1000,
     "cost" : 100
-})    
+})
 
 tower.append({
     "image" : loadImage("assets/tower2.png"),
@@ -121,21 +130,21 @@ tower.append({
     "firerate" : 1,
     "projectileVelocity" : 1000,
     "cost" : 100
-})    
+})
 """
 noCashOverlay = loadImage("assets/tower-nocashoverlay.png")
-    
+
 background = {
-    "lvl1" : loadImage("assets/lvl1.png"),
-    "lvl2" : loadImage("assets/lvl2.png"),
-    "lvl3" : loadImage("assets/lvl3.png"),
-    "lvl4" : loadImage("assets/lvl4.png")
+    "lvl1": loadImage("assets/lvl1.png"),
+    "lvl2": loadImage("assets/lvl2.png"),
+    "lvl3": loadImage("assets/lvl3.png"),
+    "lvl4": loadImage("assets/lvl4.png")
                }
-"""               
+"""
 enemy = []
 enemy.append(loadImage("assets/enemy0.png"))
-enemy.append(loadAnimation('assets/enemyAnimation.png', 
-                   4, 1, 60, 60, 0.15, True) )
+enemy.append(loadAnimation('assets/enemyAnimation.png',
+                           4, 1, 60, 60, 0.15, True) )
 """
 
 projectile = loadImage("assets/projectile0.png")
@@ -145,6 +154,5 @@ selector1 = loadImage("assets/selector1.png")
 
 range2000 = loadImage("assets/range2000.png")
 
-explosion = loadAnimation('assets/explosion0.png', 
-                   8, 1, 32, 32, 0.03, False)    
-                   
+explosion = loadAnimation('assets/explosion0.png',
+                          8, 1, 32, 32, 0.03, False)
