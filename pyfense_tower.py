@@ -1,14 +1,15 @@
 import cocos
 from cocos import sprite
+from cocos.actions import *
 import pyglet
 from pyglet import clock
-from pyglet.image.codecs.png import PNGImageDecoder
 import weakref
 import math
 import pyfense_resources
 
 import pyfense_entities
 from pyfense_entities import *
+
 
 
 # The towers with dummy values
@@ -19,82 +20,91 @@ from pyfense_entities import *
 class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
     def __init__(self, enemies, towerNumber, position):
         is_event_handler = True
-        texture = pyfense_resources.tower[towerNumber]["image"]
+        self.attributes = pyfense_resources.tower[towerNumber][1]
+        texture = self.attributes["image"]
         super().__init__(texture, position)
-        # Entity is parent class, that has called the tower, weakref.ref() makes it garbage collector safe
-        # self.entityParent = weakref.ref(entityParent)
         self.enemies = enemies
-        self.damage = 10
-        self.rangeradius = 400
-        self.firerate = 1
-        self.projectileVelocity = 1000
-        self.level = 1
         self.posx = position[0]
         self.posy = position[1]
-        self.cost = 100
-        #self.fire(10)
-        clock.schedule_interval(self.fire, self.firerate)
+        self.rotation = 0
+        self.target = None
+        self.counter = 0
+        self.canFire = True
+        self.schedule(lambda dt: self.fire())
+        #clock.schedule_once(lambda dt: self.fire(), 0.01)
+        self.schedule(lambda dt: self.find_next_enemy())
+        self.schedule(lambda dt: self.rotateToTarget())
 
-    def fire(self, dt):
-        enemies = self.enemies
-        if(not enemies):  # <- if enemies is not empty
+    def fire(self):
+        if (not self.enemies) or not self.target:  
             pass
-        else:
-            target = self.find_next_enemy(enemies)
-            if (target is not None):
-                self.dispatch_event('on_projectile_fired', self,
-                                    target, self.projectileVelocity, self.damage)
+        elif self.canFire:
+            self.canFire = False
+            self.dispatch_event('on_projectile_fired', self, self.target, 
+                                    self.attributes["projectilevelocity"],
+                                    self.attributes["damage"])
+            clock.schedule_once(self.fireInterval, self.attributes['firerate'])                                    
+                               
+    # Fire the projectile only after firerate interval                                
+    def fireInterval(self, dt):
+        if self.canFire == False:
+            self.canFire = True
+
+            
     def distance(self, a, b):
         return math.sqrt((b.x - a.x)**2 + (b.y-a.y)**2)
 
     # find the next enemy (that should be attacked next)
     # either first enemy in range or nearest Enemy
     # standardvalue is first
-    def find_next_enemy(self, enemies, mode="first"):
-        nextEnemy = None
-        self.dist = self.rangeradius
-        for enemy in enemies:
-            if(enemy.x < cocos.director.director.get_window_size()[0]
-               and  # Enemy still in window
+    
+    def find_next_enemy(self, mode="first"):
+        self.target = None
+        self.dist = self.attributes["range"]
+        for enemy in self.enemies:
+            if(enemy.x < cocos.director.director.get_window_size()[0] and
+               # Enemy still in window
                enemy.y < cocos.director.director.get_window_size()[1]):
                 # Distance to enemy smaller than range
-                if (self.distance(enemy, self) < self.rangeradius):
+                if (self.distance(enemy, self) < self.attributes["range"]):
                     if(mode == "nearest"):
                         # Check for nearest Enemy
                         # Distance smaller than previous smallest distance
                         if(self.distance(enemy, self) < self.dist):
-                            nextEnemy = enemy
+                            self.target = enemy
                             self.dist = self.distance(enemy, self)
                     elif(mode == "first"):
                         # first Enemy in list, which is in range is the target
-                        nextEnemy = enemy
+                        self.target = enemy
                         break
-        return nextEnemy
+
+    def rotateToTarget(self):
+        if self.target:
+            x = self.target.x - self.x
+            y = self.target.y - self.y
+            # should actually be atan2(y, x), but then the angle is wrong
+            angle = math.degrees(math.atan2(x, y))
+            self.rotation = angle
 
     # get the current values of this tower
     def get_values(self):
-        values = [self.level, self.damage, self.rangeradius, self.firerate,
-                  self.cost]
-        return values
+        return attributes
 
     # get the values of this tower thatwould be after an upgrade
     def get_previewvalues(self):
-        preview_level = self.level+1
-        preview_damage = self.damage + self.level*2
-        preview_firerate = self.firerate + 1
-        preview_rangeradius = self.rangeradius + 2
-        preview_cost = self.cost*2
-        preview_values = [preview_level, preview_damage, preview_firerate,
-                          preview_rangeradius, preview_cost]
-        return preview_values
+        towername = self.attributes["tower"]
+        level = self.attributes["lvl"]
+        if level+1 in pyfense_resources.tower[towername]:
+            preview_attributes = pyfense_resources.tower[tower][level+1]
+        else:
+            print("Highest Level reached, no upgrade possible")
+            preview_attributes = {}
+        return preview_attributes
 
     # upgrade this tower and increase the values
     def upgrade_Tower(self):
-        values = self.get_previewvalues()
-        self.level = values[0]
-        self.damage = values[1]
-        self.firerate = values[2]
-        self.rangeradius = values[3]
-        self.cost = values[4]
+        preview_attributes = get_preview_attributes()
+        if preview_attributes != {}:
+            self.attributes = preview_attributes
 
 PyFenseTower.register_event_type('on_projectile_fired')
