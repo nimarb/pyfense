@@ -2,7 +2,7 @@ import cocos
 from cocos import sprite
 from cocos.actions import *
 import pyglet
-from pyglet.image.codecs.png import PNGImageDecoder
+from pyglet import clock
 import weakref
 import math
 import pyfense_resources
@@ -43,13 +43,13 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
             self.dispatch_event('on_projectile_fired', self, self.target, 
                                     self.attributes["projectilevelocity"],
                                     self.attributes["damage"])
-            self.schedule_interval(self.fireInterval, self.attributes['firerate'])                                    
+            clock.schedule_once(self.fireInterval, self.attributes['firerate'])                                    
                                
     # Fire the projectile only after firerate interval                                
     def fireInterval(self, dt):
         if self.canFire == False:
             self.canFire = True
-            self.unschedule(self.fireInterval)   
+
             
     def distance(self, a, b):
         return math.sqrt((b.x - a.x)**2 + (b.y-a.y)**2)
