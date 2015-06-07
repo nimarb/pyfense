@@ -11,11 +11,13 @@ from pyfense_enemy import *
 from pyfense_projectile import *
 from pyfense_hud import *
 
-#Just for testing different enemies
+# Just for testing different enemies
 import random
+
 
 class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
     is_event_handler = True
+
     def __init__(self, path):
         super().__init__()
         self.enemies = []
@@ -26,8 +28,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.schedule(self.update)
         self.path = path
 
-        
-        #update runs every tick
+        # update runs every tick
     def update(self, dt):
         self.hasEnemyReachedEnd()
 
@@ -44,7 +45,8 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         return tower.attributes["cost"]
 
     def on_projectile_fired(self, tower, target, projectileVelocity, damage):
-        projectile = PyFenseProjectile(tower, target, projectileVelocity, damage)
+        projectile = PyFenseProjectile(tower, target, projectileVelocity,
+                                       damage)
         self.projectiles.append(projectile)
         projectile.push_handlers(self)
         self.add(projectile, z=2)
@@ -62,26 +64,27 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.diedEnemies += 1
             self.dispatch_event('on_enemy_death', target)
             self.isWaveFinished()
-                
+
     def isWaveFinished(self):
-            #TODO: change hardcoded enemies per wave number
+            # TODO: change hardcoded enemies per wave number
             # to be read from cfg file, wave specific
         if self.spawnedEnemies >= 10:
             self.unschedule(self.addEnemy)
             if self.diedEnemies == self.spawnedEnemies:
-                self.dispatch_event('on_next_wave')             
+                self.dispatch_event('on_next_wave')
 
     def addEnemy(self, dt, path):
-        #Just for testing different enemies
-        number = random.randint(0,1)
+        # Just for testing different enemies
+        number = random.randint(0, 1)
         enemy = PyFenseEnemy(number, 1, 1, path)
         self.enemies.append(enemy)
         self.spawnedEnemies += 1
-        self.add(enemy, z = 1)
-        self.add(enemy.healthBar, z = 3)
+        self.add(enemy, z=1)
+        self.add(enemy.healthBar, z=3)
         self.isWaveFinished()
-        
-    # Removes enemy from entity when no action is running, ie the enemy has reached   
+
+    # Removes enemy from entity when no action is running,
+    # ie the enemy has reached
     def hasEnemyReachedEnd(self):
         if self.enemies and not self.enemies[0].actions:
             self.dispatch_event('on_enemy_reached_goal')
@@ -90,15 +93,16 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.enemies.remove(self.enemies[0])
             self.diedEnemies += 1
             self.isWaveFinished()
-        
+
     def startAnimation(self, position):
         explosionSprite = cocos.sprite.Sprite(pyfense_resources.explosion)
         explosionSprite.push_handlers(self)
         explosionSprite.position = position
         explosionSprite.scale = 2
         self.add(explosionSprite, z=2)
-        clock.schedule_once(lambda dt, x: self.remove(x), 8*0.03, explosionSprite)                  
-        
+        clock.schedule_once(lambda dt, x: self.remove(x), 8*0.03,
+                            explosionSprite)
+
 PyFenseEntities.register_event_type('on_next_wave')
 PyFenseEntities.register_event_type('on_enemy_death')
 PyFenseEntities.register_event_type('on_enemy_reached_goal')
