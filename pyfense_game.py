@@ -11,19 +11,21 @@ from pyfense_map import *
 from pyfense_entities import *
 from pyfense_hud import *
 
+
 class PyFenseGame(scene.Scene):
     def __init__(self, levelNumber):
         super().__init__()
-        #initialise game grid to store where enemies can walk,
+        # initialise game grid to store where enemies can walk,
         # towers can be build and where towers are already built
-        #one grid cell is 60x60px large (full hd resolution scale)
-        #gameGrid can be called by using gameGrid[y][x]
-        #key:
-        #0 := no tower can be build, no enemy can walk
-        #1 := no tower can be build, enemy can walk
-        #2 := tower can be build, no enemy can walk
-        #3 := tower has been built, no enemy can walk, no tower can be build (can upgrade (?))
-        self.gameGrid = [[0 for x in range (32)] for x in range(18)]
+        # one grid cell is 60x60px large (full hd resolution scale)
+        # gameGrid can be called by using gameGrid[y][x]
+        # key:
+        # 0 := no tower can be build, no enemy can walk
+        # 1 := no tower can be build, enemy can walk
+        # 2 := tower can be build, no enemy can walk
+        # 3 := tower has been built, no enemy can walk,
+        # no tower can be build (can upgrade (?))
+        self.gameGrid = [[0 for x in range(32)] for x in range(18)]
 
         self.gameGrid[8][3] = 99
         self.gameGrid[8][4] = 99
@@ -70,10 +72,9 @@ class PyFenseGame(scene.Scene):
         self.gameGrid[9][28] = 99
         self.gameGrid[9][29] = 99
 
-
         self.startTile = [8, 2]
         self.endTile = [9, 29]
-        self.movePath = actions.MoveBy((0,0))
+        self.movePath = actions.MoveBy((0, 0))
         self.loadPath()
         self.levelMapName = "lvl" + str(levelNumber)
         self.loadMap()
@@ -83,32 +84,32 @@ class PyFenseGame(scene.Scene):
         self.currentLives = 30
         self.currentCurrency = 500
 
-
     def loadPath(self):
         currentTile = self.startTile
-        move = actions.MoveBy((0,0), 0.1)
+        move = actions.MoveBy((0, 0), 0.1)
 
-        while(currentTile[0] != self.endTile[0] or currentTile[1] != self.endTile[1]):
+        while(currentTile[0] != self.endTile[0] or
+              currentTile[1] != self.endTile[1]):
             if(self.gameGrid[currentTile[0]][currentTile[1]-1] == 99):
-                move += actions.MoveBy((-60, 0), 0.5) #MoveLeft
+                move += actions.MoveBy((-60, 0), 0.5)  # MoveLeft
                 currentTile[1] -= 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
                 # print("moveLeft")
 
             elif(self.gameGrid[currentTile[0]][currentTile[1]+1] == 99):
-                move += actions.MoveBy((60,0), 0.5) #MoveRight
+                move += actions.MoveBy((60, 0), 0.5)   # MoveRight
                 currentTile[1] += 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
                 # print("moveRight")
 
             elif(self.gameGrid[currentTile[0]+1][currentTile[1]] == 99):
-                move += actions.MoveBy((0,60), 0.5) #MoveUp
+                move += actions.MoveBy((0, 60), 0.5)  # MoveUp
                 currentTile[0] += 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
                 # print("moveUp")
 
             elif(self.gameGrid[currentTile[0]-1][currentTile[1]] == 99):
-                move += actions.MoveBy((0,-60), 0.5) #MoveDown
+                move += actions.MoveBy((0, -60), 0.5)  # MoveDown
                 currentTile[0] -= 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
                 # print("moveDown")
@@ -149,7 +150,7 @@ class PyFenseGame(scene.Scene):
     def getGridPix(self, x, y):
         grid_x = int(x / 60)
         grid_y = int(y / 60)
-        #gracefully fail for resolution edge cases
+        # gracefully fail for resolution edge cases
         if grid_x > 31:
             grid_x = 31
         if grid_y > 17:
@@ -164,9 +165,10 @@ class PyFenseGame(scene.Scene):
         self.hud.currentCellStatus = self.getGridPix(x, y)
 
     def on_build_tower(self, towerNumber, pos_x, pos_y):
-        #TODO: check if tower can be build here?
-        #TODO: check if sufficient currency available to build tower
-        tower = PyFenseTower(self.entityMap.enemies, towerNumber, (pos_x, pos_y))
+        # TODO: check if tower can be build here?
+        # TODO: check if sufficient currency available to build tower
+        tower = PyFenseTower(self.entityMap.enemies, towerNumber,
+                             (pos_x, pos_y))
         if tower.attributes["cost"] > self.currentCurrency:
             print("not enough cash, building tower failed")
             return

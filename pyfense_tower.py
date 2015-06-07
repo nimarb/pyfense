@@ -34,7 +34,6 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
         #clock.schedule_once(lambda dt: self.fire(), 0.01)
         self.schedule(lambda dt: self.find_next_enemy())
         self.schedule(lambda dt: self.rotateToTarget())
-        #self.schedule_interval(lambda dt: self.fire(), self.attributes["firerate"])
 
     def fire(self):
         if (not self.enemies) or not self.target:  
@@ -50,8 +49,8 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
     def fireInterval(self, dt):
         if self.canFire == False:
             self.canFire = True
-            self.unschedule(self.fireInterval)                                    
-                                    
+            self.unschedule(self.fireInterval)   
+            
     def distance(self, a, b):
         return math.sqrt((b.x - a.x)**2 + (b.y-a.y)**2)
 
@@ -63,8 +62,8 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
         self.target = None
         self.dist = self.attributes["range"]
         for enemy in self.enemies:
-            if(enemy.x < cocos.director.director.get_window_size()[0]
-               and  # Enemy still in window
+            if(enemy.x < cocos.director.director.get_window_size()[0] and
+               # Enemy still in window
                enemy.y < cocos.director.director.get_window_size()[1]):
                 # Distance to enemy smaller than range
                 if (self.distance(enemy, self) < self.attributes["range"]):
@@ -78,15 +77,14 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
                         # first Enemy in list, which is in range is the target
                         self.target = enemy
                         break
-        
+
     def rotateToTarget(self):
         if self.target:
             x = self.target.x - self.x
             y = self.target.y - self.y
-            #should actually be atan2(y, x), but then the angle is wrong
-            angle = math.degrees(math.atan2(x, y)) 
-            self.rotation = angle   
-    
+            # should actually be atan2(y, x), but then the angle is wrong
+            angle = math.degrees(math.atan2(x, y))
+            self.rotation = angle
 
     # get the current values of this tower
     def get_values(self):
