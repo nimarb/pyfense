@@ -1,5 +1,7 @@
-# Assets are loaded in this file and used throughout the 
-# application efficiently
+"""
+Assets are loaded in this file and used throughout the 
+application efficiently
+"""
 
 import pyglet
 from pyglet.image.codecs.png import PNGImageDecoder
