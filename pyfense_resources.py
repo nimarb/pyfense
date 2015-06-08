@@ -152,6 +152,9 @@ projectile = loadImage("assets/projectile0.png")
 selector0 = loadImage("assets/selector0.png")
 selector1 = loadImage("assets/selector1.png")
 
+path = loadImage("assets/path.png")
+nopath = loadImage("assets/nopath.png")
+
 range2000 = loadImage("assets/range2000.png")
 
 explosion = loadAnimation('assets/explosion0.png',
