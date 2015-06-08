@@ -180,7 +180,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.clicked_x = x
             self.clicked_y = y
             self.displayTowerHud("build", self.clicked_x + 1.5 * self.towerThumbnails[0].height + 5, self.clicked_y - self.towerThumbnails[0].height / 2 - 5)
-        elif self.currentCellStatus != 1 and self.currentCellStatus != 99:
+        elif self.currentCellStatus != 1 and self.currentCellStatus != 99 or self.buildingHudDisplayed is True:
             hudItem = self.clickedOnTowerHudItem(x, y)
             if hudItem != -1:
                 self.buildTower(hudItem)
