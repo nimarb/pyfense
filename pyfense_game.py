@@ -31,10 +31,13 @@ class PyFenseGame(scene.Scene):
         # 99 := helper for pathfinding,replaced with 1 after path was found
         self.gameGrid = [[0 for x in range(32)] for x in range(18)]
         if(levelNumber == "custom"):
+            # can only build tower on "grass"
             pathFile = open("data/path.cfg", "rb")
             self.gameGrid = pickle.load(pathFile)
             pathFile.close()
         else:  # (if levelNumber == 1)
+            self.gameGrid = [[2 for x in range(32)] for x in range(18)]
+            # can build towers wherever there is no path
             self.gameGrid[8][3] = 99
             self.gameGrid[8][4] = 99
             self.gameGrid[8][5] = 99
