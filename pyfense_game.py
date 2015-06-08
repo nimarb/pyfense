@@ -140,7 +140,7 @@ class PyFenseGame(scene.Scene):
         self.add(self.hud, z=2)
 
     def setGridPix(self, x, y, kind):
-        if kind < 0 or kind > 3:
+        if kind < 0 or kind > 3 or kind > 100 and kind < 200:
             print("WRONG GRID TYPE, fix ur shit")
             return
         grid_x = int(x / 60)
@@ -148,7 +148,7 @@ class PyFenseGame(scene.Scene):
         self.setGrid(grid_x, grid_y, kind)
 
     def setGrid(self, grid_x, grid_y, kind):
-        if kind < 0 or kind > 3:
+        if kind < 0 or kind > 3 or kind > 100 and kind < 200:
             print("WRONG GRID TYPE, fix ur shit")
             return
         self.gameGrid[grid_y][grid_x] = kind
