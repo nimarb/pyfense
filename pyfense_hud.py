@@ -102,6 +102,8 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.add(self.cellSelectorSpriteBlue)
 
     def removeTowerBuildingHud(self):
+        if self.buildingHudDisplayed == False:
+            return
         for picture in range(0, len(self.towerThumbnails)):
             self.remove(self.towerThumbnails[picture])
             if self.noCashOverlayDisplayed[picture] == True:
