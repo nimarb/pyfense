@@ -10,7 +10,7 @@ import pyfense_resources
 
 class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
     is_event_handler = True
-    
+
     def __init__(self):
         super().__init__()
         self.timeBetweenWaves = 3
@@ -170,7 +170,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         if self.currentCellStatus == 3 and self.buildingHudDisplayed is False:
             self.displayTowerHud("upgrade", x, y - self.towerThumbnails[0].height / 2)
             return
-        if False is self.buildingHudDisplayed:
+        if False is self.buildingHudDisplayed and self.currentCellStatus == 2:
             #to store where tower has to be build
             #TODO: snap to grid
             self.clicked_x = x
@@ -190,7 +190,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.dispatch_event('on_user_mouse_motion', x, y)
         grid_x = int(x / 60)
         grid_y = int(y / 60)
-        if False is self.buildingHudDisplayed: 
+        if False is self.buildingHudDisplayed:
             if self.currentCellStatus <= 1:
                 self.cellSelectorSpriteBlue.visible = False
                 self.cellSelectorSpriteRed.position = (grid_x * 60 + 30, grid_y * 60 + 30)
