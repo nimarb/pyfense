@@ -77,21 +77,27 @@ class LevelSelectMenu( Menu ):
 
         items = []
 
-        items.append( ImageMenuItem('assets/lvl1.png',
-                                    lambda: self.on_start(1)) )
+
+        lvl1 = ImageMenuItem('assets/lvl1.png',
+                                    lambda: self.on_start(1))
+        lvl1.y -= 100
         if(os.path.isfile("assets/lvlcustom.png")):
             customImage = loadImage('assets/lvlcustom.png')
             customItem = ImageMenuItem(customImage,
                                        lambda: self.on_start("custom"))
             customItem.scale=0.4
-            items.append(customItem)
+            customItem.y -= 300
             # custom map has to be position correctly in Menu
-        items.append( MenuItem('MapBuilder', self.on_mapBuilder))
-        items.append( MenuItem('Back', self.on_quit) )
+        MapBuilder = MenuItem('MapBuilder', self.on_mapBuilder)
+        MapBuilder.y -= 200
+        Back = MenuItem('Back', self.on_quit)
+        Back.y -= 200
+        items.extend([lvl1, customItem, MapBuilder, Back])
 
 
         width, height = director.get_window_size()
         self.create_menu( items )
+
 
     def on_start( self, lvl ):
         director.push( pyfense_game.PyFenseGame( lvl ) )
@@ -328,5 +334,7 @@ if __name__ == '__main__':
         ),
         z = 1 )
     director.set_show_FPS(settings["general"]["showFps"])
-
+    w, h = director.get_window_size()
+    logo = loadImage("assets/logo.png")
+    scene.add(cocos.sprite.Sprite(logo, position = (w/2, h-75), scale = 0.3), z = 2)
     director.run( scene )
