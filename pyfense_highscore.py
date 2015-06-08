@@ -1,41 +1,36 @@
 """
 Manages highscore
 """
-
 import cocos
 from cocos import layer
 from cocos import menu
 from cocos.director import director
 
-"""    def __init__(self):
-        super().__init__("Highscore")
 
-            if i < len(highscore):
-                entry[i] = menu.MenuItem(highscore[i].strip(), self.on_quit)
+def new_score( name, score, level ):
+    highscore = readFile( "data/highscore.txt" )
+    for i, entry in enumerate(highscore):
+        if entry[0][0] == "#":
+            continue
+        else:
+            if entry[1] <= score:
+                continue
             else:
-                entry[i] = menu.MenuItem("Empty", self.on_quit)
-
-        print (entry[4])
-
-        menuItems = [entry[0], entry[1], entry[2], entry[3], entry[4]]
-        self.create_menu(menuItems)
-
-    def on_quit(self):
-        director.pop()
-"""
-
+                #TODO write file to be implemented
+                return True
+    return False
+        
 
 def get_score():
 
-    highscore = readFile("data/highscore.txt")
-    hs_splitted = [row.split(", ") for row in highscore]
-
-    return hs_splitted
+    highscore = readFile( "data/highscore.txt" )
+    return highscore
 
 
-def readFile(fileName):
+def readFile( fileName ):
 
-    with open(fileName, "r") as openedFile:
+    with open( fileName, "r" ) as openedFile:
         openedFile.readline()
         fileData = openedFile.readlines()
-    return fileData
+        splittedData = [row.split( ", " ) for row in fileData]
+    return splittedData
