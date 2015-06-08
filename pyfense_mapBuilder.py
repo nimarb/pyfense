@@ -101,4 +101,3 @@ class PyFenseMapBuilder(scene.Scene):
 
     def on_user_mouse_motion(self, x, y):
         self.hud.currentCellStatus = self.getGridPix(x, y)
-

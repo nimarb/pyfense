@@ -3,13 +3,9 @@ Assets are loaded in this file and used throughout the
 application efficiently
 """
 
-
 import pyglet
 from pyglet.image.codecs.png import PNGImageDecoder
 from sys import platform as _platform #for OS check
-
-
-# Loads PNG files
 
 # Check OS to avoid segmentation fault with linux
 def loadImage(filename):
@@ -19,10 +15,7 @@ def loadImage(filename):
     else:
         return pyglet.image.load(filename)
 
-
 # Loads spritesheets as animation with frames from bottom left to top right
-
-
 def loadAnimation( filepath, spritesheet_x, spritesheet_y, width,
                   height, duration, loop ):
     spritesheet = loadImage( filepath )
@@ -103,6 +96,7 @@ with open("data/entities.cfg") as conf_file:
                 print("not defined")
 
 """
+ACTUAL TOWER IS LOADED FROM CONFIG FILE, THIS IS AN EXAMPLE
 tower.append({
     "image" : loadImage("assets/tower0.png"),
     "image_up1" : loadImage("assets/tower01.png"),
@@ -123,24 +117,6 @@ tower.append({
     "cost_up1" : 250,
     "cost_up2" : 400
 })
-
-tower.append({
-    "image" : loadImage("assets/tower1.png"),
-    "damage" : 10,
-    "range" : 200,
-    "firerate" : 1,
-    "projectileVelocity" : 1000,
-    "cost" : 100
-})
-
-tower.append({
-    "image" : loadImage("assets/tower2.png"),
-    "damage" : 10,
-    "range" : 200,
-    "firerate" : 1,
-    "projectileVelocity" : 1000,
-    "cost" : 100
-})
 """
 noCashOverlay = loadImage("assets/tower-nocashoverlay.png")
 
@@ -151,6 +127,7 @@ background = {
     "lvl4": loadImage("assets/lvl4.png")
                }
 """
+ACTUAL ENEMY IS LOADED FROM CONFIG FILE, THIS IS AN EXAMPLE
 enemy = []
 enemy.append(loadImage("assets/enemy0.png"))
 enemy.append(loadAnimation('assets/enemyAnimation.png',
