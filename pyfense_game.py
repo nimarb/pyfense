@@ -1,5 +1,7 @@
-# pyfense_game.py
-# contains PyFenseGame class (scene)
+"""
+pyfense_game.py
+contains PyFenseGame class (scene)
+"""
 
 import cocos
 import pyglet

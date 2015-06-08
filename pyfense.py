@@ -1,3 +1,10 @@
+"""
+Mainfile, draws Menu including Level Select, Highscore, Options and About page.
+Reads settings from /data/settings.txt #TODO, About from /data/about.txt #TODO
+and gets Highscore data from pyfense_highscore. Level Select starts game with
+selected level from pyfense_game.
+"""
+
 import pyglet
 from pyglet.window import key
 
@@ -15,13 +22,6 @@ import pyfense_game
 import pyfense_mapBuilder
 import pyfense_highscore
 from pyfense_resources import *
-
-"""
-Mainfile, draws Menu including Level Select, Highscore, Options and About page.
-Reads settings from /data/settings.txt #TODO, About from /data/about.txt #TODO
-and gets Highscore data from pyfense_highscore. Level Select starts game with
-selected level from pyfense_game.
-"""
 
 class MainMenu( Menu ):
 
