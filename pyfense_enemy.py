@@ -1,5 +1,8 @@
-# pyfense_enemy.py
-# contains PyFenseEnemy class
+"""
+pyfense_enemy.py
+contains PyFenseEnemy class
+"""
+
 import cocos
 import pyglet
 from cocos import sprite
@@ -12,7 +15,7 @@ class PyFenseEnemy(sprite.Sprite):
         # TODO: Different assets and values for stronger enemies
         # to be loaded from textfile
         self.attributes = pyfense_resources.enemy[enemyname]
-        self.currentPos = (110, 500)
+        self.currentPos = (150, 525)
         texture = self.attributes["image"]
         super(PyFenseEnemy, self).__init__(texture,
                                            position=self.currentPos,
