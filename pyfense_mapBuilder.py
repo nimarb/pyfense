@@ -91,6 +91,10 @@ class PyFenseMapBuilder(scene.Scene):
             self.add(path)
             self.setGridPix(x, y, 99)
         elif(self.getGridPix(x,y)==99):
+            path = cocos.sprite.Sprite(pyfense_resources.grass, position = (x, y))
+            self.add(path)
+            self.setGridPix(x, y, 2)
+        elif(self.getGridPix(x,y)==2):
             nopath = cocos.sprite.Sprite(pyfense_resources.nopath, position = (x, y))
             self.add(nopath)
             self.setGridPix(x, y, 0)

@@ -1,4 +1,4 @@
-# Assets are loaded in this file and used throughout the 
+# Assets are loaded in this file and used throughout the
 # application efficiently
 
 import pyglet
@@ -21,7 +21,7 @@ def loadAnimation(filepath, spritesheet_x, spritesheet_y, width,
     textures = pyglet.image.TextureGrid(grid)
     images = textures[0:len(textures)]
     return pyglet.image.Animation.from_image_sequence(
-            images, duration, loop=loop)            
+            images, duration, loop=loop)
 
 tower = {}
 enemy = {}
@@ -52,7 +52,7 @@ with open("data/entities.cfg") as conf_file:
                 # erstellt dict fuer neuen turm, falls nicht vorhanden
                 if towername not in tower:
                     tower[towername] = {}
-                # prueft, ob level fuer turm schon vorhanden, wenn ja, dann fehler    
+                # prueft, ob level fuer turm schon vorhanden, wenn ja, dann fehler
                 if towerlevel in tower[towername]:
                     print("Error: Level fuer diesen Turm bereits vorhanden")
                     break
@@ -154,6 +154,7 @@ selector1 = loadImage("assets/selector1.png")
 
 path = loadImage("assets/path.png")
 nopath = loadImage("assets/nopath.png")
+grass = loadImage("assets/grass.png")
 
 range2000 = loadImage("assets/range2000.png")
 
