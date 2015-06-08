@@ -18,7 +18,10 @@ class PyFenseMap(cocos.layer.Layer):
         # TODO: error handling for no image available case!
         # use python's PNGImageDecoder due
         # to segfault causing bug in gdk_pixbuf2
-        backgroundImage = pyfense_resources.background[str(self.levelMap)]
+        if(self.levelMap == "lvlcustom"): #if custom image, load new
+            backgroundImage = pyfense_resources.loadImage("assets/lvlcustom.png")
+        else:
+        	backgroundImage = pyfense_resources.background[str(self.levelMap)]
         self.backgroundSprite = cocos.sprite.Sprite(backgroundImage)
 
     def drawBackgroundImage(self):
