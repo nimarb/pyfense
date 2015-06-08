@@ -81,18 +81,20 @@ class LevelSelectMenu( Menu ):
         lvl1 = ImageMenuItem('assets/lvl1.png',
                                     lambda: self.on_start(1))
         lvl1.y -= 100
+        items.append(lvl1)
         if(os.path.isfile("assets/lvlcustom.png")):
             customImage = loadImage('assets/lvlcustom.png')
             customItem = ImageMenuItem(customImage,
                                        lambda: self.on_start("custom"))
             customItem.scale=0.4
             customItem.y -= 300
+            items.append(customItem)
             # custom map has to be position correctly in Menu
         MapBuilder = MenuItem('MapBuilder', self.on_mapBuilder)
         MapBuilder.y -= 200
         Back = MenuItem('Back', self.on_quit)
         Back.y -= 200
-        items.extend([lvl1, customItem, MapBuilder, Back])
+        items.extend([MapBuilder, Back])
 
 
         width, height = director.get_window_size()
