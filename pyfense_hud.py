@@ -91,15 +91,15 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     def addCellSelectorSprite(self):
         self.cellSelectorSpriteRed = cocos.sprite.Sprite(
-            pyfense_resources.selector0)
-        self.cellSelectorSpriteBlue = cocos.sprite.Sprite(
             pyfense_resources.selector1)
+        self.cellSelectorSpriteGreen = cocos.sprite.Sprite(
+            pyfense_resources.selector0)
         self.cellSelectorSpriteRed.position = 960, 540
-        self.cellSelectorSpriteBlue.position = 960, 540
-        self.cellSelectorSpriteBlue.visible = False
+        self.cellSelectorSpriteGreen.position = 960, 540
+        self.cellSelectorSpriteGreen.visible = False
         self.cellSelectorSpriteRed.visible = False
         self.add(self.cellSelectorSpriteRed)
-        self.add(self.cellSelectorSpriteBlue)
+        self.add(self.cellSelectorSpriteGreen)
 
     def removeTowerBuildingHud(self):
         if self.buildingHudDisplayed == False:
@@ -196,13 +196,13 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         grid_y = int(y / 60)
         if False is self.buildingHudDisplayed:
             if self.currentCellStatus <= 1:
-                self.cellSelectorSpriteBlue.visible = False
+                self.cellSelectorSpriteGreen.visible = False
                 self.cellSelectorSpriteRed.position = (grid_x * 60 + 30, grid_y * 60 + 30)
                 self.cellSelectorSpriteRed.visible = True
             elif self.currentCellStatus > 1:
                 self.cellSelectorSpriteRed.visible = False
-                self.cellSelectorSpriteBlue.position = (grid_x * 60 + 30, grid_y * 60 + 30)
-                self.cellSelectorSpriteBlue.visible = True
+                self.cellSelectorSpriteGreen.position = (grid_x * 60 + 30, grid_y * 60 + 30)
+                self.cellSelectorSpriteGreen.visible = True
 
 
 PyFenseHud.register_event_type('on_build_tower')
