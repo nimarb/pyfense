@@ -1,27 +1,37 @@
-# Assets are loaded in this file and used throughout the 
-# application efficiently
+"""
+Assets are loaded in this file and used throughout the
+application efficiently
+"""
+
 
 import pyglet
 from pyglet.image.codecs.png import PNGImageDecoder
+from sys import platform as _platform #for OS check
+
 
 # Loads PNG files
 
-
+# Check OS to avoid segmentation fault with linux
 def loadImage(filename):
-    return pyglet.image.load(filename)  # , decoder=PNGImageDecoder())
+    if _platform == "linux" or _platform == "linux2":
+        return pyglet.image.load(filename, decoder=PNGImageDecoder())
+    #elif _platform == "darwin" or _platform == "win32":
+    else:
+        return pyglet.image.load(filename)
+
 
 # Loads spritesheets as animation with frames from bottom left to top right
 
 
-def loadAnimation(filepath, spritesheet_x, spritesheet_y, width,
-                  height, duration, loop):
-    spritesheet = pyglet.image.load(filepath, decoder=PNGImageDecoder())
-    grid = pyglet.image.ImageGrid(spritesheet, spritesheet_y, spritesheet_x,
-                                  item_width=width, item_height=width)
-    textures = pyglet.image.TextureGrid(grid)
-    images = textures[0:len(textures)]
+def loadAnimation( filepath, spritesheet_x, spritesheet_y, width,
+                  height, duration, loop ):
+    spritesheet = loadImage( filepath )
+    grid = pyglet.image.ImageGrid( spritesheet, spritesheet_y, spritesheet_x,
+                                  item_width=width, item_height=width )
+    textures = pyglet.image.TextureGrid( grid )
+    images = textures[ 0:len( textures ) ]
     return pyglet.image.Animation.from_image_sequence(
-            images, duration, loop=loop)            
+            images, duration, loop=loop)
 
 tower = {}
 enemy = {}
@@ -52,7 +62,7 @@ with open("data/entities.cfg") as conf_file:
                 # erstellt dict fuer neuen turm, falls nicht vorhanden
                 if towername not in tower:
                     tower[towername] = {}
-                # prueft, ob level fuer turm schon vorhanden, wenn ja, dann fehler    
+                # prueft, ob level fuer turm schon vorhanden, wenn ja, dann fehler
                 if towerlevel in tower[towername]:
                     print("Error: Level fuer diesen Turm bereits vorhanden")
                     break
@@ -151,6 +161,10 @@ projectile = loadImage("assets/projectile0.png")
 
 selector0 = loadImage("assets/selector0.png")
 selector1 = loadImage("assets/selector1.png")
+
+path = loadImage("assets/path.png")
+nopath = loadImage("assets/nopath.png")
+grass = loadImage("assets/grass.png")
 
 range2000 = loadImage("assets/range2000.png")
 
