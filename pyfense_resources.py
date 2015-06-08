@@ -20,15 +20,15 @@ def loadImage(filename):
 # Loads spritesheets as animation with frames from bottom left to top right
 
 
-def loadAnimation(filepath, spritesheet_x, spritesheet_y, width,
-                  height, duration, loop):
-    spritesheet = pyglet.image.load(filepath, decoder=PNGImageDecoder())
-    grid = pyglet.image.ImageGrid(spritesheet, spritesheet_y, spritesheet_x,
-                                  item_width=width, item_height=width)
-    textures = pyglet.image.TextureGrid(grid)
-    images = textures[0:len(textures)]
+def loadAnimation( filepath, spritesheet_x, spritesheet_y, width,
+                  height, duration, loop ):
+    spritesheet = loadImage( filepath )
+    grid = pyglet.image.ImageGrid( spritesheet, spritesheet_y, spritesheet_x,
+                                  item_width=width, item_height=width )
+    textures = pyglet.image.TextureGrid( grid )
+    images = textures[ 0:len( textures ) ]
     return pyglet.image.Animation.from_image_sequence(
-            images, duration, loop=loop)            
+            images, duration, loop=loop )            
 
 tower = {}
 enemy = {}

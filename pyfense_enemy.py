@@ -1,5 +1,8 @@
-# pyfense_enemy.py
-# contains PyFenseEnemy class
+"""
+pyfense_enemy.py
+contains PyFenseEnemy class
+"""
+
 import cocos
 import pyglet
 from cocos import sprite
