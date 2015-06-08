@@ -156,6 +156,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     # check WHETHER the click was on Hud Item
     def clickedOnTowerHudItem(self, x, y):
+        # check if player clicked on an area where no tower can be built
         # check if player clicked on a menu item
         # if yes, carry out the attached action (build/upgrade/cash-in tower)
         if (y < self.menuMax_y + self.towerThumbnails[0].height / 2 and y > self.menuMin_y):
@@ -167,9 +168,9 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         return -1
 
     def on_mouse_release(self, x, y, buttons, modifiers):
-        #TODO: only trigger if user clicked on buildable area
         (x, y) = cocos.director.director.get_virtual_coordinates(x, y)
         # check if user clicked on tower
+        # TODO: check on which tower the user actually clicked, indicated by towernr + 100
         if self.currentCellStatus == 3 and self.buildingHudDisplayed is False:
             self.displayTowerHud("upgrade", x, y - self.towerThumbnails[0].height / 2)
             return
@@ -179,7 +180,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.clicked_x = x
             self.clicked_y = y
             self.displayTowerHud("build", self.clicked_x + 1.5 * self.towerThumbnails[0].height + 5, self.clicked_y - self.towerThumbnails[0].height / 2 - 5)
-        else:
+        elif self.currentCellStatus != 1 and self.currentCellStatus != 99:
             hudItem = self.clickedOnTowerHudItem(x, y)
             if hudItem != -1:
                 self.buildTower(hudItem)
