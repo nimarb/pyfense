@@ -3,12 +3,19 @@
 
 import pyglet
 from pyglet.image.codecs.png import PNGImageDecoder
+from sys import platform as _platform #for OS check
+
 
 # Loads PNG files
 
-
+# Check OS to avoid segmentation fault with linux
 def loadImage(filename):
-    return pyglet.image.load(filename)  # , decoder=PNGImageDecoder())
+    if _platform == "linux" or _platform == "linux2":
+        return pyglet.image.load(filename, decoder=PNGImageDecoder())
+    #elif _platform == "darwin" or _platform == "win32":
+    else:
+        return pyglet.image.load(filename)
+    
 
 # Loads spritesheets as animation with frames from bottom left to top right
 
