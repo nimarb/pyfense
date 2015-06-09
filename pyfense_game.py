@@ -179,6 +179,12 @@ class PyFenseGame(scene.Scene):
         self.currentCurrency -= self.entityMap.buildTower(tower)
         self.setGridPix(pos_x, pos_y, int(float("1" + str(towerNumber) + str(tower.attributes["lvl"]))))
         self.hud.updateCurrencyNumber(self.currentCurrency)
+        
+    def on_destroy_tower(self, position):
+        (x, y) = position
+        self.setGridPix(x, y, 3)
+        self.currentCurrency += 0.7 * self.entityMap.removeTower((x, y))
+        self.hud.updateCurrencyNumber(self.currentCurrency)
 
     def on_next_wave(self):
         self.hud.startNextWaveTimer()

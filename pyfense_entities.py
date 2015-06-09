@@ -42,6 +42,13 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.towers.append(tower)
         self.add(tower, z=0)
         return tower.attributes["cost"]
+        
+    def removeTower(self, position):
+        for tower in self.towers:
+            if tower.position == position:
+                self.remove(tower)
+                self.towers.remove(tower)
+                return tower.attributes["cost"]
 
     def on_projectile_fired(self, tower, target, projectileVelocity, damage):
         projectile = PyFenseProjectile(tower, target, projectileVelocity,
