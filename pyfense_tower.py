@@ -10,14 +10,10 @@ import pyfense_resources
 import pyfense_entities
 from pyfense_entities import *
 
-
-
-# The towers with dummy values
-# Is a cocos.sprite.Sprite
 # Needs position in tuple (posx,posy)
 # Takes tower.png found in assets directory
 
-class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
+class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
     def __init__(self, enemies, towerNumber, position):
         is_event_handler = True
         self.attributes = pyfense_resources.tower[towerNumber][1]
@@ -49,7 +45,6 @@ class PyFenseTower(sprite.Sprite,  pyglet.event.EventDispatcher):
     def fireInterval(self, dt):
         if self.canFire == False:
             self.canFire = True
-
             
     def distance(self, a, b):
         return math.sqrt((b.x - a.x)**2 + (b.y-a.y)**2)

@@ -3,13 +3,9 @@ Assets are loaded in this file and used throughout the
 application efficiently
 """
 
-
 import pyglet
 from pyglet.image.codecs.png import PNGImageDecoder
 from sys import platform as _platform #for OS check
-
-
-# Loads PNG files
 
 # Check OS to avoid segmentation fault with linux
 def loadImage(filename):
@@ -19,10 +15,7 @@ def loadImage(filename):
     else:
         return pyglet.image.load(filename)
 
-
 # Loads spritesheets as animation with frames from bottom left to top right
-
-
 def loadAnimation( filepath, spritesheet_x, spritesheet_y, width,
                   height, duration, loop ):
     spritesheet = loadImage( filepath )
@@ -103,6 +96,7 @@ with open("data/entities.cfg") as conf_file:
                 print("not defined")
 
 """
+<<<<<<< HEAD
 # attributes with _x_ should be read from textfile 
 
 tower[0][0] = { # Tower 0, level 0
@@ -140,6 +134,29 @@ enemy[2] = {
       'speed' : _speed_
       'reward' : _reward_            
 }
+=======
+ACTUAL TOWER IS LOADED FROM CONFIG FILE, THIS IS AN EXAMPLE
+tower.append({
+    "image" : loadImage("assets/tower0.png"),
+    "image_up1" : loadImage("assets/tower01.png"),
+    "image_up2" : loadImage("assets/tower02.png"),
+    "damage" : 10,
+    "damage_up1" : 20,
+    "damage_up2" : 30,
+    "range" : 200,
+    "range_up1" : 200,
+    "range_up2" : 400,
+    "firerate" : 1,
+    "firerate_up1" : 1.5,
+    "firerate_up2" : 1.5,
+    "projectileVelocity" : 1000,
+    "projectileVelocity_up1" : 1000,
+    "projectileVelocity_up2" : 1000,
+    "cost" : 100,
+    "cost_up1" : 250,
+    "cost_up2" : 400
+})
+>>>>>>> 38cf19169d77d4831dd02f030e9bf3596f7edda6
 """
 
 noCashOverlay = loadImage("assets/tower-nocashoverlay.png")
@@ -150,6 +167,16 @@ background = {
     "lvl3": loadImage("assets/lvl3.png"),
     "lvl4": loadImage("assets/lvl4.png")
                }
+<<<<<<< HEAD
+=======
+"""
+ACTUAL ENEMY IS LOADED FROM CONFIG FILE, THIS IS AN EXAMPLE
+enemy = []
+enemy.append(loadImage("assets/enemy0.png"))
+enemy.append(loadAnimation('assets/enemyAnimation.png',
+                           4, 1, 60, 60, 0.15, True) )
+"""
+>>>>>>> 38cf19169d77d4831dd02f030e9bf3596f7edda6
 
 projectile = loadImage("assets/projectile0.png")
 

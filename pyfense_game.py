@@ -25,10 +25,10 @@ class PyFenseGame(scene.Scene):
         # key:
         # 0 := no tower can be build, no enemy can walk
         # 1 := no tower can be build, enemy can walk
-        # 2 := tower can be build, no enemy can walk
-        # 3 := tower has been built, no enemy can walk,
+        # 2 := helper for pathfinding,replaced with 1 after path was found
+        # 3 := tower can be build, no enemy can walk
+        # 4 := tower has been built, no enemy can walk,
         # no tower can be build (can upgrade (?))
-        # 99 := helper for pathfinding,replaced with 1 after path was found
         self.gameGrid = [[0 for x in range(32)] for x in range(18)]
         if(levelNumber == "custom"):
             # can only build tower on "grass"
@@ -36,52 +36,52 @@ class PyFenseGame(scene.Scene):
             self.gameGrid = pickle.load(pathFile)
             pathFile.close()
         else:  # (if levelNumber == 1)
-            self.gameGrid = [[2 for x in range(32)] for x in range(18)]
+            self.gameGrid = [[3 for x in range(32)] for x in range(18)]
             # can build towers wherever there is no path
-            self.gameGrid[8][3] = 99
-            self.gameGrid[8][4] = 99
-            self.gameGrid[8][5] = 99
-            self.gameGrid[8][6] = 99
-            self.gameGrid[8][7] = 99
-            self.gameGrid[9][7] = 99
-            self.gameGrid[10][7] = 99
-            self.gameGrid[11][7] = 99
-            self.gameGrid[12][7] = 99
-            self.gameGrid[13][7] = 99
-            self.gameGrid[14][7] = 99
-            self.gameGrid[14][8] = 99
-            self.gameGrid[14][9] = 99
-            self.gameGrid[14][10] = 99
-            self.gameGrid[14][11] = 99
-            self.gameGrid[14][12] = 99
-            self.gameGrid[13][12] = 99
-            self.gameGrid[12][12] = 99
-            self.gameGrid[11][12] = 99
-            self.gameGrid[10][12] = 99
-            self.gameGrid[9][12] = 99
-            self.gameGrid[8][12] = 99
-            self.gameGrid[7][12] = 99
-            self.gameGrid[6][12] = 99
-            self.gameGrid[6][13] = 99
-            self.gameGrid[6][14] = 99
-            self.gameGrid[6][15] = 99
-            self.gameGrid[6][16] = 99
-            self.gameGrid[6][17] = 99
-            self.gameGrid[6][18] = 99
-            self.gameGrid[6][19] = 99
-            self.gameGrid[7][19] = 99
-            self.gameGrid[8][19] = 99
-            self.gameGrid[9][19] = 99
-            self.gameGrid[9][20] = 99
-            self.gameGrid[9][21] = 99
-            self.gameGrid[9][22] = 99
-            self.gameGrid[9][23] = 99
-            self.gameGrid[9][24] = 99
-            self.gameGrid[9][25] = 99
-            self.gameGrid[9][26] = 99
-            self.gameGrid[9][27] = 99
-            self.gameGrid[9][28] = 99
-            self.gameGrid[9][29] = 99
+            self.gameGrid[8][3] = 2
+            self.gameGrid[8][4] = 2
+            self.gameGrid[8][5] = 2
+            self.gameGrid[8][6] = 2
+            self.gameGrid[8][7] = 2
+            self.gameGrid[9][7] = 2
+            self.gameGrid[10][7] = 2
+            self.gameGrid[11][7] = 2
+            self.gameGrid[12][7] = 2
+            self.gameGrid[13][7] = 2
+            self.gameGrid[14][7] = 2
+            self.gameGrid[14][8] = 2
+            self.gameGrid[14][9] = 2
+            self.gameGrid[14][10] = 2
+            self.gameGrid[14][11] = 2
+            self.gameGrid[14][12] = 2
+            self.gameGrid[13][12] = 2
+            self.gameGrid[12][12] = 2
+            self.gameGrid[11][12] = 2
+            self.gameGrid[10][12] = 2
+            self.gameGrid[9][12] = 2
+            self.gameGrid[8][12] = 2
+            self.gameGrid[7][12] = 2
+            self.gameGrid[6][12] = 2
+            self.gameGrid[6][13] = 2
+            self.gameGrid[6][14] = 2
+            self.gameGrid[6][15] = 2
+            self.gameGrid[6][16] = 2
+            self.gameGrid[6][17] = 2
+            self.gameGrid[6][18] = 2
+            self.gameGrid[6][19] = 2
+            self.gameGrid[7][19] = 2
+            self.gameGrid[8][19] = 2
+            self.gameGrid[9][19] = 2
+            self.gameGrid[9][20] = 2
+            self.gameGrid[9][21] = 2
+            self.gameGrid[9][22] = 2
+            self.gameGrid[9][23] = 2
+            self.gameGrid[9][24] = 2
+            self.gameGrid[9][25] = 2
+            self.gameGrid[9][26] = 2
+            self.gameGrid[9][27] = 2
+            self.gameGrid[9][28] = 2
+            self.gameGrid[9][29] = 2
         self.startTile = [8, 2]
         self.endTile = [9, 29]
         self.movePath = actions.MoveBy((0, 0))
@@ -100,22 +100,22 @@ class PyFenseGame(scene.Scene):
 
         while(currentTile[0] != self.endTile[0] or
               currentTile[1] != self.endTile[1]):
-            if(self.gameGrid[currentTile[0]][currentTile[1]-1] == 99):
+            if(self.gameGrid[currentTile[0]][currentTile[1]-1] == 2):
                 move += actions.MoveBy((-60, 0), 0.5)  # MoveLeft
                 currentTile[1] -= 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
 
-            elif(self.gameGrid[currentTile[0]][currentTile[1]+1] == 99):
+            elif(self.gameGrid[currentTile[0]][currentTile[1]+1] == 2):
                 move += actions.MoveBy((60, 0), 0.5)   # MoveRight
                 currentTile[1] += 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
 
-            elif(self.gameGrid[currentTile[0]+1][currentTile[1]] == 99):
+            elif(self.gameGrid[currentTile[0]+1][currentTile[1]] == 2):
                 move += actions.MoveBy((0, 60), 0.5)  # MoveUp
                 currentTile[0] += 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
 
-            elif(self.gameGrid[currentTile[0]-1][currentTile[1]] == 99):
+            elif(self.gameGrid[currentTile[0]-1][currentTile[1]] == 2):
                 move += actions.MoveBy((0, -60), 0.5)  # MoveDown
                 currentTile[0] -= 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
@@ -140,7 +140,7 @@ class PyFenseGame(scene.Scene):
         self.add(self.hud, z=2)
 
     def setGridPix(self, x, y, kind):
-        if kind < 0 or kind > 3 or kind > 100 and kind < 200:
+        if kind < 0 or kind > 4 or kind > 100 and kind < 200:
             print("WRONG GRID TYPE, fix ur shit")
             return
         grid_x = int(x / 60)
@@ -148,7 +148,7 @@ class PyFenseGame(scene.Scene):
         self.setGrid(grid_x, grid_y, kind)
 
     def setGrid(self, grid_x, grid_y, kind):
-        if kind < 0 or kind > 3 or kind > 100 and kind < 200:
+        if kind < 0 or kind > 4 or kind > 100 and kind < 200:
             print("WRONG GRID TYPE, fix ur shit")
             return
         self.gameGrid[grid_y][grid_x] = kind
@@ -179,7 +179,7 @@ class PyFenseGame(scene.Scene):
             print("not enough cash, building tower failed")
             return
         self.currentCurrency -= self.entityMap.buildTower(tower)
-        self.setGridPix(pos_x, pos_y, 3)
+        self.setGridPix(pos_x, pos_y, 4)
         self.hud.updateCurrencyNumber(self.currentCurrency)
 
     def on_next_wave(self):

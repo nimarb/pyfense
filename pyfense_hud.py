@@ -18,9 +18,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.displayStatusBar()
         self.buildingHudDisplayed = False
         self.startNextWaveTimer()
-        # load tower sprites here, so that they only have to be loaded once
         # TODO: create a loop to load images
-        # TODO: gracefully fail if pictures fail to load? (try/catch)
         self.towerThumbnail1 = cocos.sprite.Sprite(
             pyfense_resources.tower[0][1]["image"])
         self.towerThumbnail2 = cocos.sprite.Sprite(
@@ -91,15 +89,15 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     def addCellSelectorSprite(self):
         self.cellSelectorSpriteRed = cocos.sprite.Sprite(
-            pyfense_resources.selector0)
-        self.cellSelectorSpriteBlue = cocos.sprite.Sprite(
             pyfense_resources.selector1)
+        self.cellSelectorSpriteGreen = cocos.sprite.Sprite(
+            pyfense_resources.selector0)
         self.cellSelectorSpriteRed.position = 960, 540
-        self.cellSelectorSpriteBlue.position = 960, 540
-        self.cellSelectorSpriteBlue.visible = False
+        self.cellSelectorSpriteGreen.position = 960, 540
+        self.cellSelectorSpriteGreen.visible = False
         self.cellSelectorSpriteRed.visible = False
         self.add(self.cellSelectorSpriteRed)
-        self.add(self.cellSelectorSpriteBlue)
+        self.add(self.cellSelectorSpriteGreen)
 
     def removeTowerBuildingHud(self):
         if self.buildingHudDisplayed == False:
@@ -120,9 +118,6 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
     def displayTowerHud(self, kind, x, y):
         # displays the HUD to chose between towers to build
         # TODO: proper sourcing of available towers (read from settings?)
-        # TODO: lower tower opacity if funds to build tower are insufficient
-        # TODO: if player clicks on edge of map, shift HUD to still
-        #   entirely display all buildable towers
         self.menuMin_x = x - floor(len(self.towerThumbnails)/2) * self.towerThumbnails[0].width - self.towerThumbnails[0].width / 2
         self.menuMax_x = x + floor(len(self.towerThumbnails)/2) * self.towerThumbnails[0].width + self.towerThumbnails[0].width / 2
         # only half subtracted because function is being called with
@@ -171,16 +166,14 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         (x, y) = cocos.director.director.get_virtual_coordinates(x, y)
         # check if user clicked on tower
         # TODO: check on which tower the user actually clicked, indicated by towernr + 100
-        if self.currentCellStatus == 3 and self.buildingHudDisplayed is False:
+        if self.currentCellStatus == 4 and self.buildingHudDisplayed is False:
             self.displayTowerHud("upgrade", x, y - self.towerThumbnails[0].height / 2)
             return
-        if False is self.buildingHudDisplayed and self.currentCellStatus == 2:
-            #to store where tower has to be build
-            #TODO: snap to grid
+        if False is self.buildingHudDisplayed and self.currentCellStatus == 3:
             self.clicked_x = x
             self.clicked_y = y
             self.displayTowerHud("build", self.clicked_x + 1.5 * self.towerThumbnails[0].height + 5, self.clicked_y - self.towerThumbnails[0].height / 2 - 5)
-        elif self.currentCellStatus != 1 and self.currentCellStatus != 99 or self.buildingHudDisplayed is True:
+        elif self.currentCellStatus != 1 and self.currentCellStatus != 2 or self.buildingHudDisplayed is True:
             hudItem = self.clickedOnTowerHudItem(x, y)
             if hudItem != -1:
                 self.buildTower(hudItem)
@@ -189,20 +182,20 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self.removeTowerBuildingHud()
 
     def on_mouse_motion(self, x, y, dx, dy):
-        # class to highlight currently selected cell
+        # selector to highlight currently selected cell
         (x, y) = cocos.director.director.get_virtual_coordinates(x, y)
         self.dispatch_event('on_user_mouse_motion', x, y)
         grid_x = int(x / 60)
         grid_y = int(y / 60)
         if False is self.buildingHudDisplayed:
-            if self.currentCellStatus <= 1:
-                self.cellSelectorSpriteBlue.visible = False
+            if self.currentCellStatus <= 2:
+                self.cellSelectorSpriteGreen.visible = False
                 self.cellSelectorSpriteRed.position = (grid_x * 60 + 30, grid_y * 60 + 30)
                 self.cellSelectorSpriteRed.visible = True
-            elif self.currentCellStatus > 1:
+            elif self.currentCellStatus > 2:
                 self.cellSelectorSpriteRed.visible = False
-                self.cellSelectorSpriteBlue.position = (grid_x * 60 + 30, grid_y * 60 + 30)
-                self.cellSelectorSpriteBlue.visible = True
+                self.cellSelectorSpriteGreen.position = (grid_x * 60 + 30, grid_y * 60 + 30)
+                self.cellSelectorSpriteGreen.visible = True
 
 
 PyFenseHud.register_event_type('on_build_tower')
