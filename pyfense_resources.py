@@ -88,7 +88,7 @@ with open("data/entities.cfg") as conf_file:
                             if attribute_dict["animated"] == "true":
                                 attribute_dict["image"] = loadAnimation(
                                    "assets/{}".format(attribute_dict["image"]),
-                                   4, 1, 60, 60, 0.15, True)
+                                   10, 2, 70, 70, 0.02, True)
                             else:
                                 attribute_dict["image"] = loadImage(
                                    "assets/{}".format(attribute_dict["image"]))
@@ -140,6 +140,8 @@ enemy[2] = {
       'speed' : _speed_
       'reward' : _reward_            
 }
+
+
 =======
 ACTUAL TOWER IS LOADED FROM CONFIG FILE, THIS IS AN EXAMPLE
 tower = {0.0: {1.0: {'cost': 100.0, 'firerate': 1.0,
@@ -165,7 +167,7 @@ enemy = {0.0: {'speed': 5.0, 'enemy': 0.0, 'animated': 'false',
 'image': <ImageData 39x57>, 'worth': 5.0, 'maxhealth': 10.0, 'reward': 20.0}
 """
 
-projectile = loadImage("assets/projectile0.png")
+projectile = loadImage("assets/tron_projectile.png")
 
 selector0 = loadImage("assets/selector0.png")
 selector1 = loadImage("assets/selector1.png")
