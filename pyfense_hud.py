@@ -169,7 +169,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         (x, y) = cocos.director.director.get_virtual_coordinates(x, y)
         # check if user clicked on tower
         # TODO: check on which tower the user actually clicked, indicated by towernr + 100
-        if self.currentCellStatus == 4 and self.buildingHudDisplayed is False:
+        if self.currentCellStatus > 3 and self.buildingHudDisplayed is False:
             self.displayTowerHud("upgrade", self.clicked_x + len(self.towerThumbnails)/2 * self.towerThumbnails[0].width + 5, self.clicked_y - self.towerThumbnails[0].height / 2 - 5)
             return
         if False is self.buildingHudDisplayed and self.currentCellStatus == 3:

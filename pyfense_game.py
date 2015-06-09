@@ -29,8 +29,7 @@ class PyFenseGame(scene.Scene):
         # 3 := tower can be build, no enemy can walk
         # 4 := tower has been built, no enemy can walk,
         # no tower can be build (can upgrade (?))
-        # 100-200 := towerNr + 100 has been built here
-        # (in this case
+        # 100-200 := 1 + towerNr + towerLvl has been built here
         self.gameGrid = [[0 for x in range(32)] for x in range(18)]
         if(levelNumber == "custom"):
             # can only build tower on "grass"
@@ -142,7 +141,7 @@ class PyFenseGame(scene.Scene):
         self.add(self.hud, z=2)
 
     def setGridPix(self, x, y, kind):
-        if kind < 0 or kind > 4 or kind > 100 and kind < 200:
+        if kind < 0 or kind > 200:
             print("WRONG GRID TYPE, fix ur shit")
             return
         grid_x = int(x / 60)
@@ -150,7 +149,7 @@ class PyFenseGame(scene.Scene):
         self.setGrid(grid_x, grid_y, kind)
 
     def setGrid(self, grid_x, grid_y, kind):
-        if kind < 0 or kind > 4 or kind > 100 and kind < 200:
+        if kind < 0 or kind > 200:
             print("WRONG GRID TYPE, fix ur shit")
             return
         self.gameGrid[grid_y][grid_x] = kind
@@ -178,7 +177,7 @@ class PyFenseGame(scene.Scene):
         if tower.attributes["cost"] > self.currentCurrency:
             return
         self.currentCurrency -= self.entityMap.buildTower(tower)
-        self.setGridPix(pos_x, pos_y, 4)
+        self.setGridPix(pos_x, pos_y, int(float("1" + str(towerNumber) + str(tower.attributes["lvl"]))))
         self.hud.updateCurrencyNumber(self.currentCurrency)
 
     def on_next_wave(self):
