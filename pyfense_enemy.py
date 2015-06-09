@@ -19,7 +19,7 @@ class PyFenseEnemy(sprite.Sprite):
         texture = self.attributes["image"]
         super(PyFenseEnemy, self).__init__(texture,
                                            position=self.currentPos,
-                                           scale=2)
+                                           scale=1)
         self.path = path
         self.healthPoints = self.attributes["maxhealth"]
         self.healthBar = self.drawHealthBar()

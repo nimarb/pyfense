@@ -14,10 +14,11 @@ import pyfense_resources
 class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
     is_event_handler = True
 
-    def __init__(self, towerParent, target, velocity, damage):
-        projectilePng = pyfense_resources.projectile
+    def __init__(self, towerParent, target, image, rotation, velocity, damage):
+        projectilePng = image
         super().__init__(projectilePng, position=towerParent.position,
-                         scale=0.3)
+                         scale=1)
+        self.rotation = rotation
         self.moveVel(self, target, velocity)
         self.damage = damage
         clock.schedule_once(self.dispatchHitEvent, self.duration, target)
