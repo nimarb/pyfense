@@ -103,45 +103,45 @@ with open("data/entities.cfg") as conf_file:
                 print("not defined")
 
 """
-tower.append({
-    "image" : loadImage("assets/tower0.png"),
-    "image_up1" : loadImage("assets/tower01.png"),
-    "image_up2" : loadImage("assets/tower02.png"),
-    "damage" : 10,
-    "damage_up1" : 20,
-    "damage_up2" : 30,
-    "range" : 200,
-    "range_up1" : 200,
-    "range_up2" : 400,
-    "firerate" : 1,
-    "firerate_up1" : 1.5,
-    "firerate_up2" : 1.5,
-    "projectileVelocity" : 1000,
-    "projectileVelocity_up1" : 1000,
-    "projectileVelocity_up2" : 1000,
-    "cost" : 100,
-    "cost_up1" : 250,
-    "cost_up2" : 400
-})
+# attributes with _x_ should be read from textfile 
 
-tower.append({
-    "image" : loadImage("assets/tower1.png"),
-    "damage" : 10,
-    "range" : 200,
-    "firerate" : 1,
-    "projectileVelocity" : 1000,
-    "cost" : 100
-})
+tower[0][0] = { # Tower 0, level 0
+    image' : loadImage(_'assets/tower0.png'_) 
+    
+    'cost' : _cost_
+    'damage' : _damage_
+    'range' : _range_
+    'firerate' : _firerate_
+       
+     if _projectileAnimation_ == False: # if projectile image is static
+        'projectileImage' : loadImage(_'assets/tower00projectile.png'_) 
+     elif _projectileAnimation_ == True: # if projectile image is animated
+        'projectileImage' : loadAnimation(_'assets/tower00projectile.png'_, _spritesheet_x_, _spritesheet_y_, _width_,
+                  _height_, _duration_, _loop_ )
+    
+    'projectileVelocity' : _projectileVelocity_  
+                       
+    'explosion' : loadAnimation(_'assets/tower0explosion'_, _spritesheet_x_, _spritesheet_y_, _width_,
+                  _height_, _duration_, _loop_ )    
+}
 
-tower.append({
-    "image" : loadImage("assets/tower2.png"),
-    "damage" : 10,
-    "range" : 200,
-    "firerate" : 1,
-    "projectileVelocity" : 1000,
-    "cost" : 100
-})
+tower[1][2]['projectileImage'] #gives me tower 1, level 2's projectileImage
+
+
+
+enemy[2] = {
+    if _enemyAnimation_ == False: # if projectile image is static
+        'image' : loadImage(_'assets/enemy2.png'_) 
+     elif _enemyAnimation_ == True: # if projectile image is animated
+        'image' : loadAnimation(_'assets/enemy2.png'_, _spritesheet_x_, _spritesheet_y_, _width_,
+                  _height_, _duration_, _loop_ )
+    
+      'maxHealth' : _maxHealth_
+      'speed' : _speed_
+      'reward' : _reward_            
+}
 """
+
 noCashOverlay = loadImage("assets/tower-nocashoverlay.png")
 
 background = {
@@ -150,12 +150,6 @@ background = {
     "lvl3": loadImage("assets/lvl3.png"),
     "lvl4": loadImage("assets/lvl4.png")
                }
-"""
-enemy = []
-enemy.append(loadImage("assets/enemy0.png"))
-enemy.append(loadAnimation('assets/enemyAnimation.png',
-                           4, 1, 60, 60, 0.15, True) )
-"""
 
 projectile = loadImage("assets/projectile0.png")
 
