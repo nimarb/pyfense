@@ -166,14 +166,14 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         (x, y) = cocos.director.director.get_virtual_coordinates(x, y)
         # check if user clicked on tower
         # TODO: check on which tower the user actually clicked, indicated by towernr + 100
-        if self.currentCellStatus == 3 and self.buildingHudDisplayed is False:
+        if self.currentCellStatus == 4 and self.buildingHudDisplayed is False:
             self.displayTowerHud("upgrade", x, y - self.towerThumbnails[0].height / 2)
             return
-        if False is self.buildingHudDisplayed and self.currentCellStatus == 2:
+        if False is self.buildingHudDisplayed and self.currentCellStatus == 3:
             self.clicked_x = x
             self.clicked_y = y
             self.displayTowerHud("build", self.clicked_x + 1.5 * self.towerThumbnails[0].height + 5, self.clicked_y - self.towerThumbnails[0].height / 2 - 5)
-        elif self.currentCellStatus != 1 and self.currentCellStatus != 99 or self.buildingHudDisplayed is True:
+        elif self.currentCellStatus != 1 and self.currentCellStatus != 2 or self.buildingHudDisplayed is True:
             hudItem = self.clickedOnTowerHudItem(x, y)
             if hudItem != -1:
                 self.buildTower(hudItem)
@@ -188,11 +188,11 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         grid_x = int(x / 60)
         grid_y = int(y / 60)
         if False is self.buildingHudDisplayed:
-            if self.currentCellStatus <= 1:
+            if self.currentCellStatus <= 2:
                 self.cellSelectorSpriteGreen.visible = False
                 self.cellSelectorSpriteRed.position = (grid_x * 60 + 30, grid_y * 60 + 30)
                 self.cellSelectorSpriteRed.visible = True
-            elif self.currentCellStatus > 1:
+            elif self.currentCellStatus > 2:
                 self.cellSelectorSpriteRed.visible = False
                 self.cellSelectorSpriteGreen.position = (grid_x * 60 + 30, grid_y * 60 + 30)
                 self.cellSelectorSpriteGreen.visible = True

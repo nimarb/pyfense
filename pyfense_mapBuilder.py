@@ -26,8 +26,8 @@ class PyFenseMapBuilder(scene.Scene):
         #key:
         #0 := no tower can be build, no enemy can walk
         #1 := no tower can be build, enemy can walk
-        #2 := tower can be build, no enemy can walk
-        #3 := tower has been built, no enemy can walk, no tower can be build (can upgrade (?))
+        #3 := tower can be build, no enemy can walk
+        #4 := tower has been built, no enemy can walk, no tower can be build (can upgrade (?))
         self.gameGrid = [[0 for x in range (32)] for x in range(18)]
         self.startTile = [8, 2]
         self.endTile = [9, 29]
@@ -62,7 +62,7 @@ class PyFenseMapBuilder(scene.Scene):
         self.add(self.hud, z=2)
 
     def setGridPix(self, x, y, kind):
-        if (kind < 0 or kind > 3) and kind != 99:
+        if (kind < 0 or kind > 4) and kind != 2:
             print("WRONG GRID TYPE, fix ur shit %d" % kind)
             return
         grid_x = int(x / 60)
@@ -70,7 +70,7 @@ class PyFenseMapBuilder(scene.Scene):
         self.setGrid(grid_x, grid_y, kind)
 
     def setGrid(self, grid_x, grid_y, kind):
-        if (kind < 0 or kind > 3) and kind != 99:
+        if (kind < 0 or kind > 4) and kind != 2:
             print("WRONG GRID TYPE, fix ur shit")
             return
         self.gameGrid[grid_y][grid_x] = kind
@@ -89,12 +89,12 @@ class PyFenseMapBuilder(scene.Scene):
         if(self.getGridPix(x,y)==0):
             path = cocos.sprite.Sprite(pyfense_resources.path, position = (x, y))
             self.add(path)
-            self.setGridPix(x, y, 99)
-        elif(self.getGridPix(x,y)==99):
-            path = cocos.sprite.Sprite(pyfense_resources.grass, position = (x, y))
-            self.add(path)
             self.setGridPix(x, y, 2)
         elif(self.getGridPix(x,y)==2):
+            path = cocos.sprite.Sprite(pyfense_resources.grass, position = (x, y))
+            self.add(path)
+            self.setGridPix(x, y, 3)
+        elif(self.getGridPix(x,y)==3):
             nopath = cocos.sprite.Sprite(pyfense_resources.nopath, position = (x, y))
             self.add(nopath)
             self.setGridPix(x, y, 0)
