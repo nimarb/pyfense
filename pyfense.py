@@ -16,7 +16,6 @@ from cocos.layer import *
 from cocos.text import *
 import os
 
-
 from pyfense_modmenu import *
 import pyfense_game
 import pyfense_mapBuilder
@@ -24,60 +23,41 @@ import pyfense_highscore
 from pyfense_resources import *
 
 class MainMenu( Menu ):
-
     def __init__( self ):
-
         super( MainMenu, self ).__init__('PyFense')
-
         self.font_title['font_size'] = 72
-
         self.menu_anchor_x = CENTER
         self.menu_anchor_y = CENTER
-
         items = []
-
         items.append( MenuItem('Start Game', self.on_level_select) )
         items.append( MenuItem('Scores', self.on_scores) )
         items.append( MenuItem('Settings', self.on_settings) )
         items.append( MenuItem('About', self.on_about) )
         items.append( MenuItem('Exit', self.on_quit) )
-
         self.create_menu( items )
 
     def on_level_select( self ):
         self.parent.switch_to(1)
 
-
     def on_settings( self ):
         self.parent.switch_to(2)
-
 
     def on_scores( self ):
         self.parent.switch_to(3)
 
-
     def on_about( self ):
         self.parent.switch_to(4)
-
 
     def on_quit( self ):
         pyglet.app.exit()
 
-
 class LevelSelectMenu( Menu ):
-
     def __init__(self):
-
         super( LevelSelectMenu, self ).__init__('PyFense')
-
         self.font_title['font_size'] = 72
-
         self.menu_anchor_x = CENTER
         self.menu_anchor_y = CENTER
-
         items = []
-
-
         lvl1 = ImageMenuItem('assets/lvl1.png',
                                     lambda: self.on_start(1))
         lvl1.y -= 100
@@ -95,11 +75,8 @@ class LevelSelectMenu( Menu ):
         Back = MenuItem('Back', self.on_quit)
         Back.y -= 200
         items.extend([MapBuilder, Back])
-
-
         width, height = director.get_window_size()
         self.create_menu( items )
-
 
     def on_start( self, lvl ):
         director.push( pyfense_game.PyFenseGame( lvl ) )
@@ -111,16 +88,12 @@ class LevelSelectMenu( Menu ):
 
 
 class ScoresLayer( ColorLayer ):
-
     is_event_handler = True
     fontsize = 40
-
     def __init__( self ):
-
         w, h = director.get_window_size()
         super( ScoresLayer, self ).__init__( 0,0,0,1,
                                             width = w, height = h-86 )
-
         self.font_title = {}
         self.font_title['font_size'] = 72
         self.font_title['anchor_y'] ='top'
@@ -131,15 +104,11 @@ class ScoresLayer( ColorLayer ):
         self.table = None
 
     def on_enter ( self ):
-
         super( ScoresLayer, self ).on_enter()
         score = pyfense_highscore.get_score()
-
         if self.table:
             self.remove_old()
-
         self.table=[]
-
         Head_Pos = Label( '',
                          bold = True,
                          font_name = 'Arial',
@@ -168,7 +137,6 @@ class ScoresLayer( ColorLayer ):
         self.table.append( ( Label(''), Label(''), Label(''), Label('') ) )
 
         for i, entry in enumerate(score):
-
             pos = Label( '%i.    ' %(i+1),
                      font_name = 'Arial',
                      font_size = self.fontsize,
@@ -190,7 +158,6 @@ class ScoresLayer( ColorLayer ):
                      anchor_x = 'right',
                      anchor_y = 'top')
             self.table.append( (pos, name, score, level) )
-
         self.process_table()
 
     def remove_old( self ):
@@ -203,24 +170,18 @@ class ScoresLayer( ColorLayer ):
         self.table = None
 
     def process_table( self ):
-
         w, h = director.get_window_size()
-
         for i, item in enumerate( self.table ):
-
             pos, name, score, level = item
             pos_y = h-200 - ( self.fontsize + 15 ) * i
-
             pos.position = ( w/2 - 400. , pos_y )
             name.position = ( w/2 - 380. , pos_y )
             score.position = ( w/2 + 130. , pos_y )
             level.position = ( w/2 + 430 , pos_y )
-
             self.add( pos, z = 2 )
             self.add( name, z = 2 )
             self.add( score, z = 2 )
             self.add( level, z = 2 )
-
 
     def on_key_press( self, k, m ):
         if k in (key.ENTER, key.ESCAPE, key.SPACE):
@@ -231,24 +192,16 @@ class ScoresLayer( ColorLayer ):
         self.parent.switch_to( 0 )
         return True
 
-
 class OptionsMenu( Menu ):
-
     def __init__( self ):
-
         super( OptionsMenu, self ).__init__('PyFense')
-
         self.font_title['font_size'] = 72
-
         self.menu_anchor_x = CENTER
         self.menu_anchor_y = CENTER
-
         items = []
-
         items.append( ToggleMenuItem( 'Show FPS: ' , self.on_show_fps,
                      director.show_FPS) )
         items.append( MenuItem( 'Back' , self.on_quit) )
-
         self.create_menu( items )
 
     def on_show_fps( self, value ):
@@ -257,16 +210,12 @@ class OptionsMenu( Menu ):
     def on_quit( self ):
         self.parent.switch_to( 0 )
 
-
 class AboutLayer( ColorLayer ):
-
     is_event_handler = True
 
     def __init__( self ):
-
         w, h = director.get_window_size()
         super( AboutLayer, self ).__init__( 0,0,0,1, width = w, height = h-86 )
-
         self.font_title = {}
         self.font_title['font_size'] = 72
         self.font_title['anchor_y'] ='top'
@@ -277,16 +226,13 @@ class AboutLayer( ColorLayer ):
         self.table = None
 
     def on_enter ( self ):
-
         super( AboutLayer, self ).on_enter()
         w, h = director.get_window_size()
-
         text = Label('PyFense ist geil und wir lieben Nippel!', #LOL
         font_name = 'Arial',
         font_size = 20,
         anchor_x = 'center',
         anchor_y = 'center')
-
         text.position = w/2. , h/2.
         self.add(text)
 
@@ -298,7 +244,6 @@ class AboutLayer( ColorLayer ):
     def on_mouse_release( self, x, y, b, m ):
         self.parent.switch_to( 0 )
         return True
-
 
 # settings (later to be read from cfg file)
 # some values might/will change during the course of the game
