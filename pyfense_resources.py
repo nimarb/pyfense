@@ -92,7 +92,7 @@ with open("data/entities.cfg") as conf_file:
                                    4, 1, 60, 60, 0.15, True)
                             else:
                                 attribute_dict["image"] = loadImage(
-                                "assets/{}".format(attribute_dict["image"]))
+                                   "assets/{}".format(attribute_dict["image"]))
                         else:
                             attribute_dict["image"] = loadImage(
                                 "assets/{}".format(attribute_dict["image"]))
@@ -103,7 +103,6 @@ with open("data/entities.cfg") as conf_file:
                     enemy[enemyname] = attribute_dict
             else:
                 print("not defined")
-print(enemy)
 """
 # attributes with _x_ should be read from textfile 
 
