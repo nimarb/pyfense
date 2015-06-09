@@ -84,16 +84,24 @@ with open("data/entities.cfg") as conf_file:
                     break
                 else:
                     try:
-                        attribute_dict["image"] = loadAnimation(
-                            "assets/{}".format(attribute_dict["image"]),
-                            4, 1, 60, 60, 0.15, True)
+                        if "animated" in attribute_dict:
+                            if attribute_dict["animated"] == "true":
+                                attribute_dict["image"] = loadAnimation(
+                                   "assets/{}".format(attribute_dict["image"]),
+                                   4, 1, 60, 60, 0.15, True)
+                            else:
+                                attribute_dict["image"] = loadImage(
+                                   "assets/{}".format(attribute_dict["image"]))
+                        else:
+                            attribute_dict["image"] = loadImage(
+                                "assets/{}".format(attribute_dict["image"]))
+
                     except FileNotFoundError:
                         print("Error: Image not found: {}".format(
                             attribute_dict["image"]))
                     enemy[enemyname] = attribute_dict
             else:
                 print("not defined")
-
 """
 # attributes with _x_ should be read from textfile 
 
@@ -134,25 +142,9 @@ enemy[2] = {
 }
 =======
 ACTUAL TOWER IS LOADED FROM CONFIG FILE, THIS IS AN EXAMPLE
-tower.append({
-    "image" : loadImage("assets/tower0.png"),
-    "image_up1" : loadImage("assets/tower01.png"),
-    "image_up2" : loadImage("assets/tower02.png"),
-    "damage" : 10,
-    "damage_up1" : 20,
-    "damage_up2" : 30,
-    "range" : 200,
-    "range_up1" : 200,
-    "range_up2" : 400,
-    "firerate" : 1,
-    "firerate_up1" : 1.5,
-    "firerate_up2" : 1.5,
-    "projectileVelocity" : 1000,
-    "projectileVelocity_up1" : 1000,
-    "projectileVelocity_up2" : 1000,
-    "cost" : 100,
-    "cost_up1" : 250,
-    "cost_up2" : 400
+tower = {0.0: {1.0: {'cost': 100.0, 'firerate': 1.0,
+'projectilevelocity': 1000.0, 'damage': 10.0, 'lvl': 1.0, 'range': 200.0,
+'image': <ImageData 60x60>, 'tower': 0.0}}}
 })
 """
 
@@ -169,10 +161,8 @@ background = {
 
 """
 ACTUAL ENEMY IS LOADED FROM CONFIG FILE, THIS IS AN EXAMPLE
-enemy = []
-enemy.append(loadImage("assets/enemy0.png"))
-enemy.append(loadAnimation('assets/enemyAnimation.png',
-                           4, 1, 60, 60, 0.15, True) )
+enemy = {0.0: {'speed': 5.0, 'enemy': 0.0, 'animated': 'false',
+'image': <ImageData 39x57>, 'worth': 5.0, 'maxhealth': 10.0, 'reward': 20.0}
 """
 
 projectile = loadImage("assets/projectile0.png")
