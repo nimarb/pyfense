@@ -118,8 +118,10 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
     def displayTowerHud(self, kind, x, y):
         # displays the HUD to chose between towers to build
         # TODO: proper sourcing of available towers (read from settings?)
-        self.menuMin_x = x - floor(len(self.towerThumbnails)/2) * self.towerThumbnails[0].width - self.towerThumbnails[0].width / 2
-        self.menuMax_x = x + floor(len(self.towerThumbnails)/2) * self.towerThumbnails[0].width + self.towerThumbnails[0].width / 2
+        #self.menuMin_x = x - floor(len(self.towerThumbnails)/2) * self.towerThumbnails[0].width - self.towerThumbnails[0].width / 2
+        self.menuMin_x = self.clicked_x + 5
+        #self.menuMax_x = x + floor(len(self.towerThumbnails)/2) * self.towerThumbnails[0].width + self.towerThumbnails[0].width / 2
+        self.menuMax_x = self.clicked_x + 5 + len(self.towerThumbnails) * self.towerThumbnails[0].width
         # only half subtracted because function is being called with
         # one half already subtracted
         # due to cocos2d assigning the sprite's center to specified location
@@ -167,12 +169,12 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         # check if user clicked on tower
         # TODO: check on which tower the user actually clicked, indicated by towernr + 100
         if self.currentCellStatus == 4 and self.buildingHudDisplayed is False:
-            self.displayTowerHud("upgrade", x, y - self.towerThumbnails[0].height / 2)
+            self.displayTowerHud("upgrade", self.clicked_x + len(self.towerThumbnails)/2 * self.towerThumbnails[0].width + 5, self.clicked_y - self.towerThumbnails[0].height / 2 - 5)
             return
         if False is self.buildingHudDisplayed and self.currentCellStatus == 3:
             self.clicked_x = x
             self.clicked_y = y
-            self.displayTowerHud("build", self.clicked_x + 1.5 * self.towerThumbnails[0].height + 5, self.clicked_y - self.towerThumbnails[0].height / 2 - 5)
+            self.displayTowerHud("build", self.clicked_x + len(self.towerThumbnails)/2 * self.towerThumbnails[0].width + 5, self.clicked_y - self.towerThumbnails[0].height / 2 - 5)
         elif self.currentCellStatus != 1 and self.currentCellStatus != 2 or self.buildingHudDisplayed is True:
             hudItem = self.clickedOnTowerHudItem(x, y)
             if hudItem != -1:
