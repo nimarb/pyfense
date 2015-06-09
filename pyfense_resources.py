@@ -96,7 +96,6 @@ with open("data/entities.cfg") as conf_file:
                 print("not defined")
 
 """
-<<<<<<< HEAD
 # attributes with _x_ should be read from textfile 
 
 tower[0][0] = { # Tower 0, level 0
@@ -156,7 +155,6 @@ tower.append({
     "cost_up1" : 250,
     "cost_up2" : 400
 })
->>>>>>> 38cf19169d77d4831dd02f030e9bf3596f7edda6
 """
 
 noCashOverlay = loadImage("assets/tower-nocashoverlay.png")
@@ -167,8 +165,7 @@ background = {
     "lvl3": loadImage("assets/lvl3.png"),
     "lvl4": loadImage("assets/lvl4.png")
                }
-<<<<<<< HEAD
-=======
+
 """
 ACTUAL ENEMY IS LOADED FROM CONFIG FILE, THIS IS AN EXAMPLE
 enemy = []
@@ -176,7 +173,6 @@ enemy.append(loadImage("assets/enemy0.png"))
 enemy.append(loadAnimation('assets/enemyAnimation.png',
                            4, 1, 60, 60, 0.15, True) )
 """
->>>>>>> 38cf19169d77d4831dd02f030e9bf3596f7edda6
 
 projectile = loadImage("assets/projectile0.png")
 
