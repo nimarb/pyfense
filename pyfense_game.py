@@ -29,6 +29,8 @@ class PyFenseGame(scene.Scene):
         # 3 := tower can be build, no enemy can walk
         # 4 := tower has been built, no enemy can walk,
         # no tower can be build (can upgrade (?))
+        # 100-200 := towerNr + 100 has been built here
+        # (in this case
         self.gameGrid = [[0 for x in range(32)] for x in range(18)]
         if(levelNumber == "custom"):
             # can only build tower on "grass"
@@ -171,12 +173,9 @@ class PyFenseGame(scene.Scene):
         self.hud.currentCellStatus = self.getGridPix(x, y)
 
     def on_build_tower(self, towerNumber, pos_x, pos_y):
-        # TODO: check if tower can be build here?
-        # TODO: check if sufficient currency available to build tower
         tower = PyFenseTower(self.entityMap.enemies, towerNumber,
                              (pos_x, pos_y))
         if tower.attributes["cost"] > self.currentCurrency:
-            print("not enough cash, building tower failed")
             return
         self.currentCurrency -= self.entityMap.buildTower(tower)
         self.setGridPix(pos_x, pos_y, 4)

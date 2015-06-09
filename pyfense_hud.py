@@ -149,6 +149,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                     self.noCashOverlayDisplayed[picture] = True
             self.buildingHudDisplayed = True
         elif kind == "upgrade":
+            
             pass
 
     # check WHETHER the click was on Hud Item

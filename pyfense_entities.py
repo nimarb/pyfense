@@ -33,7 +33,6 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.hasEnemyReachedEnd()
 
     def nextWave(self, waveNumber):
-
         self.schedule_interval(self.addEnemy, 1.5, self.path)
         self.spawnedEnemies = 0
         self.diedEnemies = 0
@@ -66,8 +65,8 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.isWaveFinished()
 
     def isWaveFinished(self):
-            # TODO: change hardcoded enemies per wave number
-            # to be read from cfg file, wave specific
+        # TODO: change hardcoded enemies per wave number
+        # to be read from cfg file, wave specific
         if self.spawnedEnemies >= 10:
             self.unschedule(self.addEnemy)
             if self.diedEnemies == self.spawnedEnemies:
