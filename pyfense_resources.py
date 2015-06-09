@@ -30,7 +30,6 @@ tower = {}
 enemy = {}
 with open("data/entities.cfg") as conf_file:
     for line in conf_file:
-
         line = line[:-1]
         # Leerzeilen oder auskommentierte Zeilen auslassen
         if line == "" or line[0] == "#":
@@ -158,6 +157,8 @@ tower.append({
 """
 
 noCashOverlay = loadImage("assets/tower-nocashoverlay.png")
+destroyTowerIcon = loadImage("assets/tower-destroy.png")
+noTowerUpgradeIcon = loadImage("assets/tower-noupgrade.png")
 
 background = {
     "lvl1": loadImage("assets/lvl1.png"),
@@ -183,7 +184,7 @@ path = loadImage("assets/path.png")
 nopath = loadImage("assets/nopath.png")
 grass = loadImage("assets/grass.png")
 
-range2000 = loadImage("assets/range2000.png")
+#range2000 = loadImage("assets/range2000.png")
 
 explosion = loadAnimation('assets/explosion0.png',
                           8, 1, 32, 32, 0.03, False)
