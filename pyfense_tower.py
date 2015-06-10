@@ -83,25 +83,4 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
             angle = math.degrees(math.atan2(x, y))
             self.rotation = angle
 
-    # get the current values of this tower
-    def get_values(self):
-        return attributes
-
-    # get the values of this tower thatwould be after an upgrade
-    def get_previewvalues(self):
-        towername = self.attributes["tower"]
-        level = self.attributes["lvl"]
-        if level+1 in pyfense_resources.tower[towername]:
-            preview_attributes = pyfense_resources.tower[tower][level+1]
-        else:
-            print("Highest Level reached, no upgrade possible")
-            preview_attributes = {}
-        return preview_attributes
-
-    # upgrade this tower and increase the values
-    def upgrade_Tower(self):
-        preview_attributes = get_preview_attributes()
-        if preview_attributes != {}:
-            self.attributes = preview_attributes
-
 PyFenseTower.register_event_type('on_projectile_fired')
