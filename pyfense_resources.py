@@ -38,68 +38,84 @@ with open("data/entities.cfg") as conf_file:
             line = line.replace(",", "")
             line = line.lower()
             line_data = line.split(" ")
+            
+            # Turm
             if line.find("tower:") != -1:
-                attribute_dict = {}
+                attr_dict = {}
                 for attribute in line_data:
                     attribute = attribute.split(":")
                     try:
                         attribute[1] = float(attribute[1])
                     except ValueError:
                         pass
+                    if attribute[1] == 'true':
+                        attribute[1] = True
+                    elif attribute[1] == 'false':
+                        attribute[1] = False
                     if attribute[0] == "tower" or attribute[0] == "towername":
                         towername = attribute[1]
                     elif attribute[0] == "level" or attribute[0] == "lvl":
                         towerlevel = attribute[1]
-                    attribute_dict[attribute[0]] = attribute[1]
+                    attr_dict[attribute[0]] = attribute[1]
                 # erstellt dict fuer neuen turm, falls nicht vorhanden
                 if towername not in tower:
                     tower[towername] = {}
-                # prueft, ob level fuer turm schon vorhanden, wenn ja, dann fehler
+                # Fehlermeldung, falls Turm vorhanden
                 if towerlevel in tower[towername]:
                     print("Error: Level fuer diesen Turm bereits vorhanden")
                     break
                 # ansonsten einfuegen der attribute in das dict
                 else:
                     try:
-                        attribute_dict["image"] = loadImage(
-                            "assets/{}".format(attribute_dict["image"]))
+                        attr_dict["image"] = loadImage(
+                            "assets/{}".format(attr_dict["image"]))
                     except FileNotFoundError:
                         print("Error: Image not found: {}".format(
-                            attribute_dict["image"]))
-                    tower[towername][towerlevel] = attribute_dict
+                            attr_dict["image"]))
+                    tower[towername][towerlevel] = attr_dict
 
+            # Enemy
             elif line.find("enemy:") != -1:
-                attribute_dict = {}
+                attr_dict = {}
                 for attribute in line_data:
                     attribute = attribute.split(":")
                     try:
-                        attribute[1] = float(attribute[1])
+                        attribute[1] = int(attribute[1])
                     except ValueError:
                         pass
+                    if attribute[1] == 'true':
+                        attribute[1] = True
+                    elif attribute[1] == 'false':
+                        attribute[1] = False
+                    if attribute[0] == "duration":
+                        attribute[1] = float(attribute[1])
                     if attribute[0] == "enemy" or attribute[0] == "enemyname":
                         enemyname = attribute[1]
-                    attribute_dict[attribute[0]] = attribute[1]
+                    attr_dict[attribute[0]] = attribute[1]
                 if enemyname in enemy:
                     print("Error: Enemy already existing")
                     break
                 else:
                     try:
-                        if "animated" in attribute_dict:
-                            if attribute_dict["animated"] == "true":
-                                attribute_dict["image"] = loadAnimation(
-                                   "assets/{}".format(attribute_dict["image"]),
-                                   10, 2, 70, 70, 0.02, True)
+                        if "animated" in attr_dict:
+                            if attr_dict["animated"] == True:
+                                attr_dict["image"] = loadAnimation(
+                                 "assets/{}".format(attr_dict["image"]),
+                                 attr_dict["spritesheet_x"],
+                                 attr_dict["spritesheet_y"], 
+                                 attr_dict["width"], attr_dict["height"],
+                                 attr_dict["duration"], attr_dict["loop"])
                             else:
-                                attribute_dict["image"] = loadImage(
-                                   "assets/{}".format(attribute_dict["image"]))
+                                attr_dict["image"] = loadImage(
+                                   "assets/{}".format(attr_dict["image"]))
                         else:
-                            attribute_dict["image"] = loadImage(
-                                "assets/{}".format(attribute_dict["image"]))
+                            attr_dict["image"] = loadImage(
+                                "assets/{}".format(attr_dict["image"]))
 
                     except FileNotFoundError:
                         print("Error: Image not found: {}".format(
-                            attribute_dict["image"]))
-                    enemy[enemyname] = attribute_dict
+                            attr_dict["image"]))
+                    enemy[enemyname] = attr_dict
             else:
                 print("not defined")
 """
