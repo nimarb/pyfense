@@ -1,0 +1,38 @@
+
+tower = 
+
+{0: 
+	{1: {'tower': 0,
+	 'projectile_image': <ImageData 20x36>,
+	 'width': 70,
+	 'lvl': 1,
+	 'projectilevelocity': 1000,
+	 'firerate': 0.25,
+	 'projectileanimated': True,
+	 'loop': True,
+	 'damage': 5,
+	 'spritesheet_x': 10,
+	 'range': 200,
+	 'cost': 100,
+	 'image': <ImageData 80x80>,
+	 'duration': '0.02',
+	 'spritesheet_y': 2,
+	 'height': 70},
+
+
+	 2: {'tower': 0, 'projectile_image': <ImageData 20x36>, 'firerate': 1.5, 'lvl': 2, 'cost': 250, 'damage': 20, 'image': <ImageData 80x80>, 'projectilevelocity': 1000, 'range': 200}, 
+
+	3: {'tower': 0, 'projectile_image': <ImageData 20x36>, 'firerate': 1.5, 'lvl': 3, 'cost': 400, 'damage': 30, 'image': <ImageData 80x80>, 'projectilevelocity': 1000, 'range': 400}}, 
+
+1:
+	 {1: {'tower': 1, 'projectile_image': <ImageData 20x36>, 'firerate': 3.0, 'lvl': 1, 'cost': 100, 'damage': 40, 'image': <ImageData 80x80>, 'projectilevelocity': 1000, 'range': 300}, 
+	2: {'tower': 1, 'projectile_image': <ImageData 20x36>, 'firerate': 1.5, 'lvl': 2, 'cost': 250, 'damage': 20, 'image': <ImageData 80x80>, 'projectilevelocity': 1000, 'range': 200}, 
+	3: {'tower': 1, 'projectile_image': <ImageData 20x36>, 'firerate': 1.5, 'lvl': 3, 'cost': 400, 'damage': 30, 'image': <ImageData 80x80>, 'projectilevelocity': 1000, 'range': 400}},
+
+ 2: 
+	{1: 
+		{'tower': 2, 'projectile_image': <ImageData 20x36>, 'firerate': 1.0, 'lvl': 1, 'cost': 100, 'damage': 10, 'image': <ImageData 80x80>, 'projectilevelocity': 1000, 'range': 200}, 
+	2: {'tower': 2, 'projectile_image': <ImageData 20x36>, 'firerate': 1.5, 'lvl': 2, 'cost': 250, 'damage': 20, 'image': <ImageData 60x60>, 'projectilevelocity': 1000, 'range': 200},
+	 3: {'tower': 2, 'projectile_image': <ImageData 20x36>, 'firerate': 1.5, 'lvl': 3, 'cost': 400, 'damage': 30, 'image': <ImageData 60x60>, 'projectilevelocity': 1000, 'range': 400}}}
+
+ipdb> 
