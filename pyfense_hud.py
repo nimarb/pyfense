@@ -17,6 +17,13 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.time = self.timeBetweenWaves
         self.displayStatusBar()
         self.buildingHudDisplayed = False
+        # upgradeHudDisplayed is 0 if no Hud is displayed
+        # it is 0.5 if the hud is displayed but no upgrade is displayed
+        # eg if a tower is already at lvl 3, or has no upgrade
+        # if an upgradeable tower is displayed, upgradeHudDisplayed takes the
+        # value of: towerNumber followed by upgradeLevel, example:
+        # user clicked on towerNumber 1 at 2nd upgrade state:
+        # upgradeHudDisplayed == 12
         self.upgradeHudDisplayed = 0
         self.startNextWaveTimer()
         # TODO: create a loop to load images
@@ -119,10 +126,15 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         if self.upgradeHudDisplayed == 0:
             return
         self.remove(self.destroyTowerIcon)
-        if self.upgradeHudDisplayed > 1:
-            pass
-            #remove upgrade sprite of said tower number
-        elif self.upgradeHudDisplayed == 1:
+        if self.upgradeHudDisplayed > 0.5:
+            if self.upgradeHudDisplayed < 10:
+                upgradeLevel = self.upgradeHudDisplayed
+            else:
+                upgradeLevel = int(float(str(self.upgradeHudDisplayed)[1:2]))
+            #TODO: cost check implementieren
+            if upgradeLevel < 3:
+                self.remove(self.towerUpgradeThumbnail)
+        elif self.upgradeHudDisplayed == 0.5:
             self.remove(self.noTowerUpgradeIcon)
         self.upgradeHudDisplayed = 0
 
@@ -179,7 +191,8 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             towerNumber = int(str(clickedCellStatus)[1:2])
             upgradeLevel = int(str(clickedCellStatus)[2:3])
             #TODO: check if further upgrade available
-            if frozenset(pyfense_resources.tower[towerNumber][upgradeLevel + 1]) in pyfense_resources.tower[towerNumber]:
+            #if frozenset(pyfense_resources.tower[towerNumber][upgradeLevel + 1]) in pyfense_resources.tower[towerNumber]:
+            if upgradeLevel < 3:
                 self.towerUpgradeThumbnail = cocos.sprite.Sprite(
                     pyfense_resources.tower[towerNumber][upgradeLevel + 1]["image"])
                 self.add(self.towerUpgradeThumbnail)
@@ -188,6 +201,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self.add(self.destroyTowerIcon)
                 self.destroyTowerIcon.position = (self.menuMin_x + 
                     self.destroyTowerIcon.width * 1.5, y)
+                self.upgradeHudDisplayed = int(str(towerNumber) + str(upgradeLevel))
             else:
                 self.add(self.noTowerUpgradeIcon)
                 self.noTowerUpgradeIcon.position = (self.menuMin_x + 
@@ -195,8 +209,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self.add(self.destroyTowerIcon)
                 self.destroyTowerIcon.position = (self.menuMin_x + 
                     self.destroyTowerIcon.width * 1.5, y)
-            #self.upgradeHudDisplayed = 1
-            self.upgradeHudDisplayed = int(str(towerNumber) + str(upgradeLevel))
+                self.upgradeHudDisplayed = 0.5
 
     # check WHETHER the click was on Hud Item
     def clickedOnTowerHudItem(self, x, y):
