@@ -84,8 +84,8 @@ class PyFenseMapBuilder(scene.Scene):
         if grid_y > 17:
             grid_y = 17
         return self.gameGrid[grid_y][grid_x]
+        
     def on_build_path(self, x, y):
-
         if(self.getGridPix(x,y)==0):
             path = cocos.sprite.Sprite(pyfense_resources.path, position = (x, y))
             self.add(path)

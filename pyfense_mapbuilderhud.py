@@ -27,8 +27,6 @@ class PyFenseMapBuilderHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         clicked_y = int(self.clicked_y / 60) * 60 + 30
         self.dispatch_event("on_build_path", clicked_x, clicked_y)
 
-
-
     def on_mouse_release(self, x, y, buttons, modifiers):
         (x, y) = cocos.director.director.get_virtual_coordinates(x, y)
         self.clicked_x = x
@@ -59,8 +57,6 @@ class PyFenseMapBuilderHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         grid_y = int(y / 60)
         self.cellSelectorSpriteBlue.position = (grid_x * 60 + 30, grid_y * 60 + 30)
         self.cellSelectorSpriteBlue.visible = True
-
-
 #
 PyFenseMapBuilderHud.register_event_type('on_build_path')
 PyFenseMapBuilderHud.register_event_type('on_save')
