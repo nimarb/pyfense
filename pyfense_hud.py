@@ -153,11 +153,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     def displayTowerHud(self, kind, x, y):
         # displays the HUD to chose between towers to build
-        # TODO: proper sourcing of available towers (read from settings?)
-        #self.menuMin_x = x - floor(len(self.towerThumbnails)/2) * self.towerThumbnails[0].width - self.towerThumbnails[0].width / 2
         self.menuMin_x = self.clicked_x + 5
-        #self.menuMax_x = x + floor(len(self.towerThumbnails)/2) * self.towerThumbnails[0].width + self.towerThumbnails[0].width / 2
-
         # only half subtracted because function is being called with
         # one half already subtracted
         # due to cocos2d assigning the sprite's center to specified location
@@ -167,8 +163,6 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         if kind == "build":
             self.menuMax_x = self.menuMin_x + len(self.towerThumbnails) * self.towerThumbnails[0].width
             for picture in range(0, len(self.towerThumbnails)):
-                # use self.menuMin_x to center the menu below the
-                # coursor in x direction
                 # ATTENTION, cocos2d always draws the CENTER of the
                 # sprite at the specified location
                 self.towerThumbnails[picture].position = (
@@ -191,7 +185,6 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             towerNumber = int(str(clickedCellStatus)[1:2])
             upgradeLevel = int(str(clickedCellStatus)[2:3])
             #TODO: check if further upgrade available
-            #if frozenset(pyfense_resources.tower[towerNumber][upgradeLevel + 1]) in pyfense_resources.tower[towerNumber]:
             if upgradeLevel < 3:
                 self.towerUpgradeThumbnail = cocos.sprite.Sprite(
                     pyfense_resources.tower[towerNumber][upgradeLevel + 1]["image"])
@@ -200,7 +193,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                     self.towerUpgradeThumbnail.width / 2, y)
                 self.add(self.destroyTowerIcon)
                 self.destroyTowerIcon.position = (self.menuMin_x + 
-                    self.destroyTowerIcon.width * 1.5, y)
+                    self.towerUpgradeThumbnail.width * 1.5, y)
                 self.upgradeHudDisplayed = int(str(towerNumber) + str(upgradeLevel))
             else:
                 self.add(self.noTowerUpgradeIcon)
