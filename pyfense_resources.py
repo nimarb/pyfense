@@ -193,7 +193,7 @@ enemy = {0.0: {'speed': 5.0, 'enemy': 0.0, 'animated': 'false',
 'image': <ImageData 39x57>, 'worth': 5.0, 'maxhealth': 10.0, 'reward': 20.0}
 """
 
-projectile = loadImage("assets/projectile00.png")
+#projectile = loadImage("assets/projectile00.png")
 
 selector0 = loadImage("assets/selector0.png")
 selector1 = loadImage("assets/selector1.png")
