@@ -37,8 +37,8 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
         elif self.canFire:
             self.canFire = False
             self.dispatch_event('on_projectile_fired', self, self.target, 
-                                    #self.attributes["projectile_image],
-                                    pyfense_resources.projectile,
+                                    self.attributes["projectile_image"],
+                                    #pyfense_resources.projectile,
                                     self.rotation,
                                     self.attributes["projectilevelocity"],
                                     self.attributes["damage"])

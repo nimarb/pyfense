@@ -45,7 +45,7 @@ with open("data/entities.cfg") as conf_file:
                 for attribute in line_data:
                     attribute = attribute.split(":")
                     try:
-                        attribute[1] = float(attribute[1])
+                        attribute[1] = int(attribute[1])
                     except ValueError:
                         pass
                     if attribute[1] == 'true':
@@ -56,6 +56,8 @@ with open("data/entities.cfg") as conf_file:
                         towername = attribute[1]
                     elif attribute[0] == "level" or attribute[0] == "lvl":
                         towerlevel = attribute[1]
+                    elif attribute[0] == "firerate":
+                        attribute[1] = float(attribute[1])
                     attr_dict[attribute[0]] = attribute[1]
                 # erstellt dict fuer neuen turm, falls nicht vorhanden
                 if towername not in tower:
@@ -72,7 +74,16 @@ with open("data/entities.cfg") as conf_file:
                     except FileNotFoundError:
                         print("Error: Image not found: {}".format(
                             attr_dict["image"]))
+                            
+                    try:
+                        attr_dict["projectile_image"] = loadImage(
+                            "assets/{}".format(attr_dict["projectile_image"]))
+                    except FileNotFoundError:
+                        print("Error: Image not found: {}".format(
+                            attr_dict["image"]))
+                            
                     tower[towername][towerlevel] = attr_dict
+                    
 
             # Enemy
             elif line.find("enemy:") != -1:
