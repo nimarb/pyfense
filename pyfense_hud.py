@@ -7,7 +7,6 @@ import pyglet
 from math import floor
 import pyfense_resources
 
-
 class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
     is_event_handler = True
 
@@ -145,7 +144,8 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                             clicked_x, clicked_y)
                             
     def upgradeTower(self):
-        print("upgrade tower")
+        self.dispatch_event('on_upgrade_tower', 
+            self.cellSelectorSpriteGreen.position)
         
     def destroyTower(self):
         self.dispatch_event('on_destroy_tower', 
@@ -280,5 +280,6 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
 PyFenseHud.register_event_type('on_build_tower')
 PyFenseHud.register_event_type('on_destroy_tower')
+PyFenseHud.register_event_type('on_upgrade_tower')
 PyFenseHud.register_event_type('on_next_wave_timer_finished')
 PyFenseHud.register_event_type('on_user_mouse_motion')

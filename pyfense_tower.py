@@ -14,9 +14,9 @@ from pyfense_entities import *
 # Takes tower.png found in assets directory
 
 class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
-    def __init__(self, enemies, towerNumber, position):
+    def __init__(self, enemies, towerNumber, position, level=1):
         is_event_handler = True
-        self.attributes = pyfense_resources.tower[towerNumber][1]
+        self.attributes = pyfense_resources.tower[towerNumber][level]
         texture = self.attributes["image"]
         super().__init__(texture, position)
         self.enemies = enemies
@@ -55,7 +55,6 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
     # find the next enemy (that should be attacked next)
     # either first enemy in range or nearest Enemy
     # standardvalue is first
-    
     def find_next_enemy(self, mode="first"):
         self.target = None
         self.dist = self.attributes["range"]

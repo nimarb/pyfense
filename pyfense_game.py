@@ -120,7 +120,6 @@ class PyFenseGame(scene.Scene):
                 move += actions.MoveBy((0, -60), 0.5)  # MoveDown
                 currentTile[0] -= 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
-
             else:
                 break
 
@@ -177,13 +176,31 @@ class PyFenseGame(scene.Scene):
         if tower.attributes["cost"] > self.currentCurrency:
             return
         self.currentCurrency -= self.entityMap.buildTower(tower)
-        self.setGridPix(pos_x, pos_y, int(float("1" + str(towerNumber) + str(tower.attributes["lvl"]))))
         self.hud.updateCurrencyNumber(self.currentCurrency)
+        self.setGridPix(pos_x, pos_y, int(float("1" + str(towerNumber) + str(tower.attributes["lvl"]))))
+        
+    def on_upgrade_tower(self, position):
+        tower = self.entityMap.getTowerAt(position)
+        towerLevel = tower.attributes["lvl"]
+        if towerLevel == 3:
+            print("tower already at max level")
+            return
+        towerNumber = tower.attributes["tower"]
+        # TODO: cost check should be done in HUD class like it is for build Tower
+        cost = pyfense_resources.tower[towerNumber][towerLevel + 1]["cost"]
+        if cost > self.currentCurrency:
+            return
+        self.currentCurrency -= cost
+        self.hud.updateCurrencyNumber(self.currentCurrency)
+        self.entityMap.removeTower(position)
+        newTower = PyFenseTower(self.entityMap.enemies, towerNumber,
+                             position, towerLevel + 1)
+        self.entityMap.buildTower(newTower)
         
     def on_destroy_tower(self, position):
         (x, y) = position
         self.setGridPix(x, y, 3)
-        self.currentCurrency += 0.7 * self.entityMap.removeTower((x, y))
+        self.currentCurrency += 0.7 * self.entityMap.removeTower(position)
         self.hud.updateCurrencyNumber(self.currentCurrency)
 
     def on_next_wave(self):
