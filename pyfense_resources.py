@@ -184,8 +184,7 @@ noTowerUpgradeIcon = loadImage("assets/tower-noupgrade.png")
 background = {
     "lvl1": loadImage("assets/lvl1.png"),
     "lvl2": loadImage("assets/lvl2.png"),
-    "lvl3": loadImage("assets/lvl3.png"),
-    "lvl4": loadImage("assets/lvl4.png")
+    "lvl3": loadImage("assets/lvl3.png")
                }
 
 """
