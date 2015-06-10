@@ -183,7 +183,6 @@ class PyFenseGame(scene.Scene):
         tower = self.entityMap.getTowerAt(position)
         towerLevel = tower.attributes["lvl"]
         if towerLevel == 3:
-            print("tower already at max level")
             return
         towerNumber = tower.attributes["tower"]
         # TODO: cost check should be done in HUD class like it is for build Tower
@@ -196,6 +195,8 @@ class PyFenseGame(scene.Scene):
         newTower = PyFenseTower(self.entityMap.enemies, towerNumber,
                              position, towerLevel + 1)
         self.entityMap.buildTower(newTower)
+        (x, y) = position
+        self.setGridPix(x, y, int(float("1" + str(towerNumber) + str(towerLevel + 1))))
         
     def on_destroy_tower(self, position):
         (x, y) = position
