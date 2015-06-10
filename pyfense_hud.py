@@ -20,9 +20,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         # it is 0.5 if the hud is displayed but no upgrade is displayed
         # eg if a tower is already at lvl 3, or has no upgrade
         # if an upgradeable tower is displayed, upgradeHudDisplayed takes the
-        # value of: towerNumber followed by upgradeLevel, example:
-        # user clicked on towerNumber 1 at 2nd upgrade state:
-        # upgradeHudDisplayed == 12
+        # value of: upgradeLevel
         self.upgradeHudDisplayed = 0
         self.startNextWaveTimer()
         # TODO: create a loop to load images
@@ -49,8 +47,6 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             pyfense_resources.destroyTowerIcon)
         self.noTowerUpgradeIcon = cocos.sprite.Sprite(
             pyfense_resources.noTowerUpgradeIcon)
-            
-        # load selector to highlight currently selected cell
         self.addCellSelectorSprite()
         self.currentCellStatus = 0
 
@@ -126,11 +122,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             return
         self.remove(self.destroyTowerIcon)
         if self.upgradeHudDisplayed > 0.5:
-            if self.upgradeHudDisplayed < 10:
-                upgradeLevel = self.upgradeHudDisplayed
-            else:
-                upgradeLevel = int(float(str(self.upgradeHudDisplayed)[1:2]))
-            #TODO: cost check implementieren
+            upgradeLevel = self.upgradeHudDisplayed
             if upgradeLevel < 3:
                 self.remove(self.towerUpgradeThumbnail)
         elif self.upgradeHudDisplayed == 0.5:
@@ -182,11 +174,11 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         elif kind == "upgrade":
             self.menuMax_x = self.menuMin_x + 2 * self.destroyTowerIcon.width
             clickedCellStatus = self.currentCellStatus
-            towerNumber = int(str(clickedCellStatus)[1:2])
-            upgradeLevel = int(str(clickedCellStatus)[2:3])
-            #TODO: check if further upgrade available
+            towerNumber = int(str(clickedCellStatus)[1])
+            upgradeLevel = int(str(clickedCellStatus)[2])
             if upgradeLevel < 3:
                 self.towerUpgradeThumbnail = cocos.sprite.Sprite(
+                    #pyfense_resources.tower[towerNumber][3]["image"])
                     pyfense_resources.tower[towerNumber][upgradeLevel + 1]["image"])
                 self.add(self.towerUpgradeThumbnail)
                 self.towerUpgradeThumbnail.position = (self.menuMin_x + 
@@ -194,7 +186,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self.add(self.destroyTowerIcon)
                 self.destroyTowerIcon.position = (self.menuMin_x + 
                     self.towerUpgradeThumbnail.width * 1.5, y)
-                self.upgradeHudDisplayed = int(str(towerNumber) + str(upgradeLevel))
+                self.upgradeHudDisplayed = upgradeLevel
             else:
                 self.add(self.noTowerUpgradeIcon)
                 self.noTowerUpgradeIcon.position = (self.menuMin_x + 
@@ -211,14 +203,12 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         # if yes, carry out the attached action (build/upgrade/cash-in tower)
         if self.buildingHudDisplayed is True:
             if (y < self.menuMax_y + self.towerThumbnails[0].height / 2 and y > self.menuMin_y):
-                # TODO: performance wise smart to check if menu being clicked instead of straight out jumping into the loop?
                 if x > self.menuMin_x and x < self.menuMax_x:
                     for i in range(0, len(self.towerThumbnails)):
                         if x > self.menuMin_x + i * self.towerThumbnails[i].width and x < self.menuMax_x - (len(self.towerThumbnails) - i - 1) * self.towerThumbnails[i].width:
                             return i
         elif self.upgradeHudDisplayed > 0:
             if (y < self.menuMax_y + self.destroyTowerIcon.height / 2 and y > self.menuMin_y):
-                # TODO: performance wise smart to check if menu being clicked instead of straight out jumping into the loop?
                 # a max of two items. need to manually change number incase a 3rd is needed
                 if x > self.menuMin_x and x < self.menuMax_x:
                     for i in range(0, 2):
@@ -232,11 +222,11 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         if self.currentCellStatus > 3 and self.buildingHudDisplayed is False and self.upgradeHudDisplayed == 0:
             self.clicked_x = x
             self.clicked_y = y
-            self.displayTowerHud("upgrade", self.clicked_x + len(self.towerThumbnails)/2 * self.towerThumbnails[0].width + 5, self.clicked_y - self.towerThumbnails[0].height / 2 - 5)
+            self.displayTowerHud("upgrade", self.clicked_x + len(self.towerThumbnails) / 2 * self.towerThumbnails[0].width + 5, self.clicked_y - self.towerThumbnails[0].height / 2 - 5)
         elif False is self.buildingHudDisplayed and self.currentCellStatus == 3 and self.upgradeHudDisplayed == 0:
             self.clicked_x = x
             self.clicked_y = y
-            self.displayTowerHud("build", self.clicked_x + len(self.towerThumbnails)/2 * self.towerThumbnails[0].width + 5, self.clicked_y - self.towerThumbnails[0].height / 2 - 5)
+            self.displayTowerHud("build", self.clicked_x + len(self.towerThumbnails) / 2 * self.towerThumbnails[0].width + 5, self.clicked_y - self.towerThumbnails[0].height / 2 - 5)
         elif self.upgradeHudDisplayed > 0 or self.buildingHudDisplayed is True:
             hudItem = self.clickedOnTowerHudItem(x, y)
             if hudItem != -1:
