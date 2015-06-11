@@ -109,12 +109,12 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.add(self.cellSelectorSpriteGreen)
 
     def addTowerTexts(self):
-        label1 = cocos.text.Label(" ", anchor_x='center', 
-            anchor_y='center')
-        label2 = cocos.text.Label(" ", anchor_x='center', 
-            anchor_y='center')
-        label3 = cocos.text.Label(" ", anchor_x='center', 
-            anchor_y='center')
+        label1 = cocos.text.Label(" ", bold=True, anchor_x='center', 
+            anchor_y='center', color=(255, 0, 0, 255))
+        label2 = cocos.text.Label(" ", bold=True, anchor_x='center', 
+            anchor_y='center', color=(255, 0, 0, 255))
+        label3 = cocos.text.Label(" ", bold=True, anchor_x='center', 
+            anchor_y='center', color=(255, 0, 0, 255))
         self.towerTexts = [label1, label2, label3]
 
 
