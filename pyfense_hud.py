@@ -32,6 +32,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             pyfense_resources.tower[2][1]["image"])
         self.towerThumbnails = [self.towerThumbnail1,
                                 self.towerThumbnail2, self.towerThumbnail3]
+        self.addTowerTexts()
         self.noCashOverlay1 = cocos.sprite.Sprite(
             pyfense_resources.noCashOverlay)
         self.noCashOverlay2 = cocos.sprite.Sprite(
@@ -107,11 +108,22 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.add(self.cellSelectorSpriteRed)
         self.add(self.cellSelectorSpriteGreen)
 
+    def addTowerTexts(self):
+        label1 = cocos.text.Label(" ", anchor_x='center', 
+            anchor_y='center')
+        label2 = cocos.text.Label(" ", anchor_x='center', 
+            anchor_y='center')
+        label3 = cocos.text.Label(" ", anchor_x='center', 
+            anchor_y='center')
+        self.towerTexts = [label1, label2, label3]
+
+
     def removeTowerBuildingHud(self):
         if self.buildingHudDisplayed is False:
             return
         for picture in range(0, len(self.towerThumbnails)):
             self.remove(self.towerThumbnails[picture])
+            self.remove(self.towerTexts[picture])
             if self.noCashOverlayDisplayed[picture] == True:
                 self.remove(self.noCashOverlays[picture])
                 self.noCashOverlayDisplayed[picture] = False
@@ -160,14 +172,20 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self.towerThumbnails[picture].position = (
                     self.menuMin_x +
                     picture*self.towerThumbnails[picture].width +
-                    self.towerThumbnails[picture].width/2, y)
+                    self.towerThumbnails[picture].width / 2, y)
+                self.towerTexts[picture].element.text = str(pyfense_resources.tower[picture][1]["cost"])
+                self.towerTexts[picture].position = (self.menuMin_x + 
+                    picture*self.towerThumbnails[picture].width +
+                    self.towerThumbnails[picture].width / 1.5, y - 
+                    self.towerThumbnails[picture].height / 4)
                 self.add(self.towerThumbnails[picture])
+                self.add(self.towerTexts[picture])
                 if (self.currentCurrency < pyfense_resources.tower[picture][1]['cost']):
                     self.add(self.noCashOverlays[picture])
                     self.noCashOverlays[picture].position = (
                         self.menuMin_x +
                         picture*self.towerThumbnails[picture].width +
-                        self.towerThumbnails[picture].width/2, y)
+                        self.towerThumbnails[picture].width / 2, y)
                     self.noCashOverlays[picture].opacity = 127
                     self.noCashOverlayDisplayed[picture] = True
             self.buildingHudDisplayed = True
