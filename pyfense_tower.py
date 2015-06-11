@@ -42,7 +42,7 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
                                     self.rotation,
                                     self.attributes["projectilevelocity"],
                                     self.attributes["damage"])
-            clock.schedule_once(self.fireInterval, self.attributes['firerate'])                                    
+            clock.schedule_once(self.fireInterval, 1/self.attributes['firerate'])                                    
                                
     # Fire the projectile only after firerate interval                                
     def fireInterval(self, dt):

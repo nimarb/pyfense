@@ -14,6 +14,8 @@ from pyfense_hud import *
 # Just for testing different enemies
 import random
 
+import pyfense_particles
+
 
 class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
     is_event_handler = True
@@ -62,7 +64,10 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.add(projectile, z=1)
 
     def on_enemy_hit(self, projectile, target):
-        self.startAnimation(target.position)
+        explosion = pyfense_particles.Fire()
+        explosion.position = target.position
+        self.add(explosion, z = 4)
+        clock.schedule_once(lambda dt, x: self.remove(x), 1 ,explosion)
         target.healthPoints -= projectile.damage
         self.remove(projectile)
         self.projectiles.remove(projectile)
@@ -104,14 +109,6 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.diedEnemies += 1
             self.isWaveFinished()
 
-    def startAnimation(self, position):
-        explosionSprite = cocos.sprite.Sprite(pyfense_resources.explosion)
-        explosionSprite.push_handlers(self)
-        explosionSprite.position = position
-        explosionSprite.scale = 2
-        self.add(explosionSprite, z=2)
-        clock.schedule_once(lambda dt, x: self.remove(x), 8*0.03,
-                            explosionSprite)
 
 PyFenseEntities.register_event_type('on_next_wave')
 PyFenseEntities.register_event_type('on_enemy_death')

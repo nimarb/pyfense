@@ -200,6 +200,3 @@ nopath = loadImage("assets/nopath.png")
 grass = loadImage("assets/grass.png")
 
 range1920 = loadImage("assets/range1920.png")
-
-explosion = loadAnimation('assets/explosion0.png',
-                          8, 1, 32, 32, 0.03, False)
