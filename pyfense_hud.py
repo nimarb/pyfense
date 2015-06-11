@@ -116,7 +116,8 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         label3 = cocos.text.Label(" ", bold=True, anchor_x='center', 
             anchor_y='center', color=(255, 0, 0, 255))
         self.towerTexts = [label1, label2, label3]
-
+        self.towerUpgradeText = cocos.text.Label(" ", bold=True, 
+            anchor_x='center', anchor_y='center', color=(255, 0, 0, 255))
 
     def removeTowerBuildingHud(self):
         if self.buildingHudDisplayed is False:
@@ -137,6 +138,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             upgradeLevel = self.upgradeHudDisplayed
             if upgradeLevel < 3:
                 self.remove(self.towerUpgradeThumbnail)
+                self.remove(self.towerUpgradeText)
         elif self.upgradeHudDisplayed == 0.5:
             self.remove(self.noTowerUpgradeIcon)
         self.upgradeHudDisplayed = 0
@@ -205,6 +207,10 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self.destroyTowerIcon.position = (self.menuMin_x + 
                     self.towerUpgradeThumbnail.width * 1.5, y)
                 self.upgradeHudDisplayed = upgradeLevel
+                self.towerUpgradeText.element.text = str(pyfense_resources.tower[towerNumber][upgradeLevel + 1]["cost"])
+                self.towerUpgradeText.position = (self.menuMin_x + 
+                    self.towerUpgradeThumbnail.width / 1.5, y - self.towerUpgradeThumbnail.width / 4)
+                self.add(self.towerUpgradeText)
             else:
                 self.add(self.noTowerUpgradeIcon)
                 self.noTowerUpgradeIcon.position = (self.menuMin_x + 
