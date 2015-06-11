@@ -6,6 +6,7 @@ import cocos
 import pyglet
 from math import floor
 import pyfense_resources
+from sys import platform as _platform #for OS check
 
 class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
     is_event_handler = True
@@ -295,7 +296,10 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 towerNumber = int(str(self.currentCellStatus)[1])
                 upgradeLevel = int(str(self.currentCellStatus)[2])
                 towerRange = pyfense_resources.tower[towerNumber][upgradeLevel]['range']
-                self.rangeIndicator.scale = towerRange / 960
+                if _platform == "linux" or _platform == "linux2":
+                    self.rangeIndicator.scale = 10 * towerRange / 960 
+                else:
+                    self.rangeIndicator.scale = towerRange / 960
                 self.rangeIndicator.visible = True
 
 
