@@ -295,7 +295,6 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 towerNumber = int(str(self.currentCellStatus)[1])
                 upgradeLevel = int(str(self.currentCellStatus)[2])
                 towerRange = pyfense_resources.tower[towerNumber][upgradeLevel]['range']
-                print(towerRange)
                 self.rangeIndicator.scale = towerRange / 960
                 self.rangeIndicator.visible = True
 
