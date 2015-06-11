@@ -14,7 +14,7 @@ class Death(ParticleSystem):
     texture = pic.get_texture()
 
     # total particles
-    total_particles = 2000
+    total_particles = 1000
 
     # duration
     duration = 0.1
@@ -27,18 +27,18 @@ class Death(ParticleSystem):
     angle_var = 360
 
     # radial
-    radial_accel = -150
+    radial_accel = -700
     radial_accel_var = 20
 
     # speed of particles
-    speed = 250
+    speed = 400
     speed_var = 50
 
     # emitter variable position
     pos_var = Point2(5, 5)
 
     # life of particles
-    life = 0.9
+    life = 0.4
     life_var = 0.1
 
     # emits per frame
@@ -64,6 +64,7 @@ class Death(ParticleSystem):
 
     # color modulate
     color_modulate = True
+
 
 
 class Explosion(ParticleSystem):
