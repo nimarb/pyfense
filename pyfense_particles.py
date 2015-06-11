@@ -3,12 +3,18 @@ import cocos.particle
 from cocos.particle import ParticleSystem, Color
 from cocos.euclid import Point2
 
+import pyglet
+import random
 
 
-class Explosion(ParticleSystem):
+
+class Death(ParticleSystem):
+
+    pic = pyglet.image.load('assets/particle.png')
+    texture = pic.get_texture()
 
     # total particles
-    total_particles = 800
+    total_particles = 2000
 
     # duration
     duration = 0.1
@@ -21,32 +27,37 @@ class Explosion(ParticleSystem):
     angle_var = 360
 
     # radial
-    radial_accel = -200
-    radial_accel_var = 5
+    radial_accel = -150
+    radial_accel_var = 20
 
     # speed of particles
-    speed = 200
+    speed = 250
     speed_var = 50
 
     # emitter variable position
     pos_var = Point2(5, 5)
 
     # life of particles
-    life = 2	
-    life_var = 1
+    life = 0.9
+    life_var = 0.1
 
     # emits per frame
     emission_rate = total_particles / life
 
     # color of particles
-    start_color = Color(0.7, 0.2, 0.1, 1.0)
-    start_color_var = Color(0.5, 0.5, 0.5, 0.0)
-    end_color = Color(0.5, 0.5, 0.5, 0.0)
-    end_color_var = Color(0.5, 0.5, 0.5, 0.0)
+    # start_color = Color(1.0, 0.3, 0, 0.7)
+    # start_color_var = Color(0.0, 0.1, 0., 0.4)
+    # end_color = Color(1.0, 1, 1, 0)
+    # end_color_var = Color(0, 0, 0, 0.2)
+
+    start_color = Color(1, 0.53, 0, 1.0)
+    start_color_var = Color(0.0, 0.0, 0.0, 0.0)
+    end_color = Color(1, 1, 1, 0)
+    end_color_var = Color(0.0, 0.0, 0.0, 0.05)
 
     # size, in pixels
     size = 15
-    size_var = 2.0
+    size_var = 3
 
     # blend additive
     blend_additive = True
@@ -55,7 +66,8 @@ class Explosion(ParticleSystem):
     color_modulate = True
 
 
-class Fire(ParticleSystem):
+class Explosion(ParticleSystem):
+
 
     # total particles
     total_particles = 500
