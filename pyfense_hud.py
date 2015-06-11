@@ -290,7 +290,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self.cellSelectorSpriteGreen.visible = True
                 self.rangeIndicator.visible = False
             if self.currentCellStatus > 4:
-                self.rangeIndicator.position = (grid_x * 60, grid_y * 60)
+                self.rangeIndicator.position = (grid_x * 60 + 30, grid_y * 60 + 30)
                 self.rangeIndicator.opacity = 120
                 towerNumber = int(str(self.currentCellStatus)[1])
                 upgradeLevel = int(str(self.currentCellStatus)[2])
