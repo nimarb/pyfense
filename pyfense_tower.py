@@ -40,7 +40,7 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
                                     self.attributes["projectile_image"],
                                     #pyfense_resources.projectile,
                                     self.rotation,
-                                    self.attributes["projectilevelocity"],
+                                    self.attributes["projectileVelocity"],
                                     self.attributes["damage"])
             clock.schedule_once(self.fireInterval, 1/self.attributes['firerate'])                                    
                                

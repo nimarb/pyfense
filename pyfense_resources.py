@@ -5,132 +5,126 @@ application efficiently
 
 import pyglet
 from pyglet.image.codecs.png import PNGImageDecoder
-from sys import platform as _platform #for OS check
+from sys import platform as _platform  # for OS check
+
 
 # Check OS to avoid segmentation fault with linux
 def loadImage(filename):
     if _platform == "linux" or _platform == "linux2":
         return pyglet.image.load(filename, decoder=PNGImageDecoder())
-    #elif _platform == "darwin" or _platform == "win32":
+    # elif _platform == "darwin" or _platform == "win32":
     else:
         return pyglet.image.load(filename)
 
+
 # Loads spritesheets as animation with frames from bottom left to top right
-def loadAnimation( filepath, spritesheet_x, spritesheet_y, width,
-                  height, duration, loop ):
-    spritesheet = loadImage( filepath )
-    grid = pyglet.image.ImageGrid( spritesheet, spritesheet_y, spritesheet_x,
-                                  item_width=width, item_height=width )
-    textures = pyglet.image.TextureGrid( grid )
-    images = textures[ 0:len( textures ) ]
+def loadAnimation(filepath, spritesheet_x, spritesheet_y, width,
+                  height, duration, loop):
+    spritesheet = loadImage(filepath)
+    grid = pyglet.image.ImageGrid(spritesheet, spritesheet_y, spritesheet_x,
+                                  item_width=width, item_height=width)
+    textures = pyglet.image.TextureGrid(grid)
+    images = textures[0:len(textures)]
     return pyglet.image.Animation.from_image_sequence(
             images, duration, loop=loop)
 
 tower = {}
 enemy = {}
+projectile = {}
 with open("data/entities.cfg") as conf_file:
     for line in conf_file:
-        line = line[:-1]
-        # Leerzeilen oder auskommentierte Zeilen auslassen
         if line == "" or line[0] == "#":
             continue
-        else:
-            line = line.replace(",", "")
-            line = line.lower()
-            line_data = line.split(" ")
-            
-            # Turm
-            if line.find("tower:") != -1:
-                attr_dict = {}
-                for attribute in line_data:
-                    attribute = attribute.split(":")
-                    try:
-                        attribute[1] = int(attribute[1])
-                    except ValueError:
-                        pass
-                    if attribute[1] == 'true':
-                        attribute[1] = True
-                    elif attribute[1] == 'false':
-                        attribute[1] = False
-                    if attribute[0] == "tower" or attribute[0] == "towername":
-                        towername = attribute[1]
-                    elif attribute[0] == "level" or attribute[0] == "lvl":
-                        towerlevel = attribute[1]
-                    elif attribute[0] == "firerate":
-                        attribute[1] = float(attribute[1])
-                    attr_dict[attribute[0]] = attribute[1]
-                # erstellt dict fuer neuen turm, falls nicht vorhanden
-                if towername not in tower:
+
+        elif line.find("tower':") != -1:
+            att_dict = eval(line)
+            towername = att_dict["tower"]
+            lvl = att_dict["lvl"]
+
+            # ist tower schon vorhanden, ansonsten hinzufuegen
+            if towername not in tower:
                     tower[towername] = {}
-                # Fehlermeldung, falls Turm vorhanden
-                if towerlevel in tower[towername]:
-                    print("Error: Level fuer diesen Turm bereits vorhanden")
-                    break
-                # ansonsten einfuegen der attribute in das dict
-                else:
-                    try:
-                        attr_dict["image"] = loadImage(
-                            "assets/{}".format(attr_dict["image"]))
-                    except FileNotFoundError:
-                        print("Error: Image not found: {}".format(
-                            attr_dict["image"]))
-                            
-                    try:
-                        attr_dict["projectile_image"] = loadImage(
-                            "assets/{}".format(attr_dict["projectile_image"]))
-                    except FileNotFoundError:
-                        print("Error: Image not found: {}".format(
-                            attr_dict["image"]))
-                            
-                    tower[towername][towerlevel] = attr_dict
-                    
-
-            # Enemy
-            elif line.find("enemy:") != -1:
-                attr_dict = {}
-                for attribute in line_data:
-                    attribute = attribute.split(":")
-                    try:
-                        attribute[1] = int(attribute[1])
-                    except ValueError:
-                        pass
-                    if attribute[1] == 'true':
-                        attribute[1] = True
-                    elif attribute[1] == 'false':
-                        attribute[1] = False
-                    if attribute[0] == "duration":
-                        attribute[1] = float(attribute[1])
-                    if attribute[0] == "enemy" or attribute[0] == "enemyname":
-                        enemyname = attribute[1]
-                    attr_dict[attribute[0]] = attribute[1]
-                if enemyname in enemy:
-                    print("Error: Enemy already existing")
-                    break
-                else:
-                    try:
-                        if "animated" in attr_dict:
-                            if attr_dict["animated"] == True:
-                                attr_dict["image"] = loadAnimation(
-                                 "assets/{}".format(attr_dict["image"]),
-                                 attr_dict["spritesheet_x"],
-                                 attr_dict["spritesheet_y"], 
-                                 attr_dict["width"], attr_dict["height"],
-                                 attr_dict["duration"], attr_dict["loop"])
-                            else:
-                                attr_dict["image"] = loadImage(
-                                   "assets/{}".format(attr_dict["image"]))
-                        else:
-                            attr_dict["image"] = loadImage(
-                                "assets/{}".format(attr_dict["image"]))
-
-                    except FileNotFoundError:
-                        print("Error: Image not found: {}".format(
-                            attr_dict["image"]))
-                    enemy[enemyname] = attr_dict
+            # ist level schon vorhanden, dann Fehlermeldung
+            if lvl in tower[towername]:
+                print("Error: Level fuer diesen Turm bereits vorhanden")
+                break
+            # ansonsten einfuegen der attribute in das dict
             else:
-                print("not defined")
+                try:
+                    att_dict["image"] = loadImage(
+                        "assets/{}".format(att_dict["image"]))
+                except FileNotFoundError:
+                    print("Error: Image not found: {}".format(
+                        att_dict["image"]))
+                try:
+                    att_dict["projectile_image"] = loadImage(
+                        "assets/{}".format(att_dict["projectile_image"]))
+                except FileNotFoundError:
+                    print("Error: Image not found: {}".format(
+                        att_dict["image"]))
+                tower[towername][lvl] = att_dict
+
+        elif line.find("enemy':") != -1:
+            att_dict = eval(line)
+            enemyname = att_dict["enemy"]
+
+            # ist enemy schon vorhanden, ansonsten hinzufuegen
+            if enemyname in enemy:
+                print("Error: Enemy is already existing")
+                break
+            else:
+                try:
+                    if "animated" in att_dict:
+                        if att_dict["animated"] == True:
+                            att_dict["image"] = loadAnimation(
+                             "assets/{}".format(att_dict["image"]),
+                             att_dict["spritesheet_x"],
+                             att_dict["spritesheet_y"],
+                             att_dict["width"], att_dict["height"],
+                             att_dict["duration"], att_dict["loop"])
+                        else:
+                            att_dict["image"] = loadImage(
+                               "assets/{}".format(att_dict["image"]))
+                    else:
+                        att_dict["image"] = loadImage(
+                            "assets/{}".format(att_dict["image"]))
+                except FileNotFoundError:
+                    print("Error: Image not found: {}".format(
+                        att_dict["image"]))
+                enemy[enemyname] = att_dict
+
+        elif line.find("projectile':") != -1:
+            att_dict = eval(line)
+            projectilename = att_dict["projectile"]
+            if projectilename in projectile:
+                print("Error: Projectile is already existing")
+                break
+            else:
+                try:
+                    if "animated" in att_dict:
+                        if att_dict["animated"] == True:
+                            att_dict["image"] = loadAnimation(
+                             "assets/{}".format(att_dict["image"]),
+                             att_dict["spritesheet_x"],
+                             att_dict["spritesheet_y"],
+                             att_dict["width"], att_dict["height"],
+                             att_dict["duration"], att_dict["loop"])
+                        else:
+                            att_dict["image"] = loadImage(
+                               "assets/{}".format(att_dict["image"]))
+                    else:
+                        att_dict["image"] = loadImage(
+                            "assets/{}".format(att_dict["image"]))
+                except FileNotFoundError:
+                    print("Error: Image not found: {}".format(
+                        att_dict["image"]))
+                projectile[projectilename] = att_dict
+
+        # else:
+            # print(line)
+            # print("not defined")
 """
-# attributes with _x_ should be read from textfile 
+# attributes with _x_ should be read from textfile
 
 tower[0][0] = { # Tower 0, level 0
     image' : loadImage(_'assets/tower0.png'_) 
