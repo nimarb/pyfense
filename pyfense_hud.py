@@ -50,6 +50,9 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             pyfense_resources.noTowerUpgradeIcon)
         self.addCellSelectorSprite()
         self.currentCellStatus = 0
+        self.rangeIndicator = cocos.sprite.Sprite(pyfense_resources.range1920)
+        self.add(self.rangeIndicator)
+        self.rangeIndicator.visible = False
 
     def displayStatusBar(self):
         self.waveLabel = cocos.text.Label('Current Wave: 1',
@@ -280,10 +283,22 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self.cellSelectorSpriteGreen.visible = False
                 self.cellSelectorSpriteRed.position = (grid_x * 60 + 30, grid_y * 60 + 30)
                 self.cellSelectorSpriteRed.visible = True
+                self.rangeIndicator.visible = False
             elif self.currentCellStatus > 2:
                 self.cellSelectorSpriteRed.visible = False
                 self.cellSelectorSpriteGreen.position = (grid_x * 60 + 30, grid_y * 60 + 30)
                 self.cellSelectorSpriteGreen.visible = True
+                self.rangeIndicator.visible = False
+            if self.currentCellStatus > 4:
+                self.rangeIndicator.position = (grid_x * 60, grid_y * 60)
+                self.rangeIndicator.opacity = 120
+                towerNumber = int(str(self.currentCellStatus)[1])
+                upgradeLevel = int(str(self.currentCellStatus)[2])
+                towerRange = pyfense_resources.tower[towerNumber][upgradeLevel]['range']
+                print(towerRange)
+                self.rangeIndicator.scale = towerRange / 960
+                self.rangeIndicator.visible = True
+
 
 PyFenseHud.register_event_type('on_build_tower')
 PyFenseHud.register_event_type('on_destroy_tower')

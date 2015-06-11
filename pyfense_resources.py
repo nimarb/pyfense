@@ -154,8 +154,6 @@ tower[0][0] = { # Tower 0, level 0
 
 tower[1][2]['projectileImage'] #gives me tower 1, level 2's projectileImage
 
-
-
 enemy[2] = {
     if _enemyAnimation_ == False: # if projectile image is static
         'image' : loadImage(_'assets/enemy2.png'_) 
@@ -167,7 +165,6 @@ enemy[2] = {
       'speed' : _speed_
       'reward' : _reward_            
 }
-
 
 =======
 ACTUAL TOWER IS LOADED FROM CONFIG FILE, THIS IS AN EXAMPLE
@@ -202,7 +199,7 @@ path = loadImage("assets/path.png")
 nopath = loadImage("assets/nopath.png")
 grass = loadImage("assets/grass.png")
 
-#range2000 = loadImage("assets/range2000.png")
+range1920 = loadImage("assets/range1920.png")
 
 explosion = loadAnimation('assets/explosion0.png',
                           8, 1, 32, 32, 0.03, False)
