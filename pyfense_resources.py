@@ -202,7 +202,6 @@ grass = loadImage("assets/grass.png")
 
 if _platform == "linux" or _platform == "linux2":
     range1920 = loadImage("assets/range1920-linux.png")    
-    range1920.scale = 10
 else:
     range1920 = loadImage("assets/range1920.png")
 
