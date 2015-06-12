@@ -2,7 +2,6 @@
 pyfense_game.py
 contains PyFenseGame class (scene)
 """
-
 import cocos
 import pyglet
 from cocos.director import director
@@ -13,7 +12,7 @@ from pyfense_map import *
 from pyfense_entities import *
 from pyfense_hud import *
 import pickle
-
+import copy
 
 class PyFenseGame(scene.Scene):
     def __init__(self, levelNumber):
@@ -39,6 +38,11 @@ class PyFenseGame(scene.Scene):
         else:  # (if levelNumber == 1)
             self.gameGrid = [[3 for x in range(32)] for x in range(18)]
             # can build towers wherever there is no path
+            
+            # Start with one tile next to startTile!
+            
+            self.gameGrid[8][1] = 2
+            self.gameGrid[8][2] = 2
             self.gameGrid[8][3] = 2
             self.gameGrid[8][4] = 2
             self.gameGrid[8][5] = 2
@@ -83,8 +87,11 @@ class PyFenseGame(scene.Scene):
             self.gameGrid[9][27] = 2
             self.gameGrid[9][28] = 2
             self.gameGrid[9][29] = 2
-        self.startTile = [8, 2]
-        self.endTile = [9, 29]
+            self.gameGrid[9][30] = 2
+            self.gameGrid[9][31] = 2
+            
+        self.startTile = [8, 0]
+        self.endTile = [9, 31]
         self.movePath = actions.MoveBy((0, 0))
         self.loadPath()
         self.levelMapName = "lvl" + str(levelNumber)
@@ -96,7 +103,7 @@ class PyFenseGame(scene.Scene):
         self.currentCurrency = 500
 
     def loadPath(self):
-        currentTile = self.startTile
+        currentTile = copy.deepcopy(self.startTile)
         move = actions.MoveBy((0, 0), 0.1)
 
         while(currentTile[0] != self.endTile[0] or
@@ -130,7 +137,8 @@ class PyFenseGame(scene.Scene):
         self.add(self.levelMap, z=0)
 
     def displayEntities(self):
-        self.entityMap = PyFenseEntities(self.movePath)
+        startTile = self.getPositionFromGrid(self.startTile)
+        self.entityMap = PyFenseEntities(self.movePath, startTile)
         self.entityMap.push_handlers(self)
         self.add(self.entityMap, z=1)
 
@@ -162,6 +170,14 @@ class PyFenseGame(scene.Scene):
         if grid_y > 17:
             grid_y = 17
         return self.gameGrid[grid_y][grid_x]
+
+    
+    def getPositionFromGrid(self, grid):
+        x_grid = grid[1]
+        y_grid = grid[0]
+        x = 30 + x_grid * 60
+        y = 30 + y_grid * 60
+        return (x, y)
 
     def on_enemy_death(self, enemy):
         self.currentCurrency += enemy.attributes["worth"]
