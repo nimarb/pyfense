@@ -4,7 +4,8 @@ import pyglet
 from pyglet.image.codecs.png import PNGImageDecoder
 
 import cocos
-from cocos.director import clock
+from cocos.director import *
+from pyglet.window import key
 
 from pyfense_tower import *
 from pyfense_enemy import *
@@ -56,9 +57,10 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.towers.remove(tower)
         return tower.attributes["cost"]
 
-    def on_projectile_fired(self, tower, target, projectileimage, rotation, projectileVelocity, damage):
-        projectile = PyFenseProjectile(tower, target, projectileimage, rotation, projectileVelocity,
-                                       damage)
+    def on_projectile_fired(self, tower, target, projectileimage, rotation,
+                                                projectileVelocity, damage):
+        projectile = PyFenseProjectile(tower, target, projectileimage,
+                                       rotation, projectileVelocity, damage)
         self.projectiles.append(projectile)
         projectile.push_handlers(self)
         self.add(projectile, z=1)
@@ -108,6 +110,13 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.enemies.remove(self.enemies[0])
             self.diedEnemies += 1
             self.isWaveFinished()
+            
+    def on_key_press( self, k, m ):
+        if k == key.ESCAPE:
+            print("Pause Menu to be implemented")
+            return True
+        if k == key.Q:
+            director.pop()
 
 
 PyFenseEntities.register_event_type('on_next_wave')
