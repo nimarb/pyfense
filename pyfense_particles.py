@@ -186,7 +186,7 @@ class Explosion2(ParticleSystem):
     radial_accel_var = 40
 
     # speed of particles
-    speed = 100
+    speed = 150
     speed_var = 80
 
     # emitter variable position
@@ -206,7 +206,7 @@ class Explosion2(ParticleSystem):
     end_color_var = Color(0.0, 0.0, 0.0, 0.0)
 
     # size, in pixels
-    size = 70.0
+    size = 100.0
     size_var = 10.0
 
     # blend additive
