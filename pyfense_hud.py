@@ -132,12 +132,14 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             if self.noCashOverlayDisplayed[picture] == True:
                 self.remove(self.noCashOverlays[picture])
                 self.noCashOverlayDisplayed[picture] = False
+        self.rangeIndicator.visible = False
         self.buildingHudDisplayed = False
         
     def removeTowerUpgradeHud(self):
         if self.upgradeHudDisplayed == 0:
             return
         self.remove(self.destroyTowerIcon)
+        self.rangeIndicator.visible = False
         if self.upgradeHudDisplayed > 0.5:
             upgradeLevel = self.upgradeHudDisplayed
             if upgradeLevel < 3:
@@ -160,6 +162,27 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
     def destroyTower(self):
         self.dispatch_event('on_destroy_tower', 
             self.cellSelectorSpriteGreen.position)
+            
+    def displayRangeIndicator(self, nextUpgrade=False, towerNumber=None, upgradeLevel=None):
+        if towerNumber is None:
+            towerNumber = int(str(self.clickedCellStatus)[1])
+        if nextUpgrade is False:
+            if upgradeLevel is not None:
+                upgradeLevel = int(str(self.clickedCellStatus)[2])
+            else:
+                upgradeLevel = 1
+        else:
+            upgradeLevel = int(str(self.clickedCellStatus)[2]) + 1
+        pos_x = int(self.clicked_x / 60) * 60 + 30
+        pos_y = int(self.clicked_y / 60) * 60 + 30
+        self.rangeIndicator.position = (pos_x, pos_y)
+        towerRange = pyfense_resources.tower[towerNumber][upgradeLevel]['range']
+        if _platform == "linux" or _platform == "linux2":
+            self.rangeIndicator.scale = 10 * towerRange / 960 
+        else:
+            self.rangeIndicator.scale = towerRange / 960
+        self.rangeIndicator.opacity = 100
+        self.rangeIndicator.visible = True
 
     def displayTowerHud(self, kind, x, y):
         # displays the HUD to chose between towers to build
@@ -197,9 +220,10 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.buildingHudDisplayed = True
         elif kind == "upgrade":
             self.menuMax_x = self.menuMin_x + 2 * self.destroyTowerIcon.width
-            clickedCellStatus = self.currentCellStatus
-            towerNumber = int(str(clickedCellStatus)[1])
-            upgradeLevel = int(str(clickedCellStatus)[2])
+            self.clickedCellStatus = self.currentCellStatus
+            towerNumber = int(str(self.clickedCellStatus)[1])
+            upgradeLevel = int(str(self.clickedCellStatus)[2])
+            self.displayRangeIndicator()
             if upgradeLevel < 3:
                 self.towerUpgradeThumbnail = cocos.sprite.Sprite(
                     #pyfense_resources.tower[towerNumber][3]["image"])
@@ -284,24 +308,25 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self.cellSelectorSpriteGreen.visible = False
                 self.cellSelectorSpriteRed.position = (grid_x * 60 + 30, grid_y * 60 + 30)
                 self.cellSelectorSpriteRed.visible = True
-                self.rangeIndicator.visible = False
             elif self.currentCellStatus > 2:
                 self.cellSelectorSpriteRed.visible = False
                 self.cellSelectorSpriteGreen.position = (grid_x * 60 + 30, grid_y * 60 + 30)
                 self.cellSelectorSpriteGreen.visible = True
+        if self.upgradeHudDisplayed > 0.5:
+            if self.clickedOnTowerHudItem(x, y) == 0:
+                self.displayRangeIndicator(nextUpgrade=True)
+            else:
+                self.displayRangeIndicator()
+        elif self.buildingHudDisplayed is True:
+            towerOrderNumber = self.clickedOnTowerHudItem(x, y)
+            if towerOrderNumber == 0:
+                self.displayRangeIndicator(towerNumber=0)
+            elif towerOrderNumber == 1:
+                self.displayRangeIndicator(towerNumber=1)
+            elif towerOrderNumber == 2:
+                self.displayRangeIndicator(towerNumber=2)
+            else:
                 self.rangeIndicator.visible = False
-            if self.currentCellStatus > 4:
-                self.rangeIndicator.position = (grid_x * 60 + 30, grid_y * 60 + 30)
-                self.rangeIndicator.opacity = 120
-                towerNumber = int(str(self.currentCellStatus)[1])
-                upgradeLevel = int(str(self.currentCellStatus)[2])
-                towerRange = pyfense_resources.tower[towerNumber][upgradeLevel]['range']
-                if _platform == "linux" or _platform == "linux2":
-                    self.rangeIndicator.scale = 10 * towerRange / 960 
-                else:
-                    self.rangeIndicator.scale = towerRange / 960
-                self.rangeIndicator.visible = True
-
 
 PyFenseHud.register_event_type('on_build_tower')
 PyFenseHud.register_event_type('on_destroy_tower')

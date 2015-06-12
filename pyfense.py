@@ -20,7 +20,8 @@ from pyfense_modmenu import *
 import pyfense_game
 import pyfense_mapBuilder
 import pyfense_highscore
-from pyfense_resources import *
+import pyfense_resources
+
 
 class MainMenu( Menu ):
     def __init__( self ):
@@ -287,6 +288,7 @@ class AboutLayer( ColorLayer ):
 # settings (later to be read from cfg file)
 # some values might/will change during the course of the game
 # for those values, only starting values are being defined here
+"""
 settings = {
 	"window": {
 		"width": 1920,
@@ -307,9 +309,10 @@ settings = {
 		"showFps" : True
 	}
 }
+"""
 
 if __name__ == '__main__':
-    director.init(**settings['window'])
+    director.init(**pyfense_resources.settings['window'])
     scene = Scene()
     scene.add( MultiplexLayer(
         MainMenu(),
@@ -320,9 +323,10 @@ if __name__ == '__main__':
         AboutLayer()
         ),
         z = 1 )
-    director.set_show_FPS(settings["general"]["showFps"])
+    director.set_show_FPS(pyfense_resources.settings["general"]["showFps"])
     w, h = director.get_window_size()
-    logo = loadImage("assets/logo.png")
-    scene.add(cocos.sprite.Sprite(logo, position = (w/2, h-75),
-                                  scale = 0.3), z = 2)
+
+    logo = pyfense_resources.logo
+    scene.add(cocos.sprite.Sprite(logo, position = (w/2, h-75), scale = 0.3), 
+              z = 2)
     director.run( scene )
