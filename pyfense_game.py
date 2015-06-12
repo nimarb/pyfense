@@ -36,62 +36,11 @@ class PyFenseGame(scene.Scene):
             self.gameGrid = pickle.load(pathFile)
             pathFile.close()
         else:  # (if levelNumber == 1)
-            self.gameGrid = [[3 for x in range(32)] for x in range(18)]
-            # can build towers wherever there is no path
+            self.gameGrid = pyfense_resources.gameGrid
             
-            # Start with one tile next to startTile!
-            
-            self.gameGrid[8][1] = 2
-            self.gameGrid[8][2] = 2
-            self.gameGrid[8][3] = 2
-            self.gameGrid[8][4] = 2
-            self.gameGrid[8][5] = 2
-            self.gameGrid[8][6] = 2
-            self.gameGrid[8][7] = 2
-            self.gameGrid[9][7] = 2
-            self.gameGrid[10][7] = 2
-            self.gameGrid[11][7] = 2
-            self.gameGrid[12][7] = 2
-            self.gameGrid[13][7] = 2
-            self.gameGrid[14][7] = 2
-            self.gameGrid[14][8] = 2
-            self.gameGrid[14][9] = 2
-            self.gameGrid[14][10] = 2
-            self.gameGrid[14][11] = 2
-            self.gameGrid[14][12] = 2
-            self.gameGrid[13][12] = 2
-            self.gameGrid[12][12] = 2
-            self.gameGrid[11][12] = 2
-            self.gameGrid[10][12] = 2
-            self.gameGrid[9][12] = 2
-            self.gameGrid[8][12] = 2
-            self.gameGrid[7][12] = 2
-            self.gameGrid[6][12] = 2
-            self.gameGrid[6][13] = 2
-            self.gameGrid[6][14] = 2
-            self.gameGrid[6][15] = 2
-            self.gameGrid[6][16] = 2
-            self.gameGrid[6][17] = 2
-            self.gameGrid[6][18] = 2
-            self.gameGrid[6][19] = 2
-            self.gameGrid[7][19] = 2
-            self.gameGrid[8][19] = 2
-            self.gameGrid[9][19] = 2
-            self.gameGrid[9][20] = 2
-            self.gameGrid[9][21] = 2
-            self.gameGrid[9][22] = 2
-            self.gameGrid[9][23] = 2
-            self.gameGrid[9][24] = 2
-            self.gameGrid[9][25] = 2
-            self.gameGrid[9][26] = 2
-            self.gameGrid[9][27] = 2
-            self.gameGrid[9][28] = 2
-            self.gameGrid[9][29] = 2
-            self.gameGrid[9][30] = 2
-            self.gameGrid[9][31] = 2
-            
-        self.startTile = [8, 0]
-        self.endTile = [9, 31]
+        self.startTile = pyfense_resources.startTile
+        self.endTile = pyfense_resources.endTile
+        
         self.movePath = actions.MoveBy((0, 0))
         self.loadPath()
         self.levelMapName = "lvl" + str(levelNumber)

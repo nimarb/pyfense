@@ -184,8 +184,6 @@ enemy = {0.0: {'speed': 5.0, 'enemy': 0.0, 'animated': 'false',
 'image': <ImageData 39x57>, 'worth': 5.0, 'maxhealth': 10.0, 'reward': 20.0}
 """
 
-#projectile = loadImage("assets/projectile00.png")
-
 selector0 = loadImage("assets/selector0.png")
 selector1 = loadImage("assets/selector1.png")
 
@@ -201,3 +199,61 @@ if _platform == "linux" or _platform == "linux2":
 else:
     range1920 = loadImage("assets/range1920.png")
 
+
+# Game Grid Level 1
+
+gameGrid = [[3 for x in range(32)] for x in range(18)]
+
+gameGrid[8][1] = 2
+gameGrid[8][2] = 2
+gameGrid[8][3] = 2
+gameGrid[8][4] = 2
+gameGrid[8][5] = 2
+gameGrid[8][6] = 2
+gameGrid[8][7] = 2
+gameGrid[9][7] = 2
+gameGrid[10][7] = 2
+gameGrid[11][7] = 2
+gameGrid[12][7] = 2
+gameGrid[13][7] = 2
+gameGrid[14][7] = 2
+gameGrid[14][8] = 2
+gameGrid[14][9] = 2
+gameGrid[14][10] = 2
+gameGrid[14][11] = 2
+gameGrid[14][12] = 2
+gameGrid[13][12] = 2
+gameGrid[12][12] = 2
+gameGrid[11][12] = 2
+gameGrid[10][12] = 2
+gameGrid[9][12] = 2
+gameGrid[8][12] = 2
+gameGrid[7][12] = 2
+gameGrid[6][12] = 2
+gameGrid[6][13] = 2
+gameGrid[6][14] = 2
+gameGrid[6][15] = 2
+gameGrid[6][16] = 2
+gameGrid[6][17] = 2
+gameGrid[6][18] = 2
+gameGrid[6][19] = 2
+gameGrid[7][19] = 2
+gameGrid[8][19] = 2
+gameGrid[9][19] = 2
+gameGrid[9][20] = 2
+gameGrid[9][21] = 2
+gameGrid[9][22] = 2
+gameGrid[9][23] = 2
+gameGrid[9][24] = 2
+gameGrid[9][25] = 2
+gameGrid[9][26] = 2
+gameGrid[9][27] = 2
+gameGrid[9][28] = 2
+gameGrid[9][29] = 2
+gameGrid[9][30] = 2
+gameGrid[9][31] = 2
+            
+            
+            
+startTile = [8, 0]
+endTile = [9, 31]
