@@ -6,11 +6,11 @@ from cocos.euclid import Point2
 import pyglet
 import random
 
-
+import pyfense_resources
 
 class Death(ParticleSystem):
 
-    pic = pyglet.image.load('assets/particle.png')
+    pic = pyfense_resources.particleTexture
     texture = pic.get_texture()
 
     # total particles

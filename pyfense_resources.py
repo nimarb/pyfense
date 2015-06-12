@@ -193,6 +193,8 @@ path = loadImage("assets/path.png")
 nopath = loadImage("assets/nopath.png")
 grass = loadImage("assets/grass.png")
 
+particleTexture = loadImage("assets/particle.png")
+
 
 if _platform == "linux" or _platform == "linux2":
     range1920 = loadImage("assets/range1920-linux.png")    
