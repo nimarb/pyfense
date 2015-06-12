@@ -17,7 +17,7 @@ class Death(ParticleSystem):
     total_particles = 1000
 
     # duration
-    duration = 0.1
+    duration = 0.12
 
     # gravity
     gravity = Point2(0, 0)
@@ -27,8 +27,8 @@ class Death(ParticleSystem):
     angle_var = 360
 
     # radial
-    radial_accel = -700
-    radial_accel_var = 20
+    radial_accel = -1000
+    radial_accel_var = 100
 
     # speed of particles
     speed = 400
@@ -38,11 +38,13 @@ class Death(ParticleSystem):
     pos_var = Point2(5, 5)
 
     # life of particles
-    life = 0.4
+    life = 0.3
     life_var = 0.1
 
     # emits per frame
-    emission_rate = total_particles / life
+    #emission_rate = total_particles / life
+    emission_rate = 1000
+
 
     # color of particles
     # start_color = Color(1.0, 0.3, 0, 0.7)
@@ -53,7 +55,7 @@ class Death(ParticleSystem):
     start_color = Color(1, 0.53, 0, 1.0)
     start_color_var = Color(0.0, 0.0, 0.0, 0.0)
     end_color = Color(1, 1, 1, 0)
-    end_color_var = Color(0.0, 0.0, 0.0, 0.05)
+    end_color_var = Color(0.0, 0.0, 0.0, 0.0)
 
     # size, in pixels
     size = 15

@@ -79,7 +79,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             deathAnimation = pyfense_particles.Death()
             deathAnimation.position = target.position
             self.add(deathAnimation, z = 4)
-            clock.schedule_once(lambda dt, x: self.remove(x), 4, deathAnimation)
+            clock.schedule_once(lambda dt, x: self.remove(x), 2, deathAnimation)
             self.diedEnemies += 1
             self.dispatch_event('on_enemy_death', target)
             self.isWaveFinished()
