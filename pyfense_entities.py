@@ -36,7 +36,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.hasEnemyReachedEnd()
 
     def nextWave(self, waveNumber):
-        self.schedule_interval(self.addEnemy, 1.5, self.startTile, self.path)
+        self.schedule_interval(self.addEnemy, 1, self.startTile, self.path)
         self.spawnedEnemies = 0
         self.diedEnemies = 0
 
@@ -57,15 +57,15 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.towers.remove(tower)
         return tower.attributes["cost"]
 
-    def on_projectile_fired(self, tower, target, projectileimage, rotation, projectileVelocity, damage):
-        projectile = PyFenseProjectile(tower, target, projectileimage, rotation, projectileVelocity,
+    def on_projectile_fired(self, tower, target, projectileimage, towerNumber, rotation, projectileVelocity, damage):
+        projectile = PyFenseProjectile(tower, target, projectileimage, towerNumber, rotation, projectileVelocity,
                                        damage)
         self.projectiles.append(projectile)
         projectile.push_handlers(self)
         self.add(projectile, z=1)
 
-    def on_enemy_hit(self, projectile, target):
-        explosion = pyfense_particles.Explosion()
+    def on_enemy_hit(self, projectile, target, towerNumber):
+        explosion = eval('pyfense_particles.Explosion' + str(towerNumber) + '()')
         explosion.position = target.position
         self.add(explosion, z = 4)
         clock.schedule_once(lambda dt, x: self.remove(x), 1 ,explosion)
