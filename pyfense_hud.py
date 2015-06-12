@@ -132,6 +132,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             if self.noCashOverlayDisplayed[picture] == True:
                 self.remove(self.noCashOverlays[picture])
                 self.noCashOverlayDisplayed[picture] = False
+        self.rangeIndicator.visible = False
         self.buildingHudDisplayed = False
         
     def removeTowerUpgradeHud(self):
@@ -162,10 +163,14 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.dispatch_event('on_destroy_tower', 
             self.cellSelectorSpriteGreen.position)
             
-    def displayRangeIndicator(self, nextUpgrade=False):
-        towerNumber = int(str(self.clickedCellStatus)[1])
+    def displayRangeIndicator(self, nextUpgrade=False, towerNumber=None, upgradeLevel=None):
+        if towerNumber is None:
+            towerNumber = int(str(self.clickedCellStatus)[1])
         if nextUpgrade is False:
-            upgradeLevel = int(str(self.clickedCellStatus)[2])
+            if upgradeLevel is not None:
+                upgradeLevel = int(str(self.clickedCellStatus)[2])
+            else:
+                upgradeLevel = 1
         else:
             upgradeLevel = int(str(self.clickedCellStatus)[2]) + 1
         pos_x = int(self.clicked_x / 60) * 60 + 30
@@ -312,6 +317,16 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self.displayRangeIndicator(nextUpgrade=True)
             else:
                 self.displayRangeIndicator()
+        elif self.buildingHudDisplayed is True:
+            towerOrderNumber = self.clickedOnTowerHudItem(x, y)
+            if towerOrderNumber == 0:
+                self.displayRangeIndicator(towerNumber=0)
+            elif towerOrderNumber == 1:
+                self.displayRangeIndicator(towerNumber=1)
+            elif towerOrderNumber == 2:
+                self.displayRangeIndicator(towerNumber=2)
+            else:
+                self.rangeIndicator.visible = False
 
 PyFenseHud.register_event_type('on_build_tower')
 PyFenseHud.register_event_type('on_destroy_tower')
