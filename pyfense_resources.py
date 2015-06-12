@@ -123,6 +123,13 @@ with open("data/entities.cfg") as conf_file:
         # else:
             # print(line)
             # print("not defined")
+
+settings = {}
+with open("data/settings.cfg") as setting_file:
+    for line in setting_file:
+        attributes = eval(line)
+        settings.update(attributes)
+#print(settings)
 """
 # attributes with _x_ should be read from textfile
 
@@ -190,6 +197,8 @@ selector1 = loadImage("assets/selector1.png")
 path = loadImage("assets/path.png")
 nopath = loadImage("assets/nopath.png")
 grass = loadImage("assets/grass.png")
+
+logo = loadImage("assets/logo.png")
 
 particleTexture = loadImage("assets/particle.png")
 
