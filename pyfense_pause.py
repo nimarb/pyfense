@@ -33,3 +33,4 @@ class PyFensePause( scene.Scene ):
     def on_mouse_release( self, x, y, b, m ):
         director.pop()
         return True
+
