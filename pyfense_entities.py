@@ -10,6 +10,7 @@ from pyfense_tower import *
 from pyfense_enemy import *
 from pyfense_projectile import *
 from pyfense_hud import *
+from pyfense_pause import *
 
 # Just for testing different enemies
 import random
@@ -120,7 +121,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
     #Overrites the Esc key and quits the game on "Q"        
     def on_key_press( self, k, m ):
         if k == key.ESCAPE:
-            print("Pause Menu to be implemented")
+            director.push(PyFensePause())
             return True
         if k == key.Q:
             director.pop()
