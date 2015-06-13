@@ -11,6 +11,7 @@ from cocos import actions
 from pyfense_map import *
 from pyfense_entities import *
 from pyfense_hud import *
+import pyfense_particles
 import pickle
 import copy
 
@@ -48,7 +49,7 @@ class PyFenseGame(scene.Scene):
         self.displayEntities()
         self.displayHud()
         self.currentWave = 0
-        self.currentLives = 30
+        self.currentLives = 2
         self.currentCurrency = 500
 
     def loadPath(self):
@@ -181,4 +182,10 @@ class PyFenseGame(scene.Scene):
         self.currentLives -= 1
         self.hud.updateLiveNumber(self.currentLives)
         if self.currentLives == 0:
+            
+            #explosion = pyfense_particles.ExplosionHuge()
+            #x = director.get_window_size()[0] / 2
+            #y = director.get_window_size()[1] / 2
+            #explosion.position = (x, y)
+            #self.add(explosion)
             print("YOU LOST THE GAME")
