@@ -143,7 +143,8 @@ class PyFenseGame(scene.Scene):
             return
         self.currentCurrency -= self.entityMap.buildTower(tower)
         self.hud.updateCurrencyNumber(self.currentCurrency)
-        self.setGridPix(pos_x, pos_y, int(float("1" + str(towerNumber) + str(tower.attributes["lvl"]))))
+        self.setGridPix(pos_x, pos_y, int(float("1" + str(towerNumber) +
+                        str(tower.attributes["lvl"]))))
         
     def on_upgrade_tower(self, position):
         tower = self.entityMap.getTowerAt(position)
@@ -162,7 +163,8 @@ class PyFenseGame(scene.Scene):
                              position, towerLevel + 1)
         self.entityMap.buildTower(newTower)
         (x, y) = position
-        self.setGridPix(x, y, int(float("1" + str(towerNumber) + str(towerLevel + 1))))
+        self.setGridPix(x, y, int(float("1" + str(towerNumber)
+                        + str(towerLevel + 1))))
         
     def on_destroy_tower(self, position):
         (x, y) = position

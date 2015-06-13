@@ -1,15 +1,16 @@
 # pyfense_entities.py
 # contains the layer on which all enemies and towers are placed (layer)
 import pyglet
-from pyglet.image.codecs.png import PNGImageDecoder
 
 import cocos
-from cocos.director import clock
+from cocos.director import *
+from pyglet.window import key
 
 from pyfense_tower import *
 from pyfense_enemy import *
 from pyfense_projectile import *
 from pyfense_hud import *
+from pyfense_pause import *
 
 # Just for testing different enemies
 import random
@@ -57,9 +58,11 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.towers.remove(tower)
         return tower.attributes["cost"]
 
-    def on_projectile_fired(self, tower, target, projectileimage, towerNumber, rotation, projectileVelocity, damage):
-        projectile = PyFenseProjectile(tower, target, projectileimage, towerNumber, rotation, projectileVelocity,
-                                       damage)
+    def on_projectile_fired(self, tower, target, projectileimage, towerNumber,
+                            rotation, projectileVelocity, damage):
+        projectile = PyFenseProjectile(tower, target, projectileimage,
+                                       towerNumber, rotation,
+                                       projectileVelocity, damage)
         self.projectiles.append(projectile)
         projectile.push_handlers(self)
         self.add(projectile, z=1)
@@ -104,8 +107,6 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.add(enemy.healthBar, z=3)
         self.isWaveFinished()
         
-
-
     # Removes enemy from entity when no action is running,
     # ie the enemy has reached
     def hasEnemyReachedEnd(self):
@@ -116,6 +117,14 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.enemies.remove(self.enemies[0])
             self.diedEnemies += 1
             self.isWaveFinished()
+            
+    #Overrites the Esc key and quits the game on "Q"        
+    def on_key_press( self, k, m ):
+        if k == key.ESCAPE:
+            director.push(PyFensePause())
+            return True
+        if k == key.Q:
+            director.pop()
 
 
 PyFenseEntities.register_event_type('on_next_wave')

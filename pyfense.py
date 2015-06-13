@@ -20,7 +20,8 @@ from pyfense_modmenu import *
 import pyfense_game
 import pyfense_mapBuilder
 import pyfense_highscore
-from pyfense_resources import *
+import pyfense_resources
+
 
 class MainMenu( Menu ):
     def __init__( self ):
@@ -32,6 +33,7 @@ class MainMenu( Menu ):
         items.append( MenuItem('Start Game', self.on_level_select) )
         items.append( MenuItem('Scores', self.on_scores) )
         items.append( MenuItem('Settings', self.on_settings) )
+        items.append( MenuItem('Help', self.on_help) )
         items.append( MenuItem('About', self.on_about) )
         items.append( MenuItem('Exit', self.on_quit) )
         self.create_menu( items )
@@ -45,8 +47,11 @@ class MainMenu( Menu ):
     def on_scores( self ):
         self.parent.switch_to(3)
 
-    def on_about( self ):
+    def on_help( self ):
         self.parent.switch_to(4)
+        
+    def on_about( self ):
+        self.parent.switch_to(5)
 
     def on_quit( self ):
         pyglet.app.exit()
@@ -63,7 +68,7 @@ class LevelSelectMenu( Menu ):
         lvl1.y -= 100
         items.append(lvl1)
         if(os.path.isfile("assets/lvlcustom.png")):
-            customImage = loadImage('assets/lvlcustom.png')
+            customImage = pyfense_resources.loadImage('assets/lvlcustom.png')
             customItem = ImageMenuItem(customImage,
                                        lambda: self.on_start("custom"))
             customItem.scale=0.4
@@ -184,7 +189,7 @@ class ScoresLayer( ColorLayer ):
             self.add( level, z = 2 )
 
     def on_key_press( self, k, m ):
-        if k in (key.ENTER, key.ESCAPE, key.SPACE):
+        if k in (key.ENTER, key.ESCAPE, key.SPACE, key.Q ):
             self.parent.switch_to( 0 )
             return True
 
@@ -209,6 +214,41 @@ class OptionsMenu( Menu ):
 
     def on_quit( self ):
         self.parent.switch_to( 0 )
+
+class HelpLayer( ColorLayer ):
+    is_event_handler = True
+
+    def __init__( self ):
+        w, h = director.get_window_size()
+        super( HelpLayer, self ).__init__( 0,0,0,1, width = w, height = h-86 )
+        self.font_title = {}
+        self.font_title['font_size'] = 72
+        self.font_title['anchor_y'] ='top'
+        self.font_title['anchor_x'] ='center'
+        title = Label( 'PyFense', **self.font_title )
+        title.position = ( w/2. , h )
+        self.add( title, z=1 )
+        self.table = None
+
+    def on_enter ( self ):
+        super( HelpLayer, self ).on_enter()
+        w, h = director.get_window_size()
+        text = Label('Press Q to quit the running level',
+        font_name = 'Arial',
+        font_size = 20,
+        anchor_x = 'center',
+        anchor_y = 'center')
+        text.position = w/2. , h/2.
+        self.add(text)
+
+    def on_key_press( self, k, m ):
+        if k in (key.ENTER, key.ESCAPE, key.SPACE, key.Q):
+            self.parent.switch_to( 0 )
+            return True
+
+    def on_mouse_release( self, x, y, b, m ):
+        self.parent.switch_to( 0 )
+        return True
 
 class AboutLayer( ColorLayer ):
     is_event_handler = True
@@ -237,7 +277,7 @@ class AboutLayer( ColorLayer ):
         self.add(text)
 
     def on_key_press( self, k, m ):
-        if k in (key.ENTER, key.ESCAPE, key.SPACE):
+        if k in (key.ENTER, key.ESCAPE, key.SPACE, key.Q ):
             self.parent.switch_to( 0 )
             return True
 
@@ -248,6 +288,7 @@ class AboutLayer( ColorLayer ):
 # settings (later to be read from cfg file)
 # some values might/will change during the course of the game
 # for those values, only starting values are being defined here
+"""
 settings = {
 	"window": {
 		"width": 1920,
@@ -268,20 +309,24 @@ settings = {
 		"showFps" : True
 	}
 }
+"""
 
 if __name__ == '__main__':
-    director.init(**settings['window'])
+    director.init(**pyfense_resources.settings['window'])
     scene = Scene()
     scene.add( MultiplexLayer(
         MainMenu(),
         LevelSelectMenu(),
         OptionsMenu(),
         ScoresLayer(),
+        HelpLayer(),
         AboutLayer()
         ),
         z = 1 )
-    director.set_show_FPS(settings["general"]["showFps"])
+    director.set_show_FPS(pyfense_resources.settings["general"]["showFps"])
     w, h = director.get_window_size()
-    logo = loadImage("assets/logo.png")
-    scene.add(cocos.sprite.Sprite(logo, position = (w/2, h-75), scale = 0.3), z = 2)
+
+    logo = pyfense_resources.logo
+    scene.add(cocos.sprite.Sprite(logo, position = (w/2, h-75), scale = 0.3), 
+              z = 2)
     director.run( scene )
