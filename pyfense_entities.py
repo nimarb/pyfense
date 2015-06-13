@@ -1,7 +1,6 @@
 # pyfense_entities.py
 # contains the layer on which all enemies and towers are placed (layer)
 import pyglet
-from pyglet.image.codecs.png import PNGImageDecoder
 
 import cocos
 from cocos.director import *
@@ -107,8 +106,6 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.add(enemy.healthBar, z=3)
         self.isWaveFinished()
         
-
-
     # Removes enemy from entity when no action is running,
     # ie the enemy has reached
     def hasEnemyReachedEnd(self):
@@ -120,6 +117,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.diedEnemies += 1
             self.isWaveFinished()
             
+    #Overrites the Esc key and quits the game on "Q"        
     def on_key_press( self, k, m ):
         if k == key.ESCAPE:
             print("Pause Menu to be implemented")

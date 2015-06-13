@@ -68,7 +68,7 @@ class LevelSelectMenu( Menu ):
         lvl1.y -= 100
         items.append(lvl1)
         if(os.path.isfile("assets/lvlcustom.png")):
-            customImage = loadImage('assets/lvlcustom.png')
+            customImage = pyfense_resources.loadImage('assets/lvlcustom.png')
             customItem = ImageMenuItem(customImage,
                                        lambda: self.on_start("custom"))
             customItem.scale=0.4
