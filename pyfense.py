@@ -63,7 +63,7 @@ class LevelSelectMenu( Menu ):
         self.menu_anchor_x = CENTER
         self.menu_anchor_y = CENTER
         items = []
-        lvl1 = ImageMenuItem('assets/lvl1.png',
+        lvl1 = ImageMenuItem(pyfense_resources.background["lvl1"],
                                     lambda: self.on_start(1))
         lvl1.y -= 100
         items.append(lvl1)

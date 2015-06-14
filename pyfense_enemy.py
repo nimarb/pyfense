@@ -16,8 +16,7 @@ class PyFenseEnemy(sprite.Sprite):
         # to be loaded from textfile
         self.attributes = pyfense_resources.enemy[enemyname]
         self.currentPos = position
-        texture = self.attributes["image"]
-        super(PyFenseEnemy, self).__init__(texture,
+        super(PyFenseEnemy, self).__init__(self.attributes["image"],
                                            position=self.currentPos,
                                            scale=1)
         self.path = path

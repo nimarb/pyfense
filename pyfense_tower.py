@@ -17,8 +17,7 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
     def __init__(self, enemies, towerNumber, position, level=1):
         is_event_handler = True
         self.attributes = pyfense_resources.tower[towerNumber][level]
-        texture = self.attributes["image"]
-        super().__init__(texture, position)
+        super().__init__(self.attributes["image"], position)
         self.enemies = enemies
         self.posx = position[0]
         self.posy = position[1]
