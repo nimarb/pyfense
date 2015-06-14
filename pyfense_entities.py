@@ -28,7 +28,6 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.schedule(self.update)
         self.path = path
         self.startTile = startTile
-        self.waveComplete = False
         self.wavequantity = len(pyfense_resources.waves)
         self.enemieslength = 0
 
@@ -39,7 +38,6 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
     def nextWave(self, waveNumber):
         self.enemy_list = pyfense_resources.waves[
                 (waveNumber-1) % self.wavequantity+1]
-        self.waveComplete = False
         self.spawnedEnemies = 0
         self.diedEnemies = 0
         self.enemieslength = len(self.enemy_list)
