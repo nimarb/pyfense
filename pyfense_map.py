@@ -5,7 +5,6 @@ import pyglet
 import cocos
 import pyfense_resources
 
-
 class PyFenseMap(cocos.layer.Layer):
     def __init__(self, levelMap):
         super().__init__()
@@ -14,9 +13,6 @@ class PyFenseMap(cocos.layer.Layer):
         self.drawBackgroundImage()
 
     def loadBackgroundImage(self):
-        # TODO: error handling for no image available case!
-        # use python's PNGImageDecoder due
-        # to segfault causing bug in gdk_pixbuf2
         if(self.levelMap == "lvlcustom"): #if custom image, load new
             backgroundImage = pyfense_resources.loadImage(
                                 "assets/lvlcustom.png" )
@@ -31,8 +27,6 @@ class PyFenseMap(cocos.layer.Layer):
         self.scaleBackgroundToWindow()
 
     def scaleBackgroundToWindow(self):
-        # TODO: keep screen filled with bg image, no matter resize
-        # TODO: to eventually allow scrolling, apply "too large" scaling factor
         img_w = self.backgroundSprite.width
         img_h = self.backgroundSprite.height
         imgRatio = img_w / img_h

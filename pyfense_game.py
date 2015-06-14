@@ -11,6 +11,7 @@ from cocos import actions
 from pyfense_map import *
 from pyfense_entities import *
 from pyfense_hud import *
+import pyfense_particles
 import pickle
 import copy
 
@@ -151,7 +152,7 @@ class PyFenseGame(scene.Scene):
         if towerLevel == 3:
             return
         towerNumber = tower.attributes["tower"]
-        # TODO: cost check should be done in HUD class like it is for build Tower
+        # TODO: cost check could/should be done in HUD class; see buildTower
         cost = pyfense_resources.tower[towerNumber][towerLevel + 1]["cost"]
         if cost > self.currentCurrency:
             return
@@ -183,4 +184,10 @@ class PyFenseGame(scene.Scene):
         self.currentLives -= 1
         self.hud.updateLiveNumber(self.currentLives)
         if self.currentLives == 0:
+            
+            #explosion = pyfense_particles.ExplosionHuge()
+            #x = director.get_window_size()[0] / 2
+            #y = director.get_window_size()[1] / 2
+            #explosion.position = (x, y)
+            #self.add(explosion)
             print("YOU LOST THE GAME")
