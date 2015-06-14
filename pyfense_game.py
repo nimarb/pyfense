@@ -152,7 +152,7 @@ class PyFenseGame(scene.Scene):
         if towerLevel == 3:
             return
         towerNumber = tower.attributes["tower"]
-        # TODO: cost check should be done in HUD class like it is for build Tower
+        # TODO: cost check could/should be done in HUD class like it is for build Tower
         cost = pyfense_resources.tower[towerNumber][towerLevel + 1]["cost"]
         if cost > self.currentCurrency:
             return
