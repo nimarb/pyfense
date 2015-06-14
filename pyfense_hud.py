@@ -47,24 +47,24 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.rangeIndicator.visible = False
 
     def displayStatusBar(self):
-        self.waveLabel = cocos.text.Label('Current Wave: 1',
+        self.waveLabel = cocos.text.Label('Current Wave: 1', bold=True,
                                           anchor_x='center', anchor_y='center')
         w, h = cocos.director.director.get_window_size()
         self.waveLabel.position = w / 2, h - 30
         self.add(self.waveLabel)
         self.timeLabel = cocos.text.Label('Time until next Wave: ' +
-                                          str(self.time) + ' Seconds',
+                                          str(self.time) + ' Seconds', bold=True,
                                           anchor_x='center', anchor_y='center')
         self.timeLabel.position = w / 2 - 250, h - 30
         self.add(self.timeLabel)
-        self.liveLabel = cocos.text.Label('Remaining Lives: 30',
+        self.liveLabel = cocos.text.Label('Remaining Lives: 30', bold=True,
                                           anchor_x='center', anchor_y='center')
         self.liveLabel.position = w / 2 + 200, h - 30
         self.add(self.liveLabel)
         self.currentCurrency = 500
         self.currencyLabel = cocos.text.Label(str(self.currentCurrency) +
                                               ' Currency', anchor_x='center',
-                                              anchor_y='center')
+                                                bold=True, anchor_y='center')
         self.currencyLabel.position = w / 2 + 350, h - 30
         self.add(self.currencyLabel)
 
