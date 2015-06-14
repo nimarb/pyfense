@@ -77,7 +77,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
                          str(towerNumber) + '()')
         explosion.position = target.position
         self.add(explosion, z=4)
-        clock.schedule_once(lambda dt, x: self.remove(x),1 , explosion)
+        clock.schedule_once(lambda dt, x: self.remove(x), 1, explosion)
         target.healthPoints -= projectile.damage
         self.remove(projectile)
         self.projectiles.remove(projectile)
