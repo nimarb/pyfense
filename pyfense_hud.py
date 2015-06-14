@@ -18,37 +18,28 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.displayStatusBar()
         self.buildingHudDisplayed = False
         # upgradeHudDisplayed is 0 if no Hud is displayed
-        # it is 0.5 if the hud is displayed but no upgrade is displayed
-        # eg if a tower is already at lvl 3, or has no upgrade
+        # it is 0.5 if the hud is displayed but no upgrade is available
         # if an upgradeable tower is displayed, upgradeHudDisplayed takes the
         # value of: upgradeLevel
         self.upgradeHudDisplayed = 0
         self.startNextWaveTimer()
-        # TODO: create a loop to load images
-        self.towerThumbnail1 = cocos.sprite.Sprite(
-            pyfense_resources.tower[0][1]["image"])
-        self.towerThumbnail2 = cocos.sprite.Sprite(
-            pyfense_resources.tower[1][1]["image"])
-        self.towerThumbnail3 = cocos.sprite.Sprite(
-            pyfense_resources.tower[2][1]["image"])
-        self.towerThumbnails = [self.towerThumbnail1,
-                                self.towerThumbnail2, self.towerThumbnail3]
-        self.addTowerTexts()
-        self.noCashOverlay1 = cocos.sprite.Sprite(
-            pyfense_resources.noCashOverlay)
-        self.noCashOverlay2 = cocos.sprite.Sprite(
-            pyfense_resources.noCashOverlay)
-        self.noCashOverlay3 = cocos.sprite.Sprite(
-            pyfense_resources.noCashOverlay)
-        self.noCashOverlays = [self.noCashOverlay1,
-                               self.noCashOverlay2,
-                               self.noCashOverlay3]
+        self.towerThumbnails = []
+        for i in range (0, 3):
+            self.towerThumbnails.append(cocos.sprite.Sprite(
+                pyfense_resources.tower[i][1]["image"]))
+
+        self.noCashOverlays = []
+        for i in range (0, 3):
+            self.noCashOverlays.append(cocos.sprite.Sprite(
+                pyfense_resources.noCashOverlay))
+                
         self.noCashOverlayDisplayed = [False for x in
                                        range(0, len(self.noCashOverlays))]
         self.destroyTowerIcon = cocos.sprite.Sprite(
             pyfense_resources.destroyTowerIcon)
         self.noTowerUpgradeIcon = cocos.sprite.Sprite(
             pyfense_resources.noTowerUpgradeIcon)
+        self.addTowerTexts()
         self.addCellSelectorSprite()
         self.currentCellStatus = 0
         self.rangeIndicator = cocos.sprite.Sprite(pyfense_resources.range1920)
