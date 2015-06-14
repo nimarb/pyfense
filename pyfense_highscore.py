@@ -1,10 +1,12 @@
 """
 Manages highscore
 """
+import pyglet
+
 import cocos
-from cocos import layer
-from cocos import menu
+from cocos.layer import Layer
 from cocos.director import director
+from cocos.text import *
 
 
 def new_score( name, score, level ):
@@ -34,3 +36,20 @@ def readFile( fileName ):
         fileData = openedFile.readlines()
         splittedData = [row.split( ", " ) for row in fileData]
     return splittedData
+
+
+class GameLostLayer( Layer, pyglet.event.EventDispatcher ):
+    
+        is_event_handler = True
+        
+        def __init__( self ):
+            super().__init__()
+            w, h = director.get_window_size()
+            text = Label('Game Over',
+                         font_name = 'Arial',
+                         font_size = 20,
+                         anchor_x = 'center',
+                         anchor_y = 'center')
+
+            text.position = w/2. , h/2.
+            self.add(text)

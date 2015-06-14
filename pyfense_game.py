@@ -11,6 +11,8 @@ from cocos import actions
 from pyfense_map import *
 from pyfense_entities import *
 from pyfense_hud import *
+from pyfense_highscore import *
+import pyfense_particles
 import pickle
 import copy
 
@@ -48,7 +50,7 @@ class PyFenseGame(scene.Scene):
         self.displayEntities()
         self.displayHud()
         self.currentWave = 0
-        self.currentLives = 30
+        self.currentLives = 3
         self.currentCurrency = 500
 
     def loadPath(self):
@@ -184,3 +186,6 @@ class PyFenseGame(scene.Scene):
         self.hud.updateLiveNumber(self.currentLives)
         if self.currentLives == 0:
             print("YOU LOST THE GAME")
+            director.push(GameLostLayer())
+            
+

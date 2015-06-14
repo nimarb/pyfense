@@ -10,13 +10,10 @@ from cocos.layer import *
 class PyFensePause( scene.Scene ):
     
     def __init__( self ):
-        
         super().__init__()
-        print("Pause Scene loaded")
-        self.add( PauseLayer(), z=1 )
 
     def on_enter( self ):
-        pass
+        self.add( PauseLayer(), z=1 )
 
 class PauseLayer( Layer, pyglet.event.EventDispatcher ):
         
