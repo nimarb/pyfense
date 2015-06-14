@@ -115,7 +115,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             anchor_x='center', anchor_y='center', color=(255, 0, 0, 255))
 
     def _removeTowerBuildingHud(self):
-        if self.buildingHudDisplayed is False:
+        if not self.buildingHudDisplayed:
             return
         for picture in range(0, len(self.towerThumbnails)):
             self.remove(self.towerThumbnails[picture])
@@ -157,7 +157,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
     def _displayRangeIndicator(self, nextUpgrade=False, towerNumber=None, upgradeLevel=None):
         if towerNumber is None:
             towerNumber = int(str(self.clickedCellStatus)[1])
-        if nextUpgrade is False:
+        if not nextUpgrade:
             if upgradeLevel is not None:
                 upgradeLevel = int(str(self.clickedCellStatus)[2])
             else:
@@ -245,7 +245,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         # check if player clicked on an area where no tower can be built
         # check if player clicked on a menu item
         # if yes, carry out the attached action (build/upgrade/cash-in tower)
-        if self.buildingHudDisplayed is True:
+        if self.buildingHudDisplayed:
             if (y < self.menuMax_y + self.towerThumbnails[0].height / 2 and y > self.menuMin_y):
                 if x > self.menuMin_x and x < self.menuMax_x:
                     for i in range(0, len(self.towerThumbnails)):
@@ -266,24 +266,24 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
     def on_mouse_release(self, x, y, buttons, modifiers):
         (x, y) = cocos.director.director.get_virtual_coordinates(x, y)
         # check if user clicked on tower
-        if (self.currentCellStatus > 3 and self.buildingHudDisplayed is False and 
+        if (self.currentCellStatus > 3 and not self.buildingHudDisplayed and 
                 self.upgradeHudDisplayed == 0):
             self.clicked_x = x
             self.clicked_y = y
             self._displayTowerHud("upgrade", self.clicked_x + 
                 len(self.towerThumbnails) / 2 * self.towerThumbnails[0].width + 5, 
                 self.clicked_y - self.towerThumbnails[0].height / 2 - 5)
-        elif (False is self.buildingHudDisplayed and 
+        elif (not self.buildingHudDisplayed and 
                 self.currentCellStatus == 3 and self.upgradeHudDisplayed == 0):
             self.clicked_x = x
             self.clicked_y = y
             self._displayTowerHud("build", self.clicked_x + 
                 len(self.towerThumbnails) / 2 * self.towerThumbnails[0].width + 5, 
                 self.clicked_y - self.towerThumbnails[0].height / 2 - 5)
-        elif self.upgradeHudDisplayed > 0 or self.buildingHudDisplayed is True:
+        elif self.upgradeHudDisplayed > 0 or self.buildingHudDisplayed:
             hudItem = self._mouseOnTowerHudItem(x, y)
             if hudItem != -1:
-                if self.buildingHudDisplayed is True:
+                if self.buildingHudDisplayed:
                     self._buildTower(hudItem)
                     self._removeTowerBuildingHud()
                 elif self.upgradeHudDisplayed > 0:
@@ -293,7 +293,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                         self._destroyTower()
                     self._removeTowerUpgradeHud()
             elif hudItem == -1:
-                if self.buildingHudDisplayed is True:
+                if self.buildingHudDisplayed:
                     self._removeTowerBuildingHud()
                 elif self.upgradeHudDisplayed > 0:
                     self._removeTowerUpgradeHud()
@@ -304,7 +304,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.dispatch_event('on_user_mouse_motion', x, y)
         grid_x = int(x / 60)
         grid_y = int(y / 60)
-        if False is self.buildingHudDisplayed and self.upgradeHudDisplayed == 0:
+        if not self.buildingHudDisplayed and self.upgradeHudDisplayed == 0:
             if self.currentCellStatus <= 2:
                 self.cellSelectorSpriteGreen.visible = False
                 self.cellSelectorSpriteRed.position = (grid_x * 60 + 30, 
@@ -320,7 +320,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self._displayRangeIndicator(nextUpgrade=True)
             else:
                 self._displayRangeIndicator()
-        elif self.buildingHudDisplayed is True:
+        elif self.buildingHudDisplayed:
             towerOrderNumber = self._mouseOnTowerHudItem(x, y)
             if towerOrderNumber == 0:
                 self._displayRangeIndicator(towerNumber=0)
