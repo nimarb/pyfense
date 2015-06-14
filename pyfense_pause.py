@@ -17,7 +17,7 @@ class PyFensePause( scene.Scene ):
     def on_enter ( self ):
         super( PyFensePause, self ).on_enter()
         w, h = director.get_window_size()
-        text = Label('+++ Game Paused +++',
+        text = Label('+++ Game Paused +++\nPress q ingame to quit',
         font_name = 'Arial',
         font_size = 20,
         anchor_x = 'center',
