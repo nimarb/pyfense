@@ -129,42 +129,55 @@ with open("data/settings.cfg") as setting_file:
     for line in setting_file:
         attributes = eval(line)
         settings.update(attributes)
-#print(settings)
+
+waves = {}
+with open("data/waves.cfg") as wave_file:
+    for line in wave_file:
+        if line == "\n" or line[0] == "#":
+            continue
+        else:
+            attributes = eval(line)
+            if len(attributes) != 0:
+                waves.update(attributes)
 """
 # attributes with _x_ should be read from textfile
 
 tower[0][0] = { # Tower 0, level 0
-    image' : loadImage(_'assets/tower0.png'_) 
-    
+    image' : loadImage(_'assets/tower0.png'_)
+
     'cost' : _cost_
     'damage' : _damage_
     'range' : _range_
     'firerate' : _firerate_
-       
+
      if _projectileAnimation_ == False: # if projectile image is static
-        'projectileImage' : loadImage(_'assets/tower00projectile.png'_) 
+        'projectileImage' : loadImage(_'assets/tower00projectile.png'_)
      elif _projectileAnimation_ == True: # if projectile image is animated
-        'projectileImage' : loadAnimation(_'assets/tower00projectile.png'_, _spritesheet_x_, _spritesheet_y_, _width_,
-                  _height_, _duration_, _loop_ )
-    
-    'projectileVelocity' : _projectileVelocity_  
-                       
-    'explosion' : loadAnimation(_'assets/tower0explosion'_, _spritesheet_x_, _spritesheet_y_, _width_,
-                  _height_, _duration_, _loop_ )    
+        'projectileImage' : loadAnimation(_'assets/tower00projectile.png'_,
+                                          _spritesheet_x_, _spritesheet_y_,
+                                          _width_, _height_, _duration_,
+                                          _loop_ )
+
+    'projectileVelocity' : _projectileVelocity
+
+    'explosion' : loadAnimation(_'assets/tower0explosion'_, _spritesheet_x_,
+                                _spritesheet_y_, _width_, _height_,
+                                _duration_, _loop_ )
 }
 
 tower[1][2]['projectileImage'] #gives me tower 1, level 2's projectileImage
 
 enemy[2] = {
     if _enemyAnimation_ == False: # if projectile image is static
-        'image' : loadImage(_'assets/enemy2.png'_) 
+        'image' : loadImage(_'assets/enemy2.png'_)
      elif _enemyAnimation_ == True: # if projectile image is animated
-        'image' : loadAnimation(_'assets/enemy2.png'_, _spritesheet_x_, _spritesheet_y_, _width_,
-                  _height_, _duration_, _loop_ )
-    
+        'image' : loadAnimation(_'assets/enemy2.png'_, _spritesheet_x_,
+                                _spritesheet_y_, _width_, _height_,
+                                _duration_, _loop_ )
+
       'maxHealth' : _maxHealth_
       'speed' : _speed_
-      'reward' : _reward_            
+      'reward' : _reward_
 }
 
 =======
@@ -204,7 +217,7 @@ particleTexture = loadImage("assets/particle.png")
 
 
 if _platform == "linux" or _platform == "linux2":
-    range1920 = loadImage("assets/range1920-linux.png")    
+    range1920 = loadImage("assets/range1920-linux.png")
 else:
     range1920 = loadImage("assets/range1920.png")
 
@@ -261,8 +274,7 @@ gameGrid[9][28] = 2
 gameGrid[9][29] = 2
 gameGrid[9][30] = 2
 gameGrid[9][31] = 2
-            
-            
-            
+
+
 startTile = [8, 0]
 endTile = [9, 31]
