@@ -2,11 +2,16 @@
 Manages highscore
 """
 import pyglet
+from pyglet.window import key
 
 import cocos
 from cocos.layer import Layer
 from cocos.director import director
 from cocos.text import *
+from cocos.scene import Scene
+from cocos.menu import *
+
+import pyfense
 
 
 def new_score( name, score, level ):
@@ -38,18 +43,64 @@ def readFile( fileName ):
     return splittedData
 
 
-class GameLostLayer( Layer, pyglet.event.EventDispatcher ):
+class PyFenseLost( Scene ):
     
-        is_event_handler = True
-        
-        def __init__( self ):
-            super().__init__()
-            w, h = director.get_window_size()
-            text = Label('Game Over',
-                         font_name = 'Arial',
-                         font_size = 20,
-                         anchor_x = 'center',
-                         anchor_y = 'center')
+    def __init__( self , reachedWave):
+        super().__init__()
+        self.wave = reachedWave
 
-            text.position = w/2. , h/2.
-            self.add(text)
+    def on_enter( self ):
+        self.add( LostLayer( self.wave ), z=1 )
+
+class LostLayer( Layer, pyglet.event.EventDispatcher ):
+        
+    is_event_handler = True
+
+    def __init__( self , wave ):
+        super().__init__()
+        self.wave = wave        
+        
+        w, h = director.get_window_size()
+        text1 = Label('+++ You Lost! +++',
+                     font_name='Arial',
+                     font_size=20,
+                     anchor_x='center',
+                     anchor_y='center')
+        text1.position = w/2. , h/2.+ 25
+        text2 = Label('You reached wave %d' %wave,
+                font_name='Arial',
+                font_size=20,
+                anchor_x='center',
+                anchor_y='center')
+        text2.position = w/2. , h/2. 
+        self.add(text1)
+        self.add(text2)
+        
+    def on_key_press( self, k, m ):
+        if k in (key.ENTER, key.ESCAPE, key.SPACE, key.Q ):
+            print("key pressed to submit score")
+            director.push( SubmitScore( wave ))
+            return True
+              
+    def on_mouse_release( self, x, y, b, m ):
+        print("mouse pressed to submit score")
+        director.push( SubmitScore( wave ) )
+        return True
+        
+class SubmitScore( Menu ):
+        
+    def __init__(self):
+        super( LevelSelectMenu, self ).__init__('PyFense')
+        self.font_title['font_size'] = 72
+        self.menu_anchor_x = CENTER
+        self.menu_anchor_y = CENTER
+        items = []
+        items.append( EntryMenuItem('Name', on_submit, name, max_length=15) )
+        self.create_menu( items )
+
+        
+    def on_submit( name ):
+        director.push( pyfense.ScoresLayer() )        
+        
+
+        

@@ -186,6 +186,6 @@ class PyFenseGame(scene.Scene):
         self.hud.updateLiveNumber(self.currentLives)
         if self.currentLives == 0:
             print("YOU LOST THE GAME")
-            director.push(GameLostLayer())
+            director.push(PyFenseLost( self.currentWave ))
             
 

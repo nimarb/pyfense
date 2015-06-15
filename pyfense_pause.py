@@ -22,13 +22,20 @@ class PauseLayer( Layer, pyglet.event.EventDispatcher ):
     def __init__( self ):
         super().__init__()
         w, h = director.get_window_size()
-        text = Label('+++ Game Paused +++',
-                     font_name = 'Arial',
-                     font_size = 20,
-                     anchor_x = 'center',
-                     anchor_y = 'center')
-        text.position = w/2. , h/2.
-        self.add(text)
+        text1 = Label('+++ Game Paused +++',
+                     font_name='Arial',
+                     font_size=20,
+                     anchor_x='center',
+                     anchor_y='center')
+        text1.position = w/2. , h/2. + 25
+        text2 = Label('+++ Press Q to quit game +++',
+                font_name='Arial',
+                font_size=20,
+                anchor_x='center',
+                anchor_y='center')
+        text2.position = w/2. , h/2. 
+        self.add(text1)
+        self.add(text2)
         
     def on_key_press( self, k, m ):
         if k in (key.ENTER, key.ESCAPE, key.SPACE, key.Q ):
