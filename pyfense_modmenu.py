@@ -49,6 +49,8 @@ or entry items (which lets you enter alphanumeric data).
 
 To use a menu in your code, just subclass `Menu` and add the menu to an `Scene` or
 another `Layer`.
+
++++ImageMenuItem Modified+++
 """
 
 from __future__ import division, print_function, unicode_literals
