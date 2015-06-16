@@ -215,10 +215,9 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.clickedCellStatus = self.currentCellStatus
             towerNumber = int(str(self.clickedCellStatus)[1])
             upgradeLevel = int(str(self.clickedCellStatus)[2])
-            self._displayRangeIndicator()
+            self._displayRangeIndicator(upgradeLevel=upgradeLevel)
             if upgradeLevel < 3:
                 self.towerUpgradeThumbnail = cocos.sprite.Sprite(
-                    #pyfense_resources.tower[towerNumber][3]["image"])
                     pyfense_resources.tower[towerNumber][upgradeLevel + 1]["image"])
                 self.add(self.towerUpgradeThumbnail)
                 self.towerUpgradeThumbnail.position = (self.menuMin_x + 
