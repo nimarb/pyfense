@@ -5,7 +5,7 @@ import pyglet
 from pyglet.window import key
 
 import cocos
-from cocos.layer import Layer
+from cocos.layer import *
 from cocos.director import director
 from cocos.text import *
 from cocos.scene import Scene
@@ -99,4 +99,13 @@ class SubmitScore(Menu):
         self.create_menu(items)
 
     def on_submit(self, name):
-        director.push(Scene(pyfense.ScoresLayer()))
+
+        scene = Scene()
+        scene.add(MultiplexLayer(
+            pyfense.MainMenu(),
+            pyfense.LevelSelectMenu(),
+            pyfense.OptionsMenu(),
+            pyfense.ScoresLayer(),
+            pyfense.AboutLayer()),
+            z=1)
+        director.replace(scene)

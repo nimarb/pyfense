@@ -217,7 +217,7 @@ class OptionsMenu(Menu):
         director.show_FPS = value
 
     def on_quit(self):
-        self.parent.switch_to()
+        self.parent.switch_to(0)
 
 
 class HelpLayer(ColorLayer):
