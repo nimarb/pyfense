@@ -12,8 +12,6 @@ class PyFensePause(scene.Scene):
 
     def __init__(self):
         super().__init__()
-
-    def on_enter(self):
         self.add(PauseLayer(), z=1)
 
 

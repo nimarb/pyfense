@@ -25,7 +25,7 @@ import pyfense_resources
 
 class MainMenu(Menu):
     def __init__(self):
-        super(MainMenu, self).__init__('PyFense')
+        super().__init__('PyFense')
         self.font_title['font_size'] = 72
         self.menu_anchor_x = CENTER
         self.menu_anchor_y = CENTER
@@ -59,7 +59,7 @@ class MainMenu(Menu):
 
 class LevelSelectMenu(Menu):
     def __init__(self):
-        super(LevelSelectMenu, self).__init__('PyFense')
+        super().__init__('PyFense')
         self.font_title['font_size'] = 72
         self.menu_anchor_x = CENTER
         self.menu_anchor_y = CENTER
@@ -101,7 +101,7 @@ class ScoresLayer(ColorLayer):
 
     def __init__(self):
         w, h = director.get_window_size()
-        super(ScoresLayer, self).__init__(0, 0, 0, 1, width=w, height=h-86)
+        super().__init__(0, 0, 0, 1, width=w, height=h-86)
         self.font_title = {}
         self.font_title['font_size'] = 72
         self.font_title['anchor_y'] = 'top'
@@ -112,7 +112,7 @@ class ScoresLayer(ColorLayer):
         self.table = None
 
     def on_enter(self):
-        super(ScoresLayer, self).on_enter()
+        super().on_enter()
         score = pyfense_highscore.get_score()
         if self.table:
             self.remove_old()
@@ -203,7 +203,7 @@ class ScoresLayer(ColorLayer):
 
 class OptionsMenu(Menu):
     def __init__(self):
-        super(OptionsMenu, self).__init__('PyFense')
+        super().__init__('PyFense')
         self.font_title['font_size'] = 72
         self.menu_anchor_x = CENTER
         self.menu_anchor_y = CENTER
@@ -225,7 +225,7 @@ class HelpLayer(ColorLayer):
 
     def __init__(self):
         w, h = director.get_window_size()
-        super(HelpLayer, self).__init__(0, 0, 0, 1, width=w, height=h-86)
+        super().__init__(0, 0, 0, 1, width=w, height=h-86)
         self.font_title = {}
         self.font_title['font_size'] = 72
         self.font_title['anchor_y'] = 'top'
@@ -236,7 +236,7 @@ class HelpLayer(ColorLayer):
         self.table = None
 
     def on_enter(self):
-        super(HelpLayer, self).on_enter()
+        super().on_enter()
         w, h = director.get_window_size()
         text = Label('Press Q to quit the running level',
                      font_name='Arial',
@@ -261,7 +261,7 @@ class AboutLayer(ColorLayer):
 
     def __init__(self):
         w, h = director.get_window_size()
-        super(AboutLayer, self).__init__(0, 0, 0, 1, width=w, height=h-86)
+        super().__init__(0, 0, 0, 1, width=w, height=h-86)
         self.font_title = {}
         self.font_title['font_size'] = 72
         self.font_title['anchor_y'] = 'top'
@@ -272,7 +272,7 @@ class AboutLayer(ColorLayer):
         self.table = None
 
     def on_enter(self):
-        super(AboutLayer, self).on_enter()
+        super().on_enter()
         w, h = director.get_window_size()
         text = Label('PyFense ist geil und wir lieben Nippel!',  # LOL
                      font_name='Arial',
