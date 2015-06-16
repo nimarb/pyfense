@@ -40,7 +40,6 @@ class PyFenseGame(scene.Scene):
             pathFile.close()
         else:  # (if levelNumber == 1)
             self.gameGrid = pyfense_resources.initGrid(lvl=1)
-            print(pyfense_resources.gameGrid)
 
         self.startTile = pyfense_resources.startTile
         self.endTile = pyfense_resources.endTile
@@ -54,6 +53,8 @@ class PyFenseGame(scene.Scene):
         self.currentWave = 0
         self.currentLives = 3
         self.currentCurrency = 500
+
+
 
     def loadPath(self):
         currentTile = copy.deepcopy(self.startTile)
