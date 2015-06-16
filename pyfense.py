@@ -64,10 +64,10 @@ class LevelSelectMenu(Menu):
         self.menu_anchor_x = CENTER
         self.menu_anchor_y = CENTER
         items = []
-        image1 = pyfense.resources.background["lvl1"]
-        image.scale = 0.1
-        lvl1 = ImageMenuItem(image1, lambda: self.on_start(1))
-        lvl1.y -= 100
+        image_lvl1 = pyfense_resources.background["lvl1"]
+        lvl1 = ImageMenuItem(image_lvl1, lambda: self.on_start(1))
+        lvl1.scale = 0.28
+        lvl1.y = 0
         items.append(lvl1)
         if(os.path.isfile("assets/lvlcustom.png")):
             customImage = pyfense_resources.loadImage('assets/lvlcustom.png')
@@ -78,9 +78,9 @@ class LevelSelectMenu(Menu):
             items.append(customItem)
             # custom map has to be position correctly in Menu
         MapBuilder = MenuItem('MapBuilder', self.on_mapBuilder)
-        MapBuilder.y -= 200
+        MapBuilder.y -= 320
         Back = MenuItem('Back', self.on_quit)
-        Back.y -= 200
+        Back.y -= 320
         items.extend([MapBuilder, Back])
         width, height = director.get_window_size()
         self.create_menu(items)
