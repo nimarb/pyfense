@@ -34,7 +34,7 @@ settings = {
 }
 
 
-class TestEnemy(unittest.TestCase):
+class TestEntities(unittest.TestCase):
     def test_build_remove(self):
         # director.init(**settings['window'])
         entities = pyfense_entities.PyFenseEntities(0, 0)
