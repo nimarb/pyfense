@@ -14,7 +14,7 @@ from cocos.menu import *
 import pyfense
 
 
-def new_score( name, score, level ):
+def new_score(name, score, level):
     highscore = readFile( "data/highscore.txt" )
     for i, entry in enumerate(highscore):
         if entry[0][0] == "#":
@@ -34,29 +34,29 @@ def get_score():
     return highscore
 
 
-def readFile( fileName ):
+def readFile(fileName):
 
-    with open( fileName, "r" ) as openedFile:
+    with open(fileName, "r") as openedFile:
         openedFile.readline()
         fileData = openedFile.readlines()
-        splittedData = [row.split( ", " ) for row in fileData]
+        splittedData = [row.split(", ") for row in fileData]
     return splittedData
 
 
-class PyFenseLost( Scene ):
+class PyFenseLost(Scene):
     
-    def __init__( self , reachedWave):
+    def __init__(self , reachedWave):
         super().__init__()
         self.wave = reachedWave
 
-    def on_enter( self ):
-        self.add( LostLayer( self.wave ), z=1 )
+    def on_enter(self):
+        self.add( LostLayer(self.wave), z=1)
 
-class LostLayer( Layer, pyglet.event.EventDispatcher ):
+class LostLayer(Layer):
         
     is_event_handler = True
 
-    def __init__( self , wave ):
+    def __init__(self , wave):
         super().__init__()
         self.wave = wave        
         
@@ -76,13 +76,13 @@ class LostLayer( Layer, pyglet.event.EventDispatcher ):
         self.add(text1)
         self.add(text2)
         
-    def on_key_press( self, k, m ):
-        if k in (key.ENTER, key.ESCAPE, key.SPACE, key.Q ):
+    def on_key_press(self, k, m):
+        if k in (key.ENTER, key.ESCAPE, key.SPACE, key.Q):
             print("key pressed to submit score")
             director.push( SubmitScore( wave ))
             return True
               
-    def on_mouse_release( self, x, y, b, m ):
+    def on_mouse_release(self, x, y, b, m):
         print("mouse pressed to submit score")
         director.push( SubmitScore( wave ) )
         return True
@@ -90,17 +90,17 @@ class LostLayer( Layer, pyglet.event.EventDispatcher ):
 class SubmitScore( Menu ):
         
     def __init__(self):
-        super( LevelSelectMenu, self ).__init__('PyFense')
+        super(LevelSelectMenu, self).__init__('PyFense')
         self.font_title['font_size'] = 72
         self.menu_anchor_x = CENTER
         self.menu_anchor_y = CENTER
         items = []
-        items.append( EntryMenuItem('Name', on_submit, name, max_length=15) )
-        self.create_menu( items )
+        items.append(EntryMenuItem('Name', on_submit, name, max_length=15))
+        self.create_menu(items)
 
         
-    def on_submit( name ):
-        director.push( pyfense.ScoresLayer() )        
+    def on_submit(name):
+        director.push(pyfense.ScoresLayer())        
         
 
         

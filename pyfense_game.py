@@ -193,6 +193,6 @@ class PyFenseGame(scene.Scene):
             #explosion.position = (x, y)
             #self.add(explosion)
             print("YOU LOST THE GAME")
-            director.push(PyFenseLost( self.currentWave ))
+            director.replace(PyFenseLost(self.currentWave))
             
 
