@@ -200,7 +200,6 @@ class ScoresLayer(ColorLayer):
         self.parent.switch_to(0)
         return True
 
-
 class OptionsMenu(Menu):
     def __init__(self):
         super().__init__('PyFense')
@@ -210,11 +209,15 @@ class OptionsMenu(Menu):
         items = []
         items.append(ToggleMenuItem('Show FPS: ', self.on_show_fps,
                      director.show_FPS))
+        items.append(ToggleMenuItem('Sounds', self.on_sounds, True))
         items.append(MenuItem('Back', self.on_quit))
         self.create_menu(items)
 
     def on_show_fps(self, value):
         director.show_FPS = value
+
+    def on_sounds(self, value):
+        pyfense_resources.sounds = not pyfense_resources.sounds
 
     def on_quit(self):
         self.parent.switch_to(0)
@@ -306,6 +309,22 @@ if __name__ == '__main__':
         z=1)
     director.set_show_FPS(pyfense_resources.settings["general"]["showFps"])
     w, h = director.get_window_size()
+    # Music
+    # 1st Try - doesnt play anything
+    # scene.load_music("assets/music.wav")
+    # scene.play_music()
+
+    # 2nd Try - static noise louder than music
+    # music = pyglet.resource.media("assets/music.wav", streaming = True)
+    # music.play()
+
+    # 3rd Try - music stops after ca. 1 min (even when piece was longer)
+    # and doesnt repeat as it should
+    # music_player = pyglet.media.Player()
+    # music = pyglet.resource.media("assets/music.wav", streaming = False)
+    # music_player.queue(music)
+    # music_player.eos_action = music_player.EOS_LOOP
+    # music_player.play()
 
     logo = pyfense_resources.logo
     scene.add(cocos.sprite.Sprite(logo, position=(w/2, h-75), scale=0.3),

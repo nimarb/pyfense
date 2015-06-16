@@ -28,6 +28,8 @@ def loadAnimation(filepath, spritesheet_x, spritesheet_y, width,
     return pyglet.image.Animation.from_image_sequence(
             images, duration, loop=loop)
 
+shot = pyglet.media.load('assets/shoot.wav', streaming=False)
+sounds = True
 tower = {}
 enemy = {}
 projectile = {}

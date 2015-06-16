@@ -25,30 +25,33 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
         self.target = None
         self.counter = 0
         self.canFire = True
+        self.shot = pyfense_resources.shot
         self.schedule(lambda dt: self.fire())
         #clock.schedule_once(lambda dt: self.fire(), 0.01)
         self.schedule(lambda dt: self.find_next_enemy())
         self.schedule(lambda dt: self.rotateToTarget())
 
     def fire(self):
-        if (not self.enemies) or not self.target:  
+        if (not self.enemies) or not self.target:
             pass
         elif self.canFire:
             self.canFire = False
-            self.dispatch_event('on_projectile_fired', self, self.target, 
+            if (pyfense_resources.sounds):
+                self.shot.play()
+            self.dispatch_event('on_projectile_fired', self, self.target,
                                     self.attributes["projectile_image"],
                                     self.attributes["tower"],
                                     #pyfense_resources.projectile,
                                     self.rotation,
                                     self.attributes["projectileVelocity"],
                                     self.attributes["damage"])
-            clock.schedule_once(self.fireInterval, 1/self.attributes['firerate'])                                    
-                               
-    # Fire the projectile only after firerate interval                                
+            clock.schedule_once(self.fireInterval, 1/self.attributes['firerate'])
+
+    # Fire the projectile only after firerate interval
     def fireInterval(self, dt):
         if self.canFire == False:
             self.canFire = True
-            
+
     def distance(self, a, b):
         return math.sqrt((b.x - a.x)**2 + (b.y-a.y)**2)
 
