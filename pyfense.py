@@ -14,6 +14,7 @@ from cocos.actions import *
 from cocos.scene import Scene
 from cocos.layer import *
 from cocos.text import *
+
 import os
 
 from pyfense_modmenu import *
@@ -69,6 +70,10 @@ class LevelSelectMenu(Menu):
         lvl1.scale = 0.28
         lvl1.y = 0
         items.append(lvl1)
+        MapBuilder = MenuItem('MapBuilder', self.on_mapBuilder)
+        MapBuilder.y -= 20
+        Back = MenuItem('Back', self.on_quit)
+        Back.y -= 20
         if(os.path.isfile("assets/lvlcustom.png")):
             customImage = pyfense_resources.loadImage('assets/lvlcustom.png')
             customItem = ImageMenuItem(customImage,
@@ -76,11 +81,9 @@ class LevelSelectMenu(Menu):
             customItem.scale = 0.4
             customItem.y -= 300
             items.append(customItem)
+            MapBuilder.y -= 320
+            Back.y -= 320
             # custom map has to be position correctly in Menu
-        MapBuilder = MenuItem('MapBuilder', self.on_mapBuilder)
-        MapBuilder.y -= 320
-        Back = MenuItem('Back', self.on_quit)
-        Back.y -= 320
         items.extend([MapBuilder, Back])
         width, height = director.get_window_size()
         self.create_menu(items)
@@ -295,6 +298,19 @@ class AboutLayer(ColorLayer):
         return True
 
 
+def to_menu(item):
+    scene = Scene()
+    scene.add(MultiplexLayer(
+        MainMenu(),
+        LevelSelectMenu(),
+        OptionsMenu(),
+        ScoresLayer(),
+        HelpLayer(),
+        AboutLayer()
+        ),
+        z=1)
+    director.replace(scene)
+
 if __name__ == '__main__':
     director.init(**pyfense_resources.settings['window'])
     scene = Scene()
@@ -320,7 +336,7 @@ if __name__ == '__main__':
 
     # 3rd Try - music stops after ca. 1 min (even when piece was longer)
     # and doesnt repeat as it should
-    # music_player = pyglet.media.Player()
+    # music_player = pyglet.medi    a.Player()
     # music = pyglet.resource.media("assets/music.wav", streaming = False)
     # music_player.queue(music)
     # music_player.eos_action = music_player.EOS_LOOP

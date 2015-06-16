@@ -100,12 +100,4 @@ class SubmitScore(Menu):
 
     def on_submit(self, name):
 
-        scene = Scene()
-        scene.add(MultiplexLayer(
-            pyfense.MainMenu(),
-            pyfense.LevelSelectMenu(),
-            pyfense.OptionsMenu(),
-            pyfense.ScoresLayer(),
-            pyfense.AboutLayer()),
-            z=1)
-        director.replace(scene)
+        pyfense.to_menu(1)
