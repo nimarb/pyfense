@@ -19,22 +19,22 @@ class PyFenseMapBuilder(scene.Scene):
     def __init__(self):
 
         super().__init__()
-        #initialise game grid to store where enemies can walk,
+        # initialise game grid to store where enemies can walk,
         # towers can be build and where towers are already built
-        #one grid cell is 60x60px large (full hd resolution scale)
-        #gameGrid can be called by using gameGrid[y][x]
-        #key:
-        #0 := no tower can be build, no enemy can walk
-        #1 := no tower can be build, enemy can walk
-        #3 := tower can be build, no enemy can walk
-        #4 := tower has been built, no enemy can walk, no tower can be build (can upgrade (?))
+        # one grid cell is 60x60px large (full hd resolution scale)
+        # gameGrid can be called by using gameGrid[y][x]
+        # key:
+        # 0 := no tower can be build, no enemy can walk
+        # 1 := no tower can be build, enemy can walk
+        # 3 := tower can be build, no enemy can walk
+        # 4 := tower has been built, no enemy can walk, no tower can be build (can upgrade (?))
         self.gameGrid = [[0 for x in range (32)] for x in range(18)]
         self.startTile = [8, 2]
         self.endTile = [9, 29]
-        self.movePath = actions.MoveBy((0,0))
-        #self.loadPath()
-        #self.levelMapName = "lvl" + str(levelNumber)
-        #self.loadMap()
+        self.movePath = actions.MoveBy((0, 0))
+        # self.loadPath()
+        # self.levelMapName = "lvl" + str(levelNumber)
+        # self.loadMap()
         self.displayHud()
         self.on_build_path(210, 510)
         self.on_build_path(1710, 570)
@@ -47,13 +47,13 @@ class PyFenseMapBuilder(scene.Scene):
         output.close()
         print("save")
         scene = Scene()
-        scene.add( MultiplexLayer(
+        scene.add(MultiplexLayer(
             MainMenu(),
             LevelSelectMenu(),
             OptionsMenu(),
             ScoresLayer(),
             AboutLayer()),
-            z = 1)
+            z=1)
         director.replace(scene)
 
     def displayHud(self):
@@ -84,7 +84,7 @@ class PyFenseMapBuilder(scene.Scene):
         if grid_y > 17:
             grid_y = 17
         return self.gameGrid[grid_y][grid_x]
-        
+
     def on_build_path(self, x, y):
         if(self.getGridPix(x,y)==0):
             path = cocos.sprite.Sprite(pyfense_resources.path, position = (x, y))

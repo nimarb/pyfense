@@ -39,11 +39,12 @@ class PyFenseGame(scene.Scene):
             self.gameGrid = pickle.load(pathFile)
             pathFile.close()
         else:  # (if levelNumber == 1)
-            self.gameGrid = pyfense_resources.gameGrid
-            
+            self.gameGrid = pyfense_resources.initGrid(lvl=1)
+            print(pyfense_resources.gameGrid)
+
         self.startTile = pyfense_resources.startTile
         self.endTile = pyfense_resources.endTile
-        
+
         self.movePath = actions.MoveBy((0, 0))
         self.loadPath()
         self.levelMapName = "lvl" + str(levelNumber)
@@ -123,7 +124,7 @@ class PyFenseGame(scene.Scene):
             grid_y = 17
         return self.gameGrid[grid_y][grid_x]
 
-    
+
     def getPositionFromGrid(self, grid):
         x_grid = grid[1]
         y_grid = grid[0]
@@ -147,7 +148,7 @@ class PyFenseGame(scene.Scene):
         self.hud.updateCurrencyNumber(self.currentCurrency)
         self.setGridPix(pos_x, pos_y, int(float("1" + str(towerNumber) +
                         str(tower.attributes["lvl"]))))
-        
+
     def on_upgrade_tower(self, position):
         tower = self.entityMap.getTowerAt(position)
         towerLevel = tower.attributes["lvl"]
@@ -167,7 +168,7 @@ class PyFenseGame(scene.Scene):
         (x, y) = position
         self.setGridPix(x, y, int(float("1" + str(towerNumber)
                         + str(towerLevel + 1))))
-        
+
     def on_destroy_tower(self, position):
         (x, y) = position
         self.setGridPix(x, y, 3)
@@ -186,7 +187,7 @@ class PyFenseGame(scene.Scene):
         self.currentLives -= 1
         self.hud.updateLiveNumber(self.currentLives)
         if self.currentLives == 0:
-            
+
             #explosion = pyfense_particles.ExplosionHuge()
             #x = director.get_window_size()[0] / 2
             #y = director.get_window_size()[1] / 2
@@ -194,5 +195,5 @@ class PyFenseGame(scene.Scene):
             #self.add(explosion)
             print("YOU LOST THE GAME")
             director.replace(PyFenseLost(self.currentWave))
-            
+
 
