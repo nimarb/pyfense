@@ -8,6 +8,7 @@ from math import floor
 import pyfense_resources
 from sys import platform as _platform #for OS check
 
+
 class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
     is_event_handler = True
 
@@ -104,13 +105,27 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.add(self.cellSelectorSpriteGreen)
 
     def _addTowerTexts(self):
-        label1 = cocos.text.Label(" ", bold=True, anchor_x='center', 
+        label1 = cocos.text.Label(" ", bold=True, anchor_x='right', 
             anchor_y='center', color=(255, 0, 0, 255))
-        label2 = cocos.text.Label(" ", bold=True, anchor_x='center', 
+        label2 = cocos.text.Label(" ", bold=True, anchor_x='right', 
             anchor_y='center', color=(255, 0, 0, 255))
-        label3 = cocos.text.Label(" ", bold=True, anchor_x='center', 
+        label3 = cocos.text.Label(" ", bold=True, anchor_x='right', 
             anchor_y='center', color=(255, 0, 0, 255))
-        self.towerTexts = [label1, label2, label3]
+        self.towerCostTexts = [label1, label2, label3]
+        label4 = cocos.text.Label(" ", bold=True, anchor_x='right', 
+            font_size=11, anchor_y='center', color=(255, 0, 0, 255))
+        label5 = cocos.text.Label(" ", bold=True, anchor_x='right', 
+            font_size=11, anchor_y='center', color=(255, 0, 0, 255))
+        label6 = cocos.text.Label(" ", bold=True, anchor_x='right', 
+            font_size=11, anchor_y='center', color=(255, 0, 0, 255))
+        self.towerDamageTexts = [label4, label5, label6]
+        label7 = cocos.text.Label(" ", bold=True, anchor_x='right', 
+            font_size=11, anchor_y='center', color=(255, 0, 0, 255))
+        label8 = cocos.text.Label(" ", bold=True, anchor_x='right', 
+            font_size=11, anchor_y='center', color=(255, 0, 0, 255))
+        label9 = cocos.text.Label(" ", bold=True, anchor_x='right', 
+            font_size=11, anchor_y='center', color=(255, 0, 0, 255))
+        self.towerFirerateTexts = [label7, label8, label9]
         self.towerUpgradeText = cocos.text.Label(" ", bold=True, 
             anchor_x='center', anchor_y='center', color=(255, 0, 0, 255))
 
@@ -119,7 +134,9 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             return
         for picture in range(0, len(self.towerThumbnails)):
             self.remove(self.towerThumbnails[picture])
-            self.remove(self.towerTexts[picture])
+            self.remove(self.towerCostTexts[picture])
+            self.remove(self.towerDamageTexts[picture])
+            self.remove(self.towerFirerateTexts[picture])
             if self.noCashOverlayDisplayed[picture] == True:
                 self.remove(self.noCashOverlays[picture])
                 self.noCashOverlayDisplayed[picture] = False
@@ -194,13 +211,25 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                     self.menuMin_x +
                     picture*self.towerThumbnails[picture].width +
                     self.towerThumbnails[picture].width / 2, y)
-                self.towerTexts[picture].element.text = str(pyfense_resources.tower[picture][1]["cost"])
-                self.towerTexts[picture].position = (self.menuMin_x + 
+                self.towerCostTexts[picture].element.text = str(pyfense_resources.tower[picture][1]["cost"])
+                self.towerCostTexts[picture].position = (self.menuMin_x + 
                     picture*self.towerThumbnails[picture].width +
-                    self.towerThumbnails[picture].width / 1.5, y - 
+                    self.towerThumbnails[picture].width / 1.5 + 15, y - 
+                    self.towerThumbnails[picture].height / 4 + 15)
+                self.towerDamageTexts[picture].element.text = "d: " + str(pyfense_resources.tower[picture][1]["damage"])
+                self.towerDamageTexts[picture].position = (self.menuMin_x + 
+                    picture*self.towerThumbnails[picture].width +
+                    self.towerThumbnails[picture].width / 1.5 + 15, y - 
                     self.towerThumbnails[picture].height / 4)
+                self.towerFirerateTexts[picture].element.text = "f: " + str(pyfense_resources.tower[picture][1]["firerate"])
+                self.towerFirerateTexts[picture].position = (self.menuMin_x + 
+                    picture*self.towerThumbnails[picture].width +
+                    self.towerThumbnails[picture].width / 1.5 + 15, y - 
+                    self.towerThumbnails[picture].height / 4 - 15)
                 self.add(self.towerThumbnails[picture])
-                self.add(self.towerTexts[picture])
+                self.add(self.towerCostTexts[picture])
+                self.add(self.towerDamageTexts[picture])
+                self.add(self.towerFirerateTexts[picture])
                 if (self.currentCurrency < pyfense_resources.tower[picture][1]['cost']):
                     self.add(self.noCashOverlays[picture])
                     self.noCashOverlays[picture].position = (
@@ -215,10 +244,9 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.clickedCellStatus = self.currentCellStatus
             towerNumber = int(str(self.clickedCellStatus)[1])
             upgradeLevel = int(str(self.clickedCellStatus)[2])
-            self._displayRangeIndicator()
+            self._displayRangeIndicator(upgradeLevel=upgradeLevel)
             if upgradeLevel < 3:
                 self.towerUpgradeThumbnail = cocos.sprite.Sprite(
-                    #pyfense_resources.tower[towerNumber][3]["image"])
                     pyfense_resources.tower[towerNumber][upgradeLevel + 1]["image"])
                 self.add(self.towerUpgradeThumbnail)
                 self.towerUpgradeThumbnail.position = (self.menuMin_x + 
@@ -330,6 +358,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self._displayRangeIndicator(towerNumber=2)
             else:
                 self.rangeIndicator.visible = False
+
 
 PyFenseHud.register_event_type('on_build_tower')
 PyFenseHud.register_event_type('on_destroy_tower')
