@@ -272,7 +272,7 @@ class AboutLayer(ColorLayer):
         self.table = None
 
     def on_enter(self):
-        super().on_enter()
+        super(ou).on_enter()
         w, h = director.get_window_size()
         text = Label('PyFense ist geil und wir lieben Nippel!',  # LOL
                      font_name='Arial',

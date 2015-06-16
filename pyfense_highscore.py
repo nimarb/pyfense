@@ -94,8 +94,9 @@ class SubmitScore(Menu):
         self.menu_anchor_y = CENTER
         items = []
         name = ""
-        items.append(EntryMenuItem('Name', 'on_submit', name, max_length=15))
+        items.append(EntryMenuItem('Name', self.on_submit,
+                                   name, max_length=15))
         self.create_menu(items)
 
-    def on_submit(name):
-        director.push(pyfense.ScoresLayer())
+    def on_submit(self, name):
+        director.push(Scene(pyfense.ScoresLayer()))
