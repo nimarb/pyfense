@@ -32,7 +32,6 @@ shot = pyglet.media.load('assets/shoot.wav', streaming=False)
 sounds = True
 tower = {}
 enemy = {}
-projectile = {}
 with open("data/entities.cfg") as conf_file:
     for line in conf_file:
         if line == "" or line[0] == "#":
@@ -94,33 +93,6 @@ with open("data/entities.cfg") as conf_file:
                     print("Error: Image not found: {}".format(
                         att_dict["image"]))
                 enemy[enemyname] = att_dict
-
-        elif line.find("projectile':") != -1:
-            att_dict = eval(line)
-            projectilename = att_dict["projectile"]
-            if projectilename in projectile:
-                print("Error: Projectile is already existing")
-                break
-            else:
-                try:
-                    if "animated" in att_dict:
-                        if att_dict["animated"] == True:
-                            att_dict["image"] = loadAnimation(
-                             "assets/{}".format(att_dict["image"]),
-                             att_dict["spritesheet_x"],
-                             att_dict["spritesheet_y"],
-                             att_dict["width"], att_dict["height"],
-                             att_dict["duration"], att_dict["loop"])
-                        else:
-                            att_dict["image"] = loadImage(
-                               "assets/{}".format(att_dict["image"]))
-                    else:
-                        att_dict["image"] = loadImage(
-                            "assets/{}".format(att_dict["image"]))
-                except FileNotFoundError:
-                    print("Error: Image not found: {}".format(
-                        att_dict["image"]))
-                projectile[projectilename] = att_dict
 
         # else:
             # print(line)
@@ -227,6 +199,8 @@ else:
 # Game Grid Level 1
 
 gameGrid = [[3 for x in range(32)] for x in range(18)]
+
+
 def initGrid(lvl):
     gameGrid = [[3 for x in range(32)] for x in range(18)]
     gameGrid[8][1] = 2
