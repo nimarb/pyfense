@@ -140,16 +140,12 @@ class ScoresLayer(ColorLayer):
                           anchor_x='left',
                           anchor_y='top',
                           **self.font_top)
-        Head_Score = Label('Score',
-                           anchor_x='right',
-                           anchor_y='top',
-                           **self.font_top)
-        Head_Level = Label('Reached Level',
-                           anchor_x='center',
-                           anchor_y='top',
-                           **self.font_top)
-        self.table.append((Head_Pos, Head_Name, Head_Score, Head_Level))
-        self.table.append((Label(''), Label(''), Label(''), Label('')))
+        Head_Wave = Label('Wave',
+                          anchor_x='right',
+                          anchor_y='top',
+                          **self.font_top)
+        self.table.append((Head_Pos, Head_Name, Head_Wave))
+        self.table.append((Label(''), Label(''), Label('')))
 
         for i, entry in enumerate(score):
             pos = Label('%i.    ' % (i+1),
@@ -160,39 +156,32 @@ class ScoresLayer(ColorLayer):
                          anchor_x='left',
                          anchor_y='top',
                          **self.font_label)
-            score = Label(entry[1],
-                          anchor_x='right',
-                          anchor_y='top',
-                          **self.font_label)
-            level = Label(entry[2].strip(),
-                          anchor_x='right',
-                          anchor_y='top',
-                          **self.font_label)
-            self.table.append((pos, name, score, level))
+            wave = Label(entry[1].strip(),
+                         anchor_x='right',
+                         anchor_y='top',
+                         **self.font_label)
+            self.table.append((pos, name, wave))
         self.process_table()
 
     def remove_old(self):
         for item in self.table:
-            pos, name, score, level = item
+            pos, name, wave = item
             self.remove(pos)
             self.remove(name)
-            self.remove(score)
-            self.remove(level)
+            self.remove(wave)
         self.table = None
 
     def process_table(self):
         w, h = director.get_window_size()
         for i, item in enumerate(self.table):
-            pos, name, score, level = item
+            pos, name, wave = item
             pos_y = h-200 - (self.fontsize + 15) * i
             pos.position = (w/2 - 400., pos_y)
             name.position = (w/2 - 380., pos_y)
-            score.position = (w/2 + 130., pos_y)
-            level.position = (w/2 + 430, pos_y)
+            wave.position = (w/2 + 130., pos_y)
             self.add(pos, z=2)
             self.add(name, z=2)
-            self.add(score, z=2)
-            self.add(level, z=2)
+            self.add(wave, z=2)
 
     def on_key_press(self, k, m):
         if k in (key.ENTER, key.ESCAPE, key.SPACE, key.Q):
@@ -202,6 +191,7 @@ class ScoresLayer(ColorLayer):
     def on_mouse_release(self, x, y, b, m):
         self.parent.switch_to(0)
         return True
+
 
 class OptionsMenu(Menu):
     def __init__(self):

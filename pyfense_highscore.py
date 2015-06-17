@@ -12,16 +12,30 @@ from cocos.scene import Scene
 import pyfense
 
 
-def new_score(name, score, level):
+def new_score(name, wave):
     highscore = readFile("data/highscore.txt")
     for i, entry in enumerate(highscore):
         if entry[0][0] == "#":
             continue
         else:
-            if entry[1] <= score:
+            if int(entry[1]) <= wave:
                 continue
             else:
                 #TODO write file to be implemented
+                return True
+    return False
+
+
+def check_score(wave):
+
+    highscore = readFile("data/highscore.txt")
+    for i, entry in enumerate(highscore):
+        if entry[0][0] == "#":
+            continue
+        else:
+            if int(entry[1]) <= wave:
+                continue
+            else:
                 return True
     return False
 
@@ -56,6 +70,7 @@ class LostLayer(Layer):
     def __init__(self, wave):
         super().__init__()
         self.wave = wave
+        self.in_highscore = check_score(wave)
 
         w, h = director.get_window_size()
         text1 = Label('+++ You Lost! +++',
@@ -75,12 +90,18 @@ class LostLayer(Layer):
 
     def on_key_press(self, k, m):
         if k in (key.ENTER, key.ESCAPE, key.SPACE, key.Q):
-            director.replace(Scene(SubmitScore(self.wave)))
+            if self.in_highscore:
+                director.replace(Scene(SubmitScore(self.wave)))
+            else:
+                director.pop()
             return True
 
     def on_mouse_release(self, x, y, b, m):
-        director.replace(Scene(SubmitScore(self.wave)))
-        return True
+            if self.in_highscore:
+                director.replace(Scene(SubmitScore(self.wave)))
+            else:
+                director.pop()
+            return True
 
 
 class SubmitScore(Layer):
@@ -90,6 +111,7 @@ class SubmitScore(Layer):
     def __init__(self, wave):
         super().__init__()
         w, h = director.get_window_size()
+        self.wave = wave
 
         self.font_title = {}
         self.font_title['font_size'] = 72
@@ -108,8 +130,8 @@ class SubmitScore(Layer):
         label.position = (w/2., 600.)
         self.add(label)
 
-        self.name = Label('', **self.font_label)
-        self.name.position = (w/2., 550.)
+        self.name = Label('', color=(192, 192, 192, 255), **self.font_label)
+        self.name.position = (w/2., 530.)
         self.add(self.name)
 
     def on_key_press(self, k, m):
@@ -118,8 +140,17 @@ class SubmitScore(Layer):
             self.name.element.text = self.name.element.text[0:-1]
             return True
         elif k == key.ENTER:
-            director.pop()
+            if len(self.name.element.text) <= 2:
+                w, h = director.get_window_size()
+                label = Label('Name too short:', **self.font_label)
+                label.position = (w/2., 600.)
+                self.add(label)
+            else:
+                new_score(self.name, self.wave)
+                director.pop()
             return True
+        elif k == key.ESCAPE:
+            director.pop()
         return False
 
     def on_text(self, t):
@@ -128,7 +159,3 @@ class SubmitScore(Layer):
             return True
 
         self.name.element.text += t
-
-    def on_submit(self, name):
-
-        director.pop()

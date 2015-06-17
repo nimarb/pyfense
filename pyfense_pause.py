@@ -40,13 +40,13 @@ class PauseLayer(Layer):
 #        self.add(text2)
 
     def on_key_press(self, k, m):
-        print("lalla")
-        if k in (key.ENTER, key.ESCAPE, key.SPACE, key.Q):
-            print("exit key pressed")
+        if k in (key.ENTER, key.ESCAPE, key.SPACE):
             director.pop()
             return True
+        elif k == key.Q:
+            director.pop()
+            director.pop()
 
     def on_mouse_release(self, x, y, b, m):
-        print("mouse to exit used")
         director.pop()
         return True
