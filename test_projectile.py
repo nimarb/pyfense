@@ -5,7 +5,6 @@ Created on Tue Jun 16 21:48:14 2015
 @author: Matthias
 """
 
-
 import unittest
 import cocos
 from cocos.director import director
@@ -13,6 +12,7 @@ import pyglet
 
 import pyfense_projectile
 import pyfense_tower
+import pyfense_resources
 
 settings = {
     "window": {
@@ -42,7 +42,7 @@ class TestProjectile(unittest.TestCase):
         director.run(scene)
         tower1 = pyfense_tower.PyFenseTower([], 0, (50, 70))
         tower2 = pyfense_tower.PyFenseTower([], 0, (20, 70))
-        image = pyglet.image.load('assets/projectile01.png')
+        image = pyfense_resources.imageLoad('assets/projectile01.png')
         projectile = pyfense_projectile.PyFenseProjectile(tower1, tower2,
                                                           image, 0, 0, 1000,
                                                           50)
