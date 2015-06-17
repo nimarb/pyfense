@@ -216,12 +216,14 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                     picture*self.towerThumbnails[picture].width +
                     self.towerThumbnails[picture].width / 1.5 + 15, y - 
                     self.towerThumbnails[picture].height / 4 + 15)
-                self.towerDamageTexts[picture].element.text = "d: " + str(pyfense_resources.tower[picture][1]["damage"])
+                self.towerDamageTexts[picture].element.text = ("d: " + 
+                    str(pyfense_resources.tower[picture][1]["damage"]))
                 self.towerDamageTexts[picture].position = (self.menuMin_x + 
                     picture*self.towerThumbnails[picture].width +
                     self.towerThumbnails[picture].width / 1.5 + 15, y - 
                     self.towerThumbnails[picture].height / 4)
-                self.towerFirerateTexts[picture].element.text = "f: " + str(pyfense_resources.tower[picture][1]["firerate"])
+                self.towerFirerateTexts[picture].element.text = ("f: " + 
+                    str(pyfense_resources.tower[picture][1]["firerate"]))
                 self.towerFirerateTexts[picture].position = (self.menuMin_x + 
                     picture*self.towerThumbnails[picture].width +
                     self.towerThumbnails[picture].width / 1.5 + 15, y - 
@@ -257,7 +259,8 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self.upgradeHudDisplayed = upgradeLevel
                 self.towerUpgradeText.element.text = str(pyfense_resources.tower[towerNumber][upgradeLevel + 1]["cost"])
                 self.towerUpgradeText.position = (self.menuMin_x + 
-                    self.towerUpgradeThumbnail.width / 1.5, y - self.towerUpgradeThumbnail.width / 4)
+                    self.towerUpgradeThumbnail.width / 1.5, 
+                    y - self.towerUpgradeThumbnail.width / 4)
                 self.add(self.towerUpgradeText)
             else:
                 self.add(self.noTowerUpgradeIcon)
@@ -274,7 +277,8 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         # check if player clicked on a menu item
         # if yes, carry out the attached action (build/upgrade/cash-in tower)
         if self.buildingHudDisplayed:
-            if (y < self.menuMax_y + self.towerThumbnails[0].height / 2 and y > self.menuMin_y):
+            if (y < self.menuMax_y + self.towerThumbnails[0].height / 2 and 
+                    y > self.menuMin_y):
                 if x > self.menuMin_x and x < self.menuMax_x:
                     for i in range(0, len(self.towerThumbnails)):
                         if (x > self.menuMin_x + i * self.towerThumbnails[i].width and 
@@ -282,7 +286,8 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                                 self.towerThumbnails[i].width):
                             return i
         elif self.upgradeHudDisplayed > 0:
-            if (y < self.menuMax_y + self.destroyTowerIcon.height / 2 and y > self.menuMin_y):
+            if (y < self.menuMax_y + self.destroyTowerIcon.height / 2 and 
+                    y > self.menuMin_y):
                 # a max of two items. need to manually change number incase a 3rd is needed
                 if x > self.menuMin_x and x < self.menuMax_x:
                     for i in range(0, 2):
