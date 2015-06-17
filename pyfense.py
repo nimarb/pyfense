@@ -89,6 +89,7 @@ class LevelSelectMenu(Menu):
         self.create_menu(items)
 
     def on_start(self, lvl):
+        self.parent.switch_to(3)
         director.push(pyfense_game.PyFenseGame(lvl))
 
     def on_mapBuilder(self):
@@ -120,54 +121,53 @@ class ScoresLayer(ColorLayer):
         if self.table:
             self.remove_old()
         self.table = []
+
+        self.font_top = {}
+        self.font_top['font_size'] = self.fontsize
+        self.font_top['bold'] = True
+        self.font_top['font_name'] = 'Arial'
+
+        self.font_label = {}
+        self.font_label['font_size'] = self.fontsize
+        self.font_label['bold'] = False
+        self.font_label['font_name'] = 'Arial'
+
         Head_Pos = Label('',
-                         bold=True,
-                         font_name='Arial',
-                         font_size=self.fontsize,
                          anchor_x='right',
-                         anchor_y='top')
+                         anchor_y='top',
+                         **self.font_top)
         Head_Name = Label('Name',
-                          bold=True,
-                          font_name='Arial',
-                          font_size=self.fontsize,
                           anchor_x='left',
-                          anchor_y='top')
+                          anchor_y='top',
+                          **self.font_top)
         Head_Score = Label('Score',
-                           bold=True,
-                           font_name='Arial',
-                           font_size=self.fontsize,
                            anchor_x='right',
-                           anchor_y='top')
+                           anchor_y='top',
+                           **self.font_top)
         Head_Level = Label('Reached Level',
-                           bold=True,
-                           font_name='Arial',
-                           font_size=self.fontsize,
                            anchor_x='center',
-                           anchor_y='top')
+                           anchor_y='top',
+                           **self.font_top)
         self.table.append((Head_Pos, Head_Name, Head_Score, Head_Level))
         self.table.append((Label(''), Label(''), Label(''), Label('')))
 
         for i, entry in enumerate(score):
             pos = Label('%i.    ' % (i+1),
-                        font_name='Arial',
-                        font_size=self.fontsize,
                         anchor_x='right',
-                        anchor_y='top')
+                        anchor_y='top',
+                        **self.font_label)
             name = Label(entry[0],
-                         font_name='Arial',
-                         font_size=self.fontsize,
                          anchor_x='left',
-                         anchor_y='top')
+                         anchor_y='top',
+                         **self.font_label)
             score = Label(entry[1],
-                          font_name='Arial',
-                          font_size=self.fontsize,
                           anchor_x='right',
-                          anchor_y='top')
+                          anchor_y='top',
+                          **self.font_label)
             level = Label(entry[2].strip(),
-                          font_name='Arial',
-                          font_size=self.fontsize,
                           anchor_x='right',
-                          anchor_y='top')
+                          anchor_y='top',
+                          **self.font_label)
             self.table.append((pos, name, score, level))
         self.process_table()
 
@@ -239,7 +239,6 @@ class HelpLayer(ColorLayer):
         title = Label('PyFense', **self.font_title)
         title.position = (w/2., h)
         self.add(title, z=1)
-        self.table = None
 
     def on_enter(self):
         super().on_enter()
@@ -275,10 +274,9 @@ class AboutLayer(ColorLayer):
         title = Label('PyFense', **self.font_title)
         title.position = (w/2., h)
         self.add(title, z=1)
-        self.table = None
 
     def on_enter(self):
-        super(ou).on_enter()
+        super().on_enter()
         w, h = director.get_window_size()
         text = Label('PyFense ist geil und wir lieben Nippel!',  # LOL
                      font_name='Arial',
@@ -296,20 +294,6 @@ class AboutLayer(ColorLayer):
     def on_mouse_release(self, x, y, b, m):
         self.parent.switch_to(0)
         return True
-
-
-def to_menu(item):
-    scene = Scene()
-    scene.add(MultiplexLayer(
-        MainMenu(),
-        LevelSelectMenu(),
-        OptionsMenu(),
-        ScoresLayer(),
-        HelpLayer(),
-        AboutLayer()
-        ),
-        z=1)
-    director.replace(scene)
 
 if __name__ == '__main__':
     director.init(**pyfense_resources.settings['window'])

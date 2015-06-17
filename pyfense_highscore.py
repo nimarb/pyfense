@@ -9,8 +9,6 @@ from cocos.layer import *
 from cocos.director import director
 from cocos.text import *
 from cocos.scene import Scene
-from cocos.menu import *
-
 import pyfense
 
 
@@ -85,19 +83,52 @@ class LostLayer(Layer):
         return True
 
 
-class SubmitScore(Menu):
+class SubmitScore(Layer):
+
+    is_event_handler = True
 
     def __init__(self, wave):
-        super().__init__('PyFense')
+        super().__init__()
+        w, h = director.get_window_size()
+
+        self.font_title = {}
         self.font_title['font_size'] = 72
-        self.menu_anchor_x = CENTER
-        self.menu_anchor_y = CENTER
-        items = []
-        name = ""
-        items.append(EntryMenuItem('Name', self.on_submit,
-                                   name, max_length=15))
-        self.create_menu(items)
+        self.font_title['anchor_y'] = 'top'
+        self.font_title['anchor_x'] = 'center'
+        title = Label('GameOver', **self.font_title)
+        title.position = (w/2., h)
+        self.add(title, z=1)
+
+        self.font_label = {}
+        self.font_label['font_size'] = 40
+        self.font_label['anchor_y'] = 'top'
+        self.font_label['anchor_x'] = 'center'
+
+        label = Label('Enter your name:', **self.font_label)
+        label.position = (w/2., 600.)
+        self.add(label)
+
+        self.name = Label('', **self.font_label)
+        self.name.position = (w/2., 550.)
+        self.add(self.name)
+
+    def on_key_press(self, k, m):
+
+        if k == key.BACKSPACE:
+            self.name.element.text = self.name.element.text[0:-1]
+            return True
+        elif k == key.ENTER:
+            director.pop()
+            return True
+        return False
+
+    def on_text(self, t):
+
+        if t == '\r':
+            return True
+
+        self.name.element.text += t
 
     def on_submit(self, name):
 
-        pyfense.to_menu(1)
+        director.pop()
