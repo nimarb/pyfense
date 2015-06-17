@@ -278,11 +278,16 @@ class AboutLayer(ColorLayer):
     def on_enter(self):
         super().on_enter()
         w, h = director.get_window_size()
-        text = Label('PyFense ist geil und wir lieben Nippel!',  # LOL
+        text = Label('PyFense ist geil und wir lieben Nippel! IUnd Matthias ' + 
+                        'ist der Mitarbeiter des monats wenn die testklassen' + 
+                        ' laufen :D',  # LOL
                      font_name='Arial',
                      font_size=20,
                      anchor_x='center',
                      anchor_y='center')
+        text.element.width = w * 0.3
+        text.element.multiline = True
+        text.element.wrap_lines = True
         text.position = w/2., h/2.
         self.add(text)
 
