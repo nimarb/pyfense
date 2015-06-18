@@ -40,7 +40,7 @@ def check_score(wave):
             if int(entry[1]) >= wave:
                 continue
             else:
-                return i
+                return (i + 1)
     return False  # if no lower score is found
 
 
@@ -57,6 +57,9 @@ def readFile(fileName):
         fileData = openedFile.readlines()
         splittedData = [row.split(", ") for row in fileData]
     return splittedData
+
+def writeFile(fileName):
+
 
 
 class PyFenseLost(Scene):
