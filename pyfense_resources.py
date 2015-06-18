@@ -29,7 +29,6 @@ def loadAnimation(filepath, spritesheet_x, spritesheet_y, width,
             images, duration, loop=loop)
 
 shot = pyglet.media.load('assets/shoot.wav', streaming=False)
-sounds = True
 tower = {}
 enemy = {}
 with open("data/entities.cfg") as conf_file:
@@ -103,6 +102,8 @@ with open("data/settings.cfg") as setting_file:
     for line in setting_file:
         attributes = eval(line)
         settings.update(attributes)
+
+sounds = settings["general"]["sounds"]
 
 waves = {}
 with open("data/waves.cfg") as wave_file:

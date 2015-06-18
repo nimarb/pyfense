@@ -13,36 +13,40 @@ import pyfense
 
 
 def new_score(name, wave):
-    highscore = readFile("data/highscore.txt")
+
+    highscore = readFile("data/highscore.cfg")
     for i, entry in enumerate(highscore):
         if entry[0][0] == "#":
             continue
+        elif i == 10:
+            return False
         else:
-            if int(entry[1]) <= wave:
+            if int(entry[1]) >= wave:
                 continue
-            else:
-                #TODO write file to be implemented
-                return True
-    return False
+            else:  # to be implemented: write to file
+                return False
+    return False  # if no lower score is found
 
 
 def check_score(wave):
 
-    highscore = readFile("data/highscore.txt")
+    highscore = readFile("data/highscore.cfg")
     for i, entry in enumerate(highscore):
         if entry[0][0] == "#":
             continue
+        elif i == 10:
+            return False
         else:
-            if int(entry[1]) <= wave:
+            if int(entry[1]) >= wave:
                 continue
             else:
-                return True
-    return False
+                return i
+    return False  # if no lower score is found
 
 
 def get_score():
 
-    highscore = readFile("data/highscore.txt")
+    highscore = readFile("data/highscore.cfg")
     return highscore
 
 
@@ -70,7 +74,11 @@ class LostLayer(Layer):
     def __init__(self, wave):
         super().__init__()
         self.wave = wave
-        self.in_highscore = check_score(wave)
+        if check_score(wave) == False:
+            self.in_highscore = False
+        else:
+            self.place = check_score(wave)
+            self.in_highscore = True
 
         w, h = director.get_window_size()
         text1 = Label('+++ You Lost! +++',
@@ -78,12 +86,24 @@ class LostLayer(Layer):
                       font_size=20,
                       anchor_x='center',
                       anchor_y='center')
-        text1.position = w/2., h/2. + 25
-        text2 = Label('You reached wave %d' % wave,
-                      font_name='Arial',
-                      font_size=20,
-                      anchor_x='center',
-                      anchor_y='center')
+        text1.position = w/2., h/2. + 45
+        if self.in_highscore:
+            text2 = RichLabel('You reached wave % d \\' % wave +
+                              'You made the new highscore % d' % self.place,
+                              font_name='Arial',
+                              font_size=20,
+                              anchor_x='center',
+                              anchor_y='center',
+                              halign='center')
+            text2.element.width = w * 0.3
+            text2.element.multiline = True
+
+        else:
+            text2 = Label('You reached wave %d' % wave,
+                          font_name='Arial',
+                          font_size=20,
+                          anchor_x='center',
+                          anchor_y='center')
         text2.position = w/2., h/2.
         self.add(text1)
         self.add(text2)
@@ -142,8 +162,11 @@ class SubmitScore(Layer):
         elif k == key.ENTER:
             if len(self.name.element.text) <= 2:
                 w, h = director.get_window_size()
-                label = Label('Name too short:', **self.font_label)
-                label.position = (w/2., 600.)
+                label = Label('Name too short! Choose at least 3 characters',
+                              font_size=20,
+                              anchor_y='top',
+                              anchor_x='center')
+                label.position = (w/2., 700.)
                 self.add(label)
             else:
                 new_score(self.name, self.wave)

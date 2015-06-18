@@ -34,7 +34,7 @@ class PyFenseMapBuilderHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.buildpath()
 
     def on_key_release(self, key, modifiers):
-        if(key==65293):  # == Enter
+        if(key == 65293):  # == Enter
             try:  # Why does this function gets called when opening Layer - bad fix ?
                 self.first_time_called
                 self.saveMap()
