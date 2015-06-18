@@ -34,13 +34,23 @@ settings = {
 
 class TestEnemy(unittest.TestCase):
     def test_move(self):
-        #director.init(**settings['window'])
+        director.init(**settings['window'])
+        scene = cocos.scene.Scene()
+        director.run(scene)
         test_path = cocos.actions.MoveBy((0, 100), 0)
         test_path += cocos.actions.MoveBy((-50, 0), 0)
-        enemy = pyfense_enemy.PyFenseEnemy((0, 0), 0, 1, 1, test_path)
+        enemy = pyfense_enemy.PyFenseEnemy((0, 0), 0, 1, 1, test_path, 1)
         result = enemy.position
         actualResult = (-50, 100)
         print(result)
+        self.assertEqual(result, actualResult)
+
+    def test_healthmultiplier(self):
+        test_path = cocos.actions.MoveBy((0, 0), 0)
+        enemy1 = pyfense_enemy.PyFenseEnemy((0, 0), 0, 1, 1, test_path, 1)
+        enemy2 = pyfense_enemy.PyFenseEnemy((0, 0), 0, 1, 1, test_path, 2.5)
+        actualResult = enemy1.attributes["maxhealth"]*2.5
+        result = enemy2.healthPoints
         self.assertEqual(result, actualResult)
 
 if __name__ == '__main__':

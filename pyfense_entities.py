@@ -40,9 +40,10 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 (waveNumber-1) % self.wavequantity+1]
         self.spawnedEnemies = 0
         self.diedEnemies = 0
+        self.multiplier = 1
         self.enemieslength = len(self.enemy_list)
         self.schedule_interval(self.addEnemy, 1, self.startTile, self.path,
-                               self.enemy_list)
+                               self.enemy_list, self.multiplier)
 
     def buildTower(self, tower):
         tower.push_handlers(self)
@@ -99,10 +100,10 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             if self.diedEnemies == self.spawnedEnemies:
                 self.dispatch_event('on_next_wave')
 
-    def addEnemy(self, dt, startTile, path, enemylist):
+    def addEnemy(self, dt, startTile, path, enemylist, multiplier):
         position = startTile
         enemy = PyFenseEnemy(position, enemylist[self.spawnedEnemies],
-                             1, 1, path)
+                             1, 1, path, multiplier)
         # constructor: (position, enemyname, lvl, wave, path)
         self.enemies.append(enemy)
         self.spawnedEnemies += 1
