@@ -26,7 +26,7 @@ import pyfense_resources
 
 class MainMenu(Menu):
     def __init__(self):
-        super().__init__('PyFense')
+        super().__init__('')
         self.font_title['font_size'] = 72
         self.menu_anchor_x = CENTER
         self.menu_anchor_y = CENTER
@@ -322,6 +322,6 @@ if __name__ == '__main__':
     # music_player.play()
 
     logo = pyfense_resources.logo
-    scene.add(cocos.sprite.Sprite(logo, position=(w/2, h-75), scale=0.3),
+    scene.add(cocos.sprite.Sprite(logo, position=(w/2+20, h-175), scale=0.5),
               z=2)
     director.run(scene)
