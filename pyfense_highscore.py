@@ -88,27 +88,26 @@ class LostLayer(Layer):
         w, h = director.get_window_size()
         text1 = Label('+++ You Lost! +++',
                       font_name='Arial',
-                      font_size=20,
+                      font_size=30,
                       anchor_x='center',
                       anchor_y='center')
-        text1.position = w/2., h/2. + 45
+        text1.position = w/2., h/2. + 65
         if self.in_highscore:
-            text2 = RichLabel('You reached wave % d \\' % wave +
-                              'You made the new highscore % d' % self.place,
-                              font_name='Arial',
-                              font_size=20,
-                              anchor_x='center',
-                              anchor_y='center',
-                              halign='center')
-            text2.element.width = w * 0.3
-            text2.element.multiline = True
+            text2 = RichLabel(
+                'You reached wave % d' % wave +
+                'and place % d of the highscore' % self.place,
+                font_name='Arial',
+                font_size=20,
+                anchor_x='center',
+                anchor_y='center')
 
         else:
-            text2 = Label('You reached wave %d' % wave,
-                          font_name='Arial',
-                          font_size=20,
-                          anchor_x='center',
-                          anchor_y='center')
+            text2 = Label(
+                'You reached wave %d' % wave,
+                font_name='Arial',
+                font_size=20,
+                anchor_x='center',
+                anchor_y='center')
         text2.position = w/2., h/2.
         self.add(text1)
         self.add(text2)

@@ -233,9 +233,11 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                     self.towerThumbnails[picture].width +
                     self.towerThumbnails[picture].width / 1.5 + 15, y -
                     self.towerThumbnails[picture].height / 4)
-                self.towerFirerateTexts[picture].element.text = ("f: " +
+                self.towerFirerateTexts[picture].element.text = (
+                    "f: " +
                     str(pyfense_resources.tower[picture][1]["firerate"]))
-                self.towerFirerateTexts[picture].position = (self.menuMin_x +
+                self.towerFirerateTexts[picture].position = (
+                    self.menuMin_x +
                     picture*self.towerThumbnails[picture].width +
                     self.towerThumbnails[picture].width / 1.5 + 15, y -
                     self.towerThumbnails[picture].height / 4 - 15)
@@ -243,7 +245,8 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self.add(self.towerCostTexts[picture])
                 self.add(self.towerDamageTexts[picture])
                 self.add(self.towerFirerateTexts[picture])
-                if (self.currentCurrency < pyfense_resources.tower[picture][1]['cost']):
+                if (self.currentCurrency <
+                        pyfense_resources.tower[picture][1]['cost']):
                     self.add(self.noCashOverlays[picture])
                     self.noCashOverlays[picture].position = (
                         self.menuMin_x +
@@ -260,26 +263,30 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self._displayRangeIndicator(upgradeLevel=upgradeLevel)
             if upgradeLevel < 3:
                 self.towerUpgradeThumbnail = cocos.sprite.Sprite(
-                    pyfense_resources.tower[towerNumber][upgradeLevel + 1]["image"])
+                    pyfense_resources.tower
+                    [towerNumber][upgradeLevel + 1]["image"])
                 self.add(self.towerUpgradeThumbnail)
-                self.towerUpgradeThumbnail.position = (self.menuMin_x +
-                    self.towerUpgradeThumbnail.width / 2, y)
+                self.towerUpgradeThumbnail.position = (
+                    self.menuMin_x + self.towerUpgradeThumbnail.width / 2, y)
                 self.add(self.destroyTowerIcon)
-                self.destroyTowerIcon.position = (self.menuMin_x +
-                    self.towerUpgradeThumbnail.width * 1.5, y)
+                self.destroyTowerIcon.position = (
+                    self.menuMin_x + self.towerUpgradeThumbnail.width * 1.5, y)
                 self.upgradeHudDisplayed = upgradeLevel
-                self.towerUpgradeText.element.text = str(pyfense_resources.tower[towerNumber][upgradeLevel + 1]["cost"])
-                self.towerUpgradeText.position = (self.menuMin_x +
+                self.towerUpgradeText.element.text = str(
+                    pyfense_resources.tower
+                    [towerNumber][upgradeLevel + 1]["cost"])
+                self.towerUpgradeText.position = (
+                    self.menuMin_x +
                     self.towerUpgradeThumbnail.width / 1.5,
                     y - self.towerUpgradeThumbnail.width / 4)
                 self.add(self.towerUpgradeText)
             else:
                 self.add(self.noTowerUpgradeIcon)
-                self.noTowerUpgradeIcon.position = (self.menuMin_x +
-                    self.noTowerUpgradeIcon.width / 2, y)
+                self.noTowerUpgradeIcon.position = (
+                    self.menuMin_x + self.noTowerUpgradeIcon.width / 2, y)
                 self.add(self.destroyTowerIcon)
-                self.destroyTowerIcon.position = (self.menuMin_x +
-                    self.destroyTowerIcon.width * 1.5, y)
+                self.destroyTowerIcon.position = (
+                    self.menuMin_x + self.destroyTowerIcon.width * 1.5, y)
                 self.upgradeHudDisplayed = 0.5
 
     # check WHETHER the click was on Hud Item
@@ -292,14 +299,17 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                     y > self.menuMin_y):
                 if x > self.menuMin_x and x < self.menuMax_x:
                     for i in range(0, len(self.towerThumbnails)):
-                        if (x > self.menuMin_x + i * self.towerThumbnails[i].width and
-                                x < self.menuMax_x - (len(self.towerThumbnails) - i - 1) *
-                                self.towerThumbnails[i].width):
-                            return i
+                        if (x > self.menuMin_x + i *
+                            self.towerThumbnails[i].width and
+                            x < self.menuMax_x - (len(
+                            self.towerThumbnails) - i - 1) *
+                            self.towerThumbnails[i].width):
+                                return i
         elif self.upgradeHudDisplayed > 0:
             if (y < self.menuMax_y + self.destroyTowerIcon.height / 2 and
                     y > self.menuMin_y):
-                # a max of two items. need to manually change number incase a 3rd is needed
+                # a max of two items.
+                # need to manually change number incase a 3rd is needed
                 if x > self.menuMin_x and x < self.menuMax_x:
                     for i in range(0, 2):
                         if (x > self.menuMin_x + i * self.destroyTowerIcon.width and
