@@ -202,6 +202,10 @@ class OptionsMenu(Menu):
         items = []
         items.append(ToggleMenuItem('Show FPS: ', self.on_show_fps,
                      pyfense_resources.settings["general"]["showFps"]))
+        items.append(ToggleMenuItem('Fullscreen: ', self.on_fullscreen,
+                     pyfense_resources.settings["window"]["fullscreen"]))
+        items.append(ToggleMenuItem('Vsync: ', self.on_vsync,
+                     pyfense_resources.settings["window"]["vsync"]))
         items.append(ToggleMenuItem('Sounds: ', self.on_sounds,
                      pyfense_resources.settings["general"]["sounds"]))
         items.append(MenuItem('Back', self.on_quit))
@@ -209,6 +213,12 @@ class OptionsMenu(Menu):
 
     def on_show_fps(self, value):
         director.show_FPS = value
+
+    def on_fullscreen(self, value):
+        director.window.set_fullscreen(value)
+
+    def on_vsync(self, value):
+        director.window.set_vsync(value)
 
     def on_sounds(self, value):
         pyfense_resources.sounds = not pyfense_resources.sounds
