@@ -58,8 +58,10 @@ def readFile(fileName):
         splittedData = [row.split(", ") for row in fileData]
     return splittedData
 
-def writeFile(fileName):
 
+# def writeFile(fileName, writeFile):
+#     with open(fileName, "w") as openedFile:
+# under construction
 
 
 class PyFenseLost(Scene):
