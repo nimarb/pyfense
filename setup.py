@@ -10,8 +10,10 @@ setup(
 	},
 
 	install_requires = ['pyglet>=1.2.2', 'cocos2d>=0.6.0', 'numpy>=1.9.2'],
+
+	maintainer = 'n',
+	maintainer_email = 'l.nimar.b@gmail.com',
 	
-	author = 'Group C',
 	description = 'PyFense is a tower defense game built in Python using the Cococs2d framework.',
 	
 	entry_points = {
