@@ -96,6 +96,9 @@ TOP = font.Text.TOP
 BOTTOM = font.Text.BOTTOM
 
 
+font.add_directory('data/Orbitron')
+_font_ = 'Orbitron Light'
+
 def verticalMenuLayout(menu):
     width, height = director.get_window_size()
     fo = font.load(menu.font_item['font_name'], menu.font_item['font_size'])
@@ -178,7 +181,7 @@ class Menu(Layer):
         # Title
         self.font_title = {
             'text': 'title',
-            'font_name': 'Arial',
+            'font_name': _font_,
             'font_size': 56,
             'color': (192, 192, 192, 255),
             'bold': False,
@@ -190,7 +193,7 @@ class Menu(Layer):
         }
 
         self.font_item = {
-            'font_name': 'Arial',
+            'font_name': _font_,
             'font_size': 32,
             'bold': False,
             'italic': False,
@@ -200,7 +203,7 @@ class Menu(Layer):
             'dpi': 96,
         }
         self.font_item_selected = {
-            'font_name': 'Arial',
+            'font_name': _font_,
             'font_size': 42,
             'bold': False,
             'italic': False,

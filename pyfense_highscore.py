@@ -3,6 +3,7 @@ Manages highscore
 """
 import pyglet
 from pyglet.window import key
+from pyglet import font
 
 import cocos
 from cocos.layer import *
@@ -11,6 +12,10 @@ from cocos.text import *
 from cocos.scene import Scene
 import pyfense
 
+
+
+font.add_directory('data/Orbitron')
+_font_ = 'Orbitron Light'
 
 def new_score(name, wave):
     highscore = readFile("data/highscore.txt")
@@ -74,13 +79,13 @@ class LostLayer(Layer):
 
         w, h = director.get_window_size()
         text1 = Label('+++ You Lost! +++',
-                      font_name='Arial',
+                      font_name=_font_,
                       font_size=20,
                       anchor_x='center',
                       anchor_y='center')
         text1.position = w/2., h/2. + 25
         text2 = Label('You reached wave %d' % wave,
-                      font_name='Arial',
+                      font_name=_font_,
                       font_size=20,
                       anchor_x='center',
                       anchor_y='center')

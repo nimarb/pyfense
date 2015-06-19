@@ -1,5 +1,6 @@
 import pyglet
 from pyglet.window import key
+from pyglet import font
 
 import cocos
 from cocos import scene
@@ -7,6 +8,8 @@ from cocos.director import director
 from cocos.text import *
 from cocos.layer import *
 
+font.add_directory('data/Orbitron')
+_font_ = 'Orbitron Light'
 
 class PyFensePause(scene.Scene):
 
@@ -24,7 +27,7 @@ class PauseLayer(Layer):
         w, h = director.get_window_size()
 
         text1 = Label('+++ Game Paused +++\\Press Q to quit game',
-                      font_name='Arial',
+                      font_name=_font_,
                       font_size=20,
                       anchor_x='center',
                       anchor_y='center')
@@ -32,7 +35,7 @@ class PauseLayer(Layer):
         self.add(text1)
 
 #        text2 = Label('+++ Press Q to quit game +++',
-#                      font_name='Arial',
+#                      font_name=_font_,
 #                      font_size=20,
 #                      anchor_x='center',
 #                      anchor_y='center')
