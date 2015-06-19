@@ -13,15 +13,9 @@ from cocos.scene import Scene
 import pyfense
 
 HS_FILENAME = "data/highscore.cfg"  # name and path of the highscore file
-
-<<<<<<< HEAD
-=======
-
 font.add_directory('data/Orbitron')
 _font_ = 'Orbitron Light'
 
-def new_score(name, wave):
->>>>>>> abceb30adb1e68788fa9c34edaaa8e5f5ac23f0f
 
 def new_score(name, wave):
     try:
