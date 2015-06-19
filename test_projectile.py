@@ -23,9 +23,6 @@ settings = {
         "fullscreen": False,
         "resizable": True
         },
-    "world": {
-        "gameSpeed": 1.0
-        },
     "player": {
         "currency": 200
         },

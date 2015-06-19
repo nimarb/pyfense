@@ -7,7 +7,6 @@ import pyglet
 
 from pyfense_hud import *
 
-
 settings = {
 	"window": {
 		"width": 1920,
@@ -17,9 +16,6 @@ settings = {
 		"fullscreen": False,
 		#ATTENTION: misspelling intentional, pyglet fcked up
 		"resizable": True
-	}, 
-	"world": {
-		"gameSpeed": 1.0
 	},
 	"player": {
 		"currency": 200	
@@ -34,7 +30,7 @@ class TestHud(unittest.TestCase):
 	def setUp(self):
 		director.init(**settings['window'])
 		self.hud = PyFenseHud()
-
+		
 	def test_updateCurrencyNumber(self):
 		self.hud.updateCurrencyNumber(70)
 		result = self.hud.currentCurrency
