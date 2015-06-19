@@ -300,11 +300,10 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 if x > self.menuMin_x and x < self.menuMax_x:
                     for i in range(0, len(self.towerThumbnails)):
                         if (x > self.menuMin_x + i *
-                            self.towerThumbnails[i].width and
-                            x < self.menuMax_x - (len(
-                            self.towerThumbnails) - i - 1) *
-                            self.towerThumbnails[i].width):
-                                return i
+                                self.towerThumbnails[i].width and
+                                x < self.menuMax_x - (len(self.towerThumbnails) -
+                                i - 1) * self.towerThumbnails[i].width):
+                            return i
         elif self.upgradeHudDisplayed > 0:
             if (y < self.menuMax_y + self.destroyTowerIcon.height / 2 and
                     y > self.menuMin_y):
@@ -312,8 +311,10 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 # need to manually change number incase a 3rd is needed
                 if x > self.menuMin_x and x < self.menuMax_x:
                     for i in range(0, 2):
-                        if (x > self.menuMin_x + i * self.destroyTowerIcon.width and
-                                x < self.menuMin_x + (i + 1) * self.destroyTowerIcon.width):
+                        if (x > self.menuMin_x + i *
+                                self.destroyTowerIcon.width and
+                                x < self.menuMin_x + (i + 1) *
+                                self.destroyTowerIcon.width):
                             return i
         return -1
 
@@ -324,16 +325,18 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self.upgradeHudDisplayed == 0):
             self.clicked_x = x
             self.clicked_y = y
-            self._displayTowerHud("upgrade", self.clicked_x +
-                len(self.towerThumbnails) / 2 * self.towerThumbnails[0].width + 5,
-                self.clicked_y - self.towerThumbnails[0].height / 2 - 5)
+            self._displayTowerHud(
+                "upgrade", self.clicked_x + len(self.towerThumbnails) / 2 *
+                self.towerThumbnails[0].width + 5, self.clicked_y -
+                self.towerThumbnails[0].height / 2 - 5)
         elif (not self.buildingHudDisplayed and
                 self.currentCellStatus == 3 and self.upgradeHudDisplayed == 0):
             self.clicked_x = x
             self.clicked_y = y
-            self._displayTowerHud("build", self.clicked_x +
-                len(self.towerThumbnails) / 2 * self.towerThumbnails[0].width + 5,
-                self.clicked_y - self.towerThumbnails[0].height / 2 - 5)
+            self._displayTowerHud(
+                "build", self.clicked_x + len(self.towerThumbnails) / 2 *
+                self.towerThumbnails[0].width + 5, self.clicked_y -
+                self.towerThumbnails[0].height / 2 - 5)
         elif self.upgradeHudDisplayed > 0 or self.buildingHudDisplayed:
             hudItem = self._mouseOnTowerHudItem(x, y)
             if hudItem != -1:
@@ -362,12 +365,12 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             if self.currentCellStatus <= 2:
                 self.cellSelectorSpriteGreen.visible = False
                 self.cellSelectorSpriteRed.position = (grid_x * 60 + 30,
-                    grid_y * 60 + 30)
+                                                       grid_y * 60 + 30)
                 self.cellSelectorSpriteRed.visible = True
             elif self.currentCellStatus > 2:
                 self.cellSelectorSpriteRed.visible = False
                 self.cellSelectorSpriteGreen.position = (grid_x * 60 + 30,
-                    grid_y * 60 + 30)
+                                                         grid_y * 60 + 30)
                 self.cellSelectorSpriteGreen.visible = True
         if self.upgradeHudDisplayed > 0.5:
             if self._mouseOnTowerHudItem(x, y) == 0:
