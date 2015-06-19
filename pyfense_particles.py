@@ -1,12 +1,10 @@
-import cocos
-import cocos.particle
+# pyfense_particles
+
 from cocos.particle import ParticleSystem, Color
 from cocos.euclid import Point2
 
-import pyglet
-import random
-
 import pyfense_resources
+
 
 class Death(ParticleSystem):
 
@@ -42,9 +40,8 @@ class Death(ParticleSystem):
     life_var = 0.1
 
     # emits per frame
-    #emission_rate = total_particles / life
+    # emission_rate = total_particles / life
     emission_rate = 1000
-
 
     # color of particles
     # start_color = Color(1.0, 0.3, 0, 0.7)
@@ -66,7 +63,6 @@ class Death(ParticleSystem):
 
     # color modulate
     color_modulate = True
-
 
 
 class Explosion0(ParticleSystem):
@@ -214,10 +210,8 @@ class Explosion2(ParticleSystem):
 
     # color modulate
     color_modulate = True
-    
-    
-    
-    
+
+
 class ExplosionHuge(ParticleSystem):
     # total particles
     total_particles = 500
