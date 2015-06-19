@@ -24,6 +24,4 @@ setup(
 		'Programming Language :: Python',
         'Topic :: Games/Entertainment']
 		
-	install_requires = ['pyglet>=1.2.2', 'cocos2d>=0.6.3', 'numpy>=1.9.2']
-
 )
