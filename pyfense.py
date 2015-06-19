@@ -228,7 +228,7 @@ class OptionsMenu(Menu):
         items.append(ToggleMenuItem('Show FPS: ', self.on_show_fps,
                      pyfense_resources.settings["general"]["showFps"]))
         items.append(ToggleMenuItem('Fullscreen: ', self.on_fullscreen,
-                     pyfense_resources.settings["window"]["fullscreen"]))
+                     False))
         items.append(ToggleMenuItem('Vsync: ', self.on_vsync,
                      pyfense_resources.settings["window"]["vsync"]))
         items.append(ToggleMenuItem('Sounds: ', self.on_sounds,
