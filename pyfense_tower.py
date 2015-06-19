@@ -1,21 +1,21 @@
+# pyfense_tower contains PyFenseTower class
+
 import cocos
 from cocos import sprite
 from cocos.actions import *
 import pyglet
 from pyglet import clock
-import weakref
 import math
 import pyfense_resources
 
-import pyfense_entities
 from pyfense_entities import *
 
 # Needs position in tuple (posx,posy)
 # Takes tower.png found in assets directory
 
+
 class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
     def __init__(self, enemies, towerNumber, position, level=1):
-        is_event_handler = True
         self.attributes = pyfense_resources.tower[towerNumber][level]
         super().__init__(self.attributes["image"], position)
         self.enemies = enemies
@@ -27,7 +27,7 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
         self.canFire = True
         self.shot = pyfense_resources.shot
         self.schedule(lambda dt: self.fire())
-        #clock.schedule_once(lambda dt: self.fire(), 0.01)
+        # clock.schedule_once(lambda dt: self.fire(), 0.01)
         self.schedule(lambda dt: self.find_next_enemy())
         self.schedule(lambda dt: self.rotateToTarget())
 
@@ -39,21 +39,21 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
             if (pyfense_resources.sounds):
                 self.shot.play()
             self.dispatch_event('on_projectile_fired', self, self.target,
-                                    self.attributes["projectile_image"],
-                                    self.attributes["tower"],
-                                    #pyfense_resources.projectile,
-                                    self.rotation,
-                                    self.attributes["projectileVelocity"],
-                                    self.attributes["damage"])
-            clock.schedule_once(self.fireInterval, 1/self.attributes['firerate'])
+                                self.attributes["projectile_image"],
+                                self.attributes["tower"],
+                                self.rotation,
+                                self.attributes["projectileVelocity"],
+                                self.attributes["damage"])
+            clock.schedule_once(
+                self.fireInterval, 1 / self.attributes['firerate'])
 
     # Fire the projectile only after firerate interval
     def fireInterval(self, dt):
-        if self.canFire == False:
+        if not self.canFire:
             self.canFire = True
 
     def distance(self, a, b):
-        return math.sqrt((b.x - a.x)**2 + (b.y-a.y)**2)
+        return math.sqrt((b.x - a.x) ** 2 + (b.y - a.y) ** 2)
 
     # find the next enemy (that should be attacked next)
     # either first enemy in range or nearest Enemy

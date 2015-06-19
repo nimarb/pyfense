@@ -7,7 +7,6 @@ import pyglet
 
 import pyfense_game
 
-
 settings = {
     "window": {
         "width": 1920,
@@ -16,9 +15,6 @@ settings = {
         "vsync": True,
         "fullscreen": False,
         "resizable": True
-        },
-    "world": {
-        "gameSpeed": 1.0
         },
     "player": {
         "currency": 200
@@ -30,7 +26,6 @@ settings = {
 
 
 class TestGame(unittest.TestCase):
-
     def test_getPositionFromGrid(self):
         director.init(**settings['window'])
         startTile = [8, 2]
