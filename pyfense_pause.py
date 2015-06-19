@@ -69,13 +69,17 @@ class PauseLayer(Layer):
             return True
         elif k == key.F:
             director.window.set_fullscreen(not director.window.fullscreen)
+            return True
         elif k == key.V:
             director.window.set_vsync(not director.window.vsync)
+            return True
         elif k == key.S:
             pyfense_resources.sounds = not pyfense_resources.sounds
+            return True
         elif k == key.Q:
             director.pop()
             director.pop()
+            return True
 
     def on_mouse_release(self, x, y, b, m):
         director.pop()
