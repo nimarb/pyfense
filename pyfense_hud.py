@@ -164,8 +164,9 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.upgradeHudDisplayed = 0
 
     def _buildTower(self, towerNumber):
-        clicked_x = int(self.clicked_x / 60) * 60 + 30
-        clicked_y = int(self.clicked_y / 60) * 60 + 30
+        # clicked_x = int(self.clicked_x / 60) * 60 + 30
+        # clicked_y = int(self.clicked_y / 60) * 60 + 30
+        (clicked_x, clicked_y) = self.cellSelectorSpriteGreen.position
         self.dispatch_event('on_build_tower', towerNumber,
                             clicked_x, clicked_y)
 
