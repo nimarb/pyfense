@@ -60,7 +60,7 @@ class MainMenu(Menu):
 
 class LevelSelectMenu(Menu):
     def __init__(self):
-        super().__init__('PyFense')
+        super().__init__('')
         self.font_title['font_size'] = 72
         self.menu_anchor_x = CENTER
         self.menu_anchor_y = CENTER
@@ -110,7 +110,7 @@ class ScoresLayer(ColorLayer):
         self.font_title['font_size'] = 72
         self.font_title['anchor_y'] = 'top'
         self.font_title['anchor_x'] = 'center'
-        title = Label('PyFense', **self.font_title)
+        title = Label('', **self.font_title)
         title.position = (w/2., h)
         self.add(title, z=1)
         self.table = None
@@ -152,11 +152,18 @@ class ScoresLayer(ColorLayer):
                         anchor_x='right',
                         anchor_y='top',
                         **self.font_label)
-            name = Label(entry[0],
-                         anchor_x='left',
-                         anchor_y='top',
-                         **self.font_label)
-            wave = Label(entry[1].strip(),
+            try:
+                name = Label(entry[1].strip(),
+                             anchor_x='left',
+                             anchor_y='top',
+                             **self.font_label)
+            except IndexError:
+                print("highscore file broken")
+                name = Label("Error",
+                             anchor_x='left',
+                             anchor_y='top',
+                             **self.font_label)
+            wave = Label(entry[0],
                          anchor_x='right',
                          anchor_y='top',
                          **self.font_label)
@@ -175,7 +182,7 @@ class ScoresLayer(ColorLayer):
         w, h = director.get_window_size()
         for i, item in enumerate(self.table):
             pos, name, wave = item
-            pos_y = h-200 - (self.fontsize + 15) * i
+            pos_y = h - 200 - (self.fontsize + 15) * i
             pos.position = (w/2 - 400., pos_y)
             name.position = (w/2 - 380., pos_y)
             wave.position = (w/2 + 130., pos_y)
@@ -195,7 +202,7 @@ class ScoresLayer(ColorLayer):
 
 class OptionsMenu(Menu):
     def __init__(self):
-        super().__init__('PyFense')
+        super().__init__('')
         self.font_title['font_size'] = 72
         self.menu_anchor_x = CENTER
         self.menu_anchor_y = CENTER
@@ -237,7 +244,7 @@ class HelpLayer(ColorLayer):
         self.font_title['font_size'] = 72
         self.font_title['anchor_y'] = 'top'
         self.font_title['anchor_x'] = 'center'
-        title = Label('PyFense', **self.font_title)
+        title = Label('', **self.font_title)
         title.position = (w/2., h)
         self.add(title, z=1)
 
@@ -272,7 +279,7 @@ class AboutLayer(ColorLayer):
         self.font_title['font_size'] = 72
         self.font_title['anchor_y'] = 'top'
         self.font_title['anchor_x'] = 'center'
-        title = Label('PyFense', **self.font_title)
+        title = Label('', **self.font_title)
         title.position = (w/2., h)
         self.add(title, z=1)
 

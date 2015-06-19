@@ -30,22 +30,30 @@ class PauseLayer(Layer):
             anchor_x='center',
             anchor_y='center')
 
-        text2 = Label(
-            'Press Q to quit game',
-            font_name='Arial',
-            font_size=20,
-            anchor_x='center',
-            anchor_y='center')
+        self.key_font = {}
+        self.key_font['font_name'] = 'Arial'
+        self.key_font['font_size'] = 20
+        self.key_font['anchor_x'] = 'center'
+        self.key_font['anchor_y'] = 'center'
+
+        text2 = Label('Press Q to quit game',
+                      **self.key_font)
+        text3 = Label('Press F to toggle Fullscreen',
+                      **self.key_font)
 
         text1.position = w/2., h/2. + 50
-        text2.position = w/2., h/2. - 10
+        text2.position = w/2., h/2. - self.key_font['font_size']
+        text3.position = w/2., h/2. - 2 * (self.key_font['font_size'] + 5)
         self.add(text1)
         self.add(text2)
+        self.add(text3)
 
     def on_key_press(self, k, m):
         if k in (key.ENTER, key.ESCAPE, key.SPACE):
             director.pop()
             return True
+        elif k == key.F:
+            director.window.set_fullscreen(not director.window.fullscreen)
         elif k == key.Q:
             director.pop()
             director.pop()

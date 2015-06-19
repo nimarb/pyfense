@@ -11,33 +11,39 @@ from cocos.text import *
 from cocos.scene import Scene
 import pyfense
 
+HS_FILENAME = "data/highscore.cfg"  # name and path of the highscore file
+
 
 def new_score(name, wave):
-
-    highscore = readFile("data/highscore.cfg")
+    try:
+        highscore = readFile(HS_FILENAME)
+    except IOError:
+        print("new highscore.cfg will be created")
     for i, entry in enumerate(highscore):
-        if entry[0][0] == "#":
-            continue
-        elif i == 10:
+        if i == 10:
             return False
         else:
-            if int(entry[1]) >= wave:
+            if int(entry[0]) >= wave:
                 continue
-            else:  # to be implemented: write to file
-                return False
+            else:
+                new_highscore = sorted(highscore, key=lambda s: int(s[0]))
+                new_highscore.reverse()
+                writeFile(HS_FILENAME, new_highscore)
+                return True
     return False  # if no lower score is found
 
 
 def check_score(wave):
-
-    highscore = readFile("data/highscore.cfg")
+    try:
+        highscore = readFile(HS_FILENAME)
+    except IOError:
+        # file not found, new highscore will be created
+        return 1
     for i, entry in enumerate(highscore):
-        if entry[0][0] == "#":
-            continue
-        elif i == 10:
+        if i == 10:
             return False
         else:
-            if int(entry[1]) >= wave:
+            if int(entry[0]) >= wave:
                 continue
             else:
                 return (i + 1)
@@ -45,23 +51,32 @@ def check_score(wave):
 
 
 def get_score():
-
-    highscore = readFile("data/highscore.cfg")
+    highscore = readFile(HS_FILENAME)
     return highscore
 
 
 def readFile(fileName):
-
     with open(fileName, "r") as openedFile:
-        openedFile.readline()
-        fileData = openedFile.readlines()
+        fileData = []
+        for line in openedFile:
+            if line.startswith('#'):
+                continue
+            else:
+                fileData.append(line)
         splittedData = [row.split(", ") for row in fileData]
     return splittedData
 
 
-# def writeFile(fileName, writeFile):
-#     with open(fileName, "w") as openedFile:
-# under construction
+def writeFile(fileName, writeFile):
+    try:
+        with open(fileName, "w") as openedFile:
+            openedFile.write('#wave, user\n')
+            for entry in writeFile:
+                openedFile.write('%d, %s\n'
+                                 % (int(entry[0]), entry[1].strip()))
+    except Exception as e:
+        print("An error while writing occured:")
+        print(e)
 
 
 class PyFenseLost(Scene):
@@ -94,8 +109,8 @@ class LostLayer(Layer):
         text1.position = w/2., h/2. + 65
         if self.in_highscore:
             text2 = RichLabel(
-                'You reached wave % d' % wave +
-                'and place % d of the highscore' % self.place,
+                'You reached wave %d ' % wave +
+                'and place %d of the highscore' % self.place,
                 font_name='Arial',
                 font_size=20,
                 anchor_x='center',
