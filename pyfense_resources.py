@@ -115,47 +115,6 @@ with open("data/waves.cfg") as wave_file:
             if len(attributes) != 0:
                 waves.update(attributes)
 """
-# attributes with _x_ should be read from textfile
-
-tower[0][0] = { # Tower 0, level 0
-    image' : loadImage(_'assets/tower0.png'_)
-
-    'cost' : _cost_
-    'damage' : _damage_
-    'range' : _range_
-    'firerate' : _firerate_
-
-     if _projectileAnimation_ == False: # if projectile image is static
-        'projectileImage' : loadImage(_'assets/tower00projectile.png'_)
-     elif _projectileAnimation_ == True: # if projectile image is animated
-        'projectileImage' : loadAnimation(_'assets/tower00projectile.png'_,
-                                          _spritesheet_x_, _spritesheet_y_,
-                                          _width_, _height_, _duration_,
-                                          _loop_ )
-
-    'projectileVelocity' : _projectileVelocity
-
-    'explosion' : loadAnimation(_'assets/tower0explosion'_, _spritesheet_x_,
-                                _spritesheet_y_, _width_, _height_,
-                                _duration_, _loop_ )
-}
-
-tower[1][2]['projectileImage'] #gives me tower 1, level 2's projectileImage
-
-enemy[2] = {
-    if _enemyAnimation_ == False: # if projectile image is static
-        'image' : loadImage(_'assets/enemy2.png'_)
-     elif _enemyAnimation_ == True: # if projectile image is animated
-        'image' : loadAnimation(_'assets/enemy2.png'_, _spritesheet_x_,
-                                _spritesheet_y_, _width_, _height_,
-                                _duration_, _loop_ )
-
-      'maxHealth' : _maxHealth_
-      'speed' : _speed_
-      'reward' : _reward_
-}
-
-=======
 ACTUAL TOWER IS LOADED FROM CONFIG FILE, THIS IS AN EXAMPLE
 tower = {0.0: {1.0: {'cost': 100.0, 'firerate': 1.0,
 'projectilevelocity': 1000.0, 'damage': 10.0, 'lvl': 1.0, 'range': 200.0,
@@ -168,9 +127,7 @@ destroyTowerIcon = loadImage("assets/tower-destroy.png")
 noTowerUpgradeIcon = loadImage("assets/tower-noupgrade.png")
 
 background = {
-    "lvl1": loadImage("assets/lvl1.png"),
-    "lvl2": loadImage("assets/lvl2.png"),
-    "lvl3": loadImage("assets/lvl3.png")
+    "lvl1": loadImage("assets/lvl1.png")
                }
 
 """

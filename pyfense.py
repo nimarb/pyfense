@@ -48,43 +48,43 @@ class MainMenu(Menu):
         self.schedule(self.scaleLogo)
 
     def on_level_select(self):
-        logo.scale = 0.25  
+        logo.scale = 0.25
         logo.position = (w/2+20, h-90)
         self.parent.switch_to(1)
 
     def on_settings(self):
-        logo.scale = 0.25  
+        logo.scale = 0.25
         logo.position = (w/2+20, h-90)
         self.parent.switch_to(2)
 
     def on_scores(self):
-        logo.scale = 0.25  
+        logo.scale = 0.25
         logo.position = (w/2+20, h-90)
         self.parent.switch_to(3)
 
     def on_help(self):
-        logo.scale = 0.25  
+        logo.scale = 0.25
         logo.position = (w/2+20, h-90)
         self.parent.switch_to(4)
 
     def on_about(self):
-        logo.scale = 0.25  
+        logo.scale = 0.25
         logo.position = (w/2+20, h-90)
         self.parent.switch_to(5)
 
     def on_quit(self):
         pyglet.app.exit()
-        
-            
+
     def scaleLogo(self, dt):
         if self.parent.enabled_layer == 0:
-            logo.position=(w/2+20, h-175)
-            logo.scale=0.5
+            logo.position = (w / 2 + 20, h - 175)
+            logo.scale = 0.5
+
 
 class LevelSelectMenu(Menu):
     def __init__(self):
-        super().__init__(' ') 
-        self.font_title['font_name'] = _font_    
+        super().__init__(' ')
+        self.font_title['font_name'] = _font_
         self.font_title['font_size'] = 72
         self.menu_anchor_x = CENTER
         self.menu_anchor_y = CENTER
@@ -121,8 +121,8 @@ class LevelSelectMenu(Menu):
 
     def on_quit(self):
         self.parent.switch_to(0)
-        
-        
+
+
 class ScoresLayer(ColorLayer):
     is_event_handler = True
     fontsize = 40
@@ -130,6 +130,7 @@ class ScoresLayer(ColorLayer):
     def __init__(self):
         w, h = director.get_window_size()
         super().__init__(0, 0, 0, 1, width=w, height=h-86)
+
         self.table = None
 
     def on_enter(self):
@@ -169,11 +170,18 @@ class ScoresLayer(ColorLayer):
                         anchor_x='right',
                         anchor_y='top',
                         **self.font_label)
-            name = Label(entry[0],
-                         anchor_x='left',
-                         anchor_y='top',
-                         **self.font_label)
-            wave = Label(entry[1].strip(),
+            try:
+                name = Label(entry[1].strip(),
+                             anchor_x='left',
+                             anchor_y='top',
+                             **self.font_label)
+            except IndexError:
+                print("highscore file broken")
+                name = Label("Error",
+                             anchor_x='left',
+                             anchor_y='top',
+                             **self.font_label)
+            wave = Label(entry[0],
                          anchor_x='right',
                          anchor_y='top',
                          **self.font_label)
@@ -192,7 +200,7 @@ class ScoresLayer(ColorLayer):
         w, h = director.get_window_size()
         for i, item in enumerate(self.table):
             pos, name, wave = item
-            pos_y = h-200 - (self.fontsize + 15) * i
+            pos_y = h - 200 - (self.fontsize + 15) * i
             pos.position = (w/2 - 400., pos_y)
             name.position = (w/2 - 380., pos_y)
             wave.position = (w/2 + 130., pos_y)
@@ -220,7 +228,7 @@ class OptionsMenu(Menu):
         items.append(ToggleMenuItem('Show FPS: ', self.on_show_fps,
                      pyfense_resources.settings["general"]["showFps"]))
         items.append(ToggleMenuItem('Fullscreen: ', self.on_fullscreen,
-                     pyfense_resources.settings["window"]["fullscreen"]))
+                     False))
         items.append(ToggleMenuItem('Vsync: ', self.on_vsync,
                      pyfense_resources.settings["window"]["vsync"]))
         items.append(ToggleMenuItem('Sounds: ', self.on_sounds,
@@ -242,8 +250,6 @@ class OptionsMenu(Menu):
 
     def on_quit(self):
         self.parent.switch_to(0)
-        
-    
 
 
 class HelpLayer(ColorLayer):
@@ -257,7 +263,7 @@ class HelpLayer(ColorLayer):
         super().on_enter()
         w, h = director.get_window_size()
         text = Label('Press Q to quit the running level',
-                     font_name= _font_,
+                     font_name=_font_,
                      font_size=20,
                      anchor_x='center',
                      anchor_y='center')
@@ -338,6 +344,6 @@ if __name__ == '__main__':
     # music_player.eos_action = music_player.EOS_LOOP
     # music_player.play()
 
-    logo = cocos.sprite.Sprite(pyfense_resources.logo) 
+    logo = cocos.sprite.Sprite(pyfense_resources.logo)
     scene.add(logo, z=2)
     director.run(scene)
