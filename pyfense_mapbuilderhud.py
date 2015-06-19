@@ -47,7 +47,7 @@ class PyFenseMapBuilderHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self.first_time_called = -1
 
     def saveMap(self):
-        #TODO: hide FPS and cellSelctor doesnt work yet?
+        # TODO: hide FPS and cellSelctor doesnt work yet?
         self.cellSelectorSpriteBlue.visible = False
         director.show_FPS = False
         pyglet.image.get_buffer_manager().get_color_buffer().save(

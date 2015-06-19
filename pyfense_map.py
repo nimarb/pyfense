@@ -1,9 +1,9 @@
 # pyfense_map.py
 # contains map class for loading maps and paths associated with it
 
-import pyglet
 import cocos
 import pyfense_resources
+
 
 class PyFenseMap(cocos.layer.Layer):
     def __init__(self, levelMap):
@@ -13,11 +13,11 @@ class PyFenseMap(cocos.layer.Layer):
         self.drawBackgroundImage()
 
     def loadBackgroundImage(self):
-        if(self.levelMap == "lvlcustom"): #if custom image, load new
+        if(self.levelMap == "lvlcustom"):  # if custom image, load new
             backgroundImage = pyfense_resources.loadImage(
-                                "assets/lvlcustom.png" )
+                                "assets/lvlcustom.png")
         else:
-        	backgroundImage = pyfense_resources.background[str(self.levelMap)]
+            backgroundImage = pyfense_resources.background[str(self.levelMap)]
         self.backgroundSprite = cocos.sprite.Sprite(backgroundImage)
 
     def drawBackgroundImage(self):
