@@ -4,3 +4,4 @@ __pycache__/
 *.swp
 .settings
 drawing_trial.py
+PyFense.egg-info
