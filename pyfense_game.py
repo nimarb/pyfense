@@ -2,8 +2,7 @@
 pyfense_game.py
 contains PyFenseGame class (scene)
 """
-import cocos
-import pyglet
+
 from cocos.director import director
 from cocos import scene
 from cocos import actions
@@ -16,6 +15,7 @@ from pyfense_highscore import *
 import pyfense_particles
 import pickle
 import copy
+
 
 class PyFenseGame(scene.Scene):
     def __init__(self, levelNumber):
@@ -53,8 +53,6 @@ class PyFenseGame(scene.Scene):
         self.currentWave = 0
         self.currentLives = 3
         self.currentCurrency = 500
-
-
 
     def loadPath(self):
         currentTile = copy.deepcopy(self.startTile)
@@ -125,7 +123,6 @@ class PyFenseGame(scene.Scene):
             grid_y = 17
         return self.gameGrid[grid_y][grid_x]
 
-
     def getPositionFromGrid(self, grid):
         x_grid = grid[1]
         y_grid = grid[0]
@@ -164,11 +161,11 @@ class PyFenseGame(scene.Scene):
         self.hud.updateCurrencyNumber(self.currentCurrency)
         self.entityMap.removeTower(position)
         newTower = PyFenseTower(self.entityMap.enemies, towerNumber,
-                             position, towerLevel + 1)
+                                position, towerLevel + 1)
         self.entityMap.buildTower(newTower)
         (x, y) = position
-        self.setGridPix(x, y, int(float("1" + str(towerNumber)
-                        + str(towerLevel + 1))))
+        self.setGridPix(x, y, int(float("1" + str(towerNumber) +
+                        str(towerLevel + 1))))
 
     def on_destroy_tower(self, position):
         (x, y) = position
@@ -188,13 +185,10 @@ class PyFenseGame(scene.Scene):
         self.currentLives -= 1
         self.hud.updateLiveNumber(self.currentLives)
         if self.currentLives == 0:
-
-            #explosion = pyfense_particles.ExplosionHuge()
-            #x = director.get_window_size()[0] / 2
-            #y = director.get_window_size()[1] / 2
-            #explosion.position = (x, y)
-            #self.add(explosion)
+            # explosion = pyfense_particles.ExplosionHuge()
+            # x = director.get_window_size()[0] / 2
+            # y = director.get_window_size()[1] / 2
+            # explosion.position = (x, y)
+            # self.add(explosion)
             print("YOU LOST THE GAME")
             director.replace(PyFenseLost(self.currentWave))
-
-
