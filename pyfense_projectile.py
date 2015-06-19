@@ -1,27 +1,27 @@
+# pyfense_projectile
 # projectile class
 
-import cocos
 from cocos import sprite
-from cocos import actions
 from cocos.actions import *
 import math
-from math import sqrt
 import pyglet
 from pyglet import clock
-import pyfense_resources
 
 
 class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
     is_event_handler = True
 
-    def __init__(self, towerParent, target, image, towerNumber, rotation, velocity, damage):
+    def __init__(
+            self, towerParent, target, image, towerNumber, rotation,
+            velocity, damage):
         projectilePng = image
         super().__init__(projectilePng, position=towerParent.position,
                          scale=1)
         self.rotation = rotation
         self.moveVel(self, target, velocity)
         self.damage = damage
-        clock.schedule_once(self.dispatchHitEvent, self.duration, target, towerNumber)
+        clock.schedule_once(
+            self.dispatchHitEvent, self.duration, target, towerNumber)
 
         # Dispatch event, when enemy is hit
     def dispatchHitEvent(self, dt, target, towerNumber):
