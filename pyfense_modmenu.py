@@ -194,7 +194,7 @@ class Menu(Layer):
 
         self.font_item = {
             'font_name': _font_,
-            'font_size': 32,
+            'font_size': 35,
             'bold': False,
             'italic': False,
             'anchor_y': 'center',
@@ -204,7 +204,7 @@ class Menu(Layer):
         }
         self.font_item_selected = {
             'font_name': _font_,
-            'font_size': 42,
+            'font_size': 41,
             'bold': False,
             'italic': False,
             'anchor_y': 'center',
@@ -235,7 +235,7 @@ class Menu(Layer):
         self.font_item['anchor_y'] = 'center'
 
         layout_strategy(self)
-        self.selected_index = 0
+        self.selected_index = 0 
         self.children[self.selected_index][1].is_selected = True
 
     def _select_item(self, new_idx):

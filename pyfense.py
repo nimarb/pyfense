@@ -97,7 +97,7 @@ class LevelSelectMenu(Menu):
         MapBuilder = MenuItem('MapBuilder', self.on_mapBuilder)
         MapBuilder.y -= 20
         Back = MenuItem('Back', self.on_quit)
-        Back.y -= 20
+        Back.y -= 30
         if(os.path.isfile("assets/lvlcustom.png")):
             customImage = pyfense_resources.loadImage('assets/lvlcustom.png')
             customItem = ImageMenuItem(customImage,
