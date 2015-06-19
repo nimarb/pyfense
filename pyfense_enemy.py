@@ -4,9 +4,7 @@ contains PyFenseEnemy class
 """
 
 import cocos
-import pyglet
 from cocos import sprite
-from cocos import actions
 import pyfense_resources
 
 
@@ -20,7 +18,6 @@ class PyFenseEnemy(sprite.Sprite):
         self.path = path
         self.maxHealthPoints = self.attributes["maxhealth"]*healthMultiplier
         self.healthPoints = self.maxHealthPoints
-        #self.healthPoints = self.attributes["maxhealth"]
         self.healthBar = self.drawHealthBar()
         self.move(lvl)
 
