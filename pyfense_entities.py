@@ -37,7 +37,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     def nextWave(self, waveNumber):
         self.enemy_list = pyfense_resources.waves[
-                (waveNumber-1) % self.wavequantity+1]
+            (waveNumber-1) % self.wavequantity+1]
         self.spawnedEnemies = 0
         self.diedEnemies = 0
         self.multiplier = 1

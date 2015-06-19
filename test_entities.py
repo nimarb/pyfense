@@ -10,6 +10,7 @@ import cocos
 from cocos.director import director
 import pyglet
 
+import pyfense_resources
 import pyfense_entities
 import pyfense_tower
 
@@ -47,6 +48,16 @@ class TestEntities(unittest.TestCase):
         actualResult2 = 100
         self.assertEqual(result2, actualResult2)
         self.assertEqual(entities.towers, [])
+
+    def test_nextWave(self):
+        number_of_waves = len(pyfense_resources.waves)
+        entities = pyfense_entities.PyFenseEntities(0, 0)
+        entities.nextWave(1)
+        result = entities.enemy_list
+        entities.nextWave(number_of_waves+1)
+        actualResult = entities.enemy_list
+        entities.unschedule(entities.addEnemy)
+        self.assertEqual(result, actualResult)
 
 if __name__ == '__main__':
     unittest.main()

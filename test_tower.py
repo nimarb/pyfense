@@ -8,43 +8,42 @@ import pyglet
 import pyfense_tower
 
 settings = {
-	"window": {
-		"width": 1920,
-		"height": 1080,
-		"caption": "PyFense",
-		"vsync": True,
-		"fullscreen": False,
-		#ATTENTION: misspelling intentional, pyglet fcked up
-		"resizable": True
-	},
-	"player": {
-		"currency": 200	
-	},
-	"general": {
-		"showFps" : True
-	}
+    "window": {
+        "width": 1920,
+        "height": 1080,
+        "caption": "PyFense",
+        "vsync": True,
+        "fullscreen": False,
+        "resizable": True
+        },
+    "player": {
+        "currency": 200
+        },
+    "general": {
+        "showFps": True
+        }
 }
 
 
 class TestTower(unittest.TestCase):
-	def test_tower_rotation(self):
-		director.init(**settings['window'])
-		enemies = []
-		image = pyglet.image.load('assets/enemy0.png')
-		enemy0 = cocos.sprite.Sprite(image)
-		enemy0.position = (300, 200)
-		enemy1 = cocos.sprite.Sprite(image)
-		enemy1.position = (1000, 700)
-		enemies.append(enemy0)
-		enemies.append(enemy1)		
-		tower = pyfense_tower.PyFenseTower(enemies, 1, (0,0))
-		tower.target = enemy0
-		tower.rotateToTarget(1)
-		result = tower.rotation
-		print(result)
-		actualResult = 56.31
-		self.assertAlmostEqual(result, actualResult, places = 2)
+    def test_tower_rotation(self):
+        director.init(**settings['window'])
+        enemies = []
+        image = pyglet.image.load('assets/enemy0.png')
+        enemy0 = cocos.sprite.Sprite(image)
+        enemy0.position = (300, 200)
+        enemy1 = cocos.sprite.Sprite(image)
+        enemy1.position = (1000, 700)
+        enemies.append(enemy0)
+        enemies.append(enemy1)
+        tower = pyfense_tower.PyFenseTower(enemies, 1, (0, 0))
+        tower.target = enemy0
+        tower.rotateToTarget(1)
+        result = tower.rotation
+        print(result)
+        actualResult = 56.31
+        self.assertAlmostEqual(result, actualResult, places=2)
 
-	
+
 if __name__ == '__main__':
-	unittest.main()
+    unittest.main()
