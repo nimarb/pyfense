@@ -2,7 +2,6 @@
 # contains PyFenseGame class (scene)
 
 import cocos
-import pyglet
 import cocos.director
 from cocos.scene import Scene
 from cocos import actions
@@ -18,7 +17,6 @@ class PyFenseMapBuilder(scene.Scene):
     is_event_handler = True
 
     def __init__(self):
-
         super().__init__()
         # initialise game grid to store where enemies can walk,
         # towers can be build and where towers are already built
