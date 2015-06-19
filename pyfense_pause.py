@@ -48,7 +48,9 @@ class PauseLayer(Layer):
                       **self.key_font)
         text4 = Label('Press V to toggle Vsync',
                       **self.key_font)
-        text5 = Label('Press S to toggle Sound',
+        text5 = Label('Press X to toggle FPS',
+                      **self.key_font)
+        text6 = Label('Press S to toggle Sound',
                       **self.key_font)
 
         text1.position = w/2., h/2. + 50
@@ -56,12 +58,14 @@ class PauseLayer(Layer):
         text3.position = w/2., h/2. - 2 * (self.key_font['font_size'] + 8)
         text4.position = w/2., h/2. - 3 * (self.key_font['font_size'] + 8)
         text5.position = w/2., h/2. - 4 * (self.key_font['font_size'] + 8)
+        text6.position = w/2., h/2. - 5 * (self.key_font['font_size'] + 8)
 
         self.add(text1)
         self.add(text2)
         self.add(text3)
         self.add(text4)
         self.add(text5)
+        self.add(text6)
 
     def on_key_press(self, k, m):
         if k in (key.ENTER, key.ESCAPE, key.SPACE):
@@ -72,6 +76,9 @@ class PauseLayer(Layer):
             return True
         elif k == key.V:
             director.window.set_vsync(not director.window.vsync)
+            return True
+        elif k == key.X:
+            director.show_FPS = not director.show_FPS
             return True
         elif k == key.S:
             pyfense_resources.sounds = not pyfense_resources.sounds
