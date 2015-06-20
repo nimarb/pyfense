@@ -14,7 +14,7 @@ setup(
 	maintainer = 'n',
 	maintainer_email = 'l.nimar.b@gmail.com',
 	
-	description = 'PyFense is a tower defense game built in Python using the Cococs2d framework.',
+	description = 'PyFense is a tower defense game built in Python using the Cocos2d framework.',
 	
 	entry_points = {
 		'console_scripts' : ['pyfense = pyfense.py']	
