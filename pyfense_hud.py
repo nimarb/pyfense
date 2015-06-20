@@ -203,7 +203,8 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self.towerCostTexts[picture].position = (
                     self.menuMin_x + picture *
                     self.towerThumbnails[picture].width +
-                    self.towerThumbnails[picture].width / 1.5 + 15, y)
+                    self.towerThumbnails[picture].width / 1.5 + 15,
+                    y - self.towerThumbnails[picture].width / 4)
                 self.add(self.towerThumbnails[picture])
                 self.add(self.towerCostTexts[picture])
                 if (self.currentCurrency <

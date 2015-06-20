@@ -110,7 +110,7 @@ class PauseLayer(Layer):
                 self.menuMin_x + picture *
                 self.towerThumbnails[picture].width +
                 self.towerThumbnails[picture].width / 1.5 + 15,
-                self.menuMin_y)  # - self.towerThumbnails[picture].height / 4)
+                self.menuMin_y - self.towerThumbnails[picture].width / 2)
 
             self.towerFirerateTexts[picture].element.text = (
                 "f: " +
@@ -119,8 +119,7 @@ class PauseLayer(Layer):
                 self.menuMin_x +
                 picture*self.towerThumbnails[picture].width +
                 self.towerThumbnails[picture].width / 1.5 + 15,
-                self.menuMin_y - 15)
-                # self.towerThumbnails[picture].height / 4)
+                self.menuMin_y - self.towerThumbnails[picture].width / 2 - 15)
 
             self.add(self.towerThumbnails[picture])
             self.add(self.towerDamageTexts[picture])
