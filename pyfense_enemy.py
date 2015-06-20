@@ -10,7 +10,7 @@ import pyfense_resources
 
 class PyFenseEnemy(sprite.Sprite):
     def __init__(self, position, enemyname, lvl, wave, path, healthMultiplier):
-        self.attributes = pyfense_resources.enemy[enemyname]
+        self.attributes = pyfense_resources.enemy[enemyname][lvl]
         self.currentPos = position
         super(PyFenseEnemy, self).__init__(self.attributes["image"],
                                            position=self.currentPos,

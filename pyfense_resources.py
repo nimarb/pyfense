@@ -26,7 +26,7 @@ def loadAnimation(filepath, spritesheet_x, spritesheet_y, width,
     textures = pyglet.image.TextureGrid(grid)
     images = textures[0:len(textures)]
     return pyglet.image.Animation.from_image_sequence(
-            images, duration, loop=loop)
+        images, duration, loop=loop)
 
 shot = pyglet.media.load('assets/shoot.wav', streaming=False)
 tower = {}
@@ -67,31 +67,35 @@ with open("data/entities.cfg") as conf_file:
         elif line.find("enemy':") != -1:
             att_dict = eval(line)
             enemyname = att_dict["enemy"]
+            level = att_dict["lvl"]
 
             # ist enemy schon vorhanden, ansonsten hinzufuegen
-            if enemyname in enemy:
-                print("Error: Enemy is already existing")
+            if enemyname not in enemy:
+                    enemy[enemyname] = {}
+            # ist level schon vorhanden, dann Fehlermeldung
+            if level in enemy[enemyname]:
+                print("Error: Level fuer diesen Gegner bereits vorhanden")
                 break
             else:
                 try:
                     if "animated" in att_dict:
-                        if att_dict["animated"] == True:
+                        if att_dict["animated"] is True:
                             att_dict["image"] = loadAnimation(
-                             "assets/{}".format(att_dict["image"]),
-                             att_dict["spritesheet_x"],
-                             att_dict["spritesheet_y"],
-                             att_dict["width"], att_dict["height"],
-                             att_dict["duration"], att_dict["loop"])
+                                "assets/{}".format(att_dict["image"]),
+                                att_dict["spritesheet_x"],
+                                att_dict["spritesheet_y"],
+                                att_dict["width"], att_dict["height"],
+                                att_dict["duration"], att_dict["loop"])
                         else:
                             att_dict["image"] = loadImage(
-                               "assets/{}".format(att_dict["image"]))
+                                "assets/{}".format(att_dict["image"]))
                     else:
                         att_dict["image"] = loadImage(
                             "assets/{}".format(att_dict["image"]))
                 except FileNotFoundError:
                     print("Error: Image not found: {}".format(
                         att_dict["image"]))
-                enemy[enemyname] = att_dict
+                enemy[enemyname][level] = att_dict
 
         # else:
             # print(line)
@@ -128,12 +132,18 @@ noTowerUpgradeIcon = loadImage("assets/tower-noupgrade.png")
 
 background = {
     "lvl1": loadImage("assets/lvl1.png")
-               }
+    }
 
 """
 ACTUAL ENEMY IS LOADED FROM CONFIG FILE, THIS IS AN EXAMPLE
-enemy = {0.0: {'speed': 5.0, 'enemy': 0.0, 'animated': 'false',
-'image': <ImageData 39x57>, 'worth': 5.0, 'maxhealth': 10.0, 'reward': 20.0}
+{0: {1: {'loop': True, 'width': 70, 'lvl': 1, 'spritesheet_x': 10,
+'duration': 0.02, 'animated': True, 'spritesheet_y': 2, 'worth': 15,
+'image': <pyglet.image.Animation object at 0x000000000DEF06D8>, 'enemy': 0,
+'height': 70, 'maxhealth': 100, 'speed': 5}, 2: {'loop': True, 'width': 70,
+'lvl': 2, 'spritesheet_x': 10, 'duration': 0.02, 'animated': True,
+'spritesheet_y': 2, 'worth': 15,
+'image': <pyglet.image.Animation object at 0x000000000DEF6358>, 'enemy': 0,
+'height': 70, 'maxhealth': 500, 'speed': 5}}
 """
 
 selector0 = loadImage("assets/selector0.png")

@@ -38,7 +38,7 @@ class TestEntities(unittest.TestCase):
         scene = cocos.scene.Scene()
         director.run(scene)
         entities = pyfense_entities.PyFenseEntities(0, 0)
-        tower = pyfense_tower.PyFenseTower([], 0, (50, 70))
+        tower = pyfense_tower.PyFenseTower(0, (50, 70))
         result = entities.buildTower(tower)
         actualResult = 100
         self.assertEqual(result, actualResult)

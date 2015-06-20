@@ -102,9 +102,10 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     def addEnemy(self, dt, startTile, path, enemylist, multiplier):
         position = startTile
-        enemy = PyFenseEnemy(position, enemylist[self.spawnedEnemies],
-                             1, 1, path, multiplier)
-        # constructor: (position, enemyname, lvl, wave, path)
+        enemy = PyFenseEnemy(position, enemylist[self.spawnedEnemies][0],
+                             enemylist[self.spawnedEnemies][1], 1, path,
+                             multiplier)
+        # constructor: (position, enemyname, lvl, wave, path, healthmultiplier)
         self.enemies.append(enemy)
         self.spawnedEnemies += 1
         self.add(enemy, z=1)
