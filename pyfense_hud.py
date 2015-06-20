@@ -111,26 +111,6 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         label3 = cocos.text.Label(" ", bold=True, anchor_x='right',
                                   anchor_y='center', color=(255, 0, 0, 255))
         self.towerCostTexts = [label1, label2, label3]
-        label4 = cocos.text.Label(" ", bold=True, anchor_x='right',
-                                  font_size=11, anchor_y='center',
-                                  color=(255, 0, 0, 255))
-        label5 = cocos.text.Label(" ", bold=True, anchor_x='right',
-                                  font_size=11, anchor_y='center',
-                                  color=(255, 0, 0, 255))
-        label6 = cocos.text.Label(" ", bold=True, anchor_x='right',
-                                  font_size=11, anchor_y='center',
-                                  color=(255, 0, 0, 255))
-        self.towerDamageTexts = [label4, label5, label6]
-        label7 = cocos.text.Label(" ", bold=True, anchor_x='right',
-                                  font_size=11, anchor_y='center',
-                                  color=(255, 0, 0, 255))
-        label8 = cocos.text.Label(" ", bold=True, anchor_x='right',
-                                  font_size=11, anchor_y='center',
-                                  color=(255, 0, 0, 255))
-        label9 = cocos.text.Label(" ", bold=True, anchor_x='right',
-                                  font_size=11, anchor_y='center',
-                                  color=(255, 0, 0, 255))
-        self.towerFirerateTexts = [label7, label8, label9]
         self.towerUpgradeText = cocos.text.Label(
             " ", bold=True, anchor_x='center', anchor_y='center',
             color=(255, 0, 0, 255))
@@ -141,8 +121,6 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         for picture in range(0, len(self.towerThumbnails)):
             self.remove(self.towerThumbnails[picture])
             self.remove(self.towerCostTexts[picture])
-            self.remove(self.towerDamageTexts[picture])
-            self.remove(self.towerFirerateTexts[picture])
             if self.noCashOverlayDisplayed[picture] == True:
                 self.remove(self.noCashOverlays[picture])
                 self.noCashOverlayDisplayed[picture] = False
@@ -225,27 +203,9 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self.towerCostTexts[picture].position = (
                     self.menuMin_x + picture *
                     self.towerThumbnails[picture].width +
-                    self.towerThumbnails[picture].width / 1.5 + 15, y -
-                    self.towerThumbnails[picture].height / 4 + 15)
-                self.towerDamageTexts[picture].element.text = (
-                    "d: " + str(pyfense_resources.tower[picture][1]["damage"]))
-                self.towerDamageTexts[picture].position = (
-                    self.menuMin_x + picture *
-                    self.towerThumbnails[picture].width +
-                    self.towerThumbnails[picture].width / 1.5 + 15, y -
-                    self.towerThumbnails[picture].height / 4)
-                self.towerFirerateTexts[picture].element.text = (
-                    "f: " +
-                    str(pyfense_resources.tower[picture][1]["firerate"]))
-                self.towerFirerateTexts[picture].position = (
-                    self.menuMin_x +
-                    picture*self.towerThumbnails[picture].width +
-                    self.towerThumbnails[picture].width / 1.5 + 15, y -
-                    self.towerThumbnails[picture].height / 4 - 15)
+                    self.towerThumbnails[picture].width / 1.5 + 15, y)
                 self.add(self.towerThumbnails[picture])
                 self.add(self.towerCostTexts[picture])
-                self.add(self.towerDamageTexts[picture])
-                self.add(self.towerFirerateTexts[picture])
                 if (self.currentCurrency <
                         pyfense_resources.tower[picture][1]['cost']):
                     self.add(self.noCashOverlays[picture])
