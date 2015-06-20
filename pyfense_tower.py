@@ -15,10 +15,9 @@ from pyfense_entities import *
 
 
 class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
-    def __init__(self, enemies, towerNumber, position, level=1):
+    def __init__(self, towerNumber, position, level=1):
         self.attributes = pyfense_resources.tower[towerNumber][level]
         super().__init__(self.attributes["image"], position)
-        self.enemies = enemies
         self.posx = position[0]
         self.posy = position[1]
         self.rotation = 0
@@ -32,7 +31,7 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
         self.schedule(lambda dt: self.rotateToTarget())
 
     def fire(self):
-        if (not self.enemies) or not self.target:
+        if (not self.parent.enemies) or not self.target:
             pass
         elif self.canFire:
             self.canFire = False
@@ -61,7 +60,7 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
     def find_next_enemy(self, mode="first"):
         self.target = None
         self.dist = self.attributes["range"]
-        for enemy in self.enemies:
+        for enemy in self.parent.enemies:
             if(enemy.x < cocos.director.director.get_window_size()[0] and
                # Enemy still in window
                enemy.y < cocos.director.director.get_window_size()[1]):
