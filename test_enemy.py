@@ -36,6 +36,7 @@ class TestEnemy(unittest.TestCase):
         director.run(scene)
         test_path = cocos.actions.MoveBy((0, 100), 0)
         test_path += cocos.actions.MoveBy((-50, 0), 0)
+        test_path += cocos.actions.MoveBy((0, 0), 0)
         enemy = pyfense_enemy.PyFenseEnemy((0, 0), 0, 1, 1, test_path, 1)
         result = enemy.position
         actualResult = (-50, 100)

@@ -21,8 +21,8 @@ class TestResources(unittest.TestCase):
 
     def test_enemy(self):
         for enemyname in pyfense_resources.enemy:
-            self.assertIn("worth", pyfense_resources.enemy[enemyname])
-            self.assertIn("image", pyfense_resources.enemy[enemyname])
+            self.assertIn("worth", pyfense_resources.enemy[enemyname][1])
+            self.assertIn("image", pyfense_resources.enemy[enemyname][1])
 
 if __name__ == '__main__':
     unittest.main()
