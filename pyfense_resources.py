@@ -28,7 +28,6 @@ def loadAnimation(filepath, spritesheet_x, spritesheet_y, width,
     return pyglet.image.Animation.from_image_sequence(
         images, duration, loop=loop)
 
-shot = pyglet.media.load('assets/shoot.wav', streaming=False)
 tower = {}
 enemy = {}
 with open("data/entities.cfg") as conf_file:
@@ -162,6 +161,9 @@ if _platform == "linux" or _platform == "linux2":
     range1920 = loadImage("assets/range1920-linux.png")
 else:
     range1920 = loadImage("assets/range1920.png")
+    
+
+shot = pyglet.media.load('assets/shoot.wav', streaming=False)
 
 
 # Game Grid Level 1
