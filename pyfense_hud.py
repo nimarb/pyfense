@@ -199,12 +199,12 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                     picture*self.towerThumbnails[picture].width +
                     self.towerThumbnails[picture].width / 2, y)
                 self.towerCostTexts[picture].element.text = str(
-                    pyfense_resources.tower[picture][1]["cost"])
+                    pyfense_resources.tower[picture][1]["cost"]) + '$'
                 self.towerCostTexts[picture].position = (
                     self.menuMin_x + picture *
                     self.towerThumbnails[picture].width +
                     self.towerThumbnails[picture].width / 1.5 + 15,
-                    y - self.towerThumbnails[picture].width / 4)
+                    y - self.towerThumbnails[picture].width * 0.55)
                 self.add(self.towerThumbnails[picture])
                 self.add(self.towerCostTexts[picture])
                 if (self.currentCurrency <
@@ -236,11 +236,11 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self.upgradeHudDisplayed = upgradeLevel
                 self.towerUpgradeText.element.text = str(
                     pyfense_resources.tower
-                    [towerNumber][upgradeLevel + 1]["cost"])
+                    [towerNumber][upgradeLevel + 1]["cost"]) + '$'
                 self.towerUpgradeText.position = (
                     self.menuMin_x +
                     self.towerUpgradeThumbnail.width / 1.5,
-                    y - self.towerUpgradeThumbnail.width / 4)
+                    y - self.towerUpgradeThumbnail.width * 0.55)
                 self.add(self.towerUpgradeText)
             else:
                 self.add(self.noTowerUpgradeIcon)
