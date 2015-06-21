@@ -4,6 +4,7 @@
 from cocos import sprite
 from cocos.actions import *
 import math
+import pyglet
 from pyglet import clock
 
 

@@ -190,7 +190,6 @@ def initGrid(lvl):
             gameGrid[i][19] = 2
         for i in range(20, 32):
             gameGrid[9][i] = 2
-        print(gameGrid)
 
     elif lvl == 2:
         startTile = [9, 0]
@@ -260,4 +259,4 @@ def initGrid(lvl):
         print(gameGrid)
         '''
 
-        return gameGrid, startTile, endTile
+    return gameGrid, startTile, endTile
