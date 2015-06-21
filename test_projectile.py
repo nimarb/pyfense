@@ -8,7 +8,6 @@ Created on Tue Jun 16 21:48:14 2015
 import unittest
 import cocos
 from cocos.director import director
-import pyglet
 
 import pyfense_projectile
 import pyfense_tower

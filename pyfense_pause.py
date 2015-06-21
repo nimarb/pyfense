@@ -1,4 +1,6 @@
-import pyglet
+# pyfense_pause.py
+# contains class layer which is displayed when pressing esc
+
 from pyglet.window import key
 from pyglet import font
 

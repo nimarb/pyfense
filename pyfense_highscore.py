@@ -1,11 +1,10 @@
 """
 Manages highscore
 """
-import pyglet
+
 from pyglet.window import key
 from pyglet import font
 
-import cocos
 from cocos.layer import *
 from cocos.director import director
 from cocos.text import *
