@@ -12,7 +12,7 @@ from cocos.text import *
 from cocos.scene import Scene
 import pyfense
 
-HS_FILENAME = "data/highscore.cfg"  # name and path of the highscore file
+HS_FILENAME = "data/highscore.data"  # name and path of the highscore file
 font.add_directory('data/Orbitron')
 _font_ = 'Orbitron Light'
 
