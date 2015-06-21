@@ -121,7 +121,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         for picture in range(0, len(self.towerThumbnails)):
             self.remove(self.towerThumbnails[picture])
             self.remove(self.towerCostTexts[picture])
-            if self.noCashOverlayDisplayed[picture] == True:
+            if self.noCashOverlayDisplayed[picture] is True:
                 self.remove(self.noCashOverlays[picture])
                 self.noCashOverlayDisplayed[picture] = False
         self.rangeIndicator.visible = False
@@ -263,8 +263,8 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                     for i in range(0, len(self.towerThumbnails)):
                         if (x > self.menuMin_x + i *
                                 self.towerThumbnails[i].width and
-                                x < self.menuMax_x - (len(self.towerThumbnails) -
-                                i - 1) * self.towerThumbnails[i].width):
+                                x < self.menuMax_x - (len(self.towerThumbnails)
+                                - i - 1) * self.towerThumbnails[i].width):
                             return i
         elif self.upgradeHudDisplayed > 0:
             if (y < self.menuMax_y + self.destroyTowerIcon.height / 2 and

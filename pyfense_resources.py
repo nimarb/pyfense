@@ -26,9 +26,8 @@ def loadAnimation(filepath, spritesheet_x, spritesheet_y, width,
     textures = pyglet.image.TextureGrid(grid)
     images = textures[0:len(textures)]
     return pyglet.image.Animation.from_image_sequence(
-            images, duration, loop=loop)
+        images, duration, loop=loop)
 
-shot = pyglet.media.load('assets/shoot.wav', streaming=False)
 tower = {}
 enemy = {}
 with open("data/entities.cfg") as conf_file:
@@ -67,31 +66,35 @@ with open("data/entities.cfg") as conf_file:
         elif line.find("enemy':") != -1:
             att_dict = eval(line)
             enemyname = att_dict["enemy"]
+            level = att_dict["lvl"]
 
             # ist enemy schon vorhanden, ansonsten hinzufuegen
-            if enemyname in enemy:
-                print("Error: Enemy is already existing")
+            if enemyname not in enemy:
+                    enemy[enemyname] = {}
+            # ist level schon vorhanden, dann Fehlermeldung
+            if level in enemy[enemyname]:
+                print("Error: Level fuer diesen Gegner bereits vorhanden")
                 break
             else:
                 try:
                     if "animated" in att_dict:
-                        if att_dict["animated"] == True:
+                        if att_dict["animated"] is True:
                             att_dict["image"] = loadAnimation(
-                             "assets/{}".format(att_dict["image"]),
-                             att_dict["spritesheet_x"],
-                             att_dict["spritesheet_y"],
-                             att_dict["width"], att_dict["height"],
-                             att_dict["duration"], att_dict["loop"])
+                                "assets/{}".format(att_dict["image"]),
+                                att_dict["spritesheet_x"],
+                                att_dict["spritesheet_y"],
+                                att_dict["width"], att_dict["height"],
+                                att_dict["duration"], att_dict["loop"])
                         else:
                             att_dict["image"] = loadImage(
-                               "assets/{}".format(att_dict["image"]))
+                                "assets/{}".format(att_dict["image"]))
                     else:
                         att_dict["image"] = loadImage(
                             "assets/{}".format(att_dict["image"]))
                 except FileNotFoundError:
                     print("Error: Image not found: {}".format(
                         att_dict["image"]))
-                enemy[enemyname] = att_dict
+                enemy[enemyname][level] = att_dict
 
         # else:
             # print(line)
@@ -127,13 +130,20 @@ destroyTowerIcon = loadImage("assets/tower-destroy.png")
 noTowerUpgradeIcon = loadImage("assets/tower-noupgrade.png")
 
 background = {
-    "lvl1": loadImage("assets/lvl1.png")
-               }
+    "lvl1": loadImage("assets/lvl1.png"),
+    "lvl2": loadImage("assets/lvl2.png")
+    }
 
 """
 ACTUAL ENEMY IS LOADED FROM CONFIG FILE, THIS IS AN EXAMPLE
-enemy = {0.0: {'speed': 5.0, 'enemy': 0.0, 'animated': 'false',
-'image': <ImageData 39x57>, 'worth': 5.0, 'maxhealth': 10.0, 'reward': 20.0}
+{0: {1: {'loop': True, 'width': 70, 'lvl': 1, 'spritesheet_x': 10,
+'duration': 0.02, 'animated': True, 'spritesheet_y': 2, 'worth': 15,
+'image': <pyglet.image.Animation object at 0x000000000DEF06D8>, 'enemy': 0,
+'height': 70, 'maxhealth': 100, 'speed': 5}, 2: {'loop': True, 'width': 70,
+'lvl': 2, 'spritesheet_x': 10, 'duration': 0.02, 'animated': True,
+'spritesheet_y': 2, 'worth': 15,
+'image': <pyglet.image.Animation object at 0x000000000DEF6358>, 'enemy': 0,
+'height': 70, 'maxhealth': 500, 'speed': 5}}
 """
 
 selector0 = loadImage("assets/selector0.png")
@@ -153,64 +163,100 @@ if _platform == "linux" or _platform == "linux2":
 else:
     range1920 = loadImage("assets/range1920.png")
 
+shot = pyglet.media.load('assets/shoot.wav', streaming=False)
 
-# Game Grid Level 1
 
+# Game Grid
 gameGrid = [[3 for x in range(32)] for x in range(18)]
+startTile = [0, 0]
+endTile = [0, 0]
 
 
 def initGrid(lvl):
-    gameGrid = [[3 for x in range(32)] for x in range(18)]
-    gameGrid[8][1] = 2
-    gameGrid[8][2] = 2
-    gameGrid[8][3] = 2
-    gameGrid[8][4] = 2
-    gameGrid[8][5] = 2
-    gameGrid[8][6] = 2
-    gameGrid[8][7] = 2
-    gameGrid[9][7] = 2
-    gameGrid[10][7] = 2
-    gameGrid[11][7] = 2
-    gameGrid[12][7] = 2
-    gameGrid[13][7] = 2
-    gameGrid[14][7] = 2
-    gameGrid[14][8] = 2
-    gameGrid[14][9] = 2
-    gameGrid[14][10] = 2
-    gameGrid[14][11] = 2
-    gameGrid[14][12] = 2
-    gameGrid[13][12] = 2
-    gameGrid[12][12] = 2
-    gameGrid[11][12] = 2
-    gameGrid[10][12] = 2
-    gameGrid[9][12] = 2
-    gameGrid[8][12] = 2
-    gameGrid[7][12] = 2
-    gameGrid[6][12] = 2
-    gameGrid[6][13] = 2
-    gameGrid[6][14] = 2
-    gameGrid[6][15] = 2
-    gameGrid[6][16] = 2
-    gameGrid[6][17] = 2
-    gameGrid[6][18] = 2
-    gameGrid[6][19] = 2
-    gameGrid[7][19] = 2
-    gameGrid[8][19] = 2
-    gameGrid[9][19] = 2
-    gameGrid[9][20] = 2
-    gameGrid[9][21] = 2
-    gameGrid[9][22] = 2
-    gameGrid[9][23] = 2
-    gameGrid[9][24] = 2
-    gameGrid[9][25] = 2
-    gameGrid[9][26] = 2
-    gameGrid[9][27] = 2
-    gameGrid[9][28] = 2
-    gameGrid[9][29] = 2
-    gameGrid[9][30] = 2
-    gameGrid[9][31] = 2
-    return gameGrid
+    if lvl == 1:
+        startTile = [8, 0]
+        endTile = [9, 31]
+        for i in range(1, 8):
+            gameGrid[8][i] = 2
+        for i in range(9, 15):
+            gameGrid[i][7] = 2
+        for i in range(8, 13):
+            gameGrid[14][i] = 2
+        for i in range(6, 14):
+            gameGrid[i][12] = 2
+        for i in range(13, 20):
+            gameGrid[6][i] = 2
+        for i in range(7, 10):
+            gameGrid[i][19] = 2
+        for i in range(20, 32):
+            gameGrid[9][i] = 2
 
+    elif lvl == 2:
+        startTile = [9, 0]
+        endTile = [9, 31]
+        gameGrid[9][1] = 2
+        gameGrid[9][2] = 2
+        gameGrid[9][3] = 2
+        gameGrid[9][4] = 2
+        gameGrid[9][5] = 2
+        gameGrid[9][6] = 2
+        gameGrid[9][7] = 2
+        gameGrid[9][8] = 2
+        gameGrid[9][9] = 2
+        gameGrid[9][10] = 2
+        gameGrid[9][11] = 2
+        gameGrid[9][12] = 2
+        gameGrid[9][13] = 2
+        gameGrid[8][13] = 2
+        gameGrid[7][13] = 2
+        gameGrid[6][13] = 2
+        gameGrid[5][13] = 2
+        gameGrid[5][14] = 2
+        gameGrid[5][15] = 2
+        gameGrid[5][16] = 2
+        gameGrid[5][17] = 2
+        gameGrid[6][17] = 2
+        gameGrid[7][17] = 2
+        gameGrid[8][17] = 2
+        gameGrid[9][17] = 2
+        gameGrid[10][17] = 2
+        gameGrid[11][17] = 2
+        gameGrid[12][17] = 2
+        gameGrid[13][17] = 2
+        gameGrid[13][18] = 2
+        gameGrid[13][19] = 2
+        gameGrid[13][20] = 2
+        gameGrid[12][20] = 2
+        gameGrid[11][20] = 2
+        gameGrid[10][20] = 2
+        gameGrid[9][20] = 2
+        gameGrid[9][21] = 2
+        gameGrid[9][22] = 2
+        gameGrid[9][23] = 2
+        gameGrid[9][24] = 2
+        gameGrid[9][25] = 2
+        gameGrid[9][26] = 2
+        gameGrid[9][27] = 2
+        gameGrid[9][28] = 2
+        gameGrid[9][29] = 2
+        gameGrid[9][30] = 2
+        gameGrid[9][31] = 2
+        '''
+        for i in range(1, 14):
+            gameGrid[9][i] = 2
+        for i in range(5, 10):
+            gameGrid[i][13] = 2
+        for i in range(13, 17):
+            gameGrid[5][i] = 2
+        for i in range(5, 14):
+            gameGrid[i][16] = 2
+        for i in range(16, 20):
+            gameGrid[13][i] = 2
+        for i in range(9, 14):
+            gameGrid[i][19] = 2
+        for i in range(19, 32):
+            gameGrid[9][i] = 2
+        print(gameGrid)
+        '''
 
-startTile = [8, 0]
-endTile = [9, 31]
+    return gameGrid, startTile, endTile

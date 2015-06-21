@@ -13,6 +13,7 @@ from pyfense_hud import *
 from pyfense_pause import *
 import pyfense_resources
 import pyfense_particles
+import math
 
 
 class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
@@ -30,6 +31,10 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.startTile = startTile
         self.wavequantity = len(pyfense_resources.waves)
         self.enemieslength = 0
+        self.polynomial2 = 0  # quadratic
+        self.polynomial1 = 2  # linear
+        self.polynomial0 = -(self.polynomial1 - 1)  # offset
+        self.factor = 1
 
         # update runs every tick
     def update(self, dt):
@@ -40,9 +45,11 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             (waveNumber-1) % self.wavequantity+1]
         self.spawnedEnemies = 0
         self.diedEnemies = 0
-        self.multiplier = 1
+        self.factor = math.floor((waveNumber - 1) / self.wavequantity) + 1
+        self.multiplier = ((self.polynomial2 * (self.factor**2)) +
+                           (self.polynomial1 * self.factor) + self.polynomial0)
         self.enemieslength = len(self.enemy_list)
-        self.schedule_interval(self.addEnemy, 1, self.startTile, self.path,
+        self.schedule_interval(self.addEnemy, 0.1, self.startTile, self.path,
                                self.enemy_list, self.multiplier)
 
     def buildTower(self, tower):
@@ -96,19 +103,26 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     def isWaveFinished(self):
         if self.spawnedEnemies == self.enemieslength:
-            self.unschedule(self.addEnemy)
+            # self.unschedule(self.addEnemy)
             if self.diedEnemies == self.spawnedEnemies:
                 self.dispatch_event('on_next_wave')
-
+    
     def addEnemy(self, dt, startTile, path, enemylist, multiplier):
+        self.unschedule(self.addEnemy)
         position = startTile
-        enemy = PyFenseEnemy(position, enemylist[self.spawnedEnemies],
-                             1, 1, path, multiplier)
-        # constructor: (position, enemyname, lvl, wave, path)
+        enemy = PyFenseEnemy(position, enemylist[self.spawnedEnemies][0],
+                             enemylist[self.spawnedEnemies][1], 1, path,
+                             multiplier)
+        # constructor: (position, enemyname, lvl, wave, path, healthmultiplier)
         self.enemies.append(enemy)
         self.spawnedEnemies += 1
         self.add(enemy, z=1)
         self.add(enemy.healthBar, z=3)
+        if self.spawnedEnemies != self.enemieslength:
+            self.schedule_interval(self.addEnemy,
+                                   self.enemy_list[self.spawnedEnemies-1][2],
+                                   self.startTile, self.path,
+                                   self.enemy_list, self.multiplier)
         self.isWaveFinished()
 
     # Removes enemy from entity when no action is running,

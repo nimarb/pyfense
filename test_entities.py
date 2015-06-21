@@ -38,7 +38,7 @@ class TestEntities(unittest.TestCase):
         scene = cocos.scene.Scene()
         director.run(scene)
         entities = pyfense_entities.PyFenseEntities(0, 0)
-        tower = pyfense_tower.PyFenseTower([], 0, (50, 70))
+        tower = pyfense_tower.PyFenseTower(0, (50, 70))
         result = entities.buildTower(tower)
         actualResult = 100
         self.assertEqual(result, actualResult)
@@ -52,12 +52,26 @@ class TestEntities(unittest.TestCase):
     def test_nextWave(self):
         number_of_waves = len(pyfense_resources.waves)
         entities = pyfense_entities.PyFenseEntities(0, 0)
+
         entities.nextWave(1)
-        result = entities.enemy_list
+        result_list = entities.enemy_list
+        result_multiplier1 = 1
+        result_factor1 = 1
+        actualResult_multiplier1 = entities.multiplier
+        actualResult_factor1 = entities.factor
+        self.assertEqual(result_factor1, actualResult_factor1)
+        self.assertEqual(result_multiplier1, actualResult_multiplier1)
+        
         entities.nextWave(number_of_waves+1)
-        actualResult = entities.enemy_list
+        actualResult_list = entities.enemy_list
+        result_multiplier2 = 3
+        result_factor2 = 2
+        actualResult_multiplier2 = entities.multiplier
+        actualResult_factor2 = entities.factor
+        self.assertEqual(result_factor2, actualResult_factor2)
+        self.assertEqual(result_multiplier2, actualResult_multiplier2)
         entities.unschedule(entities.addEnemy)
-        self.assertEqual(result, actualResult)
+        self.assertEqual(result_list, actualResult_list)
 
 if __name__ == '__main__':
     unittest.main()

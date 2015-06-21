@@ -28,11 +28,12 @@ settings = {
 class TestGame(unittest.TestCase):
     def test_getPositionFromGrid(self):
         director.init(**settings['window'])
+        scene = cocos.scene.Scene()
+        director.run(scene)
         startTile = [8, 2]
         result = pyfense_game.PyFenseGame.getPositionFromGrid(self, startTile)
         actualResult = (150, 510)
         self.assertEqual(result, actualResult)
-        
 
 if __name__ == '__main__':
     unittest.main()
