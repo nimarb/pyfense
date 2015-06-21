@@ -39,10 +39,7 @@ class PyFenseGame(scene.Scene):
             self.gameGrid = pickle.load(pathFile)
             pathFile.close()
         else:  # (if levelNumber == 1)
-            self.gameGrid = pyfense_resources.initGrid(lvl=1)
-
-        self.startTile = pyfense_resources.startTile
-        self.endTile = pyfense_resources.endTile
+            self.gameGrid, self.startTile, self.endTile = pyfense_resources.initGrid(lvl = 1)
 
         self.movePath = actions.MoveBy((0, 0))
         self.loadPath()

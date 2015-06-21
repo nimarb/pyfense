@@ -34,7 +34,6 @@ class TestGame(unittest.TestCase):
         result = pyfense_game.PyFenseGame.getPositionFromGrid(self, startTile)
         actualResult = (150, 510)
         self.assertEqual(result, actualResult)
-        
 
 if __name__ == '__main__':
     unittest.main()
