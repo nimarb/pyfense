@@ -130,7 +130,8 @@ destroyTowerIcon = loadImage("assets/tower-destroy.png")
 noTowerUpgradeIcon = loadImage("assets/tower-noupgrade.png")
 
 background = {
-    "lvl1": loadImage("assets/lvl1.png")
+    "lvl1": loadImage("assets/lvl1.png"),
+    "lvl2": loadImage("assets/lvl2.png")
     }
 
 """
@@ -169,60 +170,103 @@ shot = pyglet.media.load('assets/shoot.wav', streaming=False)
 # Game Grid Level 1
 
 gameGrid = [[3 for x in range(32)] for x in range(18)]
+startTile = [0, 0]
+endTile = [0, 0]
 
 
 def initGrid(lvl):
-    gameGrid = [[3 for x in range(32)] for x in range(18)]
-    gameGrid[8][1] = 2
-    gameGrid[8][2] = 2
-    gameGrid[8][3] = 2
-    gameGrid[8][4] = 2
-    gameGrid[8][5] = 2
-    gameGrid[8][6] = 2
-    gameGrid[8][7] = 2
-    gameGrid[9][7] = 2
-    gameGrid[10][7] = 2
-    gameGrid[11][7] = 2
-    gameGrid[12][7] = 2
-    gameGrid[13][7] = 2
-    gameGrid[14][7] = 2
-    gameGrid[14][8] = 2
-    gameGrid[14][9] = 2
-    gameGrid[14][10] = 2
-    gameGrid[14][11] = 2
-    gameGrid[14][12] = 2
-    gameGrid[13][12] = 2
-    gameGrid[12][12] = 2
-    gameGrid[11][12] = 2
-    gameGrid[10][12] = 2
-    gameGrid[9][12] = 2
-    gameGrid[8][12] = 2
-    gameGrid[7][12] = 2
-    gameGrid[6][12] = 2
-    gameGrid[6][13] = 2
-    gameGrid[6][14] = 2
-    gameGrid[6][15] = 2
-    gameGrid[6][16] = 2
-    gameGrid[6][17] = 2
-    gameGrid[6][18] = 2
-    gameGrid[6][19] = 2
-    gameGrid[7][19] = 2
-    gameGrid[8][19] = 2
-    gameGrid[9][19] = 2
-    gameGrid[9][20] = 2
-    gameGrid[9][21] = 2
-    gameGrid[9][22] = 2
-    gameGrid[9][23] = 2
-    gameGrid[9][24] = 2
-    gameGrid[9][25] = 2
-    gameGrid[9][26] = 2
-    gameGrid[9][27] = 2
-    gameGrid[9][28] = 2
-    gameGrid[9][29] = 2
-    gameGrid[9][30] = 2
-    gameGrid[9][31] = 2
-    return gameGrid
+    
+    if lvl == 1:      
+        startTile = [8, 0]
+        endTile = [9, 31]
+           
+        for i in range(1, 8): # 7 steps in x
+            gameGrid[8][i] = 2            
+        for i in range(9, 15): # 7 steps in y
+            gameGrid[i][7] = 2            
+        for i in range(8, 13):
+            gameGrid[14][i] = 2            
+        for i in range(6, 14):
+            gameGrid[i][12] = 2        
+        for i in range(13, 20):
+            gameGrid[6][i] = 2        
+        for i in range(7, 10):
+            gameGrid[i][19] = 2            
+        for i in range(20, 32):
+            gameGrid[9][i] = 2
+        print(gameGrid)
+            
 
 
-startTile = [8, 0]
-endTile = [9, 31]
+    elif lvl == 2:
+        startTile = [9, 0]
+        endTile = [9, 31]
+        
+        gameGrid[9][1] = 2
+        gameGrid[9][2] = 2
+        gameGrid[9][3] = 2
+        gameGrid[9][4] = 2
+        gameGrid[9][5] = 2
+        gameGrid[9][6] = 2
+        gameGrid[9][7] = 2
+        gameGrid[9][8] = 2
+        gameGrid[9][9] = 2
+        gameGrid[9][10] = 2
+        gameGrid[9][11] = 2
+        gameGrid[9][12] = 2
+        gameGrid[9][13] = 2
+        gameGrid[8][13] = 2
+        gameGrid[7][13] = 2
+        gameGrid[6][13] = 2
+        gameGrid[5][13] = 2
+        gameGrid[5][14] = 2
+        gameGrid[5][15] = 2
+        gameGrid[5][16] = 2
+        gameGrid[5][17] = 2
+        gameGrid[6][17] = 2
+        gameGrid[7][17] = 2
+        gameGrid[8][17] = 2
+        gameGrid[9][17] = 2
+        gameGrid[10][17] = 2
+        gameGrid[11][17] = 2
+        gameGrid[12][17] = 2
+        gameGrid[13][17] = 2
+        gameGrid[13][18] = 2
+        gameGrid[13][19] = 2
+        gameGrid[13][20] = 2
+        gameGrid[12][20] = 2
+        gameGrid[11][20] = 2
+        gameGrid[10][20] = 2
+        gameGrid[9][20] = 2
+        gameGrid[9][21] = 2
+        gameGrid[9][22] = 2
+        gameGrid[9][23] = 2
+        gameGrid[9][24] = 2
+        gameGrid[9][25] = 2
+        gameGrid[9][26] = 2
+        gameGrid[9][27] = 2
+        gameGrid[9][28] = 2
+        gameGrid[9][29] = 2
+        gameGrid[9][30] = 2
+        gameGrid[9][31] = 2
+        
+        
+        '''
+        for i in range(1, 14):
+            gameGrid[9][i] = 2
+        for i in range(5, 10):
+            gameGrid[i][13] = 2
+        for i in range(13, 17):
+            gameGrid[5][i] = 2
+        for i in range(5, 14):
+            gameGrid[i][16] = 2
+        for i in range(16, 20):
+            gameGrid[13][i] = 2
+        for i in range(9, 14):
+            gameGrid[i][19] = 2
+        for i in range(19, 32):
+            gameGrid[9][i] = 2
+        print(gameGrid)
+        ''' 
+        
+    return gameGrid, startTile, endTile
