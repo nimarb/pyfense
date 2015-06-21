@@ -25,7 +25,7 @@ import pyfense_highscore
 import pyfense_resources
 
 
-font.add_directory('data/Orbitron')
+font.add_directory('pyfense/data/Orbitron')
 _font_ = 'Orbitron Light'
 
 
@@ -98,8 +98,8 @@ class LevelSelectMenu(Menu):
         MapBuilder.y -= 20
         Back = MenuItem('Back', self.on_quit)
         Back.y -= 30
-        if(os.path.isfile("assets/lvlcustom.png")):
-            customImage = pyfense_resources.loadImage('assets/lvlcustom.png')
+        if(os.path.isfile("pyfense/assets/lvlcustom.png")):
+            customImage = pyfense_resources.loadImage('pyfense/assets/lvlcustom.png')
             customItem = ImageMenuItem(customImage,
                                        lambda: self.on_start("custom"))
             customItem.scale = 0.4
@@ -329,17 +329,17 @@ if __name__ == '__main__':
     w, h = director.get_window_size()
     # Music
     # 1st Try - doesnt play anything
-    # scene.load_music("assets/music.wav")
+    # scene.load_music("pyfense/assets/music.wav")
     # scene.play_music()
 
     # 2nd Try - static noise louder than music
-    # music = pyglet.resource.media("assets/music.wav", streaming = True)
+    # music = pyglet.resource.media("pyfense/assets/music.wav", streaming = True)
     # music.play()
 
     # 3rd Try - music stops after ca. 1 min (even when piece was longer)
     # and doesnt repeat as it should
     # music_player = pyglet.medi    a.Player()
-    # music = pyglet.resource.media("assets/music.wav", streaming = False)
+    # music = pyglet.resource.media("pyfense/assets/music.wav", streaming = False)
     # music_player.queue(music)
     # music_player.eos_action = music_player.EOS_LOOP
     # music_player.play()

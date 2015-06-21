@@ -38,7 +38,7 @@ class TestProjectile(unittest.TestCase):
         director.run(scene)
         tower1 = pyfense_tower.PyFenseTower(0, (50, 70))
         tower2 = pyfense_tower.PyFenseTower(0, (20, 70))
-        image = pyfense_resources.loadImage('assets/projectile01.png')
+        image = pyfense_resources.loadImage('pyfense/assets/projectile01.png')
         projectile = pyfense_projectile.PyFenseProjectile(tower1, tower2,
                                                           image, 0, 0, 1000,
                                                           50)

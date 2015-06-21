@@ -35,7 +35,7 @@ class PyFenseGame(scene.Scene):
         self.gameGrid = [[0 for x in range(32)] for x in range(18)]
         if(levelNumber == "custom"):
             # can only build tower on "grass"
-            pathFile = open("data/path.cfg", "rb")
+            pathFile = open("pyfense/data/path.cfg", "rb")
             self.gameGrid = pickle.load(pathFile)
             pathFile.close()
         else:  # (if levelNumber == 1)
