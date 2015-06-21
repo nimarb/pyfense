@@ -127,7 +127,7 @@ class LostLayer(Layer):
     def __init__(self, wave):
         super().__init__()
         self.wave = wave
-        if check_score(wave) == False:
+        if check_score(wave) is False:
             self.in_highscore = False
         else:
             self.place = check_score(wave)

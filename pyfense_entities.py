@@ -107,7 +107,6 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             if self.diedEnemies == self.spawnedEnemies:
                 self.dispatch_event('on_next_wave')
     
-
     def addEnemy(self, dt, startTile, path, enemylist, multiplier):
         self.unschedule(self.addEnemy)
         position = startTile

@@ -162,46 +162,39 @@ if _platform == "linux" or _platform == "linux2":
     range1920 = loadImage("assets/range1920-linux.png")
 else:
     range1920 = loadImage("assets/range1920.png")
-    
 
 shot = pyglet.media.load('assets/shoot.wav', streaming=False)
 
 
-# Game Grid Level 1
-
+# Game Grid
 gameGrid = [[3 for x in range(32)] for x in range(18)]
 startTile = [0, 0]
 endTile = [0, 0]
 
 
 def initGrid(lvl):
-    
-    if lvl == 1:      
+    if lvl == 1:
         startTile = [8, 0]
         endTile = [9, 31]
-           
-        for i in range(1, 8): # 7 steps in x
-            gameGrid[8][i] = 2            
-        for i in range(9, 15): # 7 steps in y
-            gameGrid[i][7] = 2            
+        for i in range(1, 8):
+            gameGrid[8][i] = 2
+        for i in range(9, 15):
+            gameGrid[i][7] = 2
         for i in range(8, 13):
-            gameGrid[14][i] = 2            
+            gameGrid[14][i] = 2
         for i in range(6, 14):
-            gameGrid[i][12] = 2        
+            gameGrid[i][12] = 2
         for i in range(13, 20):
-            gameGrid[6][i] = 2        
+            gameGrid[6][i] = 2
         for i in range(7, 10):
-            gameGrid[i][19] = 2            
+            gameGrid[i][19] = 2
         for i in range(20, 32):
             gameGrid[9][i] = 2
         print(gameGrid)
-            
-
 
     elif lvl == 2:
         startTile = [9, 0]
         endTile = [9, 31]
-        
         gameGrid[9][1] = 2
         gameGrid[9][2] = 2
         gameGrid[9][3] = 2
@@ -249,8 +242,6 @@ def initGrid(lvl):
         gameGrid[9][29] = 2
         gameGrid[9][30] = 2
         gameGrid[9][31] = 2
-        
-        
         '''
         for i in range(1, 14):
             gameGrid[9][i] = 2
@@ -267,6 +258,6 @@ def initGrid(lvl):
         for i in range(19, 32):
             gameGrid[9][i] = 2
         print(gameGrid)
-        ''' 
-        
-    return gameGrid, startTile, endTile
+        '''
+
+        return gameGrid, startTile, endTile
