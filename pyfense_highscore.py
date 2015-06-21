@@ -9,7 +9,6 @@ from cocos.layer import *
 from cocos.director import director
 from cocos.text import *
 from cocos.scene import Scene
-import pyfense
 
 HS_FILENAME = "data/highscore.data"  # name and path of the highscore file
 font.add_directory('data/Orbitron')
@@ -112,7 +111,6 @@ def writeFile(fileName, writeFile):
 
 
 class PyFenseLost(Scene):
-
     def __init__(self, reachedWave):
         super().__init__()
         self.wave = reachedWave
@@ -120,7 +118,6 @@ class PyFenseLost(Scene):
 
 
 class LostLayer(Layer):
-
     is_event_handler = True
 
     def __init__(self, wave):
@@ -131,7 +128,6 @@ class LostLayer(Layer):
         else:
             self.place = check_score(wave)
             self.in_highscore = True
-
         w, h = director.get_window_size()
         text1 = Label('+++ You Lost! +++',
                       font_name=_font_,
@@ -147,7 +143,6 @@ class LostLayer(Layer):
                 font_size=20,
                 anchor_x='center',
                 anchor_y='center')
-
         else:
             text2 = Label(
                 'You reached wave %d' % wave,
@@ -183,7 +178,6 @@ class SubmitScore(Layer):
         super().__init__()
         w, h = director.get_window_size()
         self.wave = wave
-
         self.font_title = {}
         self.font_title['font_size'] = 72
         self.font_title['anchor_y'] = 'top'
@@ -191,22 +185,18 @@ class SubmitScore(Layer):
         title = Label('GameOver', **self.font_title)
         title.position = (w/2., h)
         self.add(title, z=1)
-
         self.font_label = {}
         self.font_label['font_size'] = 40
         self.font_label['anchor_y'] = 'top'
         self.font_label['anchor_x'] = 'center'
-
         label = Label('Enter your name:', **self.font_label)
         label.position = (w/2., 600.)
         self.add(label)
-
         self.name = Label('', color=(192, 192, 192, 255), **self.font_label)
         self.name.position = (w/2., 530.)
         self.add(self.name)
 
     def on_key_press(self, k, m):
-
         if k == key.BACKSPACE:
             self.name.element.text = self.name.element.text[0:-1]
             return True
@@ -229,7 +219,6 @@ class SubmitScore(Layer):
                     anchor_x='center')
                 label_l.position = (w/2., 750.)
                 self.add(label_l)
-
             else:
                 new_score(self.name.element.text, self.wave)
                 director.pop()
@@ -239,8 +228,6 @@ class SubmitScore(Layer):
         return False
 
     def on_text(self, t):
-
         if t == '\r':
             return True
-
         self.name.element.text += t
