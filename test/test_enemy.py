@@ -7,9 +7,8 @@ Created on Tue Jun 16 18:19:41 2015
 import unittest
 import cocos
 from cocos.director import director
-import pyglet
 
-import pyfense_enemy
+from  pyfense.pyfense_enemy import pyfense_enemy
 
 settings = {
     "window": {

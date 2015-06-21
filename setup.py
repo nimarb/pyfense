@@ -15,12 +15,12 @@ setup(
     maintainer_email = 'l.nimar.b@gmail.com',
 
     description = 'PyFense is a tower defense game built in Python \
-        using the Cococs2d framework.',
+        using the Cocos2d framework.',
 
     entry_points = {
         'console_scripts': ['pyfense = pyfense.py']
     },
-    keywords = "pyfense tower defense",
+    keywords = "pyfense tower defense td",
     classifiers = [
         'Programming Language :: Python',
         'Topic :: Games/Entertainment']

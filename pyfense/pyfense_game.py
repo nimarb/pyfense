@@ -39,7 +39,8 @@ class PyFenseGame(scene.Scene):
             self.gameGrid = pickle.load(pathFile)
             pathFile.close()
         else:  # (if levelNumber == 1)
-            self.gameGrid, self.startTile, self.endTile = pyfense_resources.initGrid(lvl = 1)
+            self.gameGrid, self.startTile, \
+                self.endTile = pyfense_resources.initGrid(lvl = 1)
 
         self.movePath = actions.MoveBy((0, 0))
         self.loadPath()
@@ -48,7 +49,7 @@ class PyFenseGame(scene.Scene):
         self.displayEntities()
         self.displayHud()
         self.currentWave = 0
-        self.currentLives = 3
+        self.currentLives = 15
         self.currentCurrency = 500
 
     def loadPath(self):

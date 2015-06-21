@@ -3,7 +3,6 @@
 import unittest
 import cocos
 from cocos.director import director
-import pyglet
 
 import pyfense_game
 

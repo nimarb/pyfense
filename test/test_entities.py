@@ -8,7 +8,6 @@ Created on Tue Jun 16 20:34:47 2015
 import unittest
 import cocos
 from cocos.director import director
-import pyglet
 
 import pyfense_resources
 import pyfense_entities
@@ -61,7 +60,6 @@ class TestEntities(unittest.TestCase):
         actualResult_factor1 = entities.factor
         self.assertEqual(result_factor1, actualResult_factor1)
         self.assertEqual(result_multiplier1, actualResult_multiplier1)
-        
         entities.nextWave(number_of_waves+1)
         actualResult_list = entities.enemy_list
         result_multiplier2 = 3

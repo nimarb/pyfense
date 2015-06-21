@@ -5,3 +5,4 @@ __pycache__/
 .settings
 drawing_trial.py
 PyFense.egg-info
+pyfense/data/highscore.data
