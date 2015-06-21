@@ -8,7 +8,7 @@ import unittest
 import cocos
 from cocos.director import director
 
-import pyfense_enemy
+from  pyfense.pyfense_enemy import pyfense_enemy
 
 settings = {
     "window": {
