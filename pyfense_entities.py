@@ -49,7 +49,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.multiplier = ((self.polynomial2 * (self.factor**2)) +
                            (self.polynomial1 * self.factor) + self.polynomial0)
         self.enemieslength = len(self.enemy_list)
-        self.schedule_interval(self.addEnemy, 1, self.startTile, self.path,
+        self.schedule_interval(self.addEnemy, 0.1, self.startTile, self.path,
                                self.enemy_list, self.multiplier)
 
     def buildTower(self, tower):
@@ -103,11 +103,13 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     def isWaveFinished(self):
         if self.spawnedEnemies == self.enemieslength:
-            self.unschedule(self.addEnemy)
+            # self.unschedule(self.addEnemy)
             if self.diedEnemies == self.spawnedEnemies:
                 self.dispatch_event('on_next_wave')
+    
 
     def addEnemy(self, dt, startTile, path, enemylist, multiplier):
+        self.unschedule(self.addEnemy)
         position = startTile
         enemy = PyFenseEnemy(position, enemylist[self.spawnedEnemies][0],
                              enemylist[self.spawnedEnemies][1], 1, path,
@@ -117,6 +119,11 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.spawnedEnemies += 1
         self.add(enemy, z=1)
         self.add(enemy.healthBar, z=3)
+        if self.spawnedEnemies != self.enemieslength:
+            self.schedule_interval(self.addEnemy,
+                                   self.enemy_list[self.spawnedEnemies-1][2],
+                                   self.startTile, self.path,
+                                   self.enemy_list, self.multiplier)
         self.isWaveFinished()
 
     # Removes enemy from entity when no action is running,

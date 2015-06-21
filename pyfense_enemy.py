@@ -40,5 +40,5 @@ class PyFenseEnemy(sprite.Sprite):
     def updateHealthBar(self):
         self.healthBar.color = (0, 237, 55, 255)
         self.healthBar.end = (self.bar_x + self.healthBarWidth *
-                              (self.healthPoints/self.attributes["maxhealth"]),
+                              (self.healthPoints/self.maxHealthPoints),
                               self.bar_y)
