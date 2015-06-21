@@ -57,7 +57,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             anchor_x='center', anchor_y='center')
         self.timeLabel.position = w / 2 - 300, h - 30
         self.add(self.timeLabel)
-        self.liveLabel = cocos.text.Label('Remaining Lives: 30', bold=True,
+        self.liveLabel = cocos.text.Label('Remaining Lives: 15', bold=True,
                                           anchor_x='center', anchor_y='center')
         self.liveLabel.position = w / 2 + 150, h - 30
         self.add(self.liveLabel)

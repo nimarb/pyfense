@@ -48,7 +48,7 @@ class PyFenseGame(scene.Scene):
         self.displayEntities()
         self.displayHud()
         self.currentWave = 0
-        self.currentLives = 3
+        self.currentLives = 15
         self.currentCurrency = 500
 
     def loadPath(self):
