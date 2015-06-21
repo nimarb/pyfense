@@ -27,6 +27,8 @@ import pyfense_resources
 
 font.add_directory('data/Orbitron')
 _font_ = 'Orbitron Light'
+picto_damage = "assets/explosion_pictogram-01_small.png"
+picto_rate = "assets/firerate_pictogram-02_small.png"
 
 
 class MainMenu(Menu):
@@ -267,8 +269,95 @@ class HelpLayer(ColorLayer):
                      font_size=20,
                      anchor_x='center',
                      anchor_y='center')
-        text.position = w/2., h/2.
+        text.element.width = w * 0.3
+        text.element.multiline = True
+        text.element.wrap_lines = True
+        text.position = w/2., h/2. + 300
         self.add(text)
+
+        # tower information
+
+        self.damage_pic = pyfense_resources.loadImage(picto_damage)
+        self.rate_pic = pyfense_resources.loadImage(picto_rate)
+
+        self.towerDamagePic = []
+        self.towerFireratePic = []
+        self.towerThumbnails = []
+        for i in range(0, 3):
+            self.towerThumbnails.append(cocos.sprite.Sprite(
+                pyfense_resources.tower[i][1]["image"]))
+
+        text_font = {
+            'bold': True,
+            'anchor_x': "left",
+            'anchor_y': 'center',
+            'font_size': 11,
+            'color': (255, 109, 45, 255)
+            }
+
+        label4 = cocos.text.Label(" ", **text_font)
+        label5 = cocos.text.Label(" ", **text_font)
+        label6 = cocos.text.Label(" ", **text_font)
+        self.towerDamageTexts = [label4, label5, label6]
+
+        text_font['color'] = (0, 124, 244, 255)
+
+        label7 = cocos.text.Label(" ", **text_font)
+        label8 = cocos.text.Label(" ", **text_font)
+        label9 = cocos.text.Label(" ", **text_font)
+        self.towerFirerateTexts = [label7, label8, label9]
+
+        self.menuMin_x = w/2. - self.towerThumbnails[0].width * (4 / 3)
+        self.menuMin_y = 250
+
+        for picture in range(0, len(self.towerThumbnails)):
+            self.towerThumbnails[picture].position = (
+                self.menuMin_x +
+                self.towerThumbnails[picture].width / 2,
+                picture * self.towerThumbnails[picture].width + self.menuMin_y)
+
+            self.towerDamagePic.append(
+                cocos.sprite.Sprite(self.damage_pic))
+            self.towerDamagePic[picture].position = (
+                self.menuMin_x +
+                self.towerThumbnails[picture].width / 1.5 - 7 +
+                self.towerThumbnails[picture].width / 2 + 10,
+                picture * self.towerThumbnails[picture].width +
+                self.menuMin_y)
+
+            self.towerDamageTexts[picture].element.text = (
+                str(pyfense_resources.tower[picture][1]["damage"] *
+                    pyfense_resources.tower[picture][1]["firerate"] / 1.))
+            self.towerDamageTexts[picture].position = (
+                self.menuMin_x +
+                self.towerThumbnails[picture].width / 1.5 - 18 +
+                self.towerThumbnails[picture].width / 2 + 10,
+                picture * self.towerThumbnails[picture].width +
+                self.menuMin_y)
+
+            self.towerFireratePic.append(
+                cocos.sprite.Sprite(self.rate_pic))
+            self.towerFireratePic[picture].position = (
+                self.menuMin_x +
+                self.towerThumbnails[picture].width / 1.5 - 14 +
+                self.towerThumbnails[picture].width / 2 + 10,
+                picture * self.towerThumbnails[picture].width +
+                self.menuMin_y - 20)
+
+            self.towerFirerateTexts[picture].element.text = (
+                str(pyfense_resources.tower[picture][1]["firerate"]))
+            self.towerFirerateTexts[picture].position = (
+                self.menuMin_x +
+                self.towerThumbnails[picture].width / 1.5 - 18 +
+                self.towerThumbnails[picture].width / 2 + 10,
+                picture * self.towerThumbnails[picture].width +
+                self.menuMin_y - 20)
+
+            self.add(self.towerThumbnails[picture])
+            self.add(self.towerDamageTexts[picture])
+            self.add(self.towerFirerateTexts[picture])
+            self.add(self.towerDamagePic[picture])
+            self.add(self.towerFireratePic[picture])
 
     def on_key_press(self, k, m):
         if k in (key.ENTER, key.ESCAPE, key.SPACE, key.Q):

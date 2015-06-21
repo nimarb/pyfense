@@ -117,13 +117,6 @@ with open("data/waves.cfg") as wave_file:
             attributes = eval(line)
             if len(attributes) != 0:
                 waves.update(attributes)
-"""
-ACTUAL TOWER IS LOADED FROM CONFIG FILE, THIS IS AN EXAMPLE
-tower = {0.0: {1.0: {'cost': 100.0, 'firerate': 1.0,
-'projectilevelocity': 1000.0, 'damage': 10.0, 'lvl': 1.0, 'range': 200.0,
-'image': <ImageData 60x60>, 'tower': 0.0}}}
-})
-"""
 
 noCashOverlay = loadImage("assets/tower-nocashoverlay.png")
 destroyTowerIcon = loadImage("assets/tower-destroy.png")
@@ -133,18 +126,6 @@ background = {
     "lvl1": loadImage("assets/lvl1.png"),
     "lvl2": loadImage("assets/lvl2.png")
     }
-
-"""
-ACTUAL ENEMY IS LOADED FROM CONFIG FILE, THIS IS AN EXAMPLE
-{0: {1: {'loop': True, 'width': 70, 'lvl': 1, 'spritesheet_x': 10,
-'duration': 0.02, 'animated': True, 'spritesheet_y': 2, 'worth': 15,
-'image': <pyglet.image.Animation object at 0x000000000DEF06D8>, 'enemy': 0,
-'height': 70, 'maxhealth': 100, 'speed': 5}, 2: {'loop': True, 'width': 70,
-'lvl': 2, 'spritesheet_x': 10, 'duration': 0.02, 'animated': True,
-'spritesheet_y': 2, 'worth': 15,
-'image': <pyglet.image.Animation object at 0x000000000DEF6358>, 'enemy': 0,
-'height': 70, 'maxhealth': 500, 'speed': 5}}
-"""
 
 selector0 = loadImage("assets/selector0.png")
 selector1 = loadImage("assets/selector1.png")
