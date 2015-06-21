@@ -28,17 +28,19 @@ settings = {
 class TestTower(unittest.TestCase):
     def test_tower_rotation(self):
         director.init(**settings['window'])
+        scene = cocos.scene.Scene()
+        director.run(scene)
         enemies = []
-        image = pyglet.image.load('assets/enemy0.png')
+        image = pyglet.image.load('assets/enemy01.png')
         enemy0 = cocos.sprite.Sprite(image)
         enemy0.position = (300, 200)
         enemy1 = cocos.sprite.Sprite(image)
         enemy1.position = (1000, 700)
         enemies.append(enemy0)
         enemies.append(enemy1)
-        tower = pyfense_tower.PyFenseTower(enemies, 1, (0, 0))
+        tower = pyfense_tower.PyFenseTower(1, (0, 0))
         tower.target = enemy0
-        tower.rotateToTarget(1)
+        tower.rotateToTarget()
         result = tower.rotation
         print(result)
         actualResult = 56.31
