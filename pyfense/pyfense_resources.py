@@ -79,7 +79,7 @@ def loadEntities():
                 else:
                     try:
                         if "animated" in att_dict:
-                            if att_dict["animated"] is True:
+                            if att_dict["animated"]:
                                 att_dict["image"] = loadAnimation(
                                     pathjoin("assets/{}").format(att_dict["image"]),
                                     att_dict["spritesheet_x"],
