@@ -11,11 +11,8 @@ import unittest
 import cocos
 from cocos.director import director
 
-<<<<<<< HEAD
-from pyfense.pyfense_enemy import pyfense_enemy
-=======
-import pyfense_enemy
->>>>>>> master
+from pyfense import pyfense_enemy
+
 
 settings = {
     "window": {
