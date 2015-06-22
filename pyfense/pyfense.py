@@ -48,7 +48,7 @@ class MainMenu(Menu):
         items.append(MenuItem('About', self.on_about))
         items.append(MenuItem('Exit', self.on_quit))
         self.create_menu(items)
-        self.schedule(self._scaleLogo)
+            self.schedule(self._scaleLogo)
 
     def on_level_select(self):
         logo.scale = 0.25
