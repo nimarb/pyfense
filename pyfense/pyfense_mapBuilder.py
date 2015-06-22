@@ -41,7 +41,7 @@ class PyFenseMapBuilder(scene.Scene):
 
     def on_save(self):
         # Save Path in file and "restart" director to update the Menu
-        output = open("pyfense/data/path.cfg", "wb")
+        output = open("data/path.cfg", "wb")
         pickle.dump(self.gameGrid, output)
         output.close()
         print("save")

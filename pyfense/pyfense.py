@@ -26,8 +26,10 @@ import pyfense_highscore
 import pyfense_resources
 
 
-font.add_directory('pyfense/data/Orbitron')
+font.add_directory('data/Orbitron')
 _font_ = 'Orbitron Light'
+picto_damage = "assets/explosion_pictogram-01_small.png"
+picto_rate = "assets/firerate_pictogram-02_small.png"
 
 
 class MainMenu(Menu):
@@ -97,7 +99,6 @@ class LevelSelectMenu(Menu):
         items.append(lvl1)
         Back = MenuItem('Back', self.on_quit)
         Back.y -= 30
-
         mapBuilderActivated = "nobuilder"
         try:
             mapBuilderActivated = sys.argv[1]
@@ -109,8 +110,9 @@ class LevelSelectMenu(Menu):
             MapBuilder.y -= 20
 
 
-        if(os.path.isfile("pyfense/assets/lvlcustom.png")):
-            customImage = pyfense_resources.loadImage('pyfense/assets/lvlcustom.png')
+
+        if(os.path.isfile("assets/lvlcustom.png")):
+            customImage = pyfense_resources.loadImage('assets/lvlcustom.png')
             customItem = ImageMenuItem(customImage,
                                        lambda: self.on_start("custom"))
             customItem.scale = 0.4
@@ -279,13 +281,171 @@ class HelpLayer(ColorLayer):
     def on_enter(self):
         super().on_enter()
         w, h = director.get_window_size()
-        text = Label('Press Q to quit the running level',
+        text = Label('Press Q to quit the running level or Esc to enter the ' +
+                     'Pause Menu',
                      font_name=_font_,
                      font_size=20,
                      anchor_x='center',
                      anchor_y='center')
-        text.position = w/2., h/2.
+        text.element.width = w * 0.3
+        text.element.multiline = True
+        text.element.wrap_lines = True
+        text.position = w/2., h/2. + 300
         self.add(text)
+
+        # tower information
+
+        self.damage_pic = pyfense_resources.loadImage(picto_damage)
+        self.rate_pic = pyfense_resources.loadImage(picto_rate)
+
+        pic_width = pyfense_resources.tower[1][1]["image"].width
+        self.menuMin_x = (w/2. - pic_width * (4 / 3) - 55)
+        self.menuMin_y = 550
+
+        towername_font = {
+            'bold': True,
+            'anchor_x': "right",
+            'anchor_y': 'center',
+            'font_size': 18,
+            'color': (193, 249, 255, 255)
+        }
+        caption_font = {
+            'bold': True,
+            'anchor_x': "left",
+            'anchor_y': 'center',
+            'font_size': 11,
+            }
+
+        label1 = cocos.text.Label("Rapidfire Tower", **towername_font)
+        label2 = cocos.text.Label("Range Tower", **towername_font)
+        label3 = cocos.text.Label("Plasma Tower", **towername_font)
+        price_label = cocos.text.Label("$  Price",
+                                       color=(255, 0, 0, 255), **caption_font)
+        dam_pic = cocos.sprite.Sprite(self.damage_pic)
+        dam_label = cocos.text.Label("Damage per second",
+                                     color=(255, 109, 45, 255), **caption_font)
+        rate_pic = cocos.sprite.Sprite(self.rate_pic)
+        rate_label = cocos.text.Label("Firerate",
+                                      color=(0, 124, 244, 255), **caption_font)
+
+        label1.position = (self.menuMin_x - 80, self.menuMin_y)
+        label2.position = (self.menuMin_x - 80, self.menuMin_y - pic_width)
+        label3.position = (self.menuMin_x - 80, self.menuMin_y -
+                           2 * pic_width)
+        price_label.position = (self.menuMin_x,
+                                self.menuMin_y - (3 * pic_width))
+        dam_pic.position = (self.menuMin_x + 110,
+                            self.menuMin_y - (3 * pic_width))
+        dam_label.position = (self.menuMin_x + 126,
+                              self.menuMin_y - (3 * pic_width))
+        rate_pic.position = (self.menuMin_x + 340,
+                             self.menuMin_y - (3 * pic_width))
+        rate_label.position = (self.menuMin_x + 356,
+                               self.menuMin_y - (3 * pic_width))
+
+        self.add(label1)
+        self.add(label2)
+        self.add(label3)
+        self.add(price_label)
+        self.add(dam_pic)
+        self.add(dam_label)
+        self.add(rate_pic)
+        self.add(rate_label)
+
+        for l in range(1, 4):
+            self.towerDamagePic = []
+            self.towerFireratePic = []
+            self.towerThumbnails = []
+            for i in range(0, 3):
+                self.towerThumbnails.append(cocos.sprite.Sprite(
+                    pyfense_resources.tower[i][l]["image"]))
+
+            text_font = {
+                'bold': True,
+                'anchor_x': "left",
+                'anchor_y': 'center',
+                'font_size': 11,
+                'color': (255, 109, 45, 255)
+                }
+
+            label4 = cocos.text.Label(" ", **text_font)
+            label5 = cocos.text.Label(" ", **text_font)
+            label6 = cocos.text.Label(" ", **text_font)
+            self.towerDamageTexts = [label4, label5, label6]
+
+            text_font['color'] = (0, 124, 244, 255)
+
+            label7 = cocos.text.Label(" ", **text_font)
+            label8 = cocos.text.Label(" ", **text_font)
+            label9 = cocos.text.Label(" ", **text_font)
+            self.towerFirerateTexts = [label7, label8, label9]
+
+            text_font['color'] = (255, 0, 0, 255)
+
+            label10 = cocos.text.Label(" ", **text_font)
+            label11 = cocos.text.Label(" ", **text_font)
+            label12 = cocos.text.Label(" ", **text_font)
+            self.towerCostTexts = [label10, label11, label12]
+
+            for picture in range(0, len(self.towerThumbnails)):
+                self.towerThumbnails[picture].position = (
+                    self.menuMin_x +
+                    (l - 1) * (self.towerThumbnails[picture].width + 100),
+                    -picture * self.towerThumbnails[picture].width +
+                    self.menuMin_y)
+
+                self.towerDamagePic.append(
+                    cocos.sprite.Sprite(self.damage_pic))
+                self.towerDamagePic[picture].position = (
+                    self.menuMin_x +
+                    (l - 1) * (self.towerThumbnails[picture].width + 100) +
+                    self.towerThumbnails[picture].width / 2. + 15,
+                    -picture * self.towerThumbnails[picture].width +
+                    self.menuMin_y)
+
+                self.towerDamageTexts[picture].element.text = (
+                    str(pyfense_resources.tower[picture][l]["damage"] *
+                        pyfense_resources.tower[picture][l]["firerate"] / 1.))
+                self.towerDamageTexts[picture].position = (
+                    self.menuMin_x +
+                    (l - 1) * (self.towerThumbnails[picture].width + 100) +
+                    self.towerThumbnails[picture].width / 2. + 35,
+                    -picture * self.towerThumbnails[picture].width +
+                    self.menuMin_y)
+
+                self.towerFireratePic.append(
+                    cocos.sprite.Sprite(self.rate_pic))
+                self.towerFireratePic[picture].position = (
+                    self.menuMin_x +
+                    (l - 1) * (self.towerThumbnails[picture].width + 100) +
+                    self.towerThumbnails[picture].width / 2. + 15,
+                    -picture * self.towerThumbnails[picture].width +
+                    self.menuMin_y - 20)
+
+                self.towerFirerateTexts[picture].element.text = (
+                    str(pyfense_resources.tower[picture][l]["firerate"]))
+                self.towerFirerateTexts[picture].position = (
+                    self.menuMin_x +
+                    (l - 1) * (self.towerThumbnails[picture].width + 100) +
+                    self.towerThumbnails[picture].width / 2. + 35,
+                    -picture * self.towerThumbnails[picture].width +
+                    self.menuMin_y - 20)
+
+                self.towerCostTexts[picture].element.text = (
+                    '$  ' + str(pyfense_resources.tower[picture][l]["cost"]))
+                self.towerCostTexts[picture].position = (
+                    self.menuMin_x +
+                    (l - 1) * (self.towerThumbnails[picture].width + 100) +
+                    self.towerThumbnails[picture].width / 2. + 15,
+                    -picture * self.towerThumbnails[picture].width +
+                    self.menuMin_y + 20)
+
+                self.add(self.towerThumbnails[picture])
+                self.add(self.towerDamageTexts[picture])
+                self.add(self.towerFirerateTexts[picture])
+                self.add(self.towerDamagePic[picture])
+                self.add(self.towerFireratePic[picture])
+                self.add(self.towerCostTexts[picture])
 
     def on_key_press(self, k, m):
         if k in (key.ENTER, key.ESCAPE, key.SPACE, key.Q):
@@ -346,17 +506,17 @@ if __name__ == '__main__':
     w, h = director.get_window_size()
     # Music
     # 1st Try - doesnt play anything
-    # scene.load_music("pyfense/assets/music.wav")
+    # scene.load_music("assets/music.wav")
     # scene.play_music()
 
     # 2nd Try - static noise louder than music
-    # music = pyglet.resource.media("pyfense/assets/music.wav", streaming = True)
+    # music = pyglet.resource.media("assets/music.wav", streaming = True)
     # music.play()
 
     # 3rd Try - music stops after ca. 1 min (even when piece was longer)
     # and doesnt repeat as it should
     # music_player = pyglet.medi    a.Player()
-    # music = pyglet.resource.media("pyfense/assets/music.wav", streaming = False)
+    # music = pyglet.resource.media("assets/music.wav", streaming = False)
     # music_player.queue(music)
     # music_player.eos_action = music_player.EOS_LOOP
     # music_player.play()
