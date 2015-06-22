@@ -310,6 +310,7 @@ class HelpLayer(ColorLayer):
         text.element.wrap_lines = True
         text.position = w/2., h/2. + 300
         self.add(text)
+
         # tower information
         self.damage_pic = pyfense_resources.picto_damage
         self.rate_pic = pyfense_resources.picto_rate
@@ -341,6 +342,7 @@ class HelpLayer(ColorLayer):
         rate_pic = cocos.sprite.Sprite(self.rate_pic)
         rate_label = cocos.text.Label("Firerate",
                                       color=(0, 124, 244, 255), **caption_font)
+
         label1.position = (self.menuMin_x - 80, self.menuMin_y)
         label2.position = (self.menuMin_x - 80, self.menuMin_y - pic_width)
         label3.position = (self.menuMin_x - 80, self.menuMin_y -
@@ -364,7 +366,7 @@ class HelpLayer(ColorLayer):
         self.add(dam_label)
         self.add(rate_pic)
         self.add(rate_label)
-        for l in range(1, 4):
+        for l in range(1, 4):  # loop over upgrade levels
             self.towerDamagePic = []
             self.towerFireratePic = []
             self.towerThumbnails = []
@@ -382,16 +384,19 @@ class HelpLayer(ColorLayer):
             label5 = cocos.text.Label(" ", **text_font)
             label6 = cocos.text.Label(" ", **text_font)
             self.towerDamageTexts = [label4, label5, label6]
+
             text_font['color'] = (0, 124, 244, 255)
             label7 = cocos.text.Label(" ", **text_font)
             label8 = cocos.text.Label(" ", **text_font)
             label9 = cocos.text.Label(" ", **text_font)
             self.towerFirerateTexts = [label7, label8, label9]
+
             text_font['color'] = (255, 0, 0, 255)
             label10 = cocos.text.Label(" ", **text_font)
             label11 = cocos.text.Label(" ", **text_font)
             label12 = cocos.text.Label(" ", **text_font)
             self.towerCostTexts = [label10, label11, label12]
+
             for picture in range(0, len(self.towerThumbnails)):
                 self.towerThumbnails[picture].position = (
                     self.menuMin_x +
@@ -530,6 +535,6 @@ if __name__ == '__main__':
     logo = cocos.sprite.Sprite(pyfense_resources.logo)
     scene.add(logo, z=2)
     director.run(scene)
-    
+
 # if __name__ == '__main__':
 #     main()
