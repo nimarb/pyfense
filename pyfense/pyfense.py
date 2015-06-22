@@ -25,7 +25,9 @@ import pyfense_mapBuilder
 import pyfense_highscore
 import pyfense_resources
 
-font.add_directory('data/Orbitron')
+font.add_directory(os.path.join(
+                os.path.dirname(
+                os.path.abspath(__file__)), 'data/Orbitron'))
 _font_ = 'Orbitron Light'
 
 
@@ -35,6 +37,12 @@ class MainMenu(cocos.menu.Menu):
         self.font_title['font_name'] = _font_
         self.font_title['font_size'] = 72
 
+        self.font_item['font_name'] = _font_
+        self.font_item['font_size'] = 35
+        
+        self.font_item_selected['font_name'] = _font_
+        self.font_item_selected['font_size'] = 41
+        
         self.menu_anchor_x = cocos.menu.CENTER
         self.menu_anchor_y = cocos.menu.CENTER
         items = []
