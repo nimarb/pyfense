@@ -110,13 +110,6 @@ with open("data/waves.cfg") as wave_file:
             attributes = eval(line)
             if len(attributes) != 0:
                 waves.update(attributes)
-"""
-ACTUAL TOWER IS LOADED FROM CONFIG FILE, THIS IS AN EXAMPLE
-tower = {0.0: {1.0: {'cost': 100.0, 'firerate': 1.0,
-'projectilevelocity': 1000.0, 'damage': 10.0, 'lvl': 1.0, 'range': 200.0,
-'image': <ImageData 60x60>, 'tower': 0.0}}}
-})
-"""
 
 noCashOverlay = loadImage("assets/tower-nocashoverlay.png")
 destroyTowerIcon = loadImage("assets/tower-destroy.png")
