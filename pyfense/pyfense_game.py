@@ -176,6 +176,7 @@ class PyFenseGame(scene.Scene):
         self.currentWave += 1
         self.entityMap.nextWave(self.currentWave)
         self.hud.updateWaveNumber(self.currentWave)
+        self.entityMap.currentWave = self.currentWave
 
     def on_enemy_reached_goal(self):
         self.currentLives -= 1
