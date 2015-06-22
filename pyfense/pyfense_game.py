@@ -50,7 +50,7 @@ class PyFenseGame(scene.Scene):
         self.displayHud()
         self.currentWave = 0
         self.currentLives = 15
-        self.currentCurrency = 500
+        self.currentCurrency = 300
 
     def loadPath(self):
         currentTile = copy.deepcopy(self.startTile)
