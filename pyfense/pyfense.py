@@ -1,7 +1,6 @@
 """
 Mainfile, draws Menu including Level Select, Highscore, Options and About page.
-Reads settings from /data/settings.txt #TODO, About from /data/about.txt #TODO
-and gets Highscore data from pyfense_highscore. Level Select starts game with
+Reads settings from /data/settings.txt. Level Select starts game with
 selected level from pyfense_game.
 """
 
@@ -141,17 +140,14 @@ class ScoresLayer(ColorLayer):
         if self.table:
             self.remove_old()
         self.table = []
-
         self.font_top = {}
         self.font_top['font_size'] = self.fontsize
         self.font_top['bold'] = True
         self.font_top['font_name'] = _font_
-
         self.font_label = {}
         self.font_label['font_size'] = self.fontsize
         self.font_label['bold'] = False
         self.font_label['font_name'] = _font_
-
         Head_Pos = Label('',
                          anchor_x='right',
                          anchor_y='top',
@@ -166,7 +162,6 @@ class ScoresLayer(ColorLayer):
                           **self.font_top)
         self.table.append((Head_Pos, Head_Name, Head_Wave))
         self.table.append((Label(''), Label(''), Label('')))
-
         for i, entry in enumerate(score):
             pos = Label('%i.    ' % (i+1),
                         anchor_x='right',
@@ -274,16 +269,12 @@ class HelpLayer(ColorLayer):
         text.element.wrap_lines = True
         text.position = w/2., h/2. + 300
         self.add(text)
-
         # tower information
-
         self.damage_pic = pyfense_resources.loadImage(picto_damage)
         self.rate_pic = pyfense_resources.loadImage(picto_rate)
-
         pic_width = pyfense_resources.tower[1][1]["image"].width
         self.menuMin_x = (w/2. - pic_width * (4 / 3) - 55)
         self.menuMin_y = 550
-
         towername_font = {
             'bold': True,
             'anchor_x': "right",
@@ -295,16 +286,13 @@ class HelpLayer(ColorLayer):
         label1 = cocos.text.Label("Rapidfire Tower", **towername_font)
         label2 = cocos.text.Label("Range Tower", **towername_font)
         label3 = cocos.text.Label("Plasma Tower", **towername_font)
-
         label1.position = (self.menuMin_x - 80, self.menuMin_y)
         label2.position = (self.menuMin_x - 80, self.menuMin_y - pic_width)
         label3.position = (self.menuMin_x - 80, self.menuMin_y -
                            2 * pic_width)
-
         self.add(label1)
         self.add(label2)
         self.add(label3)
-
         for l in range(1, 4):
             self.towerDamagePic = []
             self.towerFireratePic = []
@@ -312,7 +300,6 @@ class HelpLayer(ColorLayer):
             for i in range(0, 3):
                 self.towerThumbnails.append(cocos.sprite.Sprite(
                     pyfense_resources.tower[i][l]["image"]))
-
             text_font = {
                 'bold': True,
                 'anchor_x': "left",
@@ -320,19 +307,15 @@ class HelpLayer(ColorLayer):
                 'font_size': 11,
                 'color': (255, 109, 45, 255)
                 }
-
             label4 = cocos.text.Label(" ", **text_font)
             label5 = cocos.text.Label(" ", **text_font)
             label6 = cocos.text.Label(" ", **text_font)
             self.towerDamageTexts = [label4, label5, label6]
-
             text_font['color'] = (0, 124, 244, 255)
-
             label7 = cocos.text.Label(" ", **text_font)
             label8 = cocos.text.Label(" ", **text_font)
             label9 = cocos.text.Label(" ", **text_font)
             self.towerFirerateTexts = [label7, label8, label9]
-
             for picture in range(0, len(self.towerThumbnails)):
                 self.towerThumbnails[picture].position = (
                     self.menuMin_x +
