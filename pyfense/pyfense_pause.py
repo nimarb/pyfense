@@ -93,7 +93,7 @@ class PauseLayer(Layer):
                 'bold': True,
                 'anchor_x': "left",
                 'anchor_y': 'center',
-                'font_size': 11,
+                'font_size': 16,
                 'color': (255, 70, 0, 255)
                 }
 
@@ -109,57 +109,58 @@ class PauseLayer(Layer):
             label9 = Label(" ", **text_font)
             self.towerFirerateTexts = [label7, label8, label9]
 
-            self.menuMin_x = w/2. - self.towerThumbnails[0].width * (4 / 3)
+            self.menuMin_x = (
+                w/2. - self.towerThumbnails[0].width * (4 / 3) - 60)
             self.menuMin_y = 550
 
             for picture in range(0, len(self.towerThumbnails)):
                 self.towerThumbnails[picture].position = (
                     self.menuMin_x +
-                    picture * self.towerThumbnails[picture].width +
+                    picture * (self.towerThumbnails[picture].width + 40) +
                     self.towerThumbnails[picture].width / 2,
-                    -(l - 1) * (self.towerThumbnails[picture].width + 55) +
+                    -(l - 1) * (self.towerThumbnails[picture].width + 75) +
                     self.menuMin_y)
 
                 self.towerDamagePic.append(
                     cocos.sprite.Sprite(self.damage_pic))
                 self.towerDamagePic[picture].position = (
                     self.menuMin_x + picture *
-                    self.towerThumbnails[picture].width +
-                    self.towerThumbnails[picture].width / 1.5 - 27,
+                    (self.towerThumbnails[picture].width + 40) +
+                    self.towerThumbnails[picture].width / 1.5 - 37,
                     self.menuMin_y -
                     self.towerThumbnails[picture].width / 2 - 10 -
-                    (l - 1) * (self.towerThumbnails[picture].width + 55))
+                    (l - 1) * (self.towerThumbnails[picture].width + 75))
 
                 self.towerDamageTexts[picture].element.text = (
                     str(pyfense_resources.tower[picture][l]["damage"] *
                         pyfense_resources.tower[picture][l]["firerate"] / 1.))
                 self.towerDamageTexts[picture].position = (
                     self.menuMin_x + picture *
-                    self.towerThumbnails[picture].width +
-                    self.towerThumbnails[picture].width / 1.5 - 9,
+                    (self.towerThumbnails[picture].width + 40) +
+                    self.towerThumbnails[picture].width / 1.5 - 19,
                     self.menuMin_y -
                     self.towerThumbnails[picture].width / 2 - 10 -
-                    (l - 1) * (self.towerThumbnails[picture].width + 55))
+                    (l - 1) * (self.towerThumbnails[picture].width + 75))
 
                 self.towerFireratePic.append(
                     cocos.sprite.Sprite(self.rate_pic))
                 self.towerFireratePic[picture].position = (
                     self.menuMin_x + picture *
-                    self.towerThumbnails[picture].width +
-                    self.towerThumbnails[picture].width / 1.5 - 34,
+                    (self.towerThumbnails[picture].width + 40) +
+                    self.towerThumbnails[picture].width / 1.5 - 37,
                     self.menuMin_y -
-                    self.towerThumbnails[picture].width / 2 - 30 -
-                    (l - 1) * (self.towerThumbnails[picture].width + 55))
+                    self.towerThumbnails[picture].width / 2 - 38 -
+                    (l - 1) * (self.towerThumbnails[picture].width + 75))
 
                 self.towerFirerateTexts[picture].element.text = (
                     str(pyfense_resources.tower[picture][l]["firerate"]))
                 self.towerFirerateTexts[picture].position = (
-                    self.menuMin_x +
-                    picture*self.towerThumbnails[picture].width +
-                    self.towerThumbnails[picture].width / 1.5 - 9,
+                    self.menuMin_x + picture *
+                    (self.towerThumbnails[picture].width + 40) +
+                    self.towerThumbnails[picture].width / 1.5 - 19,
                     self.menuMin_y -
-                    self.towerThumbnails[picture].width / 2 - 30 -
-                    (l - 1) * (self.towerThumbnails[picture].width + 55))
+                    self.towerThumbnails[picture].width / 2 - 38 -
+                    (l - 1) * (self.towerThumbnails[picture].width + 75))
 
                 self.add(self.towerThumbnails[picture])
                 self.add(self.towerDamageTexts[picture])
