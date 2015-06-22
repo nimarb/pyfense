@@ -32,7 +32,7 @@ class PauseLayer(Layer):
     def __init__(self):
         super().__init__()
         w, h = director.get_window_size()
-        y_pos = h/2. + 400
+        y_pos = h/2. + 300
 
         text0 = Label(
             '+++ Game Paused +++',
@@ -81,7 +81,7 @@ class PauseLayer(Layer):
         self.damage_pic = pyfense_resources.loadImage(picto_damage)
         self.rate_pic = pyfense_resources.loadImage(picto_rate)
 
-        for l in range(1, 3):
+        for l in range(1, 4):  # loop over all upgrade levels
             self.towerDamagePic = []
             self.towerFireratePic = []
             self.towerThumbnails = []
@@ -110,14 +110,14 @@ class PauseLayer(Layer):
             self.towerFirerateTexts = [label7, label8, label9]
 
             self.menuMin_x = w/2. - self.towerThumbnails[0].width * (4 / 3)
-            self.menuMin_y = 650
+            self.menuMin_y = 550
 
             for picture in range(0, len(self.towerThumbnails)):
                 self.towerThumbnails[picture].position = (
                     self.menuMin_x +
                     picture * self.towerThumbnails[picture].width +
                     self.towerThumbnails[picture].width / 2,
-                    (-l - 1) * self.towerThumbnails[picture].width +
+                    -(l - 1) * (self.towerThumbnails[picture].width + 55) +
                     self.menuMin_y)
 
                 self.towerDamagePic.append(
@@ -127,8 +127,8 @@ class PauseLayer(Layer):
                     self.towerThumbnails[picture].width +
                     self.towerThumbnails[picture].width / 1.5 - 27,
                     self.menuMin_y -
-                    self.towerThumbnails[picture].width / 2 - 10
-                    (-l - 1) * self.towerThumbnails[picture].width)
+                    self.towerThumbnails[picture].width / 2 - 10 -
+                    (l - 1) * (self.towerThumbnails[picture].width + 55))
 
                 self.towerDamageTexts[picture].element.text = (
                     str(pyfense_resources.tower[picture][l]["damage"] *
@@ -138,8 +138,8 @@ class PauseLayer(Layer):
                     self.towerThumbnails[picture].width +
                     self.towerThumbnails[picture].width / 1.5 - 9,
                     self.menuMin_y -
-                    self.towerThumbnails[picture].width / 2 - 10
-                    (-l - 1) * self.towerThumbnails[picture].width)
+                    self.towerThumbnails[picture].width / 2 - 10 -
+                    (l - 1) * (self.towerThumbnails[picture].width + 55))
 
                 self.towerFireratePic.append(
                     cocos.sprite.Sprite(self.rate_pic))
@@ -148,8 +148,8 @@ class PauseLayer(Layer):
                     self.towerThumbnails[picture].width +
                     self.towerThumbnails[picture].width / 1.5 - 34,
                     self.menuMin_y -
-                    self.towerThumbnails[picture].width / 2 - 30
-                    (-l - 1) * self.towerThumbnails[picture].width)
+                    self.towerThumbnails[picture].width / 2 - 30 -
+                    (l - 1) * (self.towerThumbnails[picture].width + 55))
 
                 self.towerFirerateTexts[picture].element.text = (
                     str(pyfense_resources.tower[picture][l]["firerate"]))
@@ -158,8 +158,8 @@ class PauseLayer(Layer):
                     picture*self.towerThumbnails[picture].width +
                     self.towerThumbnails[picture].width / 1.5 - 9,
                     self.menuMin_y -
-                    self.towerThumbnails[picture].width / 2 - 30
-                    (-l - 1) * self.towerThumbnails[picture].width)
+                    self.towerThumbnails[picture].width / 2 - 30 -
+                    (l - 1) * (self.towerThumbnails[picture].width + 55))
 
                 self.add(self.towerThumbnails[picture])
                 self.add(self.towerDamageTexts[picture])
