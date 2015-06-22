@@ -38,10 +38,10 @@ class MainMenu(cocos.menu.Menu):
 
         self.font_item['font_name'] = _font_
         self.font_item['font_size'] = 35
-        
+
         self.font_item_selected['font_name'] = _font_
         self.font_item_selected['font_size'] = 41
-        
+
         self.menu_anchor_x = cocos.menu.CENTER
         self.menu_anchor_y = cocos.menu.CENTER
         items = []
@@ -340,7 +340,7 @@ class HelpLayer(ColorLayer):
             'bold': True,
             'anchor_x': "left",
             'anchor_y': 'center',
-            'font_size': 11,
+            'font_size': 15,
             }
 
         label1 = cocos.text.Label("Rapidfire Tower", **towername_font)
@@ -350,25 +350,26 @@ class HelpLayer(ColorLayer):
                                        color=(255, 0, 0, 255), **caption_font)
         dam_pic = cocos.sprite.Sprite(self.damage_pic)
         dam_label = cocos.text.Label("Damage per second",
-                                     color=(255, 109, 45, 255), **caption_font)
+                                     color=(255, 70, 0, 255), **caption_font)
         rate_pic = cocos.sprite.Sprite(self.rate_pic)
         rate_label = cocos.text.Label("Firerate",
                                       color=(0, 124, 244, 255), **caption_font)
 
         label1.position = (self.menuMin_x - 80, self.menuMin_y)
-        label2.position = (self.menuMin_x - 80, self.menuMin_y - pic_width)
+        label2.position = (self.menuMin_x - 80, self.menuMin_y -
+                           pic_width - 15)
         label3.position = (self.menuMin_x - 80, self.menuMin_y -
-                           2 * pic_width)
-        price_label.position = (self.menuMin_x,
-                                self.menuMin_y - (3 * pic_width))
-        dam_pic.position = (self.menuMin_x + 110,
-                            self.menuMin_y - (3 * pic_width))
-        dam_label.position = (self.menuMin_x + 126,
-                              self.menuMin_y - (3 * pic_width))
-        rate_pic.position = (self.menuMin_x + 340,
-                             self.menuMin_y - (3 * pic_width))
-        rate_label.position = (self.menuMin_x + 356,
-                               self.menuMin_y - (3 * pic_width))
+                           2 * (pic_width + 15))
+        price_label.position = (self.menuMin_x - 60,
+                                self.menuMin_y - (3 * (pic_width + 15)))
+        dam_pic.position = (self.menuMin_x + 73,
+                            self.menuMin_y - (3 * (pic_width + 15)))
+        dam_label.position = (self.menuMin_x + 105,
+                              self.menuMin_y - (3 * (pic_width + 15)))
+        rate_pic.position = (self.menuMin_x + 380,
+                             self.menuMin_y - (3 * (pic_width + 15)))
+        rate_label.position = (self.menuMin_x + 412,
+                               self.menuMin_y - (3 * (pic_width + 15)))
 
         self.add(label1)
         self.add(label2)
@@ -389,8 +390,8 @@ class HelpLayer(ColorLayer):
                 'bold': True,
                 'anchor_x': "left",
                 'anchor_y': 'center',
-                'font_size': 11,
-                'color': (255, 109, 45, 255)
+                'font_size': 15,
+                'color': (255, 70, 0, 255)
                 }
             label4 = cocos.text.Label(" ", **text_font)
             label5 = cocos.text.Label(" ", **text_font)
@@ -413,7 +414,7 @@ class HelpLayer(ColorLayer):
                 self.towerThumbnails[picture].position = (
                     self.menuMin_x +
                     (l - 1) * (self.towerThumbnails[picture].width + 100),
-                    -picture * self.towerThumbnails[picture].width +
+                    -picture * (self.towerThumbnails[picture].width + 15)+
                     self.menuMin_y)
 
                 self.towerDamagePic.append(
@@ -422,7 +423,7 @@ class HelpLayer(ColorLayer):
                     self.menuMin_x +
                     (l - 1) * (self.towerThumbnails[picture].width + 100) +
                     self.towerThumbnails[picture].width / 2. + 15,
-                    -picture * self.towerThumbnails[picture].width +
+                    -picture * (self.towerThumbnails[picture].width + 15) +
                     self.menuMin_y)
 
                 self.towerDamageTexts[picture].element.text = (
@@ -432,7 +433,7 @@ class HelpLayer(ColorLayer):
                     self.menuMin_x +
                     (l - 1) * (self.towerThumbnails[picture].width + 100) +
                     self.towerThumbnails[picture].width / 2. + 35,
-                    -picture * self.towerThumbnails[picture].width +
+                    -picture * (self.towerThumbnails[picture].width + 15) +
                     self.menuMin_y)
 
                 self.towerFireratePic.append(
@@ -441,8 +442,8 @@ class HelpLayer(ColorLayer):
                     self.menuMin_x +
                     (l - 1) * (self.towerThumbnails[picture].width + 100) +
                     self.towerThumbnails[picture].width / 2. + 15,
-                    -picture * self.towerThumbnails[picture].width +
-                    self.menuMin_y - 20)
+                    -picture * (self.towerThumbnails[picture].width + 15) +
+                    self.menuMin_y - 25)
 
                 self.towerFirerateTexts[picture].element.text = (
                     str(pyfense_resources.tower[picture][l]["firerate"]))
@@ -450,17 +451,17 @@ class HelpLayer(ColorLayer):
                     self.menuMin_x +
                     (l - 1) * (self.towerThumbnails[picture].width + 100) +
                     self.towerThumbnails[picture].width / 2. + 35,
-                    -picture * self.towerThumbnails[picture].width +
-                    self.menuMin_y - 20)
+                    -picture * (self.towerThumbnails[picture].width + 15) +
+                    self.menuMin_y - 25)
 
                 self.towerCostTexts[picture].element.text = (
-                    '$  ' + str(pyfense_resources.tower[picture][l]["cost"]))
+                    '$ ' + str(pyfense_resources.tower[picture][l]["cost"]))
                 self.towerCostTexts[picture].position = (
                     self.menuMin_x +
                     (l - 1) * (self.towerThumbnails[picture].width + 100) +
                     self.towerThumbnails[picture].width / 2. + 15,
-                    -picture * self.towerThumbnails[picture].width +
-                    self.menuMin_y + 20)
+                    -picture * (self.towerThumbnails[picture].width + 15) +
+                    self.menuMin_y + 25)
 
                 self.add(self.towerThumbnails[picture])
                 self.add(self.towerDamageTexts[picture])
