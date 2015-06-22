@@ -92,7 +92,7 @@ class PauseLayer(Layer):
                 'anchor_x': "left",
                 'anchor_y': 'center',
                 'font_size': 11,
-                'color': (255, 109, 45, 255)
+                'color': (255, 70, 0, 255)
                 }
 
             label4 = cocos.text.Label(" ", **text_font)

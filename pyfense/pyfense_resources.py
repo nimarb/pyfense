@@ -158,8 +158,8 @@ particleTexture = loadImage(pathjoin("assets/particle.png"))
 
 range1920 = loadImage("assets/range1920.png")
 
-picto_damage = loadImage(pathjoin("assets/explosion_pictogram-01_small.png"))
-picto_rate = loadImage(pathjoin("assets/firerate_pictogram-02_small.png"))
+picto_damage = loadImage(pathjoin("assets/explosion_pictogram.png"))
+picto_rate = loadImage(pathjoin("assets/firerate_pictogram.png"))
 
 shot = pyglet.media.load(pathjoin("assets/shoot.wav"), streaming=False)
 
