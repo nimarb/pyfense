@@ -96,7 +96,7 @@ TOP = font.Text.TOP
 BOTTOM = font.Text.BOTTOM
 
 
-font.add_directory('pyfense/data/Orbitron')
+font.add_directory('data/Orbitron')
 _font_ = 'Orbitron Light'
 
 def verticalMenuLayout(menu):

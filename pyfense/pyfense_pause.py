@@ -12,10 +12,10 @@ from cocos.layer import *
 
 import pyfense_resources
 
-font.add_directory('pyfense/data/Orbitron')
+font.add_directory('data/Orbitron')
 _font_ = 'Orbitron Light'
-picto_damage = "pyfense/assets/explosion_pictogram-01_small.png"
-picto_rate = "pyfense/assets/firerate_pictogram-02_small.png"
+picto_damage = "assets/explosion_pictogram-01_small.png"
+picto_rate = "assets/firerate_pictogram-02_small.png"
 
 
 class PyFensePause(scene.Scene):
