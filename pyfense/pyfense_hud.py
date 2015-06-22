@@ -5,7 +5,6 @@
 import cocos
 import pyglet
 import pyfense_resources
-from sys import platform as _platform  # for OS check
 
 
 class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):

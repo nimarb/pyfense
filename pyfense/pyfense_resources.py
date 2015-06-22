@@ -4,10 +4,8 @@ application efficiently
 """
 
 import pyglet
-from sys import platform as _platform  # for OS check
 
 
-# Check OS to avoid segmentation fault with linux
 def loadImage(filename):
     try:
         img = pyglet.image.load(filename)
