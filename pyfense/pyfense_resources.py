@@ -30,11 +30,12 @@ def loadAnimation(filepath, spritesheet_x, spritesheet_y, width,
     images = textures[0:len(textures)]
     return pyglet.image.Animation.from_image_sequence(
         images, duration, loop=loop)
-
 tower = {}
 enemy = {}
 
 def loadEntities():
+    tower.clear()
+    enemy.clear()
     with open(pathjoin("data/entities.cfg")) as conf_file:
         for line in conf_file:
             if line == "" or line[0] == "#":
@@ -96,6 +97,9 @@ def loadEntities():
                             att_dict["image"]))
                     enemy[enemyname][level] = att_dict
 
+
+loadEntities()
+
 settings = {}
 with open(pathjoin("data/settings.cfg")) as setting_file:
     for line in setting_file:
@@ -107,6 +111,7 @@ sounds = settings["general"]["sounds"]
 waves = {}
 
 def loadWaves():
+    waves.clear()
     with open(pathjoin("data/waves.cfg")) as wave_file:
         for line in wave_file:
             if line == "\n" or line[0] == "#":
@@ -115,6 +120,8 @@ def loadWaves():
                 attributes = eval(line)
                 if len(attributes) != 0:
                     waves.update(attributes)
+
+loadWaves()
 
 noCashOverlay = loadImage(pathjoin("assets/tower-nocashoverlay.png"))
 destroyTowerIcon = loadImage(pathjoin("assets/tower-destroy.png"))
