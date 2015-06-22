@@ -409,6 +409,7 @@ class AboutLayer(ColorLayer):
         self.parent.switch_to(0)
         return True
 
+# def main():
 if __name__ == '__main__':
     director.init(**pyfense_resources.settings['window'])
     scene = Scene()
@@ -443,3 +444,6 @@ if __name__ == '__main__':
     logo = cocos.sprite.Sprite(pyfense_resources.logo)
     scene.add(logo, z=2)
     director.run(scene)
+    
+# if __name__ == '__main__':
+#     main()
