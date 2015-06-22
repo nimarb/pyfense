@@ -14,7 +14,7 @@ from cocos.scene import Scene
 HS_FILENAME = "data/highscore.data"  # name and path of the highscore file
 font.add_directory(os.path.join(
                 os.path.dirname(
-                os.path.abspath(__file__)), 'data/Orbitron'))
+                os.path.abspath(__file__)), 'assets'))
 _font_ = 'Orbitron Light'
 
 
