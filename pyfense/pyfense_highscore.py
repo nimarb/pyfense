@@ -225,10 +225,10 @@ class SubmitScore(Layer):
                     anchor_x='center')
                 label_s.position = (w/2., 700.)
                 self.add(label_s)
-            elif len(self.name.element.text) >= 10:
+            elif len(self.name.element.text) >= 15:
                 w, h = director.get_window_size()
                 label_l = Label(
-                    'Name too long! Not more than 10 charakters allowed',
+                    'Name too long! Not more than 15 charakters allowed',
                     font_size=20,
                     anchor_y='top',
                     anchor_x='center')
