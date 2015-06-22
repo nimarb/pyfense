@@ -493,7 +493,9 @@ class AboutLayer(ColorLayer):
 
         text = Label('PyFense ist geil und wir lieben Nippel! Und Matthias ' +
                      'ist der Mitarbeiter des monats wenn die testklassen' +
-                     ' laufen :D',  # LOL
+                     ' laufen :D' +  # LOL
+                     '\nMusic from:\n' +
+                     'www.freesound.org/people/djgriffin/' ,
                      font_name=_font_,
                      font_size=20,
                      anchor_x='center',

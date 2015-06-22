@@ -1,5 +1,7 @@
 # pyfense_entities.py
 # contains the layer on which all enemies and towers are placed (layer)
+import operator
+
 import pyglet
 
 import cocos
@@ -79,12 +81,18 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.projectiles.append(projectile)
         projectile.push_handlers(self)
         self.add(projectile, z=1)
+        
+        # Lift projectile form layer 1 to layer 4
+        duration = 80 / projectileVelocity
+        i = self.children.index((1, projectile))
+        clock.schedule_once(lambda dt: operator.setitem(self.children,
+                            i, (4, projectile)), duration)
 
     def on_enemy_hit(self, projectile, target, towerNumber):
         explosion = eval('pyfense_particles.Explosion' +
                          str(towerNumber) + '()')
         explosion.position = target.position
-        self.add(explosion, z=4)
+        self.add(explosion, z=5)
         clock.schedule_once(lambda dt, x: self.remove(x), 0.5, explosion)
         target.healthPoints -= projectile.damage
         self.remove(projectile)
@@ -96,7 +104,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.enemies.remove(target)
             deathAnimation = pyfense_particles.Death()
             deathAnimation.position = target.position
-            self.add(deathAnimation, z=4)
+            self.add(deathAnimation, z=5)
             clock.schedule_once(lambda dt, x: self.remove(x), 0.5,
                                 deathAnimation)
             self.diedEnemies += 1
@@ -115,11 +123,10 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         enemy = PyFenseEnemy(position, enemylist[self.spawnedEnemies][0],
                              enemylist[self.spawnedEnemies][1], 1, path,
                              multiplier)
-        # constructor: (position, enemyname, lvl, wave, path, healthmultiplier)
         self.enemies.append(enemy)
         self.spawnedEnemies += 1
-        self.add(enemy, z=1)
-        self.add(enemy.healthBar, z=3)
+        self.add(enemy, z=3)
+        self.add(enemy.healthBar, z=6)
         if self.spawnedEnemies != self.enemieslength:
             self.schedule_interval(self.addEnemy,
                                    self.enemy_list[self.spawnedEnemies-1][2],
@@ -138,7 +145,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.diedEnemies += 1
             self.isWaveFinished()
 
-    # Overrites the Esc key and quits the game on "Q"
+    # Overrides the Esc key and quits the game on "Q"
     def on_key_press(self, k, m):
         if k == key.ESCAPE:
             director.push(PyFensePause())

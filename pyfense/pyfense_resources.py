@@ -79,7 +79,7 @@ def loadEntities():
                 else:
                     try:
                         if "animated" in att_dict:
-                            if att_dict["animated"] is True:
+                            if att_dict["animated"]:
                                 att_dict["image"] = loadAnimation(
                                     pathjoin("assets/{}").format(att_dict["image"]),
                                     att_dict["spritesheet_x"],
@@ -146,7 +146,7 @@ logo = loadImage(pathjoin("assets/logo.png"))
 
 particleTexture = loadImage(pathjoin("assets/particle.png"))
 
-range1920 = loadImage("assets/range1920.png")
+range1920 = loadImage(pathjoin("assets/range1920.png"))
 
 picto_damage = loadImage(pathjoin("assets/explosion_pictogram.png"))
 picto_rate = loadImage(pathjoin("assets/firerate_pictogram.png"))
