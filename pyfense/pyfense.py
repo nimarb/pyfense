@@ -93,6 +93,9 @@ class LevelSelectMenu(Menu):
         lvl1 = ImageMenuItem(image_lvl1, lambda: self.on_start(1))
         Back = MenuItem('Back', self.on_quit)
         Back.y -= 30
+        
+        image_lvl2 = pyfense_resources.background["lvl2"]
+        lvl2 = ImageMenuItem(image_lvl2, lambda: self.on_start(2))
 
         mapBuilderActivated = "nobuilder"
         try:
@@ -103,8 +106,7 @@ class LevelSelectMenu(Menu):
         if(mapBuilderActivated == "builder"):
             MapBuilder = MenuItem('MapBuilder', self.on_mapBuilder)
             MapBuilder.y -= 20
-        image_lvl2 = pyfense_resources.background["lvl2"]
-        lvl2 = ImageMenuItem(image_lvl2, lambda: self.on_start(2))
+            
         if(os.path.isfile(os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets/lvlcustom.png"))):
             customImage = pyfense_resources.lvlcustom
             lvl1.scale = 0.18
