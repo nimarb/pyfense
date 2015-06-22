@@ -4,8 +4,6 @@ application efficiently
 """
 
 import pyglet
-from pyglet.image.codecs.png import PNGImageDecoder
-from sys import platform as _platform  # for OS check
 import os
 
 # Function that makes the filepath relative to the path of pyfense_resources.
@@ -13,13 +11,13 @@ import os
 root = os.path.dirname(os.path.abspath(__file__))
 pathjoin = lambda x: os.path.join(root, x)
 
-# Check OS to avoid segmentation fault with linux
 def loadImage(filename):
-    if _platform == "linux" or _platform == "linux2":
-        return pyglet.image.load(filename, decoder=PNGImageDecoder())
-    # elif _platform == "darwin" or _platform == "win32":
-    else:
-        return pyglet.image.load(filename)
+    try:
+        img = pyglet.image.load(filename)
+    except FileNotFoundError:
+        print(filename + " not found, please check files")
+        return False
+    return img
 
 
 # Loads spritesheets as animation with frames from bottom left to top right
@@ -158,12 +156,7 @@ logo = loadImage(pathjoin("assets/logo.png"))
 
 particleTexture = loadImage(pathjoin("assets/particle.png"))
 
-
-if _platform == "linux" or _platform == "linux2":
-    range1920 = loadImage(pathjoin("assets/range1920-linux.png"))
-else:
-    range1920 = loadImage(pathjoin("assets/range1920.png"))
-    
+range1920 = loadImage("assets/range1920.png")
 
 picto_damage = loadImage(pathjoin("assets/explosion_pictogram-01_small.png"))
 picto_rate = loadImage(pathjoin("assets/firerate_pictogram-02_small.png"))

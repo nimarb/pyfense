@@ -17,6 +17,7 @@ from cocos.layer import *
 from cocos.text import *
 
 import os
+import sys
 
 from pyfense_modmenu import *
 import pyfense_game
@@ -93,11 +94,19 @@ class LevelSelectMenu(Menu):
         lvl1.scale = 0.28
         lvl1.y = 0
         items.append(lvl1)
-        MapBuilder = MenuItem('MapBuilder', self.on_mapBuilder)
-        MapBuilder.y -= 20
         Back = MenuItem('Back', self.on_quit)
         Back.y -= 30
-      
+        
+        mapBuilderActivated = "nobuilder"
+        try:
+            mapBuilderActivated = sys.argv[1]
+        except:
+            mapBuilderActivated = "nobuilder"
+
+        if(mapBuilderActivated == "builder"):
+            MapBuilder = MenuItem('MapBuilder', self.on_mapBuilder)
+            MapBuilder.y -= 20
+
         if(os.path.isfile(os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets/lvlcustom.png"))):
             customImage = pyfense_resources.lvlcustom
             customItem = ImageMenuItem(customImage,
@@ -105,10 +114,16 @@ class LevelSelectMenu(Menu):
             customItem.scale = 0.4
             customItem.y -= 300
             items.append(customItem)
-            MapBuilder.y -= 320
+
+            if(mapBuilderActivated=="builder"):
+                MapBuilder.y -= 320
             Back.y -= 320
             # custom map has to be position correctly in Menu
-        items.extend([MapBuilder, Back])
+
+        if(mapBuilderActivated == "builder"):
+            items.append(MapBuilder)
+
+        items.append(Back)
         width, height = director.get_window_size()
         self.create_menu(items)
 
@@ -262,7 +277,8 @@ class HelpLayer(ColorLayer):
     def on_enter(self):
         super().on_enter()
         w, h = director.get_window_size()
-        text = Label('Press Q to quit the running level',
+        text = Label('Press Q to quit the running level or Esc to enter the ' +
+                     'Pause Menu',
                      font_name=_font_,
                      font_size=20,
                      anchor_x='center',
@@ -289,19 +305,48 @@ class HelpLayer(ColorLayer):
             'font_size': 18,
             'color': (193, 249, 255, 255)
         }
+        caption_font = {
+            'bold': True,
+            'anchor_x': "left",
+            'anchor_y': 'center',
+            'font_size': 11,
+            }
 
         label1 = cocos.text.Label("Rapidfire Tower", **towername_font)
         label2 = cocos.text.Label("Range Tower", **towername_font)
         label3 = cocos.text.Label("Plasma Tower", **towername_font)
+        price_label = cocos.text.Label("$  Price",
+                                       color=(255, 0, 0, 255), **caption_font)
+        dam_pic = cocos.sprite.Sprite(self.damage_pic)
+        dam_label = cocos.text.Label("Damage per second",
+                                     color=(255, 109, 45, 255), **caption_font)
+        rate_pic = cocos.sprite.Sprite(self.rate_pic)
+        rate_label = cocos.text.Label("Firerate",
+                                      color=(0, 124, 244, 255), **caption_font)
 
         label1.position = (self.menuMin_x - 80, self.menuMin_y)
         label2.position = (self.menuMin_x - 80, self.menuMin_y - pic_width)
         label3.position = (self.menuMin_x - 80, self.menuMin_y -
                            2 * pic_width)
+        price_label.position = (self.menuMin_x,
+                                self.menuMin_y - (3 * pic_width))
+        dam_pic.position = (self.menuMin_x + 110,
+                            self.menuMin_y - (3 * pic_width))
+        dam_label.position = (self.menuMin_x + 126,
+                              self.menuMin_y - (3 * pic_width))
+        rate_pic.position = (self.menuMin_x + 340,
+                             self.menuMin_y - (3 * pic_width))
+        rate_label.position = (self.menuMin_x + 356,
+                               self.menuMin_y - (3 * pic_width))
 
         self.add(label1)
         self.add(label2)
         self.add(label3)
+        self.add(price_label)
+        self.add(dam_pic)
+        self.add(dam_label)
+        self.add(rate_pic)
+        self.add(rate_label)
 
         for l in range(1, 4):
             self.towerDamagePic = []
@@ -330,6 +375,13 @@ class HelpLayer(ColorLayer):
             label8 = cocos.text.Label(" ", **text_font)
             label9 = cocos.text.Label(" ", **text_font)
             self.towerFirerateTexts = [label7, label8, label9]
+
+            text_font['color'] = (255, 0, 0, 255)
+
+            label10 = cocos.text.Label(" ", **text_font)
+            label11 = cocos.text.Label(" ", **text_font)
+            label12 = cocos.text.Label(" ", **text_font)
+            self.towerCostTexts = [label10, label11, label12]
 
             for picture in range(0, len(self.towerThumbnails)):
                 self.towerThumbnails[picture].position = (
@@ -375,11 +427,21 @@ class HelpLayer(ColorLayer):
                     -picture * self.towerThumbnails[picture].width +
                     self.menuMin_y - 20)
 
+                self.towerCostTexts[picture].element.text = (
+                    '$  ' + str(pyfense_resources.tower[picture][l]["cost"]))
+                self.towerCostTexts[picture].position = (
+                    self.menuMin_x +
+                    (l - 1) * (self.towerThumbnails[picture].width + 100) +
+                    self.towerThumbnails[picture].width / 2. + 15,
+                    -picture * self.towerThumbnails[picture].width +
+                    self.menuMin_y + 20)
+
                 self.add(self.towerThumbnails[picture])
                 self.add(self.towerDamageTexts[picture])
                 self.add(self.towerFirerateTexts[picture])
                 self.add(self.towerDamagePic[picture])
                 self.add(self.towerFireratePic[picture])
+                self.add(self.towerCostTexts[picture])
 
     def on_key_press(self, k, m):
         if k in (key.ENTER, key.ESCAPE, key.SPACE, key.Q):

@@ -45,15 +45,20 @@ class PyFenseMapBuilder(scene.Scene):
         pickle.dump(self.gameGrid, output)
         output.close()
         print("save")
-        scene = Scene()
-        scene.add(MultiplexLayer(
-            pyfense.MainMenu(),
-            pyfense.LevelSelectMenu(),
-            pyfense.OptionsMenu(),
-            pyfense.ScoresLayer(),
-            pyfense.AboutLayer()),
-            z=1)
-        director.replace(scene)
+        director.director.pop()
+
+#        scene = Scene()
+#        logo = cocos.sprite.Sprite(pyfense_resources.logo)
+#        scene.add(logo, z=2)
+#        scene.add(MultiplexLayer(
+#            pyfense.MainMenu(),
+#            pyfense.LevelSelectMenu(),
+#            pyfense.OptionsMenu(),
+#            pyfense.ScoresLayer(),
+#            pyfense.AboutLayer()),
+#            z=1)
+#
+#        director.director.replace(scene)
 
     def displayHud(self):
         self.hud = PyFenseMapBuilderHud()

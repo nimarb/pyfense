@@ -36,15 +36,11 @@ class PyFenseMapBuilderHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.clicked_y = y
         self.buildpath()
 
-    def on_key_release(self, key, modifiers):
+    def on_key_press(self, key, modifiers):
         if(key == 65293):  # == Enter
             # Why does this function gets called when opening Layer - bad fix ?
-            # -  Have you tried on key press?
-            try:
-                self.first_time_called
-                self.saveMap()
-            except AttributeError:
-                self.first_time_called = -1
+            # -  Have you tried on key press? - Thank You :)
+            self.saveMap()
 
     def saveMap(self):
         # TODO: hide FPS and cellSelctor doesnt work yet?
