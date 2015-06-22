@@ -1,8 +1,9 @@
-from distutils.core import setup
+#from distutils.core import setup
+from setuptools import setup
 
 setup(
     name = 'PyFense',
-    version = '0.8.6',
+    version = '0.8.18',
     license = 'GPLv3',
     packages = ['pyfense'],
     package_data = {
@@ -11,7 +12,7 @@ setup(
             'data/*.*']
     },
 
-    install_requires = ['pyglet>=1.2.2', 'cocos2d>=0.6.0', 'numpy>=1.9.2'],
+    install_requires = ['pyglet>=1.2.3', 'cocos2d>=0.6.0', 'numpy>=1.9.2'],
 
     maintainer = 'n',
     maintainer_email = 'l.nimar.b@gmail.com',
@@ -20,9 +21,9 @@ setup(
         using the Cocos2d framework.',
 
     entry_points = {
-        'console_scripts': ['pyfense = pyfense.py:main']
+        'console_scripts': ['pyfense = pyfense.pyfense:main']
     },
-    #scripts = ['pyfense/pyfense.py', 'pyfense.py'],
+    #scripts = ['pyfense/pyfense'],
     keywords = "pyfense tower defense td",
     classifiers = [
         'Programming Language :: Python',

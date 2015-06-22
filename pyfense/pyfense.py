@@ -1,7 +1,6 @@
 """
 Mainfile, draws Menu including Level Select, Highscore, Options and About page.
-Reads settings from pyfense_resources.settings, shows About and gets
-Highscore data from pyfense_highscore. Level Select starts the game with
+Reads settings from /data/settings.txt. Level Select starts game with
 selected level from pyfense_game.
 """
 
@@ -181,17 +180,14 @@ class ScoresLayer(ColorLayer):
         if self.table:
             self._remove_old()
         self.table = []
-
         self.font_top = {}
         self.font_top['font_size'] = self.fontsize
         self.font_top['bold'] = True
         self.font_top['font_name'] = _font_
-
         self.font_label = {}
         self.font_label['font_size'] = self.fontsize
         self.font_label['bold'] = False
         self.font_label['font_name'] = _font_
-
         Head_Pos = Label('',
                          anchor_x='right',
                          anchor_y='top',
@@ -206,7 +202,6 @@ class ScoresLayer(ColorLayer):
                           **self.font_top)
         self.table.append((Head_Pos, Head_Name, Head_Wave))
         self.table.append((Label(''), Label(''), Label('')))
-
         for i, entry in enumerate(score):
             pos = Label('%i.    ' % (i+1),
                         anchor_x='right',
@@ -243,9 +238,9 @@ class ScoresLayer(ColorLayer):
         for i, item in enumerate(self.table):
             pos, name, wave = item
             pos_y = h - 200 - (self.fontsize + 15) * i
-            pos.position = (w/2 - 400., pos_y)
-            name.position = (w/2 - 380., pos_y)
-            wave.position = (w/2 + 130., pos_y)
+            pos.position = (w/2 - 330., pos_y)
+            name.position = (w/2 - 300., pos_y)
+            wave.position = (w/2 + 350., pos_y)
             self.add(pos, z=2)
             self.add(name, z=2)
             self.add(wave, z=2)
@@ -321,14 +316,11 @@ class HelpLayer(ColorLayer):
         self.add(text)
 
         # tower information
-
         self.damage_pic = pyfense_resources.picto_damage
         self.rate_pic = pyfense_resources.picto_rate
-
         pic_width = pyfense_resources.tower[1][1]["image"].width
         self.menuMin_x = (w/2. - pic_width * (4 / 3) - 55)
         self.menuMin_y = 550
-
         towername_font = {
             'bold': True,
             'anchor_x': "right",
@@ -378,15 +370,13 @@ class HelpLayer(ColorLayer):
         self.add(dam_label)
         self.add(rate_pic)
         self.add(rate_label)
-
-        for l in range(1, 4):
+        for l in range(1, 4):  # loop over upgrade levels
             self.towerDamagePic = []
             self.towerFireratePic = []
             self.towerThumbnails = []
             for i in range(0, 3):
                 self.towerThumbnails.append(cocos.sprite.Sprite(
                     pyfense_resources.tower[i][l]["image"]))
-
             text_font = {
                 'bold': True,
                 'anchor_x': "left",
@@ -394,21 +384,18 @@ class HelpLayer(ColorLayer):
                 'font_size': 11,
                 'color': (255, 109, 45, 255)
                 }
-
             label4 = cocos.text.Label(" ", **text_font)
             label5 = cocos.text.Label(" ", **text_font)
             label6 = cocos.text.Label(" ", **text_font)
             self.towerDamageTexts = [label4, label5, label6]
 
             text_font['color'] = (0, 124, 244, 255)
-
             label7 = cocos.text.Label(" ", **text_font)
             label8 = cocos.text.Label(" ", **text_font)
             label9 = cocos.text.Label(" ", **text_font)
             self.towerFirerateTexts = [label7, label8, label9]
 
             text_font['color'] = (255, 0, 0, 255)
-
             label10 = cocos.text.Label(" ", **text_font)
             label11 = cocos.text.Label(" ", **text_font)
             label12 = cocos.text.Label(" ", **text_font)
@@ -517,6 +504,7 @@ class AboutLayer(ColorLayer):
         self.parent.switch_to(0)
         return True
 
+# def main():
 if __name__ == '__main__':
     director.init(**pyfense_resources.settings['window'])
     scene = Scene()
@@ -551,3 +539,6 @@ if __name__ == '__main__':
     logo = cocos.sprite.Sprite(pyfense_resources.logo)
     scene.add(logo, z=2)
     director.run(scene)
+
+# if __name__ == '__main__':
+#     main()
