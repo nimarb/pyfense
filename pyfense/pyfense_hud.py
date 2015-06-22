@@ -5,7 +5,6 @@
 import cocos
 import pyglet
 import pyfense_resources
-from sys import platform as _platform  # for OS check
 
 
 class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
@@ -172,10 +171,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.rangeIndicator.position = (pos_x, pos_y)
         towerRange = (
             pyfense_resources.tower[towerNumber][upgradeLevel]['range'])
-        if _platform == "linux" or _platform == "linux2":
-            self.rangeIndicator.scale = 10 * towerRange / 960
-        else:
-            self.rangeIndicator.scale = towerRange / 960
+        self.rangeIndicator.scale = towerRange / 960
         self.rangeIndicator.opacity = 100
         self.rangeIndicator.visible = True
 
