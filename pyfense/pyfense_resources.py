@@ -9,7 +9,12 @@ from sys import platform as _platform  # for OS check
 
 # Check OS to avoid segmentation fault with linux
 def loadImage(filename):
-    return pyglet.image.load(filename)
+    try:
+        img = pyglet.image.load(filename)
+    except FileNotFoundError:
+        print(filename + " not found, please check files")
+        return False
+    return img
 
 
 # Loads spritesheets as animation with frames from bottom left to top right
@@ -146,10 +151,7 @@ logo = loadImage("assets/logo.png")
 particleTexture = loadImage("assets/particle.png")
 
 
-if _platform == "linux" or _platform == "linux2":
-    range1920 = loadImage("assets/range1920-linux.png")
-else:
-    range1920 = loadImage("assets/range1920.png")
+range1920 = loadImage("assets/range1920.png")
 
 shot = pyglet.media.load('assets/shoot.wav', streaming=False)
 
