@@ -124,7 +124,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         for picture in range(0, len(self.towerThumbnails)):
             self.remove(self.towerThumbnails[picture])
             self.remove(self.towerCostTexts[picture])
-            if self.noCashOverlayDisplayed[picture] is True:
+            if self.noCashOverlayDisplayed[picture]:
                 self.remove(self.noCashOverlays[picture])
                 self.noCashOverlayDisplayed[picture] = False
         self.rangeIndicator.visible = False
