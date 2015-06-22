@@ -129,8 +129,8 @@ background = {
     "lvl1": loadImage(pathjoin("assets/lvl1.png")),
     "lvl2": loadImage(pathjoin("assets/lvl2.png"))
     }
-    
-if(os.path.isfile(pathjoin("assets/lvlcustom.png"))):    
+
+if(os.path.isfile(pathjoin("assets/lvlcustom.png"))):
     lvlcustom = loadImage(pathjoin('assets/lvlcustom.png'))
 
 """
@@ -188,59 +188,12 @@ def initGrid(lvl):
             gameGrid[i][19] = 2
         for i in range(20, 32):
             gameGrid[9][i] = 2
+        print(gameGrid)
 
     elif lvl == 2:
-        startTile = [9, 0]
+        startTile = [9, 1]
         endTile = [9, 31]
-        gameGrid[9][1] = 2
-        gameGrid[9][2] = 2
-        gameGrid[9][3] = 2
-        gameGrid[9][4] = 2
-        gameGrid[9][5] = 2
-        gameGrid[9][6] = 2
-        gameGrid[9][7] = 2
-        gameGrid[9][8] = 2
-        gameGrid[9][9] = 2
-        gameGrid[9][10] = 2
-        gameGrid[9][11] = 2
-        gameGrid[9][12] = 2
-        gameGrid[9][13] = 2
-        gameGrid[8][13] = 2
-        gameGrid[7][13] = 2
-        gameGrid[6][13] = 2
-        gameGrid[5][13] = 2
-        gameGrid[5][14] = 2
-        gameGrid[5][15] = 2
-        gameGrid[5][16] = 2
-        gameGrid[5][17] = 2
-        gameGrid[6][17] = 2
-        gameGrid[7][17] = 2
-        gameGrid[8][17] = 2
-        gameGrid[9][17] = 2
-        gameGrid[10][17] = 2
-        gameGrid[11][17] = 2
-        gameGrid[12][17] = 2
-        gameGrid[13][17] = 2
-        gameGrid[13][18] = 2
-        gameGrid[13][19] = 2
-        gameGrid[13][20] = 2
-        gameGrid[12][20] = 2
-        gameGrid[11][20] = 2
-        gameGrid[10][20] = 2
-        gameGrid[9][20] = 2
-        gameGrid[9][21] = 2
-        gameGrid[9][22] = 2
-        gameGrid[9][23] = 2
-        gameGrid[9][24] = 2
-        gameGrid[9][25] = 2
-        gameGrid[9][26] = 2
-        gameGrid[9][27] = 2
-        gameGrid[9][28] = 2
-        gameGrid[9][29] = 2
-        gameGrid[9][30] = 2
-        gameGrid[9][31] = 2
-        '''
-        for i in range(1, 14):
+        for i in range(2, 14):
             gameGrid[9][i] = 2
         for i in range(5, 10):
             gameGrid[i][13] = 2
@@ -254,7 +207,6 @@ def initGrid(lvl):
             gameGrid[i][19] = 2
         for i in range(19, 32):
             gameGrid[9][i] = 2
-        print(gameGrid)
-        '''
+        #print(gameGrid)
 
     return gameGrid, startTile, endTile
