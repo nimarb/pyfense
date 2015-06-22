@@ -1,7 +1,10 @@
+
 """
 pyfense_pause.py
 contains class layer which is displayed when pressing esc
 """
+
+import os
 
 from pyglet.window import key
 from pyglet import font
@@ -14,7 +17,9 @@ from cocos.layer import Layer
 
 import pyfense_resources
 
-font.add_directory('data/Orbitron')
+font.add_directory(os.path.join(
+                os.path.dirname(
+                os.path.abspath(__file__)), 'data/Orbitron'))
 _font_ = 'Orbitron Light'
 
 
@@ -42,7 +47,7 @@ class PauseLayer(Layer):
             anchor_y='center')
 
         self.key_font = {}
-        self.key_font['font_name'] = 'font_'
+        self.key_font['font_name'] = '_font_'
         self.key_font['font_size'] = 20
         self.key_font['anchor_x'] = 'center'
         self.key_font['anchor_y'] = 'center'
