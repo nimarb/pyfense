@@ -42,6 +42,8 @@ class PyFenseGame(scene.Scene):
             self.gameGrid, self.startTile, \
                 self.endTile = pyfense_resources.initGrid(levelNumber)
 
+        pyfense_resources.loadWaves()
+        pyfense_resources.loadEntities()
         self.movePath = actions.MoveBy((0, 0))
         self.loadPath()
         self.levelMapName = "lvl" + str(levelNumber)
