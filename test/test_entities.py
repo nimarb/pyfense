@@ -4,6 +4,8 @@ Created on Tue Jun 16 20:34:47 2015
 
 @author: Matthias
 """
+import os
+os.chdir(os.path.join('..', 'pyfense'))
 
 import unittest
 import cocos
@@ -39,12 +41,12 @@ class TestEntities(unittest.TestCase):
         entities = pyfense_entities.PyFenseEntities(0, 0)
         tower = pyfense_tower.PyFenseTower(0, (50, 70))
         result = entities.buildTower(tower)
-        actualResult = 100
+        actualResult = 50
         self.assertEqual(result, actualResult)
         self.assertEqual(entities.towers[0], tower)
 
         result2 = entities.removeTower((50, 70))
-        actualResult2 = 100
+        actualResult2 = 50
         self.assertEqual(result2, actualResult2)
         self.assertEqual(entities.towers, [])
 
@@ -57,7 +59,7 @@ class TestEntities(unittest.TestCase):
         result_multiplier1 = 1
         result_factor1 = 1
         actualResult_multiplier1 = entities.multiplier
-        actualResult_factor1 = entities.factor
+        actualResult_factor1 = entities.enemyHealthFactor
         self.assertEqual(result_factor1, actualResult_factor1)
         self.assertEqual(result_multiplier1, actualResult_multiplier1)
         entities.nextWave(number_of_waves+1)
@@ -65,7 +67,7 @@ class TestEntities(unittest.TestCase):
         result_multiplier2 = 3
         result_factor2 = 2
         actualResult_multiplier2 = entities.multiplier
-        actualResult_factor2 = entities.factor
+        actualResult_factor2 = entities.enemyHealthFactor
         self.assertEqual(result_factor2, actualResult_factor2)
         self.assertEqual(result_multiplier2, actualResult_multiplier2)
         entities.unschedule(entities.addEnemy)

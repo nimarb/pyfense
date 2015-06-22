@@ -4,7 +4,8 @@ Created on Tue Jun 16 21:48:14 2015
 
 @author: Matthias
 """
-
+import os
+os.chdir(os.path.join('..', 'pyfense'))
 import unittest
 import cocos
 from cocos.director import director

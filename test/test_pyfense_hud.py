@@ -1,5 +1,6 @@
 # Test for pyfense_hud, to be tested with py.test
-
+import os
+os.chdir(os.path.join('..', 'pyfense'))
 import unittest
 import cocos
 from cocos.director import director
@@ -29,7 +30,7 @@ class TestHud(unittest.TestCase):
         director.init(**settings['window'])
         scene = cocos.scene.Scene()
         director.run(scene)
-        self.hud = PyFenseHud()
+        self.hud = pyfense_hud.PyFenseHud()
 
     def test_updateCurrencyNumber(self):
         self.hud.updateCurrencyNumber(70)
