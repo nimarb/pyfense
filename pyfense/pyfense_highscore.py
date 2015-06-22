@@ -13,8 +13,8 @@ from cocos.scene import Scene
 
 HS_FILENAME = "data/highscore.data"  # name and path of the highscore file
 font.add_directory(os.path.join(
-                os.path.dirname(
-                os.path.abspath(__file__)), 'data/Orbitron'))
+    os.path.dirname(
+        os.path.abspath(__file__)), 'data/Orbitron'))
 _font_ = 'Orbitron Light'
 
 
@@ -48,7 +48,7 @@ def new_score(name, wave):
                 highscore.append(new_entry)
                 new_highscore = sorted(highscore, key=lambda s: int(s[0]))
                 new_highscore.reverse()
-                new_highscore = new_highscore[0:9]
+                new_highscore = new_highscore[0:10]
                 _writeFile(HS_FILENAME, new_highscore)
                 return True
     if i < 10:
@@ -59,7 +59,7 @@ def new_score(name, wave):
         highscore.append(new_entry)
         new_highscore = sorted(highscore, key=lambda s: int(s[0]))
         new_highscore.reverse()
-        new_highscore = new_highscore[0:9]
+        new_highscore = new_highscore[0:10]
         _writeFile(HS_FILENAME, new_highscore)
         return True
     else:

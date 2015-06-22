@@ -10,7 +10,8 @@ from cocos import actions
 from pyfense_map import *
 from pyfense_entities import *
 from pyfense_hud import *
-from pyfense_highscore import *
+from pyfense_highscore import PyFenseLost
+import pyfense_pause
 
 import pyfense_particles
 import pickle
@@ -179,6 +180,7 @@ class PyFenseGame(scene.Scene):
         self.entityMap.nextWave(self.currentWave)
         self.hud.updateWaveNumber(self.currentWave)
         self.entityMap.currentWave = self.currentWave
+        pyfense_pause.currentWave = self.currentWave
 
     def on_enemy_reached_goal(self):
         self.currentLives -= 1

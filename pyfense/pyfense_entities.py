@@ -10,9 +10,10 @@ from pyfense_tower import *
 from pyfense_enemy import *
 from pyfense_projectile import *
 from pyfense_hud import *
-from pyfense_pause import *
+from pyfense_pause import PyFensePause
 import pyfense_resources
 import pyfense_particles
+import pyfense_highscore
 import math
 
 
@@ -143,8 +144,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             director.push(PyFensePause())
             return True
         if k == key.Q:
-            director.pop()
-
+            director.replace(pyfense_highscore.PyFenseLost(self.currentWave))
 
 PyFenseEntities.register_event_type('on_next_wave')
 PyFenseEntities.register_event_type('on_enemy_death')
