@@ -14,8 +14,6 @@ import pyfense_resources
 
 font.add_directory('data/Orbitron')
 _font_ = 'Orbitron Light'
-picto_damage = "assets/explosion_pictogram-01_small.png"
-picto_rate = "assets/firerate_pictogram-02_small.png"
 
 
 class PyFensePause(scene.Scene):
@@ -78,8 +76,8 @@ class PauseLayer(Layer):
 
         # tower information
 
-        self.damage_pic = pyfense_resources.loadImage(picto_damage)
-        self.rate_pic = pyfense_resources.loadImage(picto_rate)
+        self.damage_pic = pyfense_resources.picto_damage
+        self.rate_pic = pyfense_resources.picto_rate
 
         for l in range(1, 4):  # loop over all upgrade levels
             self.towerDamagePic = []
