@@ -24,11 +24,8 @@ import pyfense_mapBuilder
 import pyfense_highscore
 import pyfense_resources
 
-
 font.add_directory('data/Orbitron')
 _font_ = 'Orbitron Light'
-picto_damage = "assets/explosion_pictogram-01_small.png"
-picto_rate = "assets/firerate_pictogram-02_small.png"
 
 
 class MainMenu(Menu):
@@ -100,8 +97,9 @@ class LevelSelectMenu(Menu):
         MapBuilder.y -= 20
         Back = MenuItem('Back', self.on_quit)
         Back.y -= 30
-        if(os.path.isfile("assets/lvlcustom.png")):
-            customImage = pyfense_resources.loadImage('assets/lvlcustom.png')
+      
+        if(os.path.isfile(os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets/lvlcustom.png"))):
+            customImage = pyfense_resources.lvlcustom
             customItem = ImageMenuItem(customImage,
                                        lambda: self.on_start("custom"))
             customItem.scale = 0.4
@@ -277,8 +275,8 @@ class HelpLayer(ColorLayer):
 
         # tower information
 
-        self.damage_pic = pyfense_resources.loadImage(picto_damage)
-        self.rate_pic = pyfense_resources.loadImage(picto_rate)
+        self.damage_pic = pyfense_resources.picto_damage
+        self.rate_pic = pyfense_resources.picto_rate
 
         pic_width = pyfense_resources.tower[1][1]["image"].width
         self.menuMin_x = (w/2. - pic_width * (4 / 3) - 55)
