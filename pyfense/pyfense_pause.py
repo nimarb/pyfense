@@ -7,8 +7,8 @@ from pyglet import font
 import cocos
 from cocos import scene
 from cocos.director import director
-from cocos.text import *
-from cocos.layer import *
+from cocos.text import Label
+from cocos.layer import Layer
 
 import pyfense_resources
 

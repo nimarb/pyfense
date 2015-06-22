@@ -1,7 +1,7 @@
 """
 Mainfile, draws Menu including Level Select, Highscore, Options and About page.
-Reads settings from /data/settings.txt #TODO, About from /data/about.txt #TODO
-and gets Highscore data from pyfense_highscore. Level Select starts game with
+Reads settings from pyfense_resources.settings, shows About and gets
+Highscore data from pyfense_highscore. Level Select starts the game with
 selected level from pyfense_game.
 """
 
@@ -10,15 +10,15 @@ from pyglet.window import key
 from pyglet import font
 
 import cocos
+import cocos.menu
 from cocos.director import director
-from cocos.actions import *
 from cocos.scene import Scene
-from cocos.layer import *
-from cocos.text import *
+from cocos.layer import ColorLayer, MultiplexLayer
+from cocos.text import Label
 
-import os
+import os  # for loading custom image
 
-from pyfense_modmenu import *
+import pyfense_modmenu
 import pyfense_game
 import pyfense_mapBuilder
 import pyfense_highscore
@@ -31,21 +31,21 @@ picto_damage = "assets/explosion_pictogram-01_small.png"
 picto_rate = "assets/firerate_pictogram-02_small.png"
 
 
-class MainMenu(Menu):
+class MainMenu(cocos.menu.Menu):
     def __init__(self):
         super().__init__('')
         self.font_title['font_name'] = _font_
         self.font_title['font_size'] = 72
 
-        self.menu_anchor_x = CENTER
-        self.menu_anchor_y = CENTER
+        self.menu_anchor_x = cocos.menu.CENTER
+        self.menu_anchor_y = cocos.menu.CENTER
         items = []
-        items.append(MenuItem('Start Game', self.on_level_select))
-        items.append(MenuItem('Scores', self.on_scores))
-        items.append(MenuItem('Settings', self.on_settings))
-        items.append(MenuItem('Help', self.on_help))
-        items.append(MenuItem('About', self.on_about))
-        items.append(MenuItem('Exit', self.on_quit))
+        items.append(cocos.menu.MenuItem('Start Game', self.on_level_select))
+        items.append(cocos.menu.MenuItem('Scores', self.on_scores))
+        items.append(cocos.menu.MenuItem('Settings', self.on_settings))
+        items.append(cocos.menu.MenuItem('Help', self.on_help))
+        items.append(cocos.menu.MenuItem('About', self.on_about))
+        items.append(cocos.menu.MenuItem('Exit', self.on_quit))
         self.create_menu(items)
         self.schedule(self._scaleLogo)
 
@@ -83,20 +83,22 @@ class MainMenu(Menu):
             logo.scale = 0.5
 
 
-class LevelSelectMenu(Menu):
+class LevelSelectMenu(cocos.menu.Menu):
     def __init__(self):
         super().__init__(' ')
         self.font_title['font_name'] = _font_
         self.font_title['font_size'] = 72
-        self.menu_anchor_x = CENTER
-        self.menu_anchor_y = CENTER
+        self.menu_anchor_x = cocos.menu.CENTER
+        self.menu_anchor_y = cocos.menu.CENTER
         items = []
         image_lvl1 = pyfense_resources.background["lvl1"]
-        lvl1 = ImageMenuItem(image_lvl1, lambda: self.on_start(1))
+        lvl1 = pyfense_modmenu.ImageMenuItem(image_lvl1,
+                                             lambda: self.on_start(1))
         image_lvl2 = pyfense_resources.background["lvl2"]
-        lvl2 = ImageMenuItem(image_lvl2, lambda: self.on_start(2))
-        MapBuilder = MenuItem('MapBuilder', self.on_mapBuilder)
-        Back = MenuItem('Back', self.on_quit)
+        lvl2 = pyfense_modmenu.ImageMenuItem(image_lvl2,
+                                             lambda: self.on_start(2))
+        MapBuilder = cocos.menu.MenuItem('MapBuilder', self.on_mapBuilder)
+        Back = cocos.menu.MenuItem('Back', self.on_quit)
         if(os.path.isfile("assets/lvlcustom.png")):
             lvl1.scale = 0.18
             lvl1.y = 30
@@ -105,8 +107,9 @@ class LevelSelectMenu(Menu):
             lvl2.y -= 150
             items.append(lvl2)
             customImage = pyfense_resources.loadImage('assets/lvlcustom.png')
-            customItem = ImageMenuItem(customImage,
-                                       lambda: self.on_start("custom"))
+            customItem = (
+                pyfense_modmenu.ImageMenuItem(customImage,
+                                              lambda: self.on_start("custom")))
             customItem.scale = 0.22
             customItem.y -= 300
             items.append(customItem)
@@ -127,10 +130,16 @@ class LevelSelectMenu(Menu):
         self.create_menu(items)
 
     def on_start(self, lvl):
+        """
+        Starts the game with the selected level "lvl"
+        """
         self.parent.switch_to(3)
         director.push(pyfense_game.PyFenseGame(lvl))
 
     def on_mapBuilder(self):
+        """
+        Starts the Mapbuilder
+        """
         director.push(pyfense_mapBuilder.PyFenseMapBuilder())
 
     def on_quit(self):
@@ -151,7 +160,7 @@ class ScoresLayer(ColorLayer):
         super().on_enter()
         score = pyfense_highscore.get_score()
         if self.table:
-            self.remove_old()
+            self._remove_old()
         self.table = []
 
         self.font_top = {}
@@ -200,9 +209,9 @@ class ScoresLayer(ColorLayer):
                          anchor_y='top',
                          **self.font_label)
             self.table.append((pos, name, wave))
-        self.process_table()
+        self._process_table()
 
-    def remove_old(self):
+    def _remove_old(self):
         for item in self.table:
             pos, name, wave = item
             self.remove(pos)
@@ -210,7 +219,7 @@ class ScoresLayer(ColorLayer):
             self.remove(wave)
         self.table = None
 
-    def process_table(self):
+    def _process_table(self):
         w, h = director.get_window_size()
         for i, item in enumerate(self.table):
             pos, name, wave = item
@@ -232,22 +241,22 @@ class ScoresLayer(ColorLayer):
         return True
 
 
-class OptionsMenu(Menu):
+class OptionsMenu(cocos.menu.Menu):
     def __init__(self):
         super().__init__(' ')
         self.font_title['font_size'] = 72
-        self.menu_anchor_x = CENTER
-        self.menu_anchor_y = CENTER
+        self.menu_anchor_x = cocos.menu.CENTER
+        self.menu_anchor_y = cocos.menu.CENTER
         items = []
-        items.append(ToggleMenuItem('Show FPS: ', self.on_show_fps,
+        items.append(cocos.menu.ToggleMenuItem('Show FPS: ', self.on_show_fps,
                      pyfense_resources.settings["general"]["showFps"]))
-        items.append(ToggleMenuItem('Fullscreen: ', self.on_fullscreen,
-                     False))
-        items.append(ToggleMenuItem('Vsync: ', self.on_vsync,
+        items.append(cocos.menu.ToggleMenuItem('Fullscreen: ',
+                                               self.on_fullscreen, False))
+        items.append(cocos.menu.ToggleMenuItem('Vsync: ', self.on_vsync,
                      pyfense_resources.settings["window"]["vsync"]))
-        items.append(ToggleMenuItem('Sounds: ', self.on_sounds,
+        items.append(cocos.menu.ToggleMenuItem('Sounds: ', self.on_sounds,
                      pyfense_resources.settings["general"]["sounds"]))
-        items.append(MenuItem('Back', self.on_quit))
+        items.append(cocos.menu.MenuItem('Back', self.on_quit))
         self.create_menu(items)
 
     def on_show_fps(self, value):

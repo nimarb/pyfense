@@ -5,9 +5,9 @@ Manages highscore
 from pyglet.window import key
 from pyglet import font
 
-from cocos.layer import *
+from cocos.layer import Layer
 from cocos.director import director
-from cocos.text import *
+from cocos.text import Label
 from cocos.scene import Scene
 
 HS_FILENAME = "data/highscore.data"  # name and path of the highscore file
@@ -16,15 +16,20 @@ _font_ = 'Orbitron Light'
 
 
 def new_score(name, wave):
+    """
+    New score with name "name" and reached wave "wave" will be written to
+    HS_FILENAME, if the score is high enough and True or False will be
+    returned
+    """
     try:
-        highscore = readFile(HS_FILENAME)
+        highscore = _readFile(HS_FILENAME)
     except IOError:
         print("new highscore.cfg will be created")
         for l in name:
             if not l.isalnum():
                 name = name.replace(l, '_')
         highscore = [[wave, name]]
-        writeFile(HS_FILENAME, highscore)
+        _writeFile(HS_FILENAME, highscore)
         return True
     for i, entry in enumerate(highscore):
         if i == 10:
@@ -41,7 +46,7 @@ def new_score(name, wave):
                 new_highscore = sorted(highscore, key=lambda s: int(s[0]))
                 new_highscore.reverse()
                 new_highscore = new_highscore[0:9]
-                writeFile(HS_FILENAME, new_highscore)
+                _writeFile(HS_FILENAME, new_highscore)
                 return True
     if i < 10:
         for l in name:
@@ -52,15 +57,19 @@ def new_score(name, wave):
         new_highscore = sorted(highscore, key=lambda s: int(s[0]))
         new_highscore.reverse()
         new_highscore = new_highscore[0:9]
-        writeFile(HS_FILENAME, new_highscore)
+        _writeFile(HS_FILENAME, new_highscore)
         return True
     else:
         return False  # if no lower score is found
 
 
 def check_score(wave):
+    """
+    It is checked, if the reached wave "wave" is high enogh to make a new score
+    and the place or False will be returned
+    """
     try:
-        highscore = readFile(HS_FILENAME)
+        highscore = _readFile(HS_FILENAME)
     except IOError:
         # file not found, new highscore will be created
         return 1
@@ -79,14 +88,17 @@ def check_score(wave):
 
 
 def get_score():
+    """
+    returns HS_FILENAME or if not present an empty score
+    """
     try:
-        highscore = readFile(HS_FILENAME)
+        highscore = _readFile(HS_FILENAME)
         return highscore
     except IOError:
         return [['0', 'no highscore']]
 
 
-def readFile(fileName):
+def _readFile(fileName):
     with open(fileName, "r") as openedFile:
         fileData = []
         for line in openedFile:
@@ -98,7 +110,7 @@ def readFile(fileName):
     return splittedData
 
 
-def writeFile(fileName, writeFile):
+def _writeFile(fileName, writeFile):
     try:
         with open(fileName, "w") as openedFile:
             openedFile.write('#wave, user\n')
@@ -136,7 +148,7 @@ class LostLayer(Layer):
                       anchor_y='center')
         text1.position = w/2., h/2. + 65
         if self.in_highscore:
-            text2 = RichLabel(
+            text2 = Label(
                 'You reached wave %d ' % wave +
                 'and place %d of the highscore' % self.place,
                 font_name='Arial',
