@@ -51,7 +51,7 @@ class PyFenseMapBuilderHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.cellSelectorSpriteBlue.visible = False
         director.show_FPS = False
         pyglet.image.get_buffer_manager().get_color_buffer().save(
-            'assets/lvlcustom.png')
+            'pyfense/assets/lvlcustom.png')
         self.dispatch_event("on_save")
         self.cellSelectorSpriteBlue.visible = True
         director.show_FPS = True

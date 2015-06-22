@@ -31,7 +31,7 @@ class TestTower(unittest.TestCase):
         scene = cocos.scene.Scene()
         director.run(scene)
         enemies = []
-        image = pyglet.image.load('assets/enemy01.png')
+        image = pyglet.image.load('pyfense/assets/enemy01.png')
         enemy0 = cocos.sprite.Sprite(image)
         enemy0.position = (300, 200)
         enemy1 = cocos.sprite.Sprite(image)

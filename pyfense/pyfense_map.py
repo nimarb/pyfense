@@ -15,7 +15,7 @@ class PyFenseMap(cocos.layer.Layer):
     def loadBackgroundImage(self):
         if(self.levelMap == "lvlcustom"):  # if custom image, load new
             backgroundImage = pyfense_resources.loadImage(
-                "assets/lvlcustom.png")
+                "pyfense/assets/lvlcustom.png")
         else:
             backgroundImage = pyfense_resources.background[str(self.levelMap)]
         self.backgroundSprite = cocos.sprite.Sprite(backgroundImage)
