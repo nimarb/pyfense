@@ -9,9 +9,9 @@ import unittest
 import cocos
 from cocos.director import director
 
-import pyfense_projectile
-import pyfense_tower
-import pyfense_resources
+from pyfense import pyfense_projectile
+from pyfense import pyfense_tower
+from pyfense import pyfense_resources
 
 settings = {
     "window": {

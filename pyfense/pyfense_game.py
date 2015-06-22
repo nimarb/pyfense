@@ -7,12 +7,12 @@ from cocos.director import director
 from cocos import scene
 from cocos import actions
 
-from pyfense_map import *
-from pyfense_entities import *
-from pyfense_hud import *
-from pyfense_highscore import *
+from pyfense.pyfense_map import *
+from pyfense.pyfense_entities import *
+from pyfense.pyfense_hud import *
+from pyfense.pyfense_highscore import *
 
-import pyfense_particles
+from pyfense import pyfense_particles
 import pickle
 import copy
 

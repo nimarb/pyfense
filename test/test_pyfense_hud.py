@@ -4,7 +4,7 @@ import unittest
 import cocos
 from cocos.director import director
 
-from pyfense_hud import *
+from pyfense.pyfense_hud import *
 
 settings = {
     "window": {

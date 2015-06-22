@@ -6,9 +6,9 @@ from cocos.actions import *
 import pyglet
 from pyglet import clock
 import math
-import pyfense_resources
+from pyfense import pyfense_resources
 
-from pyfense_entities import *
+from pyfense.pyfense_entities import *
 
 # Needs position in tuple (posx,posy)
 # Takes tower.png found in assets directory

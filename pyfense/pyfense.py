@@ -18,11 +18,11 @@ from cocos.text import Label
 import os  # for loading custom image
 import sys
 
-import pyfense_modmenu
-import pyfense_game
-import pyfense_mapBuilder
-import pyfense_highscore
-import pyfense_resources
+from pyfense import pyfense_modmenu
+from pyfense import pyfense_game
+from pyfense import pyfense_mapBuilder
+from pyfense import pyfense_highscore
+from pyfense import pyfense_resources
 
 font.add_directory(os.path.join(
                 os.path.dirname(
@@ -55,26 +55,36 @@ class MainMenu(cocos.menu.Menu):
         self.schedule(self._scaleLogo)
 
     def on_level_select(self):
+        w, h = director.get_window_size()
+        logo = cocos.sprite.Sprite(pyfense_resources.logo)
         logo.scale = 0.25
         logo.position = (w/2+20, h-90)
         self.parent.switch_to(1)
 
     def on_settings(self):
+        w, h = director.get_window_size()
+        logo = cocos.sprite.Sprite(pyfense_resources.logo)
         logo.scale = 0.25
         logo.position = (w/2+20, h-90)
         self.parent.switch_to(2)
 
     def on_scores(self):
+        w, h = director.get_window_size()
+        logo = cocos.sprite.Sprite(pyfense_resources.logo)
         logo.scale = 0.25
         logo.position = (w/2+20, h-90)
         self.parent.switch_to(3)
 
     def on_help(self):
+        w, h = director.get_window_size()
+        logo = cocos.sprite.Sprite(pyfense_resources.logo)
         logo.scale = 0.25
         logo.position = (w/2+20, h-90)
         self.parent.switch_to(4)
 
     def on_about(self):
+        w, h = director.get_window_size()
+        logo = cocos.sprite.Sprite(pyfense_resources.logo)
         logo.scale = 0.25
         logo.position = (w/2+20, h-90)
         self.parent.switch_to(5)
@@ -83,6 +93,8 @@ class MainMenu(cocos.menu.Menu):
         pyglet.app.exit()
 
     def _scaleLogo(self, dt):
+        logo = cocos.sprite.Sprite(pyfense_resources.logo)
+        w, h = director.get_window_size()
         if self.parent.enabled_layer == 0:
             logo.position = (w / 2 + 20, h - 175)
             logo.scale = 0.5
@@ -512,8 +524,8 @@ class AboutLayer(ColorLayer):
         self.parent.switch_to(0)
         return True
 
-# def main():
-if __name__ == '__main__':
+def main():
+# if __name__ == '__main__':
     director.init(**pyfense_resources.settings['window'])
     scene = Scene()
     scene.add(MultiplexLayer(

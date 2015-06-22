@@ -4,7 +4,7 @@ import unittest
 import cocos
 from cocos.director import director
 
-import pyfense_game
+from pyfense import pyfense_game
 
 settings = {
     "window": {

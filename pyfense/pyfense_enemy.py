@@ -5,7 +5,7 @@ contains PyFenseEnemy class
 
 import cocos
 from cocos import sprite
-import pyfense_resources
+from pyfense import pyfense_resources
 
 
 class PyFenseEnemy(sprite.Sprite):

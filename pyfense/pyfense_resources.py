@@ -146,7 +146,7 @@ logo = loadImage(pathjoin("assets/logo.png"))
 
 particleTexture = loadImage(pathjoin("assets/particle.png"))
 
-range1920 = loadImage("assets/range1920.png")
+range1920 = loadImage(pathjoin("assets/range1920.png"))
 
 picto_damage = loadImage(pathjoin("assets/explosion_pictogram.png"))
 picto_rate = loadImage(pathjoin("assets/firerate_pictogram.png"))

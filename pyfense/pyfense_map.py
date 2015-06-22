@@ -2,7 +2,7 @@
 # contains map class for loading maps and paths associated with it
 
 import cocos
-import pyfense_resources
+from pyfense import pyfense_resources
 
 
 class PyFenseMap(cocos.layer.Layer):

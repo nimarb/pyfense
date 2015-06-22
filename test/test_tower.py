@@ -5,7 +5,7 @@ import cocos
 from cocos.director import director
 import pyglet
 
-import pyfense_tower
+from pyfense import pyfense_tower
 
 settings = {
     "window": {

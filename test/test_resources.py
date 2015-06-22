@@ -6,7 +6,7 @@ Created on Mon Jun 15 20:20:10 2015
 """
 
 import unittest
-import pyfense_resources
+from pyfense import pyfense_resources
 
 
 class TestResources(unittest.TestCase):

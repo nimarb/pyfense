@@ -6,13 +6,13 @@ import cocos
 from cocos.director import *
 from pyglet.window import key
 
-from pyfense_tower import *
-from pyfense_enemy import *
-from pyfense_projectile import *
-from pyfense_hud import *
-from pyfense_pause import *
-import pyfense_resources
-import pyfense_particles
+from pyfense.pyfense_tower import *
+from pyfense.pyfense_enemy import *
+from pyfense.pyfense_projectile import *
+from pyfense.pyfense_hud import *
+from pyfense.pyfense_pause import *
+from pyfense import pyfense_resources
+from pyfense import pyfense_particles
 import math
 
 
