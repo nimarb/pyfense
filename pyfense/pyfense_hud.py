@@ -194,8 +194,8 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                     self.menuMin_x +
                     picture*self.towerThumbnails[picture].width +
                     self.towerThumbnails[picture].width / 2, y)
-                self.towerCostTexts[picture].element.text = str(
-                    pyfense_resources.tower[picture][1]["cost"]) + '$'
+                self.towerCostTexts[picture].element.text = '$' + str(
+                    pyfense_resources.tower[picture][1]["cost"])
                 self.towerCostTexts[picture].position = (
                     self.menuMin_x + picture *
                     self.towerThumbnails[picture].width +

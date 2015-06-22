@@ -40,7 +40,7 @@ class PyFenseGame(scene.Scene):
             pathFile.close()
         else:  # (if levelNumber == 1)
             self.gameGrid, self.startTile, \
-                self.endTile = pyfense_resources.initGrid(lvl = 1)
+                self.endTile = pyfense_resources.initGrid(levelNumber)
 
         self.movePath = actions.MoveBy((0, 0))
         self.loadPath()
@@ -79,7 +79,7 @@ class PyFenseGame(scene.Scene):
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
             else:
                 break
-
+        self.gameGrid[self.startTile[0]][self.startTile[1]] = 1
         self.movePath = move
 
     def loadMap(self):

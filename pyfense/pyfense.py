@@ -9,42 +9,40 @@ from pyglet.window import key
 from pyglet import font
 
 import cocos
+import cocos.menu
 from cocos.director import director
-from cocos.actions import *
 from cocos.scene import Scene
-from cocos.layer import *
-from cocos.text import *
+from cocos.layer import ColorLayer, MultiplexLayer
+from cocos.text import Label
 
-import os
+import os  # for loading custom image
+import sys
 
-from pyfense_modmenu import *
+import pyfense_modmenu
 import pyfense_game
 import pyfense_mapBuilder
 import pyfense_highscore
 import pyfense_resources
 
-
 font.add_directory('data/Orbitron')
 _font_ = 'Orbitron Light'
-picto_damage = "assets/explosion_pictogram-01_small.png"
-picto_rate = "assets/firerate_pictogram-02_small.png"
 
 
-class MainMenu(Menu):
+class MainMenu(cocos.menu.Menu):
     def __init__(self):
         super().__init__('')
         self.font_title['font_name'] = _font_
         self.font_title['font_size'] = 72
 
-        self.menu_anchor_x = CENTER
-        self.menu_anchor_y = CENTER
+        self.menu_anchor_x = cocos.menu.CENTER
+        self.menu_anchor_y = cocos.menu.CENTER
         items = []
-        items.append(MenuItem('Start Game', self.on_level_select))
-        items.append(MenuItem('Scores', self.on_scores))
-        items.append(MenuItem('Settings', self.on_settings))
-        items.append(MenuItem('Help', self.on_help))
-        items.append(MenuItem('About', self.on_about))
-        items.append(MenuItem('Exit', self.on_quit))
+        items.append(cocos.menu.MenuItem('Start Game', self.on_level_select))
+        items.append(cocos.menu.MenuItem('Scores', self.on_scores))
+        items.append(cocos.menu.MenuItem('Settings', self.on_settings))
+        items.append(cocos.menu.MenuItem('Help', self.on_help))
+        items.append(cocos.menu.MenuItem('About', self.on_about))
+        items.append(cocos.menu.MenuItem('Exit', self.on_quit))
         self.create_menu(items)
         self.schedule(self._scaleLogo)
 
@@ -82,42 +80,84 @@ class MainMenu(Menu):
             logo.scale = 0.5
 
 
-class LevelSelectMenu(Menu):
+class LevelSelectMenu(cocos.menu.Menu):
     def __init__(self):
         super().__init__(' ')
         self.font_title['font_name'] = _font_
         self.font_title['font_size'] = 72
-        self.menu_anchor_x = CENTER
-        self.menu_anchor_y = CENTER
+        self.menu_anchor_x = cocos.menu.CENTER
+        self.menu_anchor_y = cocos.menu.CENTER
         items = []
         image_lvl1 = pyfense_resources.background["lvl1"]
-        lvl1 = ImageMenuItem(image_lvl1, lambda: self.on_start(1))
-        lvl1.scale = 0.28
-        lvl1.y = 0
-        items.append(lvl1)
-        MapBuilder = MenuItem('MapBuilder', self.on_mapBuilder)
-        MapBuilder.y -= 20
-        Back = MenuItem('Back', self.on_quit)
+        lvl1 = pyfense_modmenu.ImageMenuItem(image_lvl1,
+                                             lambda: self.on_start(1))
+        Back = cocos.menu.MenuItem('Back', self.on_quit)
         Back.y -= 30
-        if(os.path.isfile("assets/lvlcustom.png")):
-            customImage = pyfense_resources.loadImage('assets/lvlcustom.png')
-            customItem = ImageMenuItem(customImage,
-                                       lambda: self.on_start("custom"))
-            customItem.scale = 0.4
-            customItem.y -= 300
-            items.append(customItem)
-            MapBuilder.y -= 320
-            Back.y -= 320
-            # custom map has to be position correctly in Menu
-        items.extend([MapBuilder, Back])
+
+        image_lvl2 = pyfense_resources.background["lvl2"]
+        lvl2 = pyfense_modmenu.ImageMenuItem(image_lvl2,
+                                             lambda: self.on_start(2))
+        mapBuilderActivated = "nobuilder"
+        try:
+            mapBuilderActivated = sys.argv[1]
+        except:
+            mapBuilderActivated = "nobuilder"
+
+        if(mapBuilderActivated == "builder"):
+            MapBuilder = cocos.menuMenuItem('MapBuilder', self.on_mapBuilder)
+            MapBuilder.y -= 20
+
+        if(
+            os.path.isfile(os.path.join(
+                os.path.dirname(
+                os.path.abspath(__file__)), "assets/lvlcustom.png"))):
+                    customImage = pyfense_resources.lvlcustom
+                    lvl1.scale = 0.18
+                    lvl1.y = 30
+                    items.append(lvl1)
+                    lvl2.scale = 0.18
+                    lvl2.y -= 150
+                    items.append(lvl2)
+                    customItem = (
+                        pyfense_modmenu.ImageMenuItem(
+                            customImage, lambda: self.on_start("custom")))
+                    customItem.scale = 0.22
+                    customItem.y -= 300
+                    items.append(customItem)
+                    if(mapBuilderActivated == "builder"):
+                        MapBuilder.y -= 340
+                        Back.y -= 20
+                    Back.y -= 320
+                # custom map has to be position correctly in Menu
+        else:
+            lvl1.scale = 0.28
+            lvl1.y = 0
+            items.append(lvl1)
+            lvl2.scale = 0.28
+            lvl2.y -= 300
+            items.append(lvl2)
+            if(mapBuilderActivated == "builder"):
+                MapBuilder.y -= 320
+                Back.y -= 20
+            Back.y -= 300
+        if(mapBuilderActivated == "builder"):
+            items.append(MapBuilder)
+
+        items.append(Back)
         width, height = director.get_window_size()
         self.create_menu(items)
 
     def on_start(self, lvl):
+        """
+        Starts the game with the selected level "lvl"
+        """
         self.parent.switch_to(3)
         director.push(pyfense_game.PyFenseGame(lvl))
 
     def on_mapBuilder(self):
+        """
+        Starts the Mapbuilder
+        """
         director.push(pyfense_mapBuilder.PyFenseMapBuilder())
 
     def on_quit(self):
@@ -138,7 +178,7 @@ class ScoresLayer(ColorLayer):
         super().on_enter()
         score = pyfense_highscore.get_score()
         if self.table:
-            self.remove_old()
+            self._remove_old()
         self.table = []
         self.font_top = {}
         self.font_top['font_size'] = self.fontsize
@@ -183,9 +223,9 @@ class ScoresLayer(ColorLayer):
                          anchor_y='top',
                          **self.font_label)
             self.table.append((pos, name, wave))
-        self.process_table()
+        self._process_table()
 
-    def remove_old(self):
+    def _remove_old(self):
         for item in self.table:
             pos, name, wave = item
             self.remove(pos)
@@ -193,7 +233,7 @@ class ScoresLayer(ColorLayer):
             self.remove(wave)
         self.table = None
 
-    def process_table(self):
+    def _process_table(self):
         w, h = director.get_window_size()
         for i, item in enumerate(self.table):
             pos, name, wave = item
@@ -215,22 +255,22 @@ class ScoresLayer(ColorLayer):
         return True
 
 
-class OptionsMenu(Menu):
+class OptionsMenu(cocos.menu.Menu):
     def __init__(self):
         super().__init__(' ')
         self.font_title['font_size'] = 72
-        self.menu_anchor_x = CENTER
-        self.menu_anchor_y = CENTER
+        self.menu_anchor_x = cocos.menu.CENTER
+        self.menu_anchor_y = cocos.menu.CENTER
         items = []
-        items.append(ToggleMenuItem('Show FPS: ', self.on_show_fps,
+        items.append(cocos.menu.ToggleMenuItem('Show FPS: ', self.on_show_fps,
                      pyfense_resources.settings["general"]["showFps"]))
-        items.append(ToggleMenuItem('Fullscreen: ', self.on_fullscreen,
-                     False))
-        items.append(ToggleMenuItem('Vsync: ', self.on_vsync,
+        items.append(cocos.menu.ToggleMenuItem('Fullscreen: ',
+                                               self.on_fullscreen, False))
+        items.append(cocos.menu.ToggleMenuItem('Vsync: ', self.on_vsync,
                      pyfense_resources.settings["window"]["vsync"]))
-        items.append(ToggleMenuItem('Sounds: ', self.on_sounds,
+        items.append(cocos.menu.ToggleMenuItem('Sounds: ', self.on_sounds,
                      pyfense_resources.settings["general"]["sounds"]))
-        items.append(MenuItem('Back', self.on_quit))
+        items.append(cocos.menu.MenuItem('Back', self.on_quit))
         self.create_menu(items)
 
     def on_show_fps(self, value):
@@ -259,7 +299,8 @@ class HelpLayer(ColorLayer):
     def on_enter(self):
         super().on_enter()
         w, h = director.get_window_size()
-        text = Label('Press Q to quit the running level',
+        text = Label('Press Q to quit the running level or Esc to enter the ' +
+                     'Pause Menu',
                      font_name=_font_,
                      font_size=20,
                      anchor_x='center',
@@ -270,8 +311,8 @@ class HelpLayer(ColorLayer):
         text.position = w/2., h/2. + 300
         self.add(text)
         # tower information
-        self.damage_pic = pyfense_resources.loadImage(picto_damage)
-        self.rate_pic = pyfense_resources.loadImage(picto_rate)
+        self.damage_pic = pyfense_resources.picto_damage
+        self.rate_pic = pyfense_resources.picto_rate
         pic_width = pyfense_resources.tower[1][1]["image"].width
         self.menuMin_x = (w/2. - pic_width * (4 / 3) - 55)
         self.menuMin_y = 550
@@ -282,17 +323,47 @@ class HelpLayer(ColorLayer):
             'font_size': 18,
             'color': (193, 249, 255, 255)
         }
+        caption_font = {
+            'bold': True,
+            'anchor_x': "left",
+            'anchor_y': 'center',
+            'font_size': 11,
+            }
 
         label1 = cocos.text.Label("Rapidfire Tower", **towername_font)
         label2 = cocos.text.Label("Range Tower", **towername_font)
         label3 = cocos.text.Label("Plasma Tower", **towername_font)
+        price_label = cocos.text.Label("$  Price",
+                                       color=(255, 0, 0, 255), **caption_font)
+        dam_pic = cocos.sprite.Sprite(self.damage_pic)
+        dam_label = cocos.text.Label("Damage per second",
+                                     color=(255, 109, 45, 255), **caption_font)
+        rate_pic = cocos.sprite.Sprite(self.rate_pic)
+        rate_label = cocos.text.Label("Firerate",
+                                      color=(0, 124, 244, 255), **caption_font)
         label1.position = (self.menuMin_x - 80, self.menuMin_y)
         label2.position = (self.menuMin_x - 80, self.menuMin_y - pic_width)
         label3.position = (self.menuMin_x - 80, self.menuMin_y -
                            2 * pic_width)
+        price_label.position = (self.menuMin_x,
+                                self.menuMin_y - (3 * pic_width))
+        dam_pic.position = (self.menuMin_x + 110,
+                            self.menuMin_y - (3 * pic_width))
+        dam_label.position = (self.menuMin_x + 126,
+                              self.menuMin_y - (3 * pic_width))
+        rate_pic.position = (self.menuMin_x + 340,
+                             self.menuMin_y - (3 * pic_width))
+        rate_label.position = (self.menuMin_x + 356,
+                               self.menuMin_y - (3 * pic_width))
+
         self.add(label1)
         self.add(label2)
         self.add(label3)
+        self.add(price_label)
+        self.add(dam_pic)
+        self.add(dam_label)
+        self.add(rate_pic)
+        self.add(rate_label)
         for l in range(1, 4):
             self.towerDamagePic = []
             self.towerFireratePic = []
@@ -316,6 +387,11 @@ class HelpLayer(ColorLayer):
             label8 = cocos.text.Label(" ", **text_font)
             label9 = cocos.text.Label(" ", **text_font)
             self.towerFirerateTexts = [label7, label8, label9]
+            text_font['color'] = (255, 0, 0, 255)
+            label10 = cocos.text.Label(" ", **text_font)
+            label11 = cocos.text.Label(" ", **text_font)
+            label12 = cocos.text.Label(" ", **text_font)
+            self.towerCostTexts = [label10, label11, label12]
             for picture in range(0, len(self.towerThumbnails)):
                 self.towerThumbnails[picture].position = (
                     self.menuMin_x +
@@ -360,11 +436,21 @@ class HelpLayer(ColorLayer):
                     -picture * self.towerThumbnails[picture].width +
                     self.menuMin_y - 20)
 
+                self.towerCostTexts[picture].element.text = (
+                    '$  ' + str(pyfense_resources.tower[picture][l]["cost"]))
+                self.towerCostTexts[picture].position = (
+                    self.menuMin_x +
+                    (l - 1) * (self.towerThumbnails[picture].width + 100) +
+                    self.towerThumbnails[picture].width / 2. + 15,
+                    -picture * self.towerThumbnails[picture].width +
+                    self.menuMin_y + 20)
+
                 self.add(self.towerThumbnails[picture])
                 self.add(self.towerDamageTexts[picture])
                 self.add(self.towerFirerateTexts[picture])
                 self.add(self.towerDamagePic[picture])
                 self.add(self.towerFireratePic[picture])
+                self.add(self.towerCostTexts[picture])
 
     def on_key_press(self, k, m):
         if k in (key.ENTER, key.ESCAPE, key.SPACE, key.Q):
