@@ -243,9 +243,9 @@ class ScoresLayer(ColorLayer):
         for i, item in enumerate(self.table):
             pos, name, wave = item
             pos_y = h - 200 - (self.fontsize + 15) * i
-            pos.position = (w/2 - 400., pos_y)
-            name.position = (w/2 - 380., pos_y)
-            wave.position = (w/2 + 130., pos_y)
+            pos.position = (w/2 - 330., pos_y)
+            name.position = (w/2 - 300., pos_y)
+            wave.position = (w/2 + 350., pos_y)
             self.add(pos, z=2)
             self.add(name, z=2)
             self.add(wave, z=2)
