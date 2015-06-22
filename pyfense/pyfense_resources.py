@@ -4,17 +4,12 @@ application efficiently
 """
 
 import pyglet
-from pyglet.image.codecs.png import PNGImageDecoder
 from sys import platform as _platform  # for OS check
 
 
 # Check OS to avoid segmentation fault with linux
 def loadImage(filename):
-    if _platform == "linux" or _platform == "linux2":
-        return pyglet.image.load(filename, decoder=PNGImageDecoder())
-    # elif _platform == "darwin" or _platform == "win32":
-    else:
-        return pyglet.image.load(filename)
+    return pyglet.image.load(filename)
 
 
 # Loads spritesheets as animation with frames from bottom left to top right
