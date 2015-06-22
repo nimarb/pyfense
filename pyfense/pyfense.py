@@ -284,6 +284,10 @@ class OptionsMenu(cocos.menu.Menu):
 
     def on_sounds(self, value):
         pyfense_resources.sounds = not pyfense_resources.sounds
+        if(pyfense_resources.music_player.playing):
+            pyfense_resources.music_player.pause()
+        else:
+            pyfense_resources.music_player.play()
 
     def on_quit(self):
         self.parent.switch_to(0)
@@ -515,7 +519,8 @@ if __name__ == '__main__':
         z=1)
     director.set_show_FPS(pyfense_resources.settings["general"]["showFps"])
     w, h = director.get_window_size()
-    # Music
+
+    # Music - moved to resources
     # 1st Try - doesnt play anything
     # scene.load_music("assets/music.wav")
     # scene.play_music()
@@ -526,11 +531,10 @@ if __name__ == '__main__':
 
     # 3rd Try - music stops after ca. 1 min (even when piece was longer)
     # and doesnt repeat as it should
-    # music_player = pyglet.medi    a.Player()
-    # music = pyglet.resource.media("assets/music.wav", streaming = False)
-    # music_player.queue(music)
-    # music_player.eos_action = music_player.EOS_LOOP
-    # music_player.play()
+#    music_player = pyglet.media.Player()
+#    music = pyglet.resource.media("assets/music.wav", streaming = False)
+#    music_player.queue(music)
+#    music_player.eos_action = music_player.EOS_LOOP
 
     logo = cocos.sprite.Sprite(pyfense_resources.logo)
     scene.add(logo, z=2)
