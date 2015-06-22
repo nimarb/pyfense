@@ -6,8 +6,8 @@ from pyglet import font
 
 import cocos
 from cocos import scene
+from cocos import text
 from cocos.director import director
-from cocos.text import *
 from cocos.layer import *
 
 import pyfense_resources
@@ -34,7 +34,7 @@ class PauseLayer(Layer):
         w, h = director.get_window_size()
         y_pos = h/2. + 300
 
-        text0 = Label(
+        text0 = text.Label(
             '+++ Game Paused +++',
             font_name=_font_,
             font_size=30,
@@ -47,17 +47,17 @@ class PauseLayer(Layer):
         self.key_font['anchor_x'] = 'center'
         self.key_font['anchor_y'] = 'center'
 
-        text1 = Label('Press Esc to resume game',
+        text1 = text.Label('Press Esc to resume game',
                       **self.key_font)
-        text2 = Label('Press Q to quit game',
+        text2 = text.Label('Press Q to quit game',
                       **self.key_font)
-        text3 = Label('Press F to toggle Fullscreen',
+        text3 = text.Label('Press F to toggle Fullscreen',
                       **self.key_font)
-        text4 = Label('Press V to toggle Vsync',
+        text4 = text.Label('Press V to toggle Vsync',
                       **self.key_font)
-        text5 = Label('Press X to toggle FPS',
+        text5 = text.Label('Press X to toggle FPS',
                       **self.key_font)
-        text6 = Label('Press S to toggle Sound',
+        text6 = text.Label('Press S to toggle Sound',
                       **self.key_font)
 
         text0.position = w/2., y_pos + 50
@@ -97,16 +97,16 @@ class PauseLayer(Layer):
                 'color': (255, 109, 45, 255)
                 }
 
-            label4 = cocos.text.Label(" ", **text_font)
-            label5 = cocos.text.Label(" ", **text_font)
-            label6 = cocos.text.Label(" ", **text_font)
+            label4 = text.Label(" ", **text_font)
+            label5 = text.Label(" ", **text_font)
+            label6 = text.Label(" ", **text_font)
             self.towerDamageTexts = [label4, label5, label6]
 
             text_font['color'] = (0, 124, 244, 255)
 
-            label7 = cocos.text.Label(" ", **text_font)
-            label8 = cocos.text.Label(" ", **text_font)
-            label9 = cocos.text.Label(" ", **text_font)
+            label7 = text.Label(" ", **text_font)
+            label8 = text.Label(" ", **text_font)
+            label9 = text.Label(" ", **text_font)
             self.towerFirerateTexts = [label7, label8, label9]
 
             self.menuMin_x = w/2. - self.towerThumbnails[0].width * (4 / 3)
