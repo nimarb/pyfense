@@ -83,7 +83,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
                          str(towerNumber) + '()')
         explosion.position = target.position
         self.add(explosion, z=4)
-        clock.schedule_once(lambda dt, x: self.remove(x), 1, explosion)
+        clock.schedule_once(lambda dt, x: self.remove(x), 0.5, explosion)
         target.healthPoints -= projectile.damage
         self.remove(projectile)
         self.projectiles.remove(projectile)
@@ -95,7 +95,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             deathAnimation = pyfense_particles.Death()
             deathAnimation.position = target.position
             self.add(deathAnimation, z=4)
-            clock.schedule_once(lambda dt, x: self.remove(x), 2,
+            clock.schedule_once(lambda dt, x: self.remove(x), 0.5,
                                 deathAnimation)
             self.diedEnemies += 1
             self.dispatch_event('on_enemy_death', target)
