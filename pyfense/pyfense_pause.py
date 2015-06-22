@@ -180,6 +180,10 @@ class PauseLayer(Layer):
             return True
         elif k == key.S:
             pyfense_resources.sounds = not pyfense_resources.sounds
+            if(pyfense_resources.music_player.playing):
+                pyfense_resources.music_player.pause()
+            else:
+                pyfense_resources.music_player.play()
             return True
         elif k == key.Q:
             director.pop()

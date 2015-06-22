@@ -6,14 +6,10 @@ import cocos.director
 from cocos.scene import Scene
 from cocos import actions
 import pyfense_resources
-from pyfense_map import *
-from pyfense_entities import *
-from pyfense_mapbuilderhud import *
-import pyfense
 import pickle
 
 
-class PyFenseMapBuilder(scene.Scene):
+class PyFenseMapBuilder(Scene):
     is_event_handler = True
 
     def __init__(self):
