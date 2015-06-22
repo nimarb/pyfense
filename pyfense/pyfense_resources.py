@@ -27,7 +27,6 @@ with open("data/entities.cfg") as conf_file:
     for line in conf_file:
         if line == "" or line[0] == "#":
             continue
-
         elif line.find("tower':") != -1:
             att_dict = eval(line)
             towername = att_dict["tower"]
@@ -55,16 +54,12 @@ with open("data/entities.cfg") as conf_file:
                     print("Error: Image not found: {}".format(
                         att_dict["image"]))
                 tower[towername][lvl] = att_dict
-
         elif line.find("enemy':") != -1:
             att_dict = eval(line)
             enemyname = att_dict["enemy"]
             level = att_dict["lvl"]
-
-            # ist enemy schon vorhanden, ansonsten hinzufuegen
             if enemyname not in enemy:
                     enemy[enemyname] = {}
-            # ist level schon vorhanden, dann Fehlermeldung
             if level in enemy[enemyname]:
                 print("Error: Level fuer diesen Gegner bereits vorhanden")
                 break
@@ -88,10 +83,6 @@ with open("data/entities.cfg") as conf_file:
                     print("Error: Image not found: {}".format(
                         att_dict["image"]))
                 enemy[enemyname][level] = att_dict
-
-        # else:
-            # print(line)
-            # print("not defined")
 
 settings = {}
 with open("data/settings.cfg") as setting_file:
@@ -120,18 +111,6 @@ background = {
     "lvl2": loadImage("assets/lvl2.png")
     }
 
-"""
-ACTUAL ENEMY IS LOADED FROM CONFIG FILE, THIS IS AN EXAMPLE
-{0: {1: {'loop': True, 'width': 70, 'lvl': 1, 'spritesheet_x': 10,
-'duration': 0.02, 'animated': True, 'spritesheet_y': 2, 'worth': 15,
-'image': <pyglet.image.Animation object at 0x000000000DEF06D8>, 'enemy': 0,
-'height': 70, 'maxhealth': 100, 'speed': 5}, 2: {'loop': True, 'width': 70,
-'lvl': 2, 'spritesheet_x': 10, 'duration': 0.02, 'animated': True,
-'spritesheet_y': 2, 'worth': 15,
-'image': <pyglet.image.Animation object at 0x000000000DEF6358>, 'enemy': 0,
-'height': 70, 'maxhealth': 500, 'speed': 5}}
-"""
-
 selector0 = loadImage("assets/selector0.png")
 selector1 = loadImage("assets/selector1.png")
 
@@ -148,12 +127,10 @@ range1920 = loadImage("assets/range1920.png")
 
 shot = pyglet.media.load('assets/shoot.wav', streaming=False)
 
-
 # Game Grid
 gameGrid = [[3 for x in range(32)] for x in range(18)]
 startTile = [0, 0]
 endTile = [0, 0]
-
 
 def initGrid(lvl):
     if lvl == 1:
@@ -173,7 +150,6 @@ def initGrid(lvl):
             gameGrid[i][19] = 2
         for i in range(20, 32):
             gameGrid[9][i] = 2
-
     elif lvl == 2:
         startTile = [9, 0]
         endTile = [9, 31]
