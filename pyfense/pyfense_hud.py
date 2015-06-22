@@ -47,24 +47,28 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     def _displayStatusBar(self):
         self.waveLabel = cocos.text.Label('Current Wave: 1', bold=True,
-                                          anchor_x='center', anchor_y='center')
+                                          anchor_x='center',
+                                          anchor_y='center',
+                                          font_size = 15)
         w, h = cocos.director.director.get_window_size()
         self.waveLabel.position = w / 2 - 50, h - 30
         self.add(self.waveLabel)
         self.timeLabel = cocos.text.Label(
             'Time until next Wave: ' + str(self.time) + ' Seconds', bold=True,
-            anchor_x='center', anchor_y='center')
+            anchor_x='center', anchor_y='center', font_size = 15)
         self.timeLabel.position = w / 2 - 300, h - 30
         self.add(self.timeLabel)
         self.liveLabel = cocos.text.Label('Remaining Lives: 15', bold=True,
-                                          anchor_x='center', anchor_y='center')
+                                          anchor_x='center', anchor_y='center',
+                                          font_size = 15)
         self.liveLabel.position = w / 2 + 150, h - 30
         self.add(self.liveLabel)
         self.currentCurrency = 500
-        self.currencyLabel = cocos.text.Label(str(self.currentCurrency) +
-                                              ' Currency', anchor_x='center',
-                                              bold=True, anchor_y='center')
-        self.currencyLabel.position = w / 2 + 350, h - 30
+        self.currencyLabel = cocos.text.Label('$' + str(self.currentCurrency),
+                                              anchor_x='center',
+                                              bold=True, anchor_y='center',
+                                              font_size = 15)
+        self.currencyLabel.position = w / 2 + 300, h - 30
         self.add(self.currencyLabel)
 
     def updateLiveNumber(self, liveNumber):
@@ -74,7 +78,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.waveLabel.element.text = ('Current Wave: ' + str(waveNumber))
 
     def updateCurrencyNumber(self, currencyNumber):
-        self.currencyLabel.element.text = str(currencyNumber) + " Currency"
+        self.currencyLabel.element.text = '$' + str(currencyNumber)
         self.currentCurrency = currencyNumber
 
     def startNextWaveTimer(self):
