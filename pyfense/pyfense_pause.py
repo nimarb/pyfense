@@ -20,7 +20,7 @@ from pyfense import pyfense_resources
 font.add_directory(os.path.join(
                 os.path.dirname(
                 os.path.abspath(__file__)), 'assets'))
-_font_ = 'Orbitron Light'
+_font_ = 'orbitron-light'
 
 
 class PyFensePause(scene.Scene):
