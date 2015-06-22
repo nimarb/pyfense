@@ -8,3 +8,7 @@ PyFense.egg-info
 pyfense/data/highscore.data
 dist/
 MANIFEST
+bin/
+development/
+lib/
+include/
