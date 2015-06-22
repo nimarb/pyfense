@@ -28,7 +28,7 @@ class PyFenseEnemy(sprite.Sprite):
     def drawHealthBar(self):
         self.healthBarWidth = 50
         self.bar_x = self.x - self.healthBarWidth / 2
-        self.bar_y = self.y + self.height / 2 + 20
+        self.bar_y = self.y + self.height / 2 + 5
         self.healthBar = cocos.draw.Line((self.bar_x, self.bar_y),
                                          (self.bar_x + self.healthBarWidth,
                                           self.bar_y),

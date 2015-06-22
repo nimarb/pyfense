@@ -16,7 +16,12 @@ from cocos.scene import Scene
 from cocos.layer import ColorLayer, MultiplexLayer
 from cocos.text import Label
 
+<<<<<<< HEAD
 import os  # for loading custom image
+=======
+import os
+import sys
+>>>>>>> b97e685c56779c2af9387b9e423edc148a6819f0
 
 import pyfense_modmenu
 import pyfense_game
@@ -24,11 +29,8 @@ import pyfense_mapBuilder
 import pyfense_highscore
 import pyfense_resources
 
-
 font.add_directory('data/Orbitron')
 _font_ = 'Orbitron Light'
-picto_damage = "assets/explosion_pictogram-01_small.png"
-picto_rate = "assets/firerate_pictogram-02_small.png"
 
 
 class MainMenu(cocos.menu.Menu):
@@ -92,6 +94,7 @@ class LevelSelectMenu(cocos.menu.Menu):
         self.menu_anchor_y = cocos.menu.CENTER
         items = []
         image_lvl1 = pyfense_resources.background["lvl1"]
+<<<<<<< HEAD
         lvl1 = pyfense_modmenu.ImageMenuItem(image_lvl1,
                                              lambda: self.on_start(1))
         image_lvl2 = pyfense_resources.background["lvl2"]
@@ -100,21 +103,49 @@ class LevelSelectMenu(cocos.menu.Menu):
         MapBuilder = cocos.menu.MenuItem('MapBuilder', self.on_mapBuilder)
         Back = cocos.menu.MenuItem('Back', self.on_quit)
         if(os.path.isfile("assets/lvlcustom.png")):
+=======
+        lvl1 = ImageMenuItem(image_lvl1, lambda: self.on_start(1))
+        Back = MenuItem('Back', self.on_quit)
+        Back.y -= 30
+        
+        image_lvl2 = pyfense_resources.background["lvl2"]
+        lvl2 = ImageMenuItem(image_lvl2, lambda: self.on_start(2))
+
+        mapBuilderActivated = "nobuilder"
+        try:
+            mapBuilderActivated = sys.argv[1]
+        except:
+            mapBuilderActivated = "nobuilder"
+
+        if(mapBuilderActivated == "builder"):
+            MapBuilder = MenuItem('MapBuilder', self.on_mapBuilder)
+            MapBuilder.y -= 20
+            
+        if(os.path.isfile(os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets/lvlcustom.png"))):
+            customImage = pyfense_resources.lvlcustom
+>>>>>>> b97e685c56779c2af9387b9e423edc148a6819f0
             lvl1.scale = 0.18
             lvl1.y = 30
             items.append(lvl1)
             lvl2.scale = 0.18
             lvl2.y -= 150
             items.append(lvl2)
+<<<<<<< HEAD
             customImage = pyfense_resources.loadImage('assets/lvlcustom.png')
             customItem = (
                 pyfense_modmenu.ImageMenuItem(customImage,
                                               lambda: self.on_start("custom")))
+=======
+            customItem = ImageMenuItem(customImage,
+                                       lambda: self.on_start("custom"))
+>>>>>>> b97e685c56779c2af9387b9e423edc148a6819f0
             customItem.scale = 0.22
             customItem.y -= 300
             items.append(customItem)
-            MapBuilder.y -= 340
-            Back.y -= 340
+            if(mapBuilderActivated=="builder"):
+                MapBuilder.y -= 340
+                Back.y -= 20
+            Back.y -= 320
             # custom map has to be position correctly in Menu
         else:
             lvl1.scale = 0.28
@@ -123,9 +154,14 @@ class LevelSelectMenu(cocos.menu.Menu):
             lvl2.scale = 0.28
             lvl2.y -= 300
             items.append(lvl2)
-            MapBuilder.y -= 320
-            Back.y -= 320
-        items.extend([MapBuilder, Back])
+            if(mapBuilderActivated=="builder"):
+                MapBuilder.y -= 320
+                Back.y -= 20
+            Back.y -= 300
+        if(mapBuilderActivated == "builder"):
+            items.append(MapBuilder)
+
+        items.append(Back)
         width, height = director.get_window_size()
         self.create_menu(items)
 
@@ -299,8 +335,8 @@ class HelpLayer(ColorLayer):
 
         # tower information
 
-        self.damage_pic = pyfense_resources.loadImage(picto_damage)
-        self.rate_pic = pyfense_resources.loadImage(picto_rate)
+        self.damage_pic = pyfense_resources.picto_damage
+        self.rate_pic = pyfense_resources.picto_rate
 
         pic_width = pyfense_resources.tower[1][1]["image"].width
         self.menuMin_x = (w/2. - pic_width * (4 / 3) - 55)

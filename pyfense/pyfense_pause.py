@@ -14,8 +14,6 @@ import pyfense_resources
 
 font.add_directory('data/Orbitron')
 _font_ = 'Orbitron Light'
-picto_damage = "assets/explosion_pictogram-01_small.png"
-picto_rate = "assets/firerate_pictogram-02_small.png"
 
 
 class PyFensePause(scene.Scene):
@@ -78,8 +76,8 @@ class PauseLayer(Layer):
 
         # tower information
 
-        self.damage_pic = pyfense_resources.loadImage(picto_damage)
-        self.rate_pic = pyfense_resources.loadImage(picto_rate)
+        self.damage_pic = pyfense_resources.picto_damage
+        self.rate_pic = pyfense_resources.picto_rate
 
         for l in range(1, 4):  # loop over all upgrade levels
             self.towerDamagePic = []
@@ -94,7 +92,7 @@ class PauseLayer(Layer):
                 'anchor_x': "left",
                 'anchor_y': 'center',
                 'font_size': 11,
-                'color': (255, 109, 45, 255)
+                'color': (255, 70, 0, 255)
                 }
 
             label4 = cocos.text.Label(" ", **text_font)
