@@ -4,11 +4,14 @@ Created on Tue Jun 16 18:19:41 2015
 
 @author: Matthias
 """
+import os
+os.chdir(os.path.join('..', 'pyfense'))
+
 import unittest
 import cocos
 from cocos.director import director
 
-from  pyfense.pyfense_enemy import pyfense_enemy
+import pyfense_enemy
 
 settings = {
     "window": {

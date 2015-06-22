@@ -29,12 +29,13 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.schedule(self.update)
         self.path = path
         self.startTile = startTile
+        self.currentWave = 0
         self.wavequantity = len(pyfense_resources.waves)
         self.enemieslength = 0
         self.polynomial2 = 0  # quadratic
         self.polynomial1 = 2  # linear
         self.polynomial0 = -(self.polynomial1 - 1)  # offset
-        self.factor = 1
+        self.enemyHealthFactor = 1
 
         # update runs every tick
     def update(self, dt):
@@ -45,9 +46,9 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             (waveNumber-1) % self.wavequantity+1]
         self.spawnedEnemies = 0
         self.diedEnemies = 0
-        self.factor = math.floor((waveNumber - 1) / self.wavequantity) + 1
-        self.multiplier = ((self.polynomial2 * (self.factor**2)) +
-                           (self.polynomial1 * self.factor) + self.polynomial0)
+        self.enemyHealthFactor = math.floor((waveNumber - 1) / self.wavequantity) + 1
+        self.multiplier = ((self.polynomial2 * (self.enemyHealthFactor**2)) +
+                           (self.polynomial1 * self.enemyHealthFactor) + self.polynomial0)
         self.enemieslength = len(self.enemy_list)
         self.schedule_interval(self.addEnemy, 0.1, self.startTile, self.path,
                                self.enemy_list, self.multiplier)
