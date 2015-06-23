@@ -83,12 +83,13 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         projectile.push_handlers(self)
         self.add(projectile, z=1)
 
+        '''
         # Lift projectile form layer 1 to layer 4
         duration = 80 / projectileVelocity
         i = self.children.index((1, projectile))
         clock.schedule_once(lambda dt: operator.setitem(self.children,
                             i, (4, projectile)), duration)
-
+        '''
     def on_enemy_hit(self, projectile, target, towerNumber):
         explosion = eval('pyfense_particles.Explosion' +
                          str(towerNumber) + '()')
