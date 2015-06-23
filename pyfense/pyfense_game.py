@@ -56,6 +56,7 @@ class PyFenseGame(scene.Scene):
         self.currentWave = 0
         self.currentLives = 15
         self.currentCurrency = 300
+        pyfense_highscore.currentWave = self.currentWave
 
     def loadPath(self):
         currentTile = copy.deepcopy(self.startTile)
