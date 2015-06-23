@@ -11,7 +11,6 @@ from pyfense_map import *
 from pyfense_entities import *
 from pyfense_hud import *
 from pyfense_highscore import PyFenseLost
-import pyfense_pause
 
 # import pyfense_particles
 import pickle
