@@ -2,17 +2,16 @@
  pyfense_entities.py
 contains the layer on which all enemies and towers are placed (layer)
 """
-
 import pyglet
 
 import cocos
 from cocos.director import director
 from pyglet.window import key
 
-from pyfense_tower import *
-from pyfense_enemy import *
-from pyfense_projectile import *
-from pyfense_hud import *
+# import pyfense_tower
+import pyfense_enemy
+import pyfense_projectile
+# import pyfense_hud
 from pyfense_pause import PyFensePause
 import pyfense_resources
 import pyfense_particles
@@ -77,9 +76,12 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     def on_projectile_fired(self, tower, target, projectileimage, towerNumber,
                             rotation, projectileVelocity, damage):
-        projectile = PyFenseProjectile(tower, target, projectileimage,
-                                       towerNumber, rotation,
-                                       projectileVelocity, damage)
+        projectile = pyfense_projectile.PyFenseProjectile(tower, target,
+                                                          projectileimage,
+                                                          towerNumber,
+                                                          rotation,
+                                                          projectileVelocity,
+                                                          damage)
         self.projectiles.append(projectile)
         projectile.push_handlers(self)
         self.add(projectile, z=1)
@@ -96,7 +98,8 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
                          str(towerNumber) + '()')
         explosion.position = target.position
         self.add(explosion, z=5)
-        clock.schedule_once(lambda dt, x: self.remove(x), 0.5, explosion)
+        pyglet.clock.schedule_once(lambda dt, x: self.remove(x), 0.5,
+                                   explosion)
         target.healthPoints -= projectile.damage
         self.remove(projectile)
         self.projectiles.remove(projectile)
@@ -108,8 +111,8 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             deathAnimation = pyfense_particles.Death()
             deathAnimation.position = target.position
             self.add(deathAnimation, z=5)
-            clock.schedule_once(lambda dt, x: self.remove(x), 0.5,
-                                deathAnimation)
+            pyglet.clock.schedule_once(lambda dt, x: self.remove(x), 0.5,
+                                       deathAnimation)
             self.diedEnemies += 1
             self.dispatch_event('on_enemy_death', target)
             self.isWaveFinished()
@@ -123,9 +126,10 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
     def addEnemy(self, dt, startTile, path, enemylist, multiplier):
         self.unschedule(self.addEnemy)
         position = startTile
-        enemy = PyFenseEnemy(position, enemylist[self.spawnedEnemies][0],
-                             enemylist[self.spawnedEnemies][1], 1, path,
-                             multiplier)
+        enemy = pyfense_enemy.PyFenseEnemy(position,
+                                           enemylist[self.spawnedEnemies][0],
+                                           enemylist[self.spawnedEnemies][1],
+                                           1, path, multiplier)
         self.enemies.append(enemy)
         self.spawnedEnemies += 1
         self.add(enemy, z=3)

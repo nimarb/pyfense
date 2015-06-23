@@ -2,13 +2,13 @@
 
 import cocos
 from cocos import sprite
-from cocos.actions import *
+# from cocos import actions
 import pyglet
 from pyglet import clock
 import math
 import pyfense_resources
 
-from pyfense_entities import *
+# import pyfense_entities
 
 # Needs position in tuple (posx,posy)
 # Takes tower.png found in assets directory
