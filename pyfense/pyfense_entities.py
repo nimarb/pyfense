@@ -5,7 +5,7 @@ import operator
 import pyglet
 
 import cocos
-from cocos.director import *
+from cocos.director import director
 from pyglet.window import key
 
 from pyfense_tower import *
@@ -32,7 +32,6 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.schedule(self.update)
         self.path = path
         self.startTile = startTile
-        self.currentWave = 0
         self.wavequantity = len(pyfense_resources.waves)
         self.enemieslength = 0
         self.polynomial2 = 0  # quadratic
@@ -49,9 +48,11 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             (waveNumber-1) % self.wavequantity+1]
         self.spawnedEnemies = 0
         self.diedEnemies = 0
-        self.enemyHealthFactor = math.floor((waveNumber - 1) / self.wavequantity) + 1
+        self.enemyHealthFactor = math.floor((waveNumber - 1) /
+                                            self.wavequantity) + 1
         self.multiplier = ((self.polynomial2 * (self.enemyHealthFactor**2)) +
-                           (self.polynomial1 * self.enemyHealthFactor) + self.polynomial0)
+                           (self.polynomial1 * self.enemyHealthFactor) +
+                           self.polynomial0)
         self.enemieslength = len(self.enemy_list)
         self.schedule_interval(self.addEnemy, 0.1, self.startTile, self.path,
                                self.enemy_list, self.multiplier)
@@ -81,7 +82,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.projectiles.append(projectile)
         projectile.push_handlers(self)
         self.add(projectile, z=1)
-        
+
         # Lift projectile form layer 1 to layer 4
         duration = 80 / projectileVelocity
         i = self.children.index((1, projectile))
@@ -151,7 +152,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             director.push(PyFensePause())
             return True
         if k == key.Q:
-            director.replace(pyfense_highscore.PyFenseLost(self.currentWave))
+            director.replace(pyfense_highscore.PyFenseLost())
 
 PyFenseEntities.register_event_type('on_next_wave')
 PyFenseEntities.register_event_type('on_enemy_death')

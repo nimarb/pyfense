@@ -22,7 +22,6 @@ font.add_directory(os.path.join(
     os.path.dirname(
         os.path.abspath(__file__)), 'data/Orbitron'))
 _font_ = 'Orbitron Light'
-currentWave = 0
 
 
 class PyFensePause(scene.Scene):
@@ -196,7 +195,8 @@ class PauseLayer(Layer):
                 pyfense_resources.music_player.play()
             return True
         elif k == key.Q:
-            director.replace(pyfense_highscore.PyFenseLost(currentWave))
+            director.pop()
+            director.replace(pyfense_highscore.PyFenseLost())
             return True
 
     def on_mouse_release(self, x, y, b, m):

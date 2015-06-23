@@ -13,7 +13,7 @@ from pyfense_hud import *
 from pyfense_highscore import PyFenseLost
 import pyfense_pause
 
-import pyfense_particles
+# import pyfense_particles
 import pickle
 import copy
 
@@ -179,8 +179,7 @@ class PyFenseGame(scene.Scene):
         self.currentWave += 1
         self.entityMap.nextWave(self.currentWave)
         self.hud.updateWaveNumber(self.currentWave)
-        self.entityMap.currentWave = self.currentWave
-        pyfense_pause.currentWave = self.currentWave
+        pyfense_highscore.currentWave = self.currentWave
 
     def on_enemy_reached_goal(self):
         self.currentLives -= 1
@@ -191,4 +190,4 @@ class PyFenseGame(scene.Scene):
             # y = director.get_window_size()[1] / 2
             # explosion.position = (x, y)
             # self.add(explosion)
-            director.replace(PyFenseLost(self.currentWave))
+            director.replace(PyFenseLost())

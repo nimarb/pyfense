@@ -17,6 +17,8 @@ font.add_directory(os.path.join(
         os.path.abspath(__file__)), 'data/Orbitron'))
 _font_ = 'Orbitron Light'
 
+currentWave = 0
+
 
 def new_score(name, wave):
     """
@@ -51,7 +53,7 @@ def new_score(name, wave):
                 new_highscore = new_highscore[0:10]
                 _writeFile(HS_FILENAME, new_highscore)
                 return True
-    if i < 10:
+    if i < 9:
         for l in name:
             if not l.isalnum():
                 name = name.replace(l, '_')
@@ -84,7 +86,7 @@ def check_score(wave):
                 continue
             else:
                 return (i + 1)
-    if i < 10:
+    if i < 9:
         return (i + 2)  # score will be appended
     else:
         return False  # no lower score found
@@ -126,9 +128,9 @@ def _writeFile(fileName, writeFile):
 
 
 class PyFenseLost(Scene):
-    def __init__(self, reachedWave):
+    def __init__(self):
         super().__init__()
-        self.wave = reachedWave
+        self.wave = currentWave
         self.add(LostLayer(self.wave), z=1)
 
 
