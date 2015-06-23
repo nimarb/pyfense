@@ -138,8 +138,7 @@ class PauseLayer(Layer):
                     (l - 1) * (self.towerThumbnails[picture].width + 75))
 
                 self.towerDamageTexts[picture].element.text = (
-                    str(pyfense_resources.tower[picture][l]["damage"] *
-                        pyfense_resources.tower[picture][l]["firerate"] / 1.))
+                    str(pyfense_resources.tower[picture][l]["damage"]))
                 self.towerDamageTexts[picture].position = (
                     self.menuMin_x + picture *
                     (self.towerThumbnails[picture].width + 40) +
