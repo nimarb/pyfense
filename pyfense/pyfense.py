@@ -414,7 +414,7 @@ class HelpLayer(ColorLayer):
                 self.towerThumbnails[picture].position = (
                     self.menuMin_x +
                     (l - 1) * (self.towerThumbnails[picture].width + 100),
-                    -picture * (self.towerThumbnails[picture].width + 15)+
+                    -picture * (self.towerThumbnails[picture].width + 15) +
                     self.menuMin_y)
 
                 self.towerDamagePic.append(
@@ -494,7 +494,7 @@ class AboutLayer(ColorLayer):
                      'ist der Mitarbeiter des monats wenn die testklassen' +
                      ' laufen :D' +  # LOL
                      '\nMusic from:\n' +
-                     'www.freesound.org/people/djgriffin/' ,
+                     'www.freesound.org/people/djgriffin/',
                      font_name=_font_,
                      font_size=20,
                      anchor_x='center',

@@ -1,6 +1,7 @@
-# pyfense_entities.py
-# contains the layer on which all enemies and towers are placed (layer)
-import operator
+"""
+ pyfense_entities.py
+contains the layer on which all enemies and towers are placed (layer)
+"""
 
 import pyglet
 
