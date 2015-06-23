@@ -32,7 +32,7 @@ def new_score(name, wave):
     try:
         highscore = _readFile(HS_FILENAME)
     except IOError:
-        print("new highscore.cfg will be created")
+        print("new " + HS_FILENAME + " will be created")
         for l in name:
             if not l.isalnum():
                 name = name.replace(l, '_')
@@ -149,7 +149,7 @@ class LostLayer(Layer):
             self.place = check_score(wave)
             self.in_highscore = True
         w, h = director.get_window_size()
-        text1 = Label('+++ You Lost! +++',
+        text1 = Label('+++ Game Over! +++',
                       font_name=_font_,
                       font_size=30,
                       anchor_x='center',
