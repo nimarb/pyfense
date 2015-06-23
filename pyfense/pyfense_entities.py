@@ -101,6 +101,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.projectiles.remove(projectile)
         target.updateHealthBar()
         if target in self.enemies and target.healthPoints <= 0:
+            self.remove(target.healthBarBackground)
             self.remove(target.healthBar)
             self.remove(target)
             self.enemies.remove(target)
@@ -128,7 +129,8 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.enemies.append(enemy)
         self.spawnedEnemies += 1
         self.add(enemy, z=3)
-        self.add(enemy.healthBar, z=6)
+        self.add(enemy.healthBarBackground, z=6)
+        self.add(enemy.healthBar, z=7)
         if self.spawnedEnemies != self.enemieslength:
             self.schedule_interval(self.addEnemy,
                                    self.enemy_list[self.spawnedEnemies-1][2],
@@ -143,6 +145,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.dispatch_event('on_enemy_reached_goal')
             self.remove(self.enemies[0])
             self.remove(self.enemies[0].healthBar)
+            self.remove(self.enemies[0].healthBarBackground)
             self.enemies.remove(self.enemies[0])
             self.diedEnemies += 1
             self.isWaveFinished()

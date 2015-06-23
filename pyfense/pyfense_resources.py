@@ -151,6 +151,8 @@ range1920 = loadImage(pathjoin("assets/range1920.png"))
 picto_damage = loadImage(pathjoin("assets/explosion_pictogram.png"))
 picto_rate = loadImage(pathjoin("assets/firerate_pictogram.png"))
 
+healthBarCap = loadImage(pathjoin("assets/healthBarCap.png")).get_texture()
+
 shot = pyglet.media.load(pathjoin("assets/music.wav"), streaming=False)
 # Music
 # music_player = pyglet.media.Player()
