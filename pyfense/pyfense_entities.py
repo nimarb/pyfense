@@ -100,8 +100,8 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.projectiles.append(projectile)
         projectile.push_handlers(self)
         self.add(projectile, z=1)
-        # duration = 80 / projectileVelocity
-        clock.schedule_once(lambda dt: self.changeZ(projectile, 1, 4), 0.1)
+        duration = 80 / projectileVelocity
+        clock.schedule_once(lambda dt: self.changeZ(projectile, 1, 4), duration)
 
     def changeZ(self, cocosnode, z_before, z_after):
         if (z_before, cocosnode) in self.children:
