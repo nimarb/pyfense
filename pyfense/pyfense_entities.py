@@ -3,10 +3,11 @@
 contains the layer on which all enemies and towers are placed (layer)
 """
 import pyglet
+from pyglet.window import key
+from pyglet import clock
 
 import cocos
 from cocos.director import director
-from pyglet.window import key
 
 # import pyfense_tower
 import pyfense_enemy
@@ -85,14 +86,14 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.projectiles.append(projectile)
         projectile.push_handlers(self)
         self.add(projectile, z=1)
-
-        '''
-        # Lift projectile form layer 1 to layer 4
         duration = 80 / projectileVelocity
-        i = self.children.index((1, projectile))
-        clock.schedule_once(lambda dt: operator.setitem(self.children,
-                            i, (4, projectile)), duration)
-        '''
+        clock.schedule_once(lambda dt: self.changeZ(projectile, 1, 4), 0.1)
+        
+    def changeZ(self, cocosnode, z_before, z_after):
+        if (z_before, cocosnode) in self.children:
+            self.remove(cocosnode)
+            self.add(cocosnode, z_after)
+        
     def on_enemy_hit(self, projectile, target, towerNumber):
         explosion = eval('pyfense_particles.Explosion' +
                          str(towerNumber) + '()')
@@ -105,6 +106,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.projectiles.remove(projectile)
         target.updateHealthBar()
         if target in self.enemies and target.healthPoints <= 0:
+            self.remove(target.healthBarBackground)
             self.remove(target.healthBar)
             self.remove(target)
             self.enemies.remove(target)
@@ -133,7 +135,8 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.enemies.append(enemy)
         self.spawnedEnemies += 1
         self.add(enemy, z=3)
-        self.add(enemy.healthBar, z=6)
+        self.add(enemy.healthBarBackground, z=6)
+        self.add(enemy.healthBar, z=7)
         if self.spawnedEnemies != self.enemieslength:
             self.schedule_interval(self.addEnemy,
                                    self.enemy_list[self.spawnedEnemies-1][2],
@@ -148,6 +151,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.dispatch_event('on_enemy_reached_goal')
             self.remove(self.enemies[0])
             self.remove(self.enemies[0].healthBar)
+            self.remove(self.enemies[0].healthBarBackground)
             self.enemies.remove(self.enemies[0])
             self.diedEnemies += 1
             self.isWaveFinished()
