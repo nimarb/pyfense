@@ -24,9 +24,9 @@ class PyFenseEnemy(sprite.Sprite):
         self.move(lvl)
 
     def move(self, lvl):
-        self.do(self.path)
-        self.healthBarBackground.do(self.path)
-        self.healthBar.do(self.path)
+        self.do(self.path[0])
+        self.healthBarBackground.do(self.path[1])
+        self.healthBar.do(self.path[1])
 
     def drawHealthBar(self):
         self.bar_x = self.x - self.healthBarWidth / 2

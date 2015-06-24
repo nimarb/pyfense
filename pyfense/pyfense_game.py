@@ -47,7 +47,7 @@ class PyFenseGame(scene.Scene):
 
         pyfense_resources.loadWaves()
         pyfense_resources.loadEntities()
-        self.movePath = actions.MoveBy((0, 0))
+        self.movePath = None
         self.loadPath()
         self.levelMapName = "lvl" + str(levelNumber)
         self.loadMap()
@@ -60,31 +60,36 @@ class PyFenseGame(scene.Scene):
 
     def loadPath(self):
         currentTile = copy.deepcopy(self.startTile)
-        move = actions.MoveBy((0, 0), 0.1)
+        # move[0] for enemy with rotation and move[1] for healthbar
+        move = [actions.MoveBy((0, 0), 0.1) for x in range(0, 2)]
 
         while(currentTile[0] != self.endTile[0] or
               currentTile[1] != self.endTile[1]):
             if(self.gameGrid[currentTile[0]][currentTile[1]-1] == 2):
-                move += actions.RotateTo(180, 0)  # RotateLeft
-                move += actions.MoveBy((-60, 0), 0.5)  # MoveLeft
+                move[0] += actions.RotateTo(180, 0)  # RotateLeft
+                for i in range(2):
+                    move[i] += actions.MoveBy((-60, 0), 0.5)  # MoveLeft
                 currentTile[1] -= 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
 
             elif(self.gameGrid[currentTile[0]][currentTile[1]+1] == 2):
-                move += actions.RotateTo(0, 0)  # RotateRight
-                move += actions.MoveBy((60, 0), 0.5)   # MoveRight
+                move[0] += actions.RotateTo(0, 0)  # RotateRight
+                for i in range(2):
+                    move[i] += actions.MoveBy((60, 0), 0.5)   # MoveRight
                 currentTile[1] += 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
 
             elif(self.gameGrid[currentTile[0]+1][currentTile[1]] == 2):
-                move += actions.RotateTo(270, 0)  # RotateUp
-                move += actions.MoveBy((0, 60), 0.5)  # MoveUp
+                move[0] += actions.RotateTo(270, 0)  # RotateUp
+                for i in range(2):
+                    move[i] += actions.MoveBy((0, 60), 0.5)  # MoveUp
                 currentTile[0] += 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
 
             elif(self.gameGrid[currentTile[0]-1][currentTile[1]] == 2):
-                move += actions.RotateTo(90, 0)  # RotateDown
-                move += actions.MoveBy((0, -60), 0.5)  # MoveDown
+                move[0] += actions.RotateTo(90, 0)  # RotateDown
+                for i in range(2):
+                    move[i] += actions.MoveBy((0, -60), 0.5)  # MoveDown
                 currentTile[0] -= 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
             else:
