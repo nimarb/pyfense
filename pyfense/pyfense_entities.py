@@ -3,10 +3,11 @@
 contains the layer on which all enemies and towers are placed (layer)
 """
 import pyglet
+from pyglet.window import key
+from pyglet import clock
 
 import cocos
 from cocos.director import director
-from pyglet.window import key
 
 # import pyfense_tower
 import pyfense_enemy
@@ -85,14 +86,14 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.projectiles.append(projectile)
         projectile.push_handlers(self)
         self.add(projectile, z=1)
-
-        '''
-        # Lift projectile form layer 1 to layer 4
         duration = 80 / projectileVelocity
-        i = self.children.index((1, projectile))
-        clock.schedule_once(lambda dt: operator.setitem(self.children,
-                            i, (4, projectile)), duration)
-        '''
+        clock.schedule_once(lambda dt: self.changeZ(projectile, 1, 4), 0.1)
+        
+    def changeZ(self, cocosnode, z_before, z_after):
+        if (z_before, cocosnode) in self.children:
+            self.remove(cocosnode)
+            self.add(cocosnode, z_after)
+        
     def on_enemy_hit(self, projectile, target, towerNumber):
         explosion = eval('pyfense_particles.Explosion' +
                          str(towerNumber) + '()')
