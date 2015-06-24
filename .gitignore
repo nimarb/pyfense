@@ -6,6 +6,7 @@ __pycache__/
 drawing_trial.py
 PyFense.egg-info
 pyfense/data/highscore.data
+highscore.data
 dist/
 MANIFEST
 bin/
