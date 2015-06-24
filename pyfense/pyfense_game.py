@@ -7,12 +7,15 @@ from cocos.director import director
 from cocos import scene
 from cocos import actions
 
-from pyfense.pyfense_map import *
-from pyfense.pyfense_entities import *
-from pyfense.pyfense_hud import *
-from pyfense.pyfense_highscore import *
+from pyfense import pyfense_map
+from pyfense import pyfense_entities
+from pyfense import pyfense_hud
+from pyfense.pyfense_highscore import PyFenseLost
+from pyfense import pyfense_tower
+from pyfense import pyfense_resources
+from pyfense import pyfense_highscore
 
-from pyfense import pyfense_particles
+# from pyfense import pyfense_particles
 import pickle
 import copy
 
@@ -53,6 +56,7 @@ class PyFenseGame(scene.Scene):
         self.currentWave = 0
         self.currentLives = 15
         self.currentCurrency = 300
+        pyfense_highscore.currentWave = self.currentWave
 
     def loadPath(self):
         currentTile = copy.deepcopy(self.startTile)
@@ -61,21 +65,25 @@ class PyFenseGame(scene.Scene):
         while(currentTile[0] != self.endTile[0] or
               currentTile[1] != self.endTile[1]):
             if(self.gameGrid[currentTile[0]][currentTile[1]-1] == 2):
+                move += actions.RotateTo(180, 0)  # RotateLeft
                 move += actions.MoveBy((-60, 0), 0.5)  # MoveLeft
                 currentTile[1] -= 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
 
             elif(self.gameGrid[currentTile[0]][currentTile[1]+1] == 2):
+                move += actions.RotateTo(0, 0)  # RotateRight
                 move += actions.MoveBy((60, 0), 0.5)   # MoveRight
                 currentTile[1] += 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
 
             elif(self.gameGrid[currentTile[0]+1][currentTile[1]] == 2):
+                move += actions.RotateTo(270, 0)  # RotateUp
                 move += actions.MoveBy((0, 60), 0.5)  # MoveUp
                 currentTile[0] += 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
 
             elif(self.gameGrid[currentTile[0]-1][currentTile[1]] == 2):
+                move += actions.RotateTo(90, 0)  # RotateDown
                 move += actions.MoveBy((0, -60), 0.5)  # MoveDown
                 currentTile[0] -= 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
@@ -85,17 +93,18 @@ class PyFenseGame(scene.Scene):
         self.movePath = move
 
     def loadMap(self):
-        self.levelMap = PyFenseMap(self.levelMapName)
+        self.levelMap = pyfense_map.PyFenseMap(self.levelMapName)
         self.add(self.levelMap, z=0)
 
     def displayEntities(self):
         startTile = self.getPositionFromGrid(self.startTile)
-        self.entityMap = PyFenseEntities(self.movePath, startTile)
+        self.entityMap = pyfense_entities.PyFenseEntities(self.movePath,
+                                                          startTile)
         self.entityMap.push_handlers(self)
         self.add(self.entityMap, z=1)
 
     def displayHud(self):
-        self.hud = PyFenseHud()
+        self.hud = pyfense_hud.PyFenseHud()
         self.hud.push_handlers(self)
         self.add(self.hud, z=2)
 
@@ -138,7 +147,7 @@ class PyFenseGame(scene.Scene):
         self.hud.currentCellStatus = self.getGridPix(x, y)
 
     def on_build_tower(self, towerNumber, pos_x, pos_y):
-        tower = PyFenseTower(towerNumber, (pos_x, pos_y))
+        tower = pyfense_tower.PyFenseTower(towerNumber, (pos_x, pos_y))
         if tower.attributes["cost"] > self.currentCurrency:
             return
         self.currentCurrency -= self.entityMap.buildTower(tower)
@@ -159,7 +168,8 @@ class PyFenseGame(scene.Scene):
         self.currentCurrency -= cost
         self.hud.updateCurrencyNumber(self.currentCurrency)
         self.entityMap.removeTower(position)
-        newTower = PyFenseTower(towerNumber, position, towerLevel + 1)
+        newTower = pyfense_tower.PyFenseTower(
+            towerNumber, position, towerLevel + 1)
         self.entityMap.buildTower(newTower)
         (x, y) = position
         self.setGridPix(x, y, int(float("1" + str(towerNumber) +
@@ -178,7 +188,7 @@ class PyFenseGame(scene.Scene):
         self.currentWave += 1
         self.entityMap.nextWave(self.currentWave)
         self.hud.updateWaveNumber(self.currentWave)
-        self.entityMap.currentWave = self.currentWave
+        pyfense_highscore.currentWave = self.currentWave
 
     def on_enemy_reached_goal(self):
         self.currentLives -= 1
@@ -189,4 +199,4 @@ class PyFenseGame(scene.Scene):
             # y = director.get_window_size()[1] / 2
             # explosion.position = (x, y)
             # self.add(explosion)
-            director.replace(PyFenseLost(self.currentWave))
+            director.replace(PyFenseLost())

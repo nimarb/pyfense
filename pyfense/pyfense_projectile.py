@@ -2,7 +2,7 @@
 # projectile class
 
 from cocos import sprite
-from cocos.actions import *
+from cocos import actions
 import math
 import pyglet
 from pyglet import clock
@@ -31,7 +31,7 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
     def moveVel(self, projectile, target, velocity):
         dist = self.distance(target.position, self.position)
         self.duration = dist/velocity
-        projectile.do(MoveTo(target.position, self.duration))
+        projectile.do(actions.MoveTo(target.position, self.duration))
 
     def distance(self, a, b):
         return math.sqrt((b[0] - a[0])**2 + (b[1]-a[1])**2)

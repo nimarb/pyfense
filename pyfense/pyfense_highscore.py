@@ -11,11 +11,16 @@ from cocos.director import director
 from cocos.text import Label
 from cocos.scene import Scene
 
-HS_FILENAME = "data/highscore.data"  # name and path of the highscore file
+# name and path of the highscore file
+HS_FILENAME = os.path.join(
+    os.path.dirname(
+        os.path.abspath(__file__)), "data") + "/highscore.data"
 font.add_directory(os.path.join(
-                os.path.dirname(
-                os.path.abspath(__file__)), 'assets'))
-_font_ = 'orbitron-light'
+    os.path.dirname(
+        os.path.abspath(__file__)), 'assets'))
+_font_ = 'Orbitron Light'
+
+currentWave = 0
 
 
 def new_score(name, wave):
@@ -27,7 +32,7 @@ def new_score(name, wave):
     try:
         highscore = _readFile(HS_FILENAME)
     except IOError:
-        print("new highscore.cfg will be created")
+        print("new " + HS_FILENAME + " will be created")
         for l in name:
             if not l.isalnum():
                 name = name.replace(l, '_')
@@ -48,10 +53,10 @@ def new_score(name, wave):
                 highscore.append(new_entry)
                 new_highscore = sorted(highscore, key=lambda s: int(s[0]))
                 new_highscore.reverse()
-                new_highscore = new_highscore[0:9]
+                new_highscore = new_highscore[0:10]
                 _writeFile(HS_FILENAME, new_highscore)
                 return True
-    if i < 10:
+    if i < 9:
         for l in name:
             if not l.isalnum():
                 name = name.replace(l, '_')
@@ -59,7 +64,7 @@ def new_score(name, wave):
         highscore.append(new_entry)
         new_highscore = sorted(highscore, key=lambda s: int(s[0]))
         new_highscore.reverse()
-        new_highscore = new_highscore[0:9]
+        new_highscore = new_highscore[0:10]
         _writeFile(HS_FILENAME, new_highscore)
         return True
     else:
@@ -84,7 +89,7 @@ def check_score(wave):
                 continue
             else:
                 return (i + 1)
-    if i < 10:
+    if i < 9:
         return (i + 2)  # score will be appended
     else:
         return False  # no lower score found
@@ -126,9 +131,9 @@ def _writeFile(fileName, writeFile):
 
 
 class PyFenseLost(Scene):
-    def __init__(self, reachedWave):
+    def __init__(self):
         super().__init__()
-        self.wave = reachedWave
+        self.wave = currentWave
         self.add(LostLayer(self.wave), z=1)
 
 
@@ -144,7 +149,7 @@ class LostLayer(Layer):
             self.place = check_score(wave)
             self.in_highscore = True
         w, h = director.get_window_size()
-        text1 = Label('+++ You Lost! +++',
+        text1 = Label('+++ Game Over! +++',
                       font_name=_font_,
                       font_size=30,
                       anchor_x='center',
@@ -240,6 +245,7 @@ class SubmitScore(Layer):
             return True
         elif k == key.ESCAPE:
             director.pop()
+            return True
         return False
 
     def on_text(self, t):

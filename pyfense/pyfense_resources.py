@@ -44,7 +44,7 @@ def loadEntities():
                 att_dict = eval(line)
                 towername = att_dict["tower"]
                 lvl = att_dict["lvl"]
-        
+
                 # ist tower schon vorhanden, ansonsten hinzufuegen
                 if towername not in tower:
                         tower[towername] = {}
@@ -110,6 +110,7 @@ sounds = settings["general"]["sounds"]
 
 waves = {}
 
+
 def loadWaves():
     waves.clear()
     with open(pathjoin("data/waves.cfg")) as wave_file:
@@ -151,11 +152,14 @@ range1920 = loadImage(pathjoin("assets/range1920.png"))
 picto_damage = loadImage(pathjoin("assets/explosion_pictogram.png"))
 picto_rate = loadImage(pathjoin("assets/firerate_pictogram.png"))
 
+healthBarCap = loadImage(pathjoin("assets/healthBarCap.png")).get_texture()
+
 shot = pyglet.media.load(pathjoin("assets/music.wav"), streaming=False)
 # Music
 # music_player = pyglet.media.Player()
 # Can't load music.wav, because not found on path??
-# music = pyglet.resource.media(pathjoin("assets/music.wav"), streaming = False) 
+# music = pyglet.resource.media(pathjoin("assets/music.wav"),
+#         streaming = False)
 # music_player.queue(music)
 # music_player.eos_action = "loop"
 
@@ -163,6 +167,7 @@ shot = pyglet.media.load(pathjoin("assets/music.wav"), streaming=False)
 gameGrid = [[3 for x in range(32)] for x in range(18)]
 startTile = [0, 0]
 endTile = [0, 0]
+
 
 def initGrid(lvl):
     gameGrid = [[3 for x in range(32)] for x in range(18)]

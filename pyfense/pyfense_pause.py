@@ -1,9 +1,7 @@
-
 """
 pyfense_pause.py
 contains class layer which is displayed when pressing esc
 """
-
 import os
 
 from pyglet.window import key
@@ -16,11 +14,12 @@ from cocos.text import Label
 from cocos.layer import Layer
 
 from pyfense import pyfense_resources
+from pyfense import pyfense_highscore
 
 font.add_directory(os.path.join(
-                os.path.dirname(
-                os.path.abspath(__file__)), 'assets'))
-_font_ = 'orbitron-light'
+    os.path.dirname(
+        os.path.abspath(__file__)), 'assets'))
+_font_ = 'Orbitron Light'
 
 
 class PyFensePause(scene.Scene):
@@ -37,49 +36,49 @@ class PauseLayer(Layer):
     def __init__(self):
         super().__init__()
         w, h = director.get_window_size()
-        y_pos = h/2. + 300
+        y_pos = h/2. + 300  # moves the lower bound of settings description
 
-        text0 = Label(
+        text = []
+        text.append(Label(
             '+++ Game Paused +++',
             font_name=_font_,
             font_size=30,
             anchor_x='center',
-            anchor_y='center')
+            anchor_y='center'))
+        self.key_font = {
+                        'font_name': _font_,
+                        'font_size': 20,
+                        'anchor_x': 'center',
+                        'anchor_y': 'center'
+                        }
+        text.append(Label('Press Esc to resume game',
+                          **self.key_font))
+        text.append(Label('Press Q to quit game',
+                          **self.key_font))
+        text.append(Label('Press F to toggle Fullscreen',
+                          **self.key_font))
+        text.append(Label('Press V to toggle Vsync',
+                          **self.key_font))
+        text.append(Label('Press X to toggle FPS',
+                          **self.key_font))
+        text.append(Label('Press S to toggle Sound',
+                          **self.key_font))
 
-        self.key_font = {}
-        self.key_font['font_name'] = '_font_'
-        self.key_font['font_size'] = 20
-        self.key_font['anchor_x'] = 'center'
-        self.key_font['anchor_y'] = 'center'
+        text[0].position = w/2., y_pos + 50
+        self.add(text[0])
 
-        text1 = Label('Press Esc to resume game',
-                      **self.key_font)
-        text2 = Label('Press Q to quit game',
-                      **self.key_font)
-        text3 = Label('Press F to toggle Fullscreen',
-                      **self.key_font)
-        text4 = Label('Press V to toggle Vsync',
-                      **self.key_font)
-        text5 = Label('Press X to toggle FPS',
-                      **self.key_font)
-        text6 = Label('Press S to toggle Sound',
-                      **self.key_font)
+        text[1].position = w/2., y_pos - 1 * (self.key_font['font_size'] + 8)
+        text[2].position = w/2., y_pos - 2 * (self.key_font['font_size'] + 8)
+        text[3].position = w/2., y_pos - 3 * (self.key_font['font_size'] + 8)
+        text[4].position = w/2., y_pos - 4 * (self.key_font['font_size'] + 8)
+        text[5].position = w/2., y_pos - 5 * (self.key_font['font_size'] + 8)
+        text[6].position = w/2., y_pos - 6 * (self.key_font['font_size'] + 8)
 
-        text0.position = w/2., y_pos + 50
-        text1.position = w/2., y_pos - 1 * (self.key_font['font_size'] + 8)
-        text2.position = w/2., y_pos - 2 * (self.key_font['font_size'] + 8)
-        text3.position = w/2., y_pos - 3 * (self.key_font['font_size'] + 8)
-        text4.position = w/2., y_pos - 4 * (self.key_font['font_size'] + 8)
-        text5.position = w/2., y_pos - 5 * (self.key_font['font_size'] + 8)
-        text6.position = w/2., y_pos - 6 * (self.key_font['font_size'] + 8)
-
-        self.add(text0)
-        self.add(text1)
-        self.add(text2)
-        self.add(text3)
-        self.add(text4)
-        self.add(text5)
-        self.add(text6)
+        for ele in text:
+            # not working because pyglet raises a TypeError
+            # in its event dispatcher:
+            # ele.position = 400
+            self.add(ele)
 
         # tower information
 
@@ -137,8 +136,7 @@ class PauseLayer(Layer):
                     (l - 1) * (self.towerThumbnails[picture].width + 75))
 
                 self.towerDamageTexts[picture].element.text = (
-                    str(pyfense_resources.tower[picture][l]["damage"] *
-                        pyfense_resources.tower[picture][l]["firerate"] / 1.))
+                    str(pyfense_resources.tower[picture][l]["damage"]))
                 self.towerDamageTexts[picture].position = (
                     self.menuMin_x + picture *
                     (self.towerThumbnails[picture].width + 40) +
@@ -195,7 +193,7 @@ class PauseLayer(Layer):
             return True
         elif k == key.Q:
             director.pop()
-            director.pop()
+            director.replace(pyfense_highscore.PyFenseLost())
             return True
 
     def on_mouse_release(self, x, y, b, m):

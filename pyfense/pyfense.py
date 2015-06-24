@@ -25,9 +25,9 @@ from pyfense import pyfense_highscore
 from pyfense import pyfense_resources
 
 font.add_directory(os.path.join(
-                os.path.dirname(
-                os.path.abspath(__file__)), 'assets'))
-_font_ = 'orbitron-light'
+    os.path.dirname(
+        os.path.abspath(__file__)), 'assets'))
+_font_ = 'Orbitron Light'
 
 
 class MainMenu(cocos.menu.Menu):
@@ -361,7 +361,7 @@ class HelpLayer(ColorLayer):
         price_label = cocos.text.Label("$  Price",
                                        color=(255, 0, 0, 255), **caption_font)
         dam_pic = cocos.sprite.Sprite(self.damage_pic)
-        dam_label = cocos.text.Label("Damage per second",
+        dam_label = cocos.text.Label("Damage per hit",
                                      color=(255, 70, 0, 255), **caption_font)
         rate_pic = cocos.sprite.Sprite(self.rate_pic)
         rate_label = cocos.text.Label("Firerate",
@@ -372,15 +372,15 @@ class HelpLayer(ColorLayer):
                            pic_width - 15)
         label3.position = (self.menuMin_x - 80, self.menuMin_y -
                            2 * (pic_width + 15))
-        price_label.position = (self.menuMin_x - 60,
+        price_label.position = (self.menuMin_x - 30,
                                 self.menuMin_y - (3 * (pic_width + 15)))
-        dam_pic.position = (self.menuMin_x + 73,
+        dam_pic.position = (self.menuMin_x + 103,
                             self.menuMin_y - (3 * (pic_width + 15)))
-        dam_label.position = (self.menuMin_x + 105,
+        dam_label.position = (self.menuMin_x + 135,
                               self.menuMin_y - (3 * (pic_width + 15)))
-        rate_pic.position = (self.menuMin_x + 380,
+        rate_pic.position = (self.menuMin_x + 370,
                              self.menuMin_y - (3 * (pic_width + 15)))
-        rate_label.position = (self.menuMin_x + 412,
+        rate_label.position = (self.menuMin_x + 402,
                                self.menuMin_y - (3 * (pic_width + 15)))
 
         self.add(label1)
@@ -426,7 +426,7 @@ class HelpLayer(ColorLayer):
                 self.towerThumbnails[picture].position = (
                     self.menuMin_x +
                     (l - 1) * (self.towerThumbnails[picture].width + 100),
-                    -picture * (self.towerThumbnails[picture].width + 15)+
+                    -picture * (self.towerThumbnails[picture].width + 15) +
                     self.menuMin_y)
 
                 self.towerDamagePic.append(
@@ -439,8 +439,7 @@ class HelpLayer(ColorLayer):
                     self.menuMin_y)
 
                 self.towerDamageTexts[picture].element.text = (
-                    str(pyfense_resources.tower[picture][l]["damage"] *
-                        pyfense_resources.tower[picture][l]["firerate"] / 1.))
+                    str(pyfense_resources.tower[picture][l]["damage"]))
                 self.towerDamageTexts[picture].position = (
                     self.menuMin_x +
                     (l - 1) * (self.towerThumbnails[picture].width + 100) +
@@ -507,7 +506,7 @@ class AboutLayer(ColorLayer):
                      'ist der Mitarbeiter des monats wenn die testklassen' +
                      ' laufen :D' +  # LOL
                      '\nMusic from:\n' +
-                     'www.freesound.org/people/djgriffin/' ,
+                     'www.freesound.org/people/djgriffin/',
                      font_name=_font_,
                      font_size=20,
                      anchor_x='center',

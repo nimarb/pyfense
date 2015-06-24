@@ -1,14 +1,16 @@
-# pyfense_tower contains PyFenseTower class
+"""
+pyfense_tower contains PyFenseTower class
+"""
 
 import cocos
 from cocos import sprite
-from cocos.actions import *
+# from cocos import actions
 import pyglet
 from pyglet import clock
 import math
 from pyfense import pyfense_resources
 
-from pyfense.pyfense_entities import *
+# from pyfense import pyfense_entities
 
 # Needs position in tuple (posx,posy)
 # Takes tower.png found in assets directory
