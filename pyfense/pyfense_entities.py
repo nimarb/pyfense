@@ -45,8 +45,8 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.hasEnemyReachedEnd()
 
     def nextWave(self, waveNumber):
-        self.enemy_list = pyfense_resources.waves[
-            (waveNumber-1) % self.wavequantity+1]
+        self.modulo_wavenumber = (waveNumber-1) % self.wavequantity+1
+        self.enemy_list = pyfense_resources.waves[self.modulo_wavenumber]
         self.spawnedEnemies = 0
         self.diedEnemies = 0
         self.enemyHealthFactor = math.floor((waveNumber - 1) /
@@ -54,9 +54,23 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.multiplier = ((self.polynomial2 * (self.enemyHealthFactor**2)) +
                            (self.polynomial1 * self.enemyHealthFactor) +
                            self.polynomial0)
+        if self.wavequantity-self.modulo_wavenumber == 1:
+            self.showWarning()
         self.enemieslength = len(self.enemy_list)
         self.schedule_interval(self.addEnemy, 0.1, self.startTile, self.path,
                                self.enemy_list, self.multiplier)
+
+    def showWarning(self):
+        self.warningLabel = cocos.text.Label(
+            'Enemies will get stronger in 2 Waves!!!',
+            font_name='Times New Roman', font_size=32,
+            anchor_x='center', anchor_y='center', color=(255, 0, 0, 255))
+        w, h = cocos.director.director.get_window_size()
+        self.warningLabel.position = w / 2, h - 100
+        self.add(self.warningLabel)
+        blinkaction = cocos.actions.Blink(4, 8)
+        self.warningLabel.do(blinkaction)
+        clock.schedule_once(lambda dt: self.remove(self.warningLabel), 15)
 
     def buildTower(self, tower):
         tower.push_handlers(self)
@@ -86,14 +100,14 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.projectiles.append(projectile)
         projectile.push_handlers(self)
         self.add(projectile, z=1)
-        duration = 80 / projectileVelocity
+        # duration = 80 / projectileVelocity
         clock.schedule_once(lambda dt: self.changeZ(projectile, 1, 4), 0.1)
-        
+
     def changeZ(self, cocosnode, z_before, z_after):
         if (z_before, cocosnode) in self.children:
             self.remove(cocosnode)
             self.add(cocosnode, z_after)
-        
+
     def on_enemy_hit(self, projectile, target, towerNumber):
         explosion = eval('pyfense_particles.Explosion' +
                          str(towerNumber) + '()')
