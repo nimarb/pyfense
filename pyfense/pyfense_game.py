@@ -65,21 +65,25 @@ class PyFenseGame(scene.Scene):
         while(currentTile[0] != self.endTile[0] or
               currentTile[1] != self.endTile[1]):
             if(self.gameGrid[currentTile[0]][currentTile[1]-1] == 2):
+                move += actions.RotateTo(180, 0)  # RotateLeft
                 move += actions.MoveBy((-60, 0), 0.5)  # MoveLeft
                 currentTile[1] -= 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
 
             elif(self.gameGrid[currentTile[0]][currentTile[1]+1] == 2):
+                move += actions.RotateTo(0, 0)  # RotateRight
                 move += actions.MoveBy((60, 0), 0.5)   # MoveRight
                 currentTile[1] += 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
 
             elif(self.gameGrid[currentTile[0]+1][currentTile[1]] == 2):
+                move += actions.RotateTo(270, 0)  # RotateUp
                 move += actions.MoveBy((0, 60), 0.5)  # MoveUp
                 currentTile[0] += 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
 
             elif(self.gameGrid[currentTile[0]-1][currentTile[1]] == 2):
+                move += actions.RotateTo(90, 0)  # RotateDown
                 move += actions.MoveBy((0, -60), 0.5)  # MoveDown
                 currentTile[0] -= 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
@@ -164,7 +168,8 @@ class PyFenseGame(scene.Scene):
         self.currentCurrency -= cost
         self.hud.updateCurrencyNumber(self.currentCurrency)
         self.entityMap.removeTower(position)
-        newTower = pyfense_tower.PyFenseTower(towerNumber, position, towerLevel + 1)
+        newTower = pyfense_tower.PyFenseTower(
+            towerNumber, position, towerLevel + 1)
         self.entityMap.buildTower(newTower)
         (x, y) = position
         self.setGridPix(x, y, int(float("1" + str(towerNumber) +

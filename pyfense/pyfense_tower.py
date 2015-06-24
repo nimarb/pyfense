@@ -1,4 +1,6 @@
-# pyfense_tower contains PyFenseTower class
+"""
+pyfense_tower contains PyFenseTower class
+"""
 
 import cocos
 from cocos import sprite
