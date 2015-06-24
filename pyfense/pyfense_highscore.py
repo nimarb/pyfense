@@ -11,10 +11,10 @@ from cocos.director import director
 from cocos.text import Label
 from cocos.scene import Scene
 
+# name and path of the highscore file
 HS_FILENAME = os.path.join(
-                os.path.dirname(
-                os.path.abspath(__file__)), "data") + "/highscore.data"
-                # name and path of the highscore file
+    os.path.dirname(
+        os.path.abspath(__file__)), "data") + "/highscore.data"
 font.add_directory(os.path.join(
     os.path.dirname(
         os.path.abspath(__file__)), 'data/Orbitron'))
@@ -245,6 +245,7 @@ class SubmitScore(Layer):
             return True
         elif k == key.ESCAPE:
             director.pop()
+            return True
         return False
 
     def on_text(self, t):
