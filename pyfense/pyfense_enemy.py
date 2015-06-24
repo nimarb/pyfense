@@ -40,7 +40,7 @@ class PyFenseEnemy(sprite.Sprite):
         healthBar = cocos.draw.Line(
             (self.bar_x, self.bar_y),
             (self.bar_x + self.healthBarWidth,
-             self.bar_y), (192, 0, 0, 255), 3)
+             self.bar_y), (0, 237, 55, 255), 3)
         healthBar._texture = pyfense_resources.healthBarCap
         healthBar.visible = False
         # self.healthBar.set_endcap('BUTT_CAP') -> cam be changed by altering
