@@ -55,22 +55,39 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
                            (self.polynomial1 * self.enemyHealthFactor) +
                            self.polynomial0)
         if self.wavequantity-self.modulo_wavenumber == 1:
-            self.showWarning()
+            self.showWarning(1)
+        elif self.wavequantity-self.modulo_wavenumber == 0:
+            self.showWarning(2)
+        elif self.modulo_wavenumber == 1 and waveNumber != 1:
+            self.showWarning(3)
         self.enemieslength = len(self.enemy_list)
         clock.schedule_once(self.addEnemy, 0, self.startTile, self.path,
                             self.enemy_list, self.multiplier)
 
-    def showWarning(self):
-        self.warningLabel = cocos.text.Label(
-            'Enemies will get stronger in 2 Waves!!!',
-            font_name='Times New Roman', font_size=32,
-            anchor_x='center', anchor_y='center', color=(255, 0, 0, 255))
+    def showWarning(self, warningNumber):
+        if warningNumber == 1:
+            self.warningLabel = cocos.text.Label(
+                'Enemies will get stronger in 2 Waves!!!',
+                font_name='Times New Roman', font_size=32,
+                anchor_x='center', anchor_y='center', color=(255, 0, 0, 255))
+        elif warningNumber == 2:
+            self.remove(self.warningLabel)
+            self.warningLabel = cocos.text.Label(
+                'Enemies will get stronger next Wave!!!',
+                font_name='Times New Roman', font_size=32,
+                anchor_x='center', anchor_y='center', color=(255, 0, 0, 255))
+        elif warningNumber == 3:
+            self.remove(self.warningLabel)
+            self.warningLabel = cocos.text.Label(
+                'Enemies are now stronger!!!',
+                font_name='Times New Roman', font_size=32,
+                anchor_x='center', anchor_y='center', color=(255, 0, 0, 255))
+            clock.schedule_once(lambda dt: self.remove(self.warningLabel), 15)
         w, h = cocos.director.director.get_window_size()
         self.warningLabel.position = w / 2, h - 100
         self.add(self.warningLabel)
-        blinkaction = cocos.actions.Blink(4, 8)
+        blinkaction = cocos.actions.Blink(3, 3)
         self.warningLabel.do(blinkaction)
-        clock.schedule_once(lambda dt: self.remove(self.warningLabel), 15)
 
     def buildTower(self, tower):
         tower.push_handlers(self)
