@@ -57,8 +57,10 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         if self.wavequantity-self.modulo_wavenumber == 1:
             self.showWarning()
         self.enemieslength = len(self.enemy_list)
-        self.schedule_interval(self.addEnemy, 0.1, self.startTile, self.path,
+        clock.schedule_once(self.addEnemy,0,self.startTile, self.path,
                                self.enemy_list, self.multiplier)
+        #self.schedule_interval(self.addEnemy, 0.1, self.startTile, self.path,
+        #                       self.enemy_list, self.multiplier)
 
     def showWarning(self):
         self.warningLabel = cocos.text.Label(
@@ -140,7 +142,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self.dispatch_event('on_next_wave')
 
     def addEnemy(self, dt, startTile, path, enemylist, multiplier):
-        self.unschedule(self.addEnemy)
+        #self.unschedule(self.addEnemy)
         position = startTile
         enemy = pyfense_enemy.PyFenseEnemy(position,
                                            enemylist[self.spawnedEnemies][0],
@@ -152,10 +154,12 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.add(enemy.healthBarBackground, z=6)
         self.add(enemy.healthBar, z=7)
         if self.spawnedEnemies != self.enemieslength:
-            self.schedule_interval(self.addEnemy,
-                                   self.enemy_list[self.spawnedEnemies-1][2],
-                                   self.startTile, self.path,
+            clock.schedule_once(self.addEnemy, self.enemy_list[self.spawnedEnemies-1][2],self.startTile, self.path,
                                    self.enemy_list, self.multiplier)
+            #self.schedule_interval(self.addEnemy,
+            #                       self.enemy_list[self.spawnedEnemies-1][2],
+            #                       self.startTile, self.path,
+            #                       self.enemy_list, self.multiplier)
         self.isWaveFinished()
 
     # Removes enemy from entity when no action is running,
