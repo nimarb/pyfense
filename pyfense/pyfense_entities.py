@@ -57,10 +57,8 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         if self.wavequantity-self.modulo_wavenumber == 1:
             self.showWarning()
         self.enemieslength = len(self.enemy_list)
-        clock.schedule_once(self.addEnemy,0,self.startTile, self.path,
-                               self.enemy_list, self.multiplier)
-        #self.schedule_interval(self.addEnemy, 0.1, self.startTile, self.path,
-        #                       self.enemy_list, self.multiplier)
+        clock.schedule_once(self.addEnemy, 0, self.startTile, self.path,
+                            self.enemy_list, self.multiplier)
 
     def showWarning(self):
         self.warningLabel = cocos.text.Label(
@@ -103,7 +101,8 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         projectile.push_handlers(self)
         self.add(projectile, z=1)
         duration = 80 / projectileVelocity
-        clock.schedule_once(lambda dt: self.changeZ(projectile, 1, 4), duration)
+        clock.schedule_once(lambda dt: self.changeZ(projectile, 1, 4),
+                            duration)
 
     def changeZ(self, cocosnode, z_before, z_after):
         if (z_before, cocosnode) in self.children:
@@ -137,12 +136,10 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     def isWaveFinished(self):
         if self.spawnedEnemies == self.enemieslength:
-            # self.unschedule(self.addEnemy)
             if self.diedEnemies == self.spawnedEnemies:
                 self.dispatch_event('on_next_wave')
 
     def addEnemy(self, dt, startTile, path, enemylist, multiplier):
-        #self.unschedule(self.addEnemy)
         position = startTile
         enemy = pyfense_enemy.PyFenseEnemy(position,
                                            enemylist[self.spawnedEnemies][0],
@@ -154,12 +151,10 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.add(enemy.healthBarBackground, z=6)
         self.add(enemy.healthBar, z=7)
         if self.spawnedEnemies != self.enemieslength:
-            clock.schedule_once(self.addEnemy, self.enemy_list[self.spawnedEnemies-1][2],self.startTile, self.path,
-                                   self.enemy_list, self.multiplier)
-            #self.schedule_interval(self.addEnemy,
-            #                       self.enemy_list[self.spawnedEnemies-1][2],
-            #                       self.startTile, self.path,
-            #                       self.enemy_list, self.multiplier)
+            clock.schedule_once(self.addEnemy,
+                                self.enemy_list[self.spawnedEnemies-1][2],
+                                self.startTile, self.path,
+                                self.enemy_list, self.multiplier)
         self.isWaveFinished()
 
     # Removes enemy from entity when no action is running,
