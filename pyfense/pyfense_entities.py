@@ -46,8 +46,8 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.hasEnemyReachedEnd()
 
     def nextWave(self, waveNumber):
-        self.enemy_list = pyfense_resources.waves[
-            (waveNumber-1) % self.wavequantity+1]
+        self.modulo_wavenumber = (waveNumber-1) % self.wavequantity+1
+        self.enemy_list = pyfense_resources.waves[self.modulo_wavenumber]
         self.spawnedEnemies = 0
         self.diedEnemies = 0
         self.enemyHealthFactor = math.floor((waveNumber - 1) /
@@ -55,9 +55,40 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.multiplier = ((self.polynomial2 * (self.enemyHealthFactor**2)) +
                            (self.polynomial1 * self.enemyHealthFactor) +
                            self.polynomial0)
+        if self.wavequantity-self.modulo_wavenumber == 1:
+            self.showWarning(1)
+        elif self.wavequantity-self.modulo_wavenumber == 0:
+            self.showWarning(2)
+        elif self.modulo_wavenumber == 1 and waveNumber != 1:
+            self.showWarning(3)
         self.enemieslength = len(self.enemy_list)
-        self.schedule_interval(self.addEnemy, 0.1, self.startTile, self.path,
-                               self.enemy_list, self.multiplier)
+        clock.schedule_once(self.addEnemy, 0, self.startTile, self.path,
+                            self.enemy_list, self.multiplier)
+
+    def showWarning(self, warningNumber):
+        if warningNumber == 1:
+            self.warningLabel = cocos.text.Label(
+                'Enemies will get stronger in 2 Waves!!!',
+                font_name='Times New Roman', font_size=32,
+                anchor_x='center', anchor_y='center', color=(255, 0, 0, 255))
+        elif warningNumber == 2:
+            self.remove(self.warningLabel)
+            self.warningLabel = cocos.text.Label(
+                'Enemies will get stronger next Wave!!!',
+                font_name='Times New Roman', font_size=32,
+                anchor_x='center', anchor_y='center', color=(255, 0, 0, 255))
+        elif warningNumber == 3:
+            self.remove(self.warningLabel)
+            self.warningLabel = cocos.text.Label(
+                'Enemies are now stronger!!!',
+                font_name='Times New Roman', font_size=32,
+                anchor_x='center', anchor_y='center', color=(255, 0, 0, 255))
+            clock.schedule_once(lambda dt: self.remove(self.warningLabel), 15)
+        w, h = cocos.director.director.get_window_size()
+        self.warningLabel.position = w / 2, h - 100
+        self.add(self.warningLabel)
+        blinkaction = cocos.actions.Blink(3, 3)
+        self.warningLabel.do(blinkaction)
 
     def buildTower(self, tower):
         tower.push_handlers(self)
@@ -88,13 +119,14 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         projectile.push_handlers(self)
         self.add(projectile, z=1)
         duration = 80 / projectileVelocity
-        clock.schedule_once(lambda dt: self.changeZ(projectile, 1, 4), 0.1)
-        
+        clock.schedule_once(lambda dt: self.changeZ(projectile, 1, 4),
+                            duration)
+
     def changeZ(self, cocosnode, z_before, z_after):
         if (z_before, cocosnode) in self.children:
             self.remove(cocosnode)
             self.add(cocosnode, z_after)
-        
+
     def on_enemy_hit(self, projectile, target, towerNumber):
         explosion = eval('pyfense_particles.Explosion' +
                          str(towerNumber) + '()')
@@ -122,12 +154,10 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     def isWaveFinished(self):
         if self.spawnedEnemies == self.enemieslength:
-            # self.unschedule(self.addEnemy)
             if self.diedEnemies == self.spawnedEnemies:
                 self.dispatch_event('on_next_wave')
 
     def addEnemy(self, dt, startTile, path, enemylist, multiplier):
-        self.unschedule(self.addEnemy)
         position = startTile
         enemy = pyfense_enemy.PyFenseEnemy(position,
                                            enemylist[self.spawnedEnemies][0],
@@ -139,10 +169,10 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.add(enemy.healthBarBackground, z=6)
         self.add(enemy.healthBar, z=7)
         if self.spawnedEnemies != self.enemieslength:
-            self.schedule_interval(self.addEnemy,
-                                   self.enemy_list[self.spawnedEnemies-1][2],
-                                   self.startTile, self.path,
-                                   self.enemy_list, self.multiplier)
+            clock.schedule_once(self.addEnemy,
+                                self.enemy_list[self.spawnedEnemies-1][2],
+                                self.startTile, self.path,
+                                self.enemy_list, self.multiplier)
         self.isWaveFinished()
 
     # Removes enemy from entity when no action is running,
