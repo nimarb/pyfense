@@ -21,10 +21,14 @@ class PyFenseEnemy(sprite.Sprite):
         self.healthPoints = self.maxHealthPoints
         self.healthBarWidth = 50
         self.healthBarBackground, self.healthBar = self.drawHealthBar()
+        self.turns = self.attributes['turns']
         self.move(lvl)
 
     def move(self, lvl):
-        self.do(self.path[0])
+        if self.turns:
+            self.do(self.path[0])
+        else:
+            self.do(self.path[1])
         self.healthBarBackground.do(self.path[1])
         self.healthBar.do(self.path[1])
 
