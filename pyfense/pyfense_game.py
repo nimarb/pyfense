@@ -63,39 +63,64 @@ class PyFenseGame(scene.Scene):
         # move[0] for enemy with rotation and move[1] for healthbar
         move = [actions.MoveBy((0, 0), 0.1) for x in range(0, 2)]
 
+        move2 = [[], []]  #
+        pos = self.getPositionFromGrid(self.startTile)  #
+
         while(currentTile[0] != self.endTile[0] or
               currentTile[1] != self.endTile[1]):
             if(self.gameGrid[currentTile[0]][currentTile[1]-1] == 2):
                 move[0] += actions.RotateTo(180, 0)  # RotateLeft
+                move2[0].append(actions.RotateTo(180, 0))
+                move2[1].append([])
                 for i in range(2):
                     move[i] += actions.MoveBy((-60, 0), 0.5)  # MoveLeft
+                    for j in range(1, 11):
+                        move2[i].append((pos[0]-6*j, pos[1]))
+                pos = (pos[0]-60, pos[1])
                 currentTile[1] -= 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
 
             elif(self.gameGrid[currentTile[0]][currentTile[1]+1] == 2):
                 move[0] += actions.RotateTo(0, 0)  # RotateRight
+                move2[0].append(actions.RotateTo(0, 0))
+                move2[1].append([])
                 for i in range(2):
                     move[i] += actions.MoveBy((60, 0), 0.5)   # MoveRight
+                    for j in range(1, 11):
+                        move2[i].append((pos[0]+6*j, pos[1]))
+                pos = (pos[0]+60, pos[1])
                 currentTile[1] += 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
 
             elif(self.gameGrid[currentTile[0]+1][currentTile[1]] == 2):
                 move[0] += actions.RotateTo(270, 0)  # RotateUp
+                move2[0].append(actions.RotateTo(270, 0))
+                move2[1].append([])
                 for i in range(2):
                     move[i] += actions.MoveBy((0, 60), 0.5)  # MoveUp
+                    for j in range(1, 11):
+                        move2[i].append((pos[0], pos[1]+6*j))
+                pos = (pos[0], pos[1]+60)
                 currentTile[0] += 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
 
             elif(self.gameGrid[currentTile[0]-1][currentTile[1]] == 2):
                 move[0] += actions.RotateTo(90, 0)  # RotateDown
+                move2[0].append(actions.RotateTo(90, 0))
+                move2[1].append([])
                 for i in range(2):
                     move[i] += actions.MoveBy((0, -60), 0.5)  # MoveDown
+                    for j in range(1, 11):
+                        move2[i].append((pos[0], pos[1]-6*j))
+                pos = (pos[0], pos[1]-60)
                 currentTile[0] -= 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
             else:
                 break
         self.gameGrid[self.startTile[0]][self.startTile[1]] = 1
-        self.movePath = move
+        #move2[0].append(move2[0][-1])
+        #move2[1].append(move2[1][-1])
+        self.movePath = move2
 
     def loadMap(self):
         self.levelMap = pyfense_map.PyFenseMap(self.levelMapName)
@@ -103,8 +128,9 @@ class PyFenseGame(scene.Scene):
 
     def displayEntities(self):
         startTile = self.getPositionFromGrid(self.startTile)
+        endTile = self.getPositionFromGrid(self.endTile)
         self.entityMap = pyfense_entities.PyFenseEntities(self.movePath,
-                                                          startTile)
+                                                          startTile, endTile)
         self.entityMap.push_handlers(self)
         self.add(self.entityMap, z=1)
 

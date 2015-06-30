@@ -5,6 +5,7 @@ contains PyFenseEnemy class
 
 import cocos
 from cocos import sprite
+from pyglet import clock
 import pyfense_resources
 
 
@@ -17,16 +18,33 @@ class PyFenseEnemy(sprite.Sprite):
                                            position=self.currentPos,
                                            scale=1)
         self.path = path
+        self.currentSpeed = self.attributes["speed"]
+        self.distance = 0
         self.maxHealthPoints = self.attributes["maxhealth"]*healthMultiplier
         self.healthPoints = self.maxHealthPoints
         self.healthBarWidth = 50
         self.healthBarBackground, self.healthBar = self.drawHealthBar()
-        self.move(lvl)
-
+        clock.schedule_once(self.move, 0.1)
+        # self.move()
+        """
     def move(self, lvl):
         self.do(self.path[0])
         self.healthBarBackground.do(self.path[1])
         self.healthBar.do(self.path[1])
+        """
+    def move(self, dt):
+        if self.distance != len(self.path[0]):
+            if self.distance % 11 == 0:
+                self.do(self.path[0][self.distance])
+                self.distance += 1
+            self.duration = 1/self.currentSpeed
+            action = cocos.actions.MoveTo(self.path[0][self.distance], self.duration)
+            self.do(action)
+            healthBarAction = cocos.actions.MoveTo(self.path[1][self.distance], self.duration)
+            self.healthBarBackground.do(healthBarAction)
+            self.healthBar.do(healthBarAction)
+            self.distance += 1
+            clock.schedule_once(self.move, self.duration)
 
     def drawHealthBar(self):
         self.bar_x = self.x - self.healthBarWidth / 2
@@ -53,3 +71,6 @@ class PyFenseEnemy(sprite.Sprite):
         self.healthBar.end = (self.bar_x + self.healthBarWidth *
                               (self.healthPoints/self.maxHealthPoints),
                               self.bar_y)
+
+    def die(self):
+        clock.unschedule(self.move)
