@@ -47,25 +47,25 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.waveLabel = cocos.text.Label('Current Wave: 1', bold=True,
                                           anchor_x='center',
                                           anchor_y='center',
-                                          font_size = 15)
+                                          font_size=15)
         w, h = cocos.director.director.get_window_size()
         self.waveLabel.position = w / 2 - 50, h - 30
         self.add(self.waveLabel)
         self.timeLabel = cocos.text.Label(
             'Time until next Wave: ' + str(self.time) + ' Seconds', bold=True,
-            anchor_x='center', anchor_y='center', font_size = 15)
+            anchor_x='center', anchor_y='center', font_size=15)
         self.timeLabel.position = w / 2 - 300, h - 30
         self.add(self.timeLabel)
         self.liveLabel = cocos.text.Label('Remaining Lives: 15', bold=True,
                                           anchor_x='center', anchor_y='center',
-                                          font_size = 15)
+                                          font_size=15)
         self.liveLabel.position = w / 2 + 150, h - 30
         self.add(self.liveLabel)
         self.currentCurrency = 300
         self.currencyLabel = cocos.text.Label('$' + str(self.currentCurrency),
                                               anchor_x='center',
                                               bold=True, anchor_y='center',
-                                              font_size = 15)
+                                              font_size=15)
         self.currencyLabel.position = w / 2 + 300, h - 30
         self.add(self.currencyLabel)
 
@@ -107,7 +107,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         for i in range(0, 3):
             labels.append(
                 cocos.text.Label(" ", bold=True, anchor_x='right',
-                anchor_y='center',color=(255, 0, 0, 255)))
+                anchor_y='center', color=(255, 0, 0, 255)))
         self.towerCostTexts = [labels[0], labels[1], labels[2]]
         self.towerUpgradeText = cocos.text.Label(
             " ", bold=True, anchor_x='center', anchor_y='center',
@@ -258,8 +258,9 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                     for i in range(0, len(self.towerThumbnails)):
                         if (x > self.menuMin_x + i *
                                 self.towerThumbnails[i].width and
-                                x < self.menuMax_x - (len(self.towerThumbnails)
-                                - i - 1) * self.towerThumbnails[i].width):
+                                x < self.menuMax_x -
+                                (len(self.towerThumbnails) - i - 1) *
+                                self.towerThumbnails[i].width):
                             return i
         elif self.upgradeHudDisplayed > 0:
             if (y < self.menuMax_y + self.destroyTowerIcon.height / 2 and
