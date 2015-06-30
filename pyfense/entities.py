@@ -41,6 +41,11 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.polynomial0 = -(self.polynomial1 - 1)  # offset
         self.enemyHealthFactor = 1
         clock.schedule_interval(self.updateEnemiesOrder, 0.2)
+        
+        # variables that you want to check or modify in the interpreter
+        director.interpreter_locals["entities"] = self
+        director.interpreter_locals["enemies"] = self.enemies
+        director.interpreter_locals["towers"] = self.towers
 
         # update runs every tick
     def update(self, dt):
