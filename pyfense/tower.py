@@ -28,7 +28,6 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
         self.canFire = True
         self.shot = resources.shot
         self.schedule(lambda dt: self.fire())
-        # clock.schedule_once(lambda dt: self.fire(), 0.01)
         self.schedule(lambda dt: self.find_next_enemy())
         self.schedule(lambda dt: self.rotateToTarget())
 
