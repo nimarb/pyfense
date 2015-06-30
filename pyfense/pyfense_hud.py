@@ -4,7 +4,7 @@
 
 import cocos
 import pyglet
-import pyfense_resources
+from pyfense import pyfense_resources
 
 
 class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):

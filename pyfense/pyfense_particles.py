@@ -3,7 +3,7 @@
 from cocos.particle import ParticleSystem, Color
 from cocos.euclid import Point2
 
-import pyfense_resources
+from pyfense import pyfense_resources
 
 
 class Death(ParticleSystem):

@@ -6,7 +6,7 @@ contains PyFenseEnemy class
 import cocos
 from cocos import sprite
 from pyglet import clock
-import pyfense_resources
+from pyfense import pyfense_resources
 
 
 class PyFenseEnemy(sprite.Sprite):

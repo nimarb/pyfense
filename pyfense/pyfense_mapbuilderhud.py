@@ -1,6 +1,6 @@
 import cocos
 import pyglet
-import pyfense_resources
+from pyfense import pyfense_resources
 from cocos import director
 
 

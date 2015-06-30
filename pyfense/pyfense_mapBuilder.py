@@ -5,7 +5,7 @@ import cocos
 import cocos.director
 from cocos.scene import Scene
 from cocos import actions
-import pyfense_resources
+from pyfense import pyfense_resources
 import pickle
 
 

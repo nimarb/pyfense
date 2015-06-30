@@ -10,13 +10,13 @@ import cocos
 from cocos.director import director
 
 # import pyfense_tower
-import pyfense_enemy
-import pyfense_projectile
+from pyfense import pyfense_enemy
+from pyfense import pyfense_projectile
 # import pyfense_hud
-from pyfense_pause import PyFensePause
-import pyfense_resources
-import pyfense_particles
-import pyfense_highscore
+from pyfense.pyfense_pause import PyFensePause
+from pyfense import pyfense_resources
+from pyfense import pyfense_particles
+from pyfense import pyfense_highscore
 import math
 
 

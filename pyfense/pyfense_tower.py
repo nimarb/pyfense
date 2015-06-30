@@ -8,7 +8,7 @@ from cocos import sprite
 import pyglet
 from pyglet import clock
 import math
-import pyfense_resources
+from pyfense import pyfense_resources
 
 # import pyfense_entities
 

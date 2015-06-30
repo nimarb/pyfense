@@ -13,8 +13,8 @@ from cocos.director import director
 from cocos.text import Label
 from cocos.layer import Layer
 
-import pyfense_resources
-import pyfense_highscore
+from pyfense import pyfense_resources
+from pyfense import pyfense_highscore
 
 font.add_directory(os.path.join(
     os.path.dirname(
