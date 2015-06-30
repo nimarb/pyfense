@@ -122,6 +122,14 @@ def loadWaves():
                 if len(attributes) != 0:
                     waves.update(attributes)
 
+
+def load_custom_image():
+    if(os.path.isfile(pathjoin("assets/lvlcustom.png"))):
+        return loadImage(pathjoin('assets/lvlcustom.png'))
+    else:
+        print("no custom image created but tried to load")
+        return None
+
 loadWaves()
 
 noCashOverlay = loadImage(pathjoin("assets/tower-nocashoverlay.png"))
@@ -132,9 +140,6 @@ background = {
     "lvl1": loadImage(pathjoin("assets/lvl1.png")),
     "lvl2": loadImage(pathjoin("assets/lvl2.png"))
     }
-
-if(os.path.isfile(pathjoin("assets/lvlcustom.png"))):
-    lvlcustom = loadImage(pathjoin('assets/lvlcustom.png'))
 
 selector0 = loadImage(pathjoin("assets/selector0.png"))
 selector1 = loadImage(pathjoin("assets/selector1.png"))
@@ -155,6 +160,9 @@ picto_rate = loadImage(pathjoin("assets/firerate_pictogram.png"))
 healthBarCap = loadImage(pathjoin("assets/healthBarCap.png")).get_texture()
 
 shot = pyglet.media.load(pathjoin("assets/music.wav"), streaming=False)
+
+customImage = load_custom_image()
+
 # Music
 # music_player = pyglet.media.Player()
 # Can't load music.wav, because not found on path??

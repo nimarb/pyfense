@@ -2,11 +2,12 @@
 # contains PyFenseGame class (scene)
 
 import cocos
-import cocos.director
+from cocos import director
 from cocos.scene import Scene
 from cocos import actions
 import pyfense_resources
 import pickle
+import pyfense_mapbuilderhud
 
 
 class PyFenseMapBuilder(Scene):
@@ -57,7 +58,7 @@ class PyFenseMapBuilder(Scene):
 #        director.director.replace(scene)
 
     def displayHud(self):
-        self.hud = PyFenseMapBuilderHud()
+        self.hud = pyfense_mapbuilderhud.PyFenseMapBuilderHud()
         self.hud.push_handlers(self)
         self.add(self.hud, z=2)
 

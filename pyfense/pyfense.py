@@ -57,6 +57,7 @@ class MainMenu(cocos.menu.Menu):
     def on_level_select(self):
         logo.scale = 0.25
         logo.position = (w/2+20, h-90)
+        levelSelect.remove_old()
         self.parent.switch_to(1)
 
     def on_settings(self):
@@ -91,11 +92,15 @@ class MainMenu(cocos.menu.Menu):
 class LevelSelectMenu(cocos.menu.Menu):
     def __init__(self):
         super().__init__(' ')
+        self.items = None
+        self.initialise()
+
+    def initialise(self):
         self.font_title['font_name'] = _font_
         self.font_title['font_size'] = 72
         self.menu_anchor_x = cocos.menu.CENTER
         self.menu_anchor_y = cocos.menu.CENTER
-        items = []
+        self.items = []
         image_lvl1 = pyfense_resources.background["lvl1"]
         lvl1 = pyfense_modmenu.ImageMenuItem(image_lvl1,
                                              lambda: self.on_start(1))
@@ -112,26 +117,26 @@ class LevelSelectMenu(cocos.menu.Menu):
             mapBuilderActivated = "nobuilder"
 
         if(mapBuilderActivated == "builder"):
-            MapBuilder = cocos.menuMenuItem('MapBuilder', self.on_mapBuilder)
+            MapBuilder = cocos.menu.MenuItem('MapBuilder', self.on_mapBuilder)
             MapBuilder.y -= 20
 
         if(
             os.path.isfile(os.path.join(
                 os.path.dirname(
                 os.path.abspath(__file__)), "assets/lvlcustom.png"))):
-                    customImage = pyfense_resources.lvlcustom
+                    customImage = pyfense_resources.load_custom_image()
                     lvl1.scale = 0.18
                     lvl1.y = 30
-                    items.append(lvl1)
+                    self.items.append(lvl1)
                     lvl2.scale = 0.18
                     lvl2.y -= 150
-                    items.append(lvl2)
+                    self.items.append(lvl2)
                     customItem = (
                         pyfense_modmenu.ImageMenuItem(
                             customImage, lambda: self.on_start("custom")))
                     customItem.scale = 0.22
                     customItem.y -= 300
-                    items.append(customItem)
+                    self.items.append(customItem)
                     if(mapBuilderActivated == "builder"):
                         MapBuilder.y -= 340
                         Back.y -= 20
@@ -140,20 +145,20 @@ class LevelSelectMenu(cocos.menu.Menu):
         else:
             lvl1.scale = 0.28
             lvl1.y = 0
-            items.append(lvl1)
+            self.items.append(lvl1)
             lvl2.scale = 0.28
             lvl2.y -= 300
-            items.append(lvl2)
+            self.items.append(lvl2)
             if(mapBuilderActivated == "builder"):
                 MapBuilder.y -= 320
                 Back.y -= 20
             Back.y -= 300
         if(mapBuilderActivated == "builder"):
-            items.append(MapBuilder)
+            self.items.append(MapBuilder)
 
-        items.append(Back)
+        self.items.append(Back)
         width, height = director.get_window_size()
-        self.create_menu(items)
+        self.create_menu(self.items)
 
     def on_start(self, lvl):
         """
@@ -167,6 +172,16 @@ class LevelSelectMenu(cocos.menu.Menu):
         Starts the Mapbuilder
         """
         director.push(pyfense_mapBuilder.PyFenseMapBuilder())
+
+    def remove_old(self):
+        """
+        removes the old Menu and creates a new one to look for new entries
+        """
+        for item in self.items:
+            levelSelect.remove(item)
+        # levelSelect is LevelSelectMenu item
+        levelSelect.items = None
+        levelSelect.initialise()
 
     def on_quit(self):
         self.parent.switch_to(0)
@@ -518,9 +533,10 @@ class AboutLayer(ColorLayer):
 if __name__ == '__main__':
     director.init(**pyfense_resources.settings['window'])
     scene = Scene()
+    levelSelect = LevelSelectMenu()
     scene.add(MultiplexLayer(
         MainMenu(),
-        LevelSelectMenu(),
+        levelSelect,
         OptionsMenu(),
         ScoresLayer(),
         HelpLayer(),
