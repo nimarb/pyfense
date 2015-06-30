@@ -19,19 +19,17 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         # upgradeHudDisplayed is 0 if no Hud is displayed
         # it is 0.5 if the hud is displayed but no upgrade is available
         # if an upgradeable tower is displayed, upgradeHudDisplayed takes the
-        # value of: upgradeLevel
+        # value of the tower's upgradeLevel
         self.upgradeHudDisplayed = 0
         self.startNextWaveTimer()
         self.towerThumbnails = []
         for i in range(0, 3):
             self.towerThumbnails.append(cocos.sprite.Sprite(
                 pyfense_resources.tower[i][1]["image"]))
-
         self.noCashOverlays = []
         for i in range(0, 3):
             self.noCashOverlays.append(cocos.sprite.Sprite(
                 pyfense_resources.noCashOverlay))
-
         self.noCashOverlayDisplayed = [False for x in
                                        range(0, len(self.noCashOverlays))]
         self.destroyTowerIcon = cocos.sprite.Sprite(
@@ -99,21 +97,18 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             pyfense_resources.selector1)
         self.cellSelectorSpriteGreen = cocos.sprite.Sprite(
             pyfense_resources.selector0)
-        self.cellSelectorSpriteRed.position = 960, 540
-        self.cellSelectorSpriteGreen.position = 960, 540
         self.cellSelectorSpriteGreen.visible = False
         self.cellSelectorSpriteRed.visible = False
         self.add(self.cellSelectorSpriteRed)
         self.add(self.cellSelectorSpriteGreen)
 
     def _addTowerTexts(self):
-        label1 = cocos.text.Label(" ", bold=True, anchor_x='right',
-                                  anchor_y='center', color=(255, 0, 0, 255))
-        label2 = cocos.text.Label(" ", bold=True, anchor_x='right',
-                                  anchor_y='center', color=(255, 0, 0, 255))
-        label3 = cocos.text.Label(" ", bold=True, anchor_x='right',
-                                  anchor_y='center', color=(255, 0, 0, 255))
-        self.towerCostTexts = [label1, label2, label3]
+        labels = []
+        for i in range(0, 3):
+            labels.append(
+                cocos.text.Label(" ", bold=True, anchor_x='right',
+                anchor_y='center',color=(255, 0, 0, 255)))
+        self.towerCostTexts = [labels[0], labels[1], labels[2]]
         self.towerUpgradeText = cocos.text.Label(
             " ", bold=True, anchor_x='center', anchor_y='center',
             color=(255, 0, 0, 255))
