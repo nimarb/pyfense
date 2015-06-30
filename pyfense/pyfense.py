@@ -145,7 +145,7 @@ class LevelSelectMenu(cocos.menu.Menu):
                         MapBuilder.y -= 340
                         Back.y -= 20
                     Back.y -= 320
-                # custom map has to be position correctly in Menu
+                # custom map has to be positioned correctly in Menu
         else:
             lvl1.scale = 0.28
             lvl1.y = 0
