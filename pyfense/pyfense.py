@@ -44,6 +44,13 @@ class MainMenu(cocos.menu.Menu):
 
         self.menu_anchor_x = cocos.menu.CENTER
         self.menu_anchor_y = cocos.menu.CENTER
+        '''
+        logo = cocos.sprite.Sprite(resources.logo)
+        w, h = director.get_window_size()
+        logo.position = (w / 2 + 20, h - 175)
+        logo.scale = 0.5
+        self.parent.add(logo, z = 1)'''
+        print(self.parent)
         items = []
         items.append(cocos.menu.MenuItem('Start Game', self.on_level_select))
         items.append(cocos.menu.MenuItem('Scores', self.on_scores))
@@ -52,52 +59,24 @@ class MainMenu(cocos.menu.Menu):
         items.append(cocos.menu.MenuItem('About', self.on_about))
         items.append(cocos.menu.MenuItem('Exit', self.on_quit))
         self.create_menu(items)
-        self.schedule(self._scaleLogo)
 
     def on_level_select(self):
-        logo = cocos.sprite.Sprite(resources.logo)
-        w, h = director.get_window_size()
-        logo.scale = 0.25
-        logo.position = (w/2+20, h-90)
         self.parent.switch_to(1)
 
     def on_settings(self):
-        logo = cocos.sprite.Sprite(resources.logo)
-        w, h = director.get_window_size()
-        logo.scale = 0.25
-        logo.position = (w/2+20, h-90)
         self.parent.switch_to(2)
 
     def on_scores(self):
-        logo = cocos.sprite.Sprite(resources.logo)
-        logo.scale = 0.25
-        logo.position = (w/2+20, h-90)
         self.parent.switch_to(3)
 
     def on_help(self):
-        logo = cocos.sprite.Sprite(resources.logo)
-        w, h = director.get_window_size()
-        logo.scale = 0.25
-        logo.position = (w/2+20, h-90)
         self.parent.switch_to(4)
 
     def on_about(self):
-        logo = cocos.sprite.Sprite(resources.logo)
-        w, h = director.get_window_size()
-        logo.scale = 0.25
-        logo.position = (w/2+20, h-90)
         self.parent.switch_to(5)
 
     def on_quit(self):
         pyglet.app.exit()
-
-    def _scaleLogo(self, dt):
-        if self.parent.enabled_layer == 0:
-            logo = cocos.sprite.Sprite(resources.logo)
-            w, h = director.get_window_size()
-            logo.position = (w / 2 + 20, h - 175)
-            logo.scale = 0.5
-
 
 class LevelSelectMenu(cocos.menu.Menu):
     def __init__(self):
@@ -556,10 +535,13 @@ def main():
 #    music = pyglet.resource.media("assets/music.wav", streaming = False)
 #    music_player.queue(music)
 #    music_player.eos_action = music_player.EOS_LOOP
-
     logo = cocos.sprite.Sprite(resources.logo)
-    scene.add(logo, z=2)
+    w, h = director.get_window_size()
+    logo.position = (w / 2 + 20, h - 90)
+    logo.scale = 0.25
+    scene.add(logo, z = 1)
     director.run(scene)
+
 
 # if __name__ == '__main__':
 #     main()
