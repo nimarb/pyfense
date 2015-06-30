@@ -31,7 +31,7 @@ _font_ = 'Orbitron Light'
 
 
 class MainMenu(cocos.menu.Menu):
-    def __init__(self):
+    def __init__(self, scene):
         super().__init__('')
         self.font_title['font_name'] = _font_
         self.font_title['font_size'] = 72
@@ -44,13 +44,15 @@ class MainMenu(cocos.menu.Menu):
 
         self.menu_anchor_x = cocos.menu.CENTER
         self.menu_anchor_y = cocos.menu.CENTER
-        '''
-        logo = cocos.sprite.Sprite(resources.logo)
-        w, h = director.get_window_size()
-        logo.position = (w / 2 + 20, h - 175)
-        logo.scale = 0.5
-        self.parent.add(logo, z = 1)'''
-        print(self.parent)
+        
+        self.scene = scene
+        
+        self.logo = cocos.sprite.Sprite(resources.logo)
+        self.w, self.h = director.get_window_size()
+        self.logo.position = (self.w / 2 + 20, self.h - 175)
+        self.logo.scale = 0.5
+        self.scene.add(self.logo, z = 1)
+        
         items = []
         items.append(cocos.menu.MenuItem('Start Game', self.on_level_select))
         items.append(cocos.menu.MenuItem('Scores', self.on_scores))
@@ -59,30 +61,47 @@ class MainMenu(cocos.menu.Menu):
         items.append(cocos.menu.MenuItem('About', self.on_about))
         items.append(cocos.menu.MenuItem('Exit', self.on_quit))
         self.create_menu(items)
+        self.schedule(self._scale_logo_main_menu)
 
     def on_level_select(self):
+        self._scale_logo_sub_menu()
         self.parent.switch_to(1)
 
     def on_settings(self):
+        self._scale_logo_sub_menu()
         self.parent.switch_to(2)
 
     def on_scores(self):
+        self._scale_logo_sub_menu()
         self.parent.switch_to(3)
 
     def on_help(self):
+        self._scale_logo_sub_menu()
         self.parent.switch_to(4)
 
     def on_about(self):
+        self._scale_logo_sub_menu()
         self.parent.switch_to(5)
 
     def on_quit(self):
         pyglet.app.exit()
+        
+        
+    def _scale_logo_main_menu(self, dt):
+        if self.parent.enabled_layer == 0:
+            self.logo.position = (self.w / 2 + 20, self.h - 175)
+            self.logo.scale = 0.5
+            
+    def _scale_logo_sub_menu(self):
+        self.logo.position = (self.w / 2 + 20, self.h - 90)
+        self.logo.scale = 0.25
 
 class LevelSelectMenu(cocos.menu.Menu):
     def __init__(self):
         super().__init__(' ')
         self.font_title['font_name'] = _font_
         self.font_title['font_size'] = 72
+        
         self.menu_anchor_x = cocos.menu.CENTER
         self.menu_anchor_y = cocos.menu.CENTER
         items = []
@@ -509,7 +528,7 @@ def main():
     director.init(**resources.settings['window'])
     scene = Scene()
     scene.add(MultiplexLayer(
-        MainMenu(),
+        MainMenu(scene),
         LevelSelectMenu(),
         OptionsMenu(),
         ScoresLayer(),
@@ -535,11 +554,6 @@ def main():
 #    music = pyglet.resource.media("assets/music.wav", streaming = False)
 #    music_player.queue(music)
 #    music_player.eos_action = music_player.EOS_LOOP
-    logo = cocos.sprite.Sprite(resources.logo)
-    w, h = director.get_window_size()
-    logo.position = (w / 2 + 20, h - 90)
-    logo.scale = 0.25
-    scene.add(logo, z = 1)
     director.run(scene)
 
 
