@@ -2,9 +2,12 @@
  pyfense_entities.py
 contains the layer on which all enemies and towers are placed (layer)
 """
+import os
+
 import pyglet
 from pyglet.window import key
 from pyglet import clock
+from pyglet import font
 
 import cocos
 from cocos.director import director
@@ -19,6 +22,10 @@ from pyfense import particles
 from pyfense import highscore
 import math
 
+font.add_directory(os.path.join(
+    os.path.dirname(
+        os.path.abspath(__file__)), 'assets/'))
+_font_ = 'Orbitron Light'
 
 class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
     is_event_handler = True
@@ -73,28 +80,26 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     def showWarning(self, warningNumber):
         if warningNumber == 1:
-            self.warningLabel = cocos.text.Label(
+            warningLabel = cocos.text.Label(
                 'Enemies will get stronger in 2 Waves!!!',
-                font_name='Times New Roman', font_size=32,
-                anchor_x='center', anchor_y='center', color=(255, 0, 0, 255))
+                font_name=_font_, font_size=64,
+                anchor_x='center', anchor_y='center', color=(255, 0, 0, 200))
         elif warningNumber == 2:
-            self.remove(self.warningLabel)
-            self.warningLabel = cocos.text.Label(
+            warningLabel = cocos.text.Label(
                 'Enemies will get stronger next Wave!!!',
-                font_name='Times New Roman', font_size=32,
-                anchor_x='center', anchor_y='center', color=(255, 0, 0, 255))
+                font_name=_font_, font_size=64,
+                anchor_x='center', anchor_y='center', color=(255, 0, 0, 200))
         elif warningNumber == 3:
-            self.remove(self.warningLabel)
-            self.warningLabel = cocos.text.Label(
+            warningLabel = cocos.text.Label(
                 'Enemies are now stronger!!!',
-                font_name='Times New Roman', font_size=32,
-                anchor_x='center', anchor_y='center', color=(255, 0, 0, 255))
-            clock.schedule_once(lambda dt: self.remove(self.warningLabel), 15)
+                font_name=_font_, font_size=64,
+                anchor_x='center', anchor_y='center', color=(255, 0, 0, 200))
         w, h = cocos.director.director.get_window_size()
-        self.warningLabel.position = w / 2, h - 100
-        self.add(self.warningLabel)
-        blinkaction = cocos.actions.Blink(3, 3)
-        self.warningLabel.do(blinkaction)
+        warningLabel.position = w / 2, h/2
+        self.add(warningLabel, z = 8)
+        blinkaction = cocos.actions.Blink(3, 2)
+        warningLabel.do(blinkaction)
+        clock.schedule_once(lambda dt: self.remove(warningLabel), 3.5)
 
     def buildTower(self, tower):
         tower.push_handlers(self)
