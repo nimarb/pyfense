@@ -192,9 +192,9 @@ def initGrid(lvl):
             gameGrid[9][i] = 2
 
     elif lvl == 2:
-        startTile = [9, 1]
+        startTile = [9, 0]
         endTile = [9, 31]
-        for i in range(2, 14):
+        for i in range(1, 14):
             gameGrid[9][i] = 2
         for i in range(5, 10):
             gameGrid[i][13] = 2

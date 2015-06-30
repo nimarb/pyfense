@@ -65,18 +65,18 @@ class PyFenseGame(scene.Scene):
 
         while(currentTile[0] != self.endTile[0] or
               currentTile[1] != self.endTile[1]):
-            if(self.gameGrid[currentTile[0]][currentTile[1]-1] == 2):
-                move[0] += actions.RotateTo(180, 0)  # RotateLeft
-                for i in range(2):
-                    move[i] += actions.MoveBy((-60, 0), 0.5)  # MoveLeft
-                currentTile[1] -= 1
-                self.gameGrid[currentTile[0]][currentTile[1]] = 1
-
-            elif(self.gameGrid[currentTile[0]][currentTile[1]+1] == 2):
+            if(self.gameGrid[currentTile[0]][currentTile[1]+1] == 2):
                 move[0] += actions.RotateTo(0, 0)  # RotateRight
                 for i in range(2):
                     move[i] += actions.MoveBy((60, 0), 0.5)   # MoveRight
                 currentTile[1] += 1
+                self.gameGrid[currentTile[0]][currentTile[1]] = 1
+
+            elif(self.gameGrid[currentTile[0]][currentTile[1]-1] == 2):
+                move[0] += actions.RotateTo(180, 0)  # RotateLeft
+                for i in range(2):
+                    move[i] += actions.MoveBy((-60, 0), 0.5)  # MoveLeft
+                currentTile[1] -= 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
 
             elif(self.gameGrid[currentTile[0]+1][currentTile[1]] == 2):
