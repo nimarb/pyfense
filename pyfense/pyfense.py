@@ -26,7 +26,7 @@ from pyfense import resources
 
 font.add_directory(os.path.join(
     os.path.dirname(
-        os.path.abspath(__file__)), 'data/Orbitron'))
+        os.path.abspath(__file__)), 'assets'))
 _font_ = 'Orbitron Light'
 
 
@@ -101,6 +101,12 @@ class LevelSelectMenu(cocos.menu.Menu):
         super().__init__(' ')
         self.font_title['font_name'] = _font_
         self.font_title['font_size'] = 72
+        
+        self.font_item['font_name'] = _font_
+        self.font_item['font_size'] = 35
+
+        self.font_item_selected['font_name'] = _font_
+        self.font_item_selected['font_size'] = 41
         
         self.menu_anchor_x = cocos.menu.CENTER
         self.menu_anchor_y = cocos.menu.CENTER
@@ -275,7 +281,16 @@ class ScoresLayer(ColorLayer):
 class OptionsMenu(cocos.menu.Menu):
     def __init__(self):
         super().__init__(' ')
+        
+        self.font_title['font_name'] = _font_
         self.font_title['font_size'] = 72
+        
+        self.font_item['font_name'] = _font_
+        self.font_item['font_size'] = 35
+
+        self.font_item_selected['font_name'] = _font_
+        self.font_item_selected['font_size'] = 41
+        
         self.menu_anchor_x = cocos.menu.CENTER
         self.menu_anchor_y = cocos.menu.CENTER
         items = []
