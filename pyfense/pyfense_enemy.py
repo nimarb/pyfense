@@ -27,11 +27,18 @@ class PyFenseEnemy(sprite.Sprite):
         clock.schedule_once(self.move, 0.1)
         # self.move()
         """
+        self.turns = self.attributes['turns']
+        self.move(lvl)
+
     def move(self, lvl):
-        self.do(self.path[0])
+        if self.turns:
+            self.do(self.path[0])
+        else:
+            self.do(self.path[1])
         self.healthBarBackground.do(self.path[1])
         self.healthBar.do(self.path[1])
         """
+
     def move(self, dt):
         if self.distance != len(self.path[0]):
             if self.distance % 11 == 0:

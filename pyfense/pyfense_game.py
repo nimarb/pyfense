@@ -118,8 +118,6 @@ class PyFenseGame(scene.Scene):
             else:
                 break
         self.gameGrid[self.startTile[0]][self.startTile[1]] = 1
-        #move2[0].append(move2[0][-1])
-        #move2[1].append(move2[1][-1])
         self.movePath = move2
 
     def loadMap(self):
