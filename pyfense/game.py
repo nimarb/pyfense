@@ -137,7 +137,7 @@ class PyFenseGame(scene.Scene):
         startTile = self.getPositionFromGrid(self.startTile)
         endTile = self.getPositionFromGrid(self.endTile)
         self.entityMap = entities.PyFenseEntities(self.movePath,
-                                                          startTile, endTile)
+                                                  startTile, endTile)
         self.entityMap.push_handlers(self)
         self.add(self.entityMap, z=1)
 
