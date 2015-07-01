@@ -23,11 +23,11 @@ class PyFenseEnemy(sprite.Sprite):
         self.maxHealthPoints = self.attributes["maxhealth"]*healthMultiplier
         self.healthPoints = self.maxHealthPoints
         self.healthBarWidth = 50
-        self.healthBarBackground, self.healthBar = self.drawHealthBar()
+        self.healthBarBackground, self.healthBar = self._draw_healthbar()
         self.turns = self.attributes['turns']
-        clock.schedule_once(self.move, 0.1)
+        clock.schedule_once(self._move, 0.1)
 
-    def move(self, dt):
+    def _move(self, dt):
         # check if enemy reached end
         if self.distance != len(self.path[0]):
             # after 10 Moves a rotation towards the next tile can be done
@@ -53,9 +53,9 @@ class PyFenseEnemy(sprite.Sprite):
 
             # wait until the action
             self.distance += 1
-            clock.schedule_once(self.move, self.duration)
+            clock.schedule_once(self._move, self.duration)
 
-    def drawHealthBar(self):
+    def _draw_healthbar(self):
         self.bar_x = self.x - self.healthBarWidth / 2
         self.bar_y = self.y + self.height / 2 + 5
         healthBarBackground = cocos.draw.Line(
@@ -74,7 +74,7 @@ class PyFenseEnemy(sprite.Sprite):
         # the ending sprite which cocos.draw loads
         return healthBarBackground, healthBar
 
-    def updateHealthBar(self):
+    def update_healthbar(self):
         self.healthBarBackground.visible = True
         self.healthBar.visible = True
         self.healthBar.end = (self.bar_x + self.healthBarWidth *
@@ -82,15 +82,15 @@ class PyFenseEnemy(sprite.Sprite):
                               self.bar_y)
 
     # stop the movement of this enemy
-    def die(self):
-        clock.unschedule(self.move)
+    def stop_movement(self):
+        clock.unschedule(self._move)
 
     # slow this enemy down by the factor (slowDownFactor)
     # for some time (duration)
     def freeze(self, slowDownFactor, duration):
         self.currentSpeed = self.attributes["speed"]/slowDownFactor
-        clock.schedule_once(self.unfreeze, duration)
+        clock.schedule_once(self._unfreeze, duration)
 
     # turn the speed of this enemy back to normal
-    def unfreeze(self, dt):
+    def _unfreeze(self, dt):
         self.currentSpeed = self.attributes["speed"]

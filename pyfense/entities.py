@@ -148,9 +148,9 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         target.healthPoints -= projectile.damage
         self.remove(projectile)
         self.projectiles.remove(projectile)
-        target.updateHealthBar()
+        target.update_healthbar()
         if target in self.enemies and target.healthPoints <= 0:
-            target.die()
+            target.stop_movement()
             self.remove(target.healthBarBackground)
             self.remove(target.healthBar)
             self.remove(target)
@@ -192,7 +192,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
     def hasEnemyReachedEnd(self):
         # if self.enemies and not self.enemies[0].actions:
         if self.enemies and not self.enemies[0].position != self.endTile:
-            self.enemies[0].die()
+            self.enemies[0].stop_movement()
             self.dispatch_event('on_enemy_reached_goal')
             self.remove(self.enemies[0])
             self.remove(self.enemies[0].healthBar)
