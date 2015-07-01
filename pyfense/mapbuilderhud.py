@@ -10,10 +10,10 @@ class PyFenseMapBuilderHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
     def __init__(self):
         super().__init__()
         # load selector to highlight currently selected cell
-        self.addCellSelectorSprite()
+        self._add_cell_selector_sprite()
         self.currentCCellStatus = 0
 
-    def addCellSelectorSprite(self):
+    def _add_cell_selector_sprite(self):
         self.cellSelectorSpriteRed = cocos.sprite.Sprite(
             resources.selector0)
         self.cellSelectorSpriteBlue = cocos.sprite.Sprite(
