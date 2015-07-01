@@ -71,26 +71,26 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     def update_live_number(self, liveNumber):
         '''
-        Docstring
+        Updates the number of current lives displayed in the Statusbar
         '''
         self.liveLabel.element.text = ("Remaining Lives: " + str(liveNumber))
 
     def update_wave_number(self, waveNumber):
         '''
-        DOCSTRING
+        Updates the number of the current Wave displayed in the Statusbar
         '''
         self.waveLabel.element.text = ('Current Wave: ' + str(waveNumber))
 
     def update_currency_number(self, currencyNumber):
         '''
-        DOCSTRING
+        Updates the number of current Cash displayed in the Statusbar
         '''
         self.currencyLabel.element.text = '$' + str(currencyNumber)
         self.currentCurrency = currencyNumber
 
     def start_next_wave_timer(self):
         '''
-        DOCSTRING
+        Starts the countdown timer to trigger the next wave
         '''
         self.schedule_interval(self._update_next_wave_timer, 1)
 
