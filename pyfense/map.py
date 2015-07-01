@@ -15,6 +15,8 @@ class PyFenseMap(cocos.layer.Layer):
     def loadBackgroundImage(self):
         if(self.levelMap == "lvlcustom"):  # if custom image, load new
             backgroundImage = resources.lvlcustom
+        elif(self.levelMap == "background"):
+            backgroundImage = resources.background["background"]
         else:
             backgroundImage = resources.background[str(self.levelMap)]
         self.backgroundSprite = cocos.sprite.Sprite(backgroundImage)
