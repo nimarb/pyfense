@@ -17,6 +17,7 @@ class PyFenseMapBuilderHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self._add_cell_selector_sprite()
         self.currentCellStatus = 0
 
+
     def _add_cell_selector_sprite(self):
         self.cellSelectorSpriteRed = cocos.sprite.Sprite(
             resources.selector0)

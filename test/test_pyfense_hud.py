@@ -32,13 +32,13 @@ class TestHud(unittest.TestCase):
         director.run(scene)
         self.hud = pyfense_hud.PyFenseHud()
 
-    def test_updateCurrencyNumber(self):
-        self.hud.updateCurrencyNumber(70)
+    def test_update_currency_number(self):
+        self.hud.update_currency_number(70)
         result = self.hud.currentCurrency
         self.assertEqual(70, result)
 
-    def test_updateNextWaveTimer(self):
-        self.hud.updateNextWaveTimer(1)
+    def test__update_next_wave_timer(self):
+        self.hud._update_next_wave_timer(1)
         self.assertEqual(2, self.hud.time)
 
 if __name__ == '__main__':

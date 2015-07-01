@@ -514,9 +514,10 @@ class AboutLayer(ColorLayer):
         super().on_enter()
         w, h = director.get_window_size()
 
-        text = Label('PyFense ist geil und wir lieben Nippel! Und Matthias ' +
-                     'ist der Mitarbeiter des monats wenn die testklassen' +
-                     ' laufen :D' +  # LOL
+        text = Label('PyFense ist ein Tower Defense Spiel welches ' +
+                     'im Rahmen des Python Projektpraktikums an der TU ' +
+                     'München von fünf Studenten programmiert wurde.' +
+                     '\nMitglieder: Daniel, Jakob, Matthias, Nimar, Robin'
                      '\nMusic from:\n' +
                      'www.freesound.org/people/djgriffin/',
                      font_name=_font_,

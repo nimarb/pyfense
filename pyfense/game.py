@@ -22,6 +22,7 @@ import copy
 root = os.path.dirname(os.path.abspath(__file__))
 pathjoin = lambda x: os.path.join(root, x)
 
+
 class PyFenseGame(scene.Scene):
     def __init__(self, levelNumber):
         super().__init__()
@@ -175,7 +176,7 @@ class PyFenseGame(scene.Scene):
 
     def on_enemy_death(self, enemy):
         self.currentCurrency += enemy.attributes["worth"]
-        self.hud.updateCurrencyNumber(self.currentCurrency)
+        self.hud.update_currency_number(self.currentCurrency)
 
     def on_user_mouse_motion(self, x, y):
         self.hud.currentCellStatus = self.get_grid_pix(x, y)
@@ -185,7 +186,7 @@ class PyFenseGame(scene.Scene):
         if toBuildTower.attributes["cost"] > self.currentCurrency:
             return
         self.currentCurrency -= self.entityMap.build_tower(toBuildTower)
-        self.hud.updateCurrencyNumber(self.currentCurrency)
+        self.hud.update_currency_number(self.currentCurrency)
         self.set_grid_pix(pos_x, pos_y, int(float("1" + str(towerNumber) +
                         str(toBuildTower.attributes["lvl"]))))
 
@@ -200,7 +201,7 @@ class PyFenseGame(scene.Scene):
         if cost > self.currentCurrency:
             return
         self.currentCurrency -= cost
-        self.hud.updateCurrencyNumber(self.currentCurrency)
+        self.hud.update_currency_number(self.currentCurrency)
         self.entityMap.remove_tower(position)
         newTower = tower.PyFenseTower(
             towerNumber, position, towerLevel + 1)
@@ -213,20 +214,20 @@ class PyFenseGame(scene.Scene):
         (x, y) = position
         self.setGridPix(x, y, 3)
         self.currentCurrency += 0.7 * self.entityMap.remove_tower(position)
-        self.hud.updateCurrencyNumber(self.currentCurrency)
+        self.hud.update_currency_number(self.currentCurrency)
 
     def on_next_wave(self):
-        self.hud.startNextWaveTimer()
+        self.hud.start_next_wave_timer()
 
     def on_next_wave_timer_finished(self):
         self.currentWave += 1
         self.entityMap.next_wave(self.currentWave)
-        self.hud.updateWaveNumber(self.currentWave)
+        self.hud.update_wave_number(self.currentWave)
         highscore.currentWave = self.currentWave
 
     def on_enemy_reached_goal(self):
         self.currentLives -= 1
-        self.hud.updateLiveNumber(self.currentLives)
+        self.hud.update_live_number(self.currentLives)
         if self.currentLives == 0:
             # explosion = particles.ExplosionHuge()
             # x = director.get_window_size()[0] / 2

@@ -40,7 +40,7 @@ class TestEntities(unittest.TestCase):
         director.run(scene)
         entities = pyfense_entities.PyFenseEntities(0, 0)
         tower = pyfense_tower.PyFenseTower(0, (50, 70))
-        result = entities.buildTower(tower)
+        result = entities.build_tower(tower)
         actualResult = 50
         self.assertEqual(result, actualResult)
         self.assertEqual(entities.towers[0], tower)

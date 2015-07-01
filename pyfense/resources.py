@@ -6,7 +6,8 @@ application efficiently
 import pyglet
 import os
 import pickle
-# Function that makes the filepath relative to the path of pyfense_resources.
+
+# Function that makes the filepath relative to the path of resources.
 # Load file with pathjoin('relative/path/to/fil.e')
 root = os.path.dirname(os.path.abspath(__file__))
 pathjoin = lambda x: os.path.join(root, x)
