@@ -27,6 +27,7 @@ font.add_directory(os.path.join(
         os.path.abspath(__file__)), 'assets/'))
 _font_ = 'Orbitron Light'
 
+
 class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
     is_event_handler = True
 
@@ -37,7 +38,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.diedEnemies = 0
         self.towers = []
         self.projectiles = []
-        self.schedule(self.update)
+        self.schedule(self._update)
         self.path = path
         self.startTile = startTile
         self.endTile = endTile
@@ -47,18 +48,18 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.polynomial1 = 2  # linear
         self.polynomial0 = -(self.polynomial1 - 1)  # offset
         self.enemyHealthFactor = 1
-        clock.schedule_interval(self.updateEnemiesOrder, 0.2)
-        
+        clock.schedule_interval(self._update_enemies_order, 0.2)
+
         # variables that you want to check or modify in the interpreter
         director.interpreter_locals["entities"] = self
         director.interpreter_locals["enemies"] = self.enemies
         director.interpreter_locals["towers"] = self.towers
 
         # update runs every tick
-    def update(self, dt):
-        self.hasEnemyReachedEnd()
+    def _update(self, dt):
+        self._has_enemy_reached_end()
 
-    def nextWave(self, waveNumber):
+    def next_wave(self, waveNumber):
         self.modulo_wavenumber = (waveNumber-1) % self.wavequantity+1
         self.enemy_list = resources.waves[self.modulo_wavenumber]
         self.spawnedEnemies = 0
@@ -69,16 +70,16 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
                            (self.polynomial1 * self.enemyHealthFactor) +
                            self.polynomial0)
         if self.wavequantity-self.modulo_wavenumber == 1:
-            self.showWarning(1)
+            self._show_warning(1)
         elif self.wavequantity-self.modulo_wavenumber == 0:
-            self.showWarning(2)
+            self._show_warning(2)
         elif self.modulo_wavenumber == 1 and waveNumber != 1:
-            self.showWarning(3)
+            self._show_warning(3)
         self.enemieslength = len(self.enemy_list)
-        clock.schedule_once(self.addEnemy, 0, self.startTile, self.path,
+        clock.schedule_once(self._add_enemy, 0, self.startTile, self.path,
                             self.enemy_list, self.multiplier)
 
-    def showWarning(self, warningNumber):
+    def _show_warning(self, warningNumber):
         if warningNumber == 1:
             warningLabel = cocos.text.Label(
                 'Enemies will get stronger in 2 Waves!!!',
@@ -96,24 +97,24 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 anchor_x='center', anchor_y='center', color=(255, 0, 0, 200))
         w, h = cocos.director.director.get_window_size()
         warningLabel.position = w / 2, h/2
-        self.add(warningLabel, z = 8)
+        self.add(warningLabel, z=8)
         blinkaction = cocos.actions.Blink(3, 2)
         warningLabel.do(blinkaction)
         clock.schedule_once(lambda dt: self.remove(warningLabel), 3.5)
 
-    def buildTower(self, tower):
+    def build_tower(self, tower):
         tower.push_handlers(self)
         self.towers.append(tower)
         self.add(tower, z=2)
         return tower.attributes["cost"]
 
-    def getTowerAt(self, position):
+    def get_tower_at(self, position):
         for tower in self.towers:
             if tower.position == position:
                 return tower
 
-    def removeTower(self, position):
-        tower = self.getTowerAt(position)
+    def remove_tower(self, position):
+        tower = self.get_tower_at(position)
         self.remove(tower)
         self.towers.remove(tower)
         return tower.attributes["cost"]
@@ -121,19 +122,19 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
     def on_projectile_fired(self, tower, target, projectileimage, towerNumber,
                             rotation, projectileVelocity, damage):
         newProjectile = projectile.PyFenseProjectile(tower, target,
-                                                          projectileimage,
-                                                          towerNumber,
-                                                          rotation,
-                                                          projectileVelocity,
-                                                          damage)
+                                                     projectileimage,
+                                                     towerNumber,
+                                                     rotation,
+                                                     projectileVelocity,
+                                                     damage)
         self.projectiles.append(newProjectile)
         newProjectile.push_handlers(self)
         self.add(newProjectile, z=1)
         duration = 80 / projectileVelocity
-        clock.schedule_once(lambda dt: self.changeZ(projectile, 1, 4),
+        clock.schedule_once(lambda dt: self._change_z(projectile, 1, 4),
                             duration)
 
-    def changeZ(self, cocosnode, z_before, z_after):
+    def _change_z(self, cocosnode, z_before, z_after):
         if (z_before, cocosnode) in self.children:
             self.remove(cocosnode)
             self.add(cocosnode, z_after)
@@ -162,14 +163,14 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
                                        deathAnimation)
             self.diedEnemies += 1
             self.dispatch_event('on_enemy_death', target)
-            self.isWaveFinished()
+            self._is_wave_finished()
 
-    def isWaveFinished(self):
+    def _is_wave_finished(self):
         if self.spawnedEnemies == self.enemieslength:
             if self.diedEnemies == self.spawnedEnemies:
                 self.dispatch_event('on_next_wave')
 
-    def addEnemy(self, dt, startTile, path, enemylist, multiplier):
+    def _add_enemy(self, dt, startTile, path, enemylist, multiplier):
         position = startTile
         toCreateEnemy = enemy.PyFenseEnemy(position,
                                            enemylist[self.spawnedEnemies][0],
@@ -181,16 +182,14 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.add(toCreateEnemy.healthBarBackground, z=6)
         self.add(toCreateEnemy.healthBar, z=7)
         if self.spawnedEnemies != self.enemieslength:
-            clock.schedule_once(self.addEnemy,
+            clock.schedule_once(self._add_enemy,
                                 self.enemy_list[self.spawnedEnemies-1][2],
                                 self.startTile, self.path,
                                 self.enemy_list, self.multiplier)
-        self.isWaveFinished()
+        self._is_wave_finished()
 
-    # Removes enemy from entity when no action is running,
-    # ie the enemy has reached
-    def hasEnemyReachedEnd(self):
-        # if self.enemies and not self.enemies[0].actions:
+    # Removes enemy from entity when the enemy has reached
+    def _has_enemy_reached_end(self):
         if self.enemies and not self.enemies[0].position != self.endTile:
             self.enemies[0].stop_movement()
             self.dispatch_event('on_enemy_reached_goal')
@@ -199,9 +198,9 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.remove(self.enemies[0].healthBarBackground)
             self.enemies.remove(self.enemies[0])
             self.diedEnemies += 1
-            self.isWaveFinished()
+            self._is_wave_finished()
 
-    def updateEnemiesOrder(self, dt):
+    def _update_enemies_order(self, dt):
         if self.enemies:
             self.enemies.sort(key=lambda x: x.distance, reverse=True)
 

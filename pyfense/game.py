@@ -188,13 +188,13 @@ class PyFenseGame(scene.Scene):
         toBuildTower = tower.PyFenseTower(towerNumber, (pos_x, pos_y))
         if toBuildTower.attributes["cost"] > self.currentCurrency:
             return
-        self.currentCurrency -= self.entityMap.buildTower(toBuildTower)
+        self.currentCurrency -= self.entityMap.build_tower(toBuildTower)
         self.hud.updateCurrencyNumber(self.currentCurrency)
         self.setGridPix(pos_x, pos_y, int(float("1" + str(towerNumber) +
                         str(toBuildTower.attributes["lvl"]))))
 
     def on_upgrade_tower(self, position):
-        oldTower = self.entityMap.getTowerAt(position)
+        oldTower = self.entityMap.get_tower_at(position)
         towerLevel = oldTower.attributes["lvl"]
         if towerLevel == 3:
             return
@@ -205,10 +205,10 @@ class PyFenseGame(scene.Scene):
             return
         self.currentCurrency -= cost
         self.hud.updateCurrencyNumber(self.currentCurrency)
-        self.entityMap.removeTower(position)
+        self.entityMap.remove_tower(position)
         newTower = tower.PyFenseTower(
             towerNumber, position, towerLevel + 1)
-        self.entityMap.buildTower(newTower)
+        self.entityMap.build_tower(newTower)
         (x, y) = position
         self.setGridPix(x, y, int(float("1" + str(towerNumber) +
                         str(towerLevel + 1))))
@@ -216,7 +216,7 @@ class PyFenseGame(scene.Scene):
     def on_destroy_tower(self, position):
         (x, y) = position
         self.setGridPix(x, y, 3)
-        self.currentCurrency += 0.7 * self.entityMap.removeTower(position)
+        self.currentCurrency += 0.7 * self.entityMap.remove_tower(position)
         self.hud.updateCurrencyNumber(self.currentCurrency)
 
     def on_next_wave(self):
@@ -224,7 +224,7 @@ class PyFenseGame(scene.Scene):
 
     def on_next_wave_timer_finished(self):
         self.currentWave += 1
-        self.entityMap.nextWave(self.currentWave)
+        self.entityMap.next_wave(self.currentWave)
         self.hud.updateWaveNumber(self.currentWave)
         highscore.currentWave = self.currentWave
 
