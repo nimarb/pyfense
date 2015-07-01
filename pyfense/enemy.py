@@ -24,32 +24,34 @@ class PyFenseEnemy(sprite.Sprite):
         self.healthPoints = self.maxHealthPoints
         self.healthBarWidth = 50
         self.healthBarBackground, self.healthBar = self.drawHealthBar()
-        clock.schedule_once(self.move, 0.1)
-        # self.move()
-        """
         self.turns = self.attributes['turns']
-        self.move(lvl)
-
-    def move(self, lvl):
-        if self.turns:
-            self.do(self.path[0])
-        else:
-            self.do(self.path[1])
-        self.healthBarBackground.do(self.path[1])
-        self.healthBar.do(self.path[1])
-        """
+        clock.schedule_once(self.move, 0.1)
 
     def move(self, dt):
+        # check if enemy reached end
         if self.distance != len(self.path[0]):
+            # after 10 Moves a rotation towards the next tile can be done
             if self.distance % 11 == 0:
-                self.do(self.path[0][self.distance])
+                # check if rotation should be done
+                if self.turns:
+                    self.do(self.path[0][self.distance])
                 self.distance += 1
+
+            # calculate the time needed until next action
             self.duration = 1/self.currentSpeed
-            action = cocos.actions.MoveTo(self.path[0][self.distance], self.duration)
+
+            # move the enemy
+            action = cocos.actions.MoveTo(self.path[0][self.distance],
+                                          self.duration)
             self.do(action)
-            healthBarAction = cocos.actions.MoveTo(self.path[1][self.distance], self.duration)
+
+            # move the healthBar
+            healthBarAction = cocos.actions.MoveTo(self.path[1][self.distance],
+                                                   self.duration)
             self.healthBarBackground.do(healthBarAction)
             self.healthBar.do(healthBarAction)
+
+            # wait until the action
             self.distance += 1
             clock.schedule_once(self.move, self.duration)
 
@@ -79,5 +81,16 @@ class PyFenseEnemy(sprite.Sprite):
                               (self.healthPoints/self.maxHealthPoints),
                               self.bar_y)
 
+    # stop the movement of this enemy
     def die(self):
         clock.unschedule(self.move)
+
+    # slow this enemy down by the factor (slowDownFactor)
+    # for some time (duration)
+    def freeze(self, slowDownFactor, duration):
+        self.currentSpeed = self.attributes["speed"]/slowDownFactor
+        clock.schedule_once(self.unfreeze, duration)
+
+    # turn the speed of this enemy back to normal
+    def unfreeze(self, dt):
+        self.currentSpeed = self.attributes["speed"]
