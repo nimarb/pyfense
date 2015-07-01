@@ -44,15 +44,15 @@ class MainMenu(cocos.menu.Menu):
 
         self.menu_anchor_x = cocos.menu.CENTER
         self.menu_anchor_y = cocos.menu.CENTER
-        
+
         self.scene = scene
-        
+
         self.logo = cocos.sprite.Sprite(resources.logo)
         self.w, self.h = director.get_window_size()
         self.logo.position = (self.w / 2 + 20, self.h - 175)
         self.logo.scale = 0.5
         self.scene.add(self.logo, z = 1)
-        
+
         items = []
         items.append(cocos.menu.MenuItem('Start Game', self.on_level_select))
         items.append(cocos.menu.MenuItem('Scores', self.on_scores))
@@ -85,13 +85,13 @@ class MainMenu(cocos.menu.Menu):
 
     def on_quit(self):
         pyglet.app.exit()
-        
-        
+
+
     def _scale_logo_main_menu(self, dt):
         if self.parent.enabled_layer == 0:
             self.logo.position = (self.w / 2 + 20, self.h - 175)
             self.logo.scale = 0.5
-            
+
     def _scale_logo_sub_menu(self):
         self.logo.position = (self.w / 2 + 20, self.h - 90)
         self.logo.scale = 0.25
@@ -101,13 +101,13 @@ class LevelSelectMenu(cocos.menu.Menu):
         super().__init__(' ')
         self.font_title['font_name'] = _font_
         self.font_title['font_size'] = 72
-        
+
         self.font_item['font_name'] = _font_
         self.font_item['font_size'] = 35
 
         self.font_item_selected['font_name'] = _font_
         self.font_item_selected['font_size'] = 41
-        
+
         self.menu_anchor_x = cocos.menu.CENTER
         self.menu_anchor_y = cocos.menu.CENTER
         items = []
@@ -127,7 +127,7 @@ class LevelSelectMenu(cocos.menu.Menu):
             mapBuilderActivated = "nobuilder"
 
         if(mapBuilderActivated == "builder"):
-            MapBuilder = cocos.menuMenuItem('MapBuilder', self.on_mapBuilder)
+            MapBuilder = cocos.menu.MenuItem('MapBuilder', self.on_mapBuilder)
             MapBuilder.y -= 20
 
         if(
@@ -281,16 +281,16 @@ class ScoresLayer(ColorLayer):
 class OptionsMenu(cocos.menu.Menu):
     def __init__(self):
         super().__init__(' ')
-        
+
         self.font_title['font_name'] = _font_
         self.font_title['font_size'] = 72
-        
+
         self.font_item['font_name'] = _font_
         self.font_item['font_size'] = 35
 
         self.font_item_selected['font_name'] = _font_
         self.font_item_selected['font_size'] = 41
-        
+
         self.menu_anchor_x = cocos.menu.CENTER
         self.menu_anchor_y = cocos.menu.CENTER
         items = []
