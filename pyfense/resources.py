@@ -5,7 +5,7 @@ application efficiently
 
 import pyglet
 import os
-
+import pickle
 # Function that makes the filepath relative to the path of pyfense_resources.
 # Load file with pathjoin('relative/path/to/fil.e')
 root = os.path.dirname(os.path.abspath(__file__))
@@ -130,7 +130,8 @@ noTowerUpgradeIcon = loadImage(pathjoin("assets/tower-noupgrade.png"))
 
 background = {
     "lvl1": loadImage(pathjoin("assets/lvl1.png")),
-    "lvl2": loadImage(pathjoin("assets/lvl2.png"))
+    "lvl2": loadImage(pathjoin("assets/lvl2.png")),
+    "background": loadImage(pathjoin("assets/background.png"))
     }
 
 if(os.path.isfile(pathjoin("assets/lvlcustom.png"))):
@@ -208,5 +209,11 @@ def initGrid(lvl):
             gameGrid[i][19] = 2
         for i in range(19, 32):
             gameGrid[9][i] = 2
+    elif lvl == "custom":
+        pathFile = open(pathjoin("data/path.cfg"), "rb")
+        gameGrid = pickle.load(pathFile)
+        startTile=[8,2]
+        endTile=[9,28]
+        pathFile.close()
 
     return gameGrid, startTile, endTile
