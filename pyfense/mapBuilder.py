@@ -30,16 +30,16 @@ class PyFenseMapBuilder(Scene):
         # 4 := tower has been built, no enemy can walk,
         #      no tower can be build (can upgrade (?))
         self.gameGrid = [[0 for x in range(32)] for x in range(18)]
-        self.startTile = [8, 2]
-        self.endTile = [9, 29]
+        self.startTile = [8, 0]
+        self.endTile = [9, 31]
         self.movePath = actions.MoveBy((0, 0))
         # self.loadPath()
         # self.levelMapName = "lvl" + str(levelNumber)
         # self.loadMap()
         self._display_hud()
         self._load_backgorund()
-        self.on_build_path(210, 510)
-        self.on_build_path(1710, 570)
+        self.on_build_path(30, 510)
+        self.on_build_path(1890, 570)
 
     def on_save(self):
         # Save Path in file and "restart" director to update the Menu

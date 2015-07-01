@@ -213,8 +213,8 @@ def initGrid(lvl):
     elif lvl == "custom":
         pathFile = open(pathjoin("data/path.cfg"), "rb")
         gameGrid = pickle.load(pathFile)
-        startTile=[8,2]
-        endTile=[9,28]
+        startTile=[8,0]
+        endTile=[9,31]
         pathFile.close()
 
     return gameGrid, startTile, endTile
