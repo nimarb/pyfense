@@ -46,7 +46,7 @@ class PyFenseEnemy(sprite.Sprite):
             self.do(action)
 
             # move the healthBar
-            healthBarAction = cocos.actions.MoveTo(self.path[1][self.distance],
+            healthBarAction = cocos.actions.MoveBy(self.path[1][self.distance],
                                                    self.duration)
             self.healthBarBackground.do(healthBarAction)
             self.healthBar.do(healthBarAction)
