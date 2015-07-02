@@ -95,7 +95,7 @@ class PauseLayer(Layer):
 
             text_font = {
                 'bold': True,
-                'font_name' : _font_,
+                'font_name': _font_,
                 'anchor_x': "left",
                 'anchor_y': 'center',
                 'font_size': 16,
@@ -171,6 +171,9 @@ class PauseLayer(Layer):
                 self.add(self.towerFirerateTexts[picture])
                 self.add(self.towerDamagePic[picture])
                 self.add(self.towerFireratePic[picture])
+
+#    def on_enter(self):
+#        super().on_enter()
 
     def on_key_press(self, k, m):
         if k in (key.ENTER, key.ESCAPE, key.SPACE):
