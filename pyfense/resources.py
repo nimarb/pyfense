@@ -5,8 +5,9 @@ application efficiently
 
 import pyglet
 import os
+import pickle
 
-# Function that makes the filepath relative to the path of pyfense_resources.
+# Function that makes the filepath relative to the path of resources.
 # Load file with pathjoin('relative/path/to/fil.e')
 root = os.path.dirname(os.path.abspath(__file__))
 pathjoin = lambda x: os.path.join(root, x)
@@ -138,7 +139,8 @@ noTowerUpgradeIcon = loadImage(pathjoin("assets/tower-noupgrade.png"))
 
 background = {
     "lvl1": loadImage(pathjoin("assets/lvl1.png")),
-    "lvl2": loadImage(pathjoin("assets/lvl2.png"))
+    "lvl2": loadImage(pathjoin("assets/lvl2.png")),
+    "background": loadImage(pathjoin("assets/background.png"))
     }
 
 selector0 = loadImage(pathjoin("assets/selector0.png"))
@@ -200,9 +202,9 @@ def initGrid(lvl):
             gameGrid[9][i] = 2
 
     elif lvl == 2:
-        startTile = [9, 1]
+        startTile = [9, 0]
         endTile = [9, 31]
-        for i in range(2, 14):
+        for i in range(1, 14):
             gameGrid[9][i] = 2
         for i in range(5, 10):
             gameGrid[i][13] = 2
@@ -216,5 +218,11 @@ def initGrid(lvl):
             gameGrid[i][19] = 2
         for i in range(19, 32):
             gameGrid[9][i] = 2
+    elif lvl == "custom":
+        pathFile = open(pathjoin("data/path.cfg"), "rb")
+        gameGrid = pickle.load(pathFile)
+        startTile=[8,0]
+        endTile=[9,31]
+        pathFile.close()
 
     return gameGrid, startTile, endTile

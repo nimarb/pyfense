@@ -13,12 +13,12 @@ from cocos.director import director
 from cocos.text import Label
 from cocos.layer import Layer
 
-import pyfense_resources
-import pyfense_highscore
+from pyfense import resources
+from pyfense import highscore
 
 font.add_directory(os.path.join(
     os.path.dirname(
-        os.path.abspath(__file__)), 'data/Orbitron'))
+        os.path.abspath(__file__)), 'assets'))
 _font_ = 'Orbitron Light'
 
 
@@ -82,8 +82,8 @@ class PauseLayer(Layer):
 
         # tower information
 
-        self.damage_pic = pyfense_resources.picto_damage
-        self.rate_pic = pyfense_resources.picto_rate
+        self.damage_pic = resources.picto_damage
+        self.rate_pic = resources.picto_rate
 
         for l in range(1, 4):  # loop over all upgrade levels
             self.towerDamagePic = []
@@ -91,10 +91,11 @@ class PauseLayer(Layer):
             self.towerThumbnails = []
             for i in range(0, 3):
                 self.towerThumbnails.append(cocos.sprite.Sprite(
-                    pyfense_resources.tower[i][l]["image"]))
+                    resources.tower[i][l]["image"]))
 
             text_font = {
                 'bold': True,
+                'font_name' : _font_,
                 'anchor_x': "left",
                 'anchor_y': 'center',
                 'font_size': 16,
@@ -136,7 +137,7 @@ class PauseLayer(Layer):
                     (l - 1) * (self.towerThumbnails[picture].width + 75))
 
                 self.towerDamageTexts[picture].element.text = (
-                    str(pyfense_resources.tower[picture][l]["damage"]))
+                    str(resources.tower[picture][l]["damage"]))
                 self.towerDamageTexts[picture].position = (
                     self.menuMin_x + picture *
                     (self.towerThumbnails[picture].width + 40) +
@@ -156,7 +157,7 @@ class PauseLayer(Layer):
                     (l - 1) * (self.towerThumbnails[picture].width + 75))
 
                 self.towerFirerateTexts[picture].element.text = (
-                    str(pyfense_resources.tower[picture][l]["firerate"]))
+                    str(resources.tower[picture][l]["firerate"]))
                 self.towerFirerateTexts[picture].position = (
                     self.menuMin_x + picture *
                     (self.towerThumbnails[picture].width + 40) +
@@ -185,15 +186,15 @@ class PauseLayer(Layer):
             director.show_FPS = not director.show_FPS
             return True
         elif k == key.S:
-            pyfense_resources.sounds = not pyfense_resources.sounds
-            if(pyfense_resources.music_player.playing):
-                pyfense_resources.music_player.pause()
+            resources.sounds = not resources.sounds
+            if(resources.music_player.playing):
+                resources.music_player.pause()
             else:
-                pyfense_resources.music_player.play()
+                resources.music_player.play()
             return True
         elif k == key.Q:
             director.pop()
-            director.replace(pyfense_highscore.PyFenseLost())
+            director.replace(highscore.PyFenseLost())
             return True
 
     def on_mouse_release(self, x, y, b, m):

@@ -8,9 +8,9 @@ from cocos import sprite
 import pyglet
 from pyglet import clock
 import math
-import pyfense_resources
+from pyfense import resources
 
-# import pyfense_entities
+# import entities
 
 # Needs position in tuple (posx,posy)
 # Takes tower.png found in assets directory
@@ -18,7 +18,7 @@ import pyfense_resources
 
 class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
     def __init__(self, towerNumber, position, level=1):
-        self.attributes = pyfense_resources.tower[towerNumber][level]
+        self.attributes = resources.tower[towerNumber][level]
         super().__init__(self.attributes["image"], position)
         self.posx = position[0]
         self.posy = position[1]
@@ -26,9 +26,8 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
         self.target = None
         self.counter = 0
         self.canFire = True
-        self.shot = pyfense_resources.shot
+        self.shot = resources.shot
         self.schedule(lambda dt: self.fire())
-        # clock.schedule_once(lambda dt: self.fire(), 0.01)
         self.schedule(lambda dt: self.find_next_enemy())
         self.schedule(lambda dt: self.rotateToTarget())
 
@@ -37,7 +36,7 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
             pass
         elif self.canFire:
             self.canFire = False
-            if (pyfense_resources.sounds):
+            if (resources.sounds):
                 self.shot.play()
             self.dispatch_event('on_projectile_fired', self, self.target,
                                 self.attributes["projectile_image"],

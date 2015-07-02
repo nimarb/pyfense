@@ -17,7 +17,7 @@ HS_FILENAME = os.path.join(
         os.path.abspath(__file__)), "data") + "/highscore.data"
 font.add_directory(os.path.join(
     os.path.dirname(
-        os.path.abspath(__file__)), 'data/Orbitron'))
+        os.path.abspath(__file__)), 'assets/'))
 _font_ = 'Orbitron Light'
 
 currentWave = 0
@@ -159,14 +159,14 @@ class LostLayer(Layer):
             text2 = Label(
                 'You reached wave %d ' % wave +
                 'and place %d of the highscore' % self.place,
-                font_name='Arial',
+                font_name=_font_,
                 font_size=20,
                 anchor_x='center',
                 anchor_y='center')
         else:
             text2 = Label(
                 'You reached wave %d' % wave,
-                font_name='Arial',
+                font_name=_font_,
                 font_size=20,
                 anchor_x='center',
                 anchor_y='center')
@@ -198,17 +198,21 @@ class SubmitScore(Layer):
         super().__init__()
         w, h = director.get_window_size()
         self.wave = wave
-        self.font_title = {}
-        self.font_title['font_size'] = 72
-        self.font_title['anchor_y'] = 'top'
-        self.font_title['anchor_x'] = 'center'
+        self.font_title = {
+            'font_name':_font_,
+            'font_size':72,
+            'anchor_y':'top',
+            'anchor_x':'center'
+        }
         title = Label('GameOver', **self.font_title)
         title.position = (w/2., h)
         self.add(title, z=1)
-        self.font_label = {}
-        self.font_label['font_size'] = 40
-        self.font_label['anchor_y'] = 'top'
-        self.font_label['anchor_x'] = 'center'
+        self.font_label = {
+            'font_name':_font_,
+            'font_size':40,
+            'anchor_y':'top',
+            'anchor_x':'center'
+        }
         label = Label('Enter your name:', **self.font_label)
         label.position = (w/2., 600.)
         self.add(label)
@@ -225,6 +229,7 @@ class SubmitScore(Layer):
                 w, h = director.get_window_size()
                 label_s = Label(
                     'Name too short! Choose at least 3 characters',
+                    font_name=_font_,
                     font_size=20,
                     anchor_y='top',
                     anchor_x='center')
@@ -234,6 +239,7 @@ class SubmitScore(Layer):
                 w, h = director.get_window_size()
                 label_l = Label(
                     'Name too long! Not more than 15 charakters allowed',
+                    font_name=_font_,
                     font_size=20,
                     anchor_y='top',
                     anchor_x='center')

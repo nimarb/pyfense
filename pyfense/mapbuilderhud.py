@@ -1,7 +1,12 @@
+import os
 import cocos
 import pyglet
-import pyfense_resources
+
+from pyfense import resources
 from cocos import director
+
+root = os.path.dirname(os.path.abspath(__file__))
+pathjoin = lambda x: os.path.join(root, x)
 
 
 class PyFenseMapBuilderHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
@@ -10,14 +15,15 @@ class PyFenseMapBuilderHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
     def __init__(self):
         super().__init__()
         # load selector to highlight currently selected cell
-        self.addCellSelectorSprite()
-        self.currentCCellStatus = 0
+        self._add_cell_selector_sprite()
+        self.currentCellStatus = 0
 
-    def addCellSelectorSprite(self):
+
+    def _add_cell_selector_sprite(self):
         self.cellSelectorSpriteRed = cocos.sprite.Sprite(
-            pyfense_resources.selector0)
+            resources.selector0)
         self.cellSelectorSpriteBlue = cocos.sprite.Sprite(
-            pyfense_resources.selector1)
+            resources.selector1)
         self.cellSelectorSpriteRed.position = 960, 540
         self.cellSelectorSpriteBlue.position = 960, 540
         self.cellSelectorSpriteBlue.visible = False
@@ -25,7 +31,7 @@ class PyFenseMapBuilderHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.add(self.cellSelectorSpriteRed)
         self.add(self.cellSelectorSpriteBlue)
 
-    def buildpath(self):
+    def _buildpath(self):
         clicked_x = int(self.clicked_x / 60) * 60 + 30
         clicked_y = int(self.clicked_y / 60) * 60 + 30
         self.dispatch_event("on_build_path", clicked_x, clicked_y)
@@ -34,20 +40,22 @@ class PyFenseMapBuilderHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         (x, y) = cocos.director.director.get_virtual_coordinates(x, y)
         self.clicked_x = x
         self.clicked_y = y
-        self.buildpath()
+        self._buildpath()
 
     def on_key_press(self, key, modifiers):
         if(key == 65293):  # == Enter
-            # Why does this function gets called when opening Layer - bad fix ?
-            # -  Have you tried on key press? - Thank You :)
-            self.saveMap()
+            self._save_map()
 
-    def saveMap(self):
+    def _save_map(self):
+        """
+        Creates a screenshot of the current image, which can be used as
+        the background for a custom lvl
+        """
         # TODO: hide FPS and cellSelctor doesnt work yet?
         self.cellSelectorSpriteBlue.visible = False
         director.show_FPS = False
         pyglet.image.get_buffer_manager().get_color_buffer().save(
-            'assets/lvlcustom.png')
+            pathjoin('assets/lvlcustom.png'))
         self.dispatch_event("on_save")
         self.cellSelectorSpriteBlue.visible = True
         director.show_FPS = True
@@ -63,4 +71,4 @@ class PyFenseMapBuilderHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
 PyFenseMapBuilderHud.register_event_type('on_build_path')
 PyFenseMapBuilderHud.register_event_type('on_save')
-# PyFenseHud.register_event_type('on_user_mouse_motion')
+
