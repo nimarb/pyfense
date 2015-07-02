@@ -116,7 +116,7 @@ class LevelSelectMenu(cocos.menu.Menu):
         self.menu_anchor_x = cocos.menu.CENTER
         self.menu_anchor_y = cocos.menu.CENTER
 
-        items = []
+        self.items = []
         image_lvl1 = resources.background["lvl1"]
         lvl1 = modmenu.ImageMenuItem(image_lvl1,
                                      lambda: self.on_start(1))
@@ -188,16 +188,6 @@ class LevelSelectMenu(cocos.menu.Menu):
         Starts the Mapbuilder
         """
         director.push(mapBuilder.PyFenseMapBuilder())
-
-    def remove_old(self):
-        """
-        removes the old Menu and creates a new one to look for new entries
-        """
-        for item in self.items:
-            levelSelect.remove(item)
-        # levelSelect is LevelSelectMenu item
-        levelSelect.items = None
-        levelSelect.initialise()
 
     def on_quit(self):
         self.parent.switch_to(0)
