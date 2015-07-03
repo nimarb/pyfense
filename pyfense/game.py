@@ -1,6 +1,6 @@
 """
-pyfense_game.py
-contains PyFenseGame class (scene)
+PyFenseGame - Responsible for dynamic pathfinding and communication between
+user interaction through the HUD and Entities like Towers
 """
 import os
 
@@ -79,19 +79,6 @@ class PyFenseGame(scene.Scene):
                 pos = (pos[0]+60, pos[1])
                 currentTile[1] += 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
-            # Left
-            elif(self.gameGrid[currentTile[0]][currentTile[1]-1] == 2):
-                # Rotate left
-                move[0].append(actions.RotateTo(180, 0))  # RotateLeft
-                move[1].append([])  # placeholder
-                # Move left
-                for j in range(1, 11):
-                    move[0].append((pos[0]-6*j, pos[1]))
-                    move[1].append((-6, 0))
-                # Next position
-                pos = (pos[0]-60, pos[1])
-                currentTile[1] -= 1
-                self.gameGrid[currentTile[0]][currentTile[1]] = 1
 
             # Up
             elif(self.gameGrid[currentTile[0]+1][currentTile[1]] == 2):
@@ -119,6 +106,19 @@ class PyFenseGame(scene.Scene):
                 # Next position
                 pos = (pos[0], pos[1]-60)
                 currentTile[0] -= 1
+                self.gameGrid[currentTile[0]][currentTile[1]] = 1
+            # Left
+            elif(self.gameGrid[currentTile[0]][currentTile[1]-1] == 2):
+                # Rotate left
+                move[0].append(actions.RotateTo(180, 0))  # RotateLeft
+                move[1].append([])  # placeholder
+                # Move left
+                for j in range(1, 11):
+                    move[0].append((pos[0]-6*j, pos[1]))
+                    move[1].append((-6, 0))
+                # Next position
+                pos = (pos[0]-60, pos[1])
+                currentTile[1] -= 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
 
             else:
@@ -207,12 +207,12 @@ class PyFenseGame(scene.Scene):
             towerNumber, position, towerLevel + 1)
         self.entityMap.build_tower(newTower)
         (x, y) = position
-        self.setGridPix(x, y, int(float("1" + str(towerNumber) +
-                        str(towerLevel + 1))))
+        self.set_grid_pix(x, y, int(float("1" + str(towerNumber) +
+                          str(towerLevel + 1))))
 
     def on_destroy_tower(self, position):
         (x, y) = position
-        self.setGridPix(x, y, 3)
+        self.set_grid_pix(x, y, 3)
         self.currentCurrency += 0.7 * self.entityMap.remove_tower(position)
         self.hud.update_currency_number(self.currentCurrency)
 

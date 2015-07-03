@@ -1,6 +1,7 @@
 import os
 import cocos
 import pyglet
+
 from pyfense import resources
 from cocos import director
 
@@ -46,6 +47,10 @@ class PyFenseMapBuilderHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self._save_map()
 
     def _save_map(self):
+        """
+        Creates a screenshot of the current image, which can be used as
+        the background for a custom lvl
+        """
         # TODO: hide FPS and cellSelctor doesnt work yet?
         self.cellSelectorSpriteBlue.visible = False
         director.show_FPS = False

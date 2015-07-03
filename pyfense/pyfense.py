@@ -51,7 +51,7 @@ class MainMenu(cocos.menu.Menu):
         self.w, self.h = director.get_window_size()
         self.logo.position = (self.w / 2 + 20, self.h - 175)
         self.logo.scale = 0.5
-        self.scene.add(self.logo, z = 1)
+        self.scene.add(self.logo, z=1)
 
         items = []
         items.append(cocos.menu.MenuItem('Start Game', self.on_level_select))
@@ -64,6 +64,7 @@ class MainMenu(cocos.menu.Menu):
         self.schedule(self._scale_logo_main_menu)
 
     def on_level_select(self):
+
         self._scale_logo_sub_menu()
         self.parent.switch_to(1)
 
@@ -86,7 +87,6 @@ class MainMenu(cocos.menu.Menu):
     def on_quit(self):
         pyglet.app.exit()
 
-
     def _scale_logo_main_menu(self, dt):
         if self.parent.enabled_layer == 0:
             self.logo.position = (self.w / 2 + 20, self.h - 175)
@@ -96,9 +96,14 @@ class MainMenu(cocos.menu.Menu):
         self.logo.position = (self.w / 2 + 20, self.h - 90)
         self.logo.scale = 0.25
 
+
 class LevelSelectMenu(cocos.menu.Menu):
     def __init__(self):
         super().__init__(' ')
+        self.items = None
+        self.initialise()
+
+    def initialise(self):
         self.font_title['font_name'] = _font_
         self.font_title['font_size'] = 72
 
@@ -110,16 +115,17 @@ class LevelSelectMenu(cocos.menu.Menu):
 
         self.menu_anchor_x = cocos.menu.CENTER
         self.menu_anchor_y = cocos.menu.CENTER
-        items = []
+
+        self.items = []
         image_lvl1 = resources.background["lvl1"]
         lvl1 = modmenu.ImageMenuItem(image_lvl1,
-                                             lambda: self.on_start(1))
+                                     lambda: self.on_start(1))
         Back = cocos.menu.MenuItem('Back', self.on_quit)
         Back.y -= 30
 
         image_lvl2 = resources.background["lvl2"]
         lvl2 = modmenu.ImageMenuItem(image_lvl2,
-                                             lambda: self.on_start(2))
+                                     lambda: self.on_start(2))
         mapBuilderActivated = "nobuilder"
         try:
             mapBuilderActivated = sys.argv[1]
@@ -137,16 +143,16 @@ class LevelSelectMenu(cocos.menu.Menu):
                     customImage = resources.lvlcustom
                     lvl1.scale = 0.18
                     lvl1.y = 30
-                    items.append(lvl1)
+                    self.items.append(lvl1)
                     lvl2.scale = 0.18
                     lvl2.y -= 150
-                    items.append(lvl2)
+                    self.items.append(lvl2)
                     customItem = (
                         modmenu.ImageMenuItem(
                             customImage, lambda: self.on_start("custom")))
                     customItem.scale = 0.22
                     customItem.y -= 300
-                    items.append(customItem)
+                    self.items.append(customItem)
                     if(mapBuilderActivated == "builder"):
                         MapBuilder.y -= 340
                         Back.y -= 20
@@ -155,20 +161,20 @@ class LevelSelectMenu(cocos.menu.Menu):
         else:
             lvl1.scale = 0.28
             lvl1.y = 0
-            items.append(lvl1)
+            self.items.append(lvl1)
             lvl2.scale = 0.28
             lvl2.y -= 300
-            items.append(lvl2)
+            self.items.append(lvl2)
             if(mapBuilderActivated == "builder"):
                 MapBuilder.y -= 320
                 Back.y -= 20
             Back.y -= 300
         if(mapBuilderActivated == "builder"):
-            items.append(MapBuilder)
+            self.items.append(MapBuilder)
 
-        items.append(Back)
+        self.items.append(Back)
         width, height = director.get_window_size()
-        self.create_menu(items)
+        self.create_menu(self.items)
 
     def on_start(self, lvl):
         """
@@ -539,11 +545,12 @@ class AboutLayer(ColorLayer):
         self.parent.switch_to(0)
         return True
 
+
 def main():
-#if __name__ == '__main__':
     director.init(**resources.settings['window'])
     scene = Scene()
     scene.add(MultiplexLayer(
+
         MainMenu(scene),
         LevelSelectMenu(),
         OptionsMenu(),
@@ -571,7 +578,3 @@ def main():
 #    music_player.queue(music)
 #    music_player.eos_action = music_player.EOS_LOOP
     director.run(scene)
-
-
-# if __name__ == '__main__':
-#     main()
