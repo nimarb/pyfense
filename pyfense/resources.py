@@ -12,7 +12,7 @@ import pickle
 root = os.path.dirname(os.path.abspath(__file__))
 pathjoin = lambda x: os.path.join(root, x)
 
-def loadImage(filename):
+def load_image(filename):
     try:
         img = pyglet.image.load(filename)
     except FileNotFoundError:
@@ -20,21 +20,21 @@ def loadImage(filename):
         return False
     return img
 
-
 # Loads spritesheets as animation with frames from bottom left to top right
-def loadAnimation(filepath, spritesheet_x, spritesheet_y, width,
+def _load_animation(filepath, spritesheet_x, spritesheet_y, width,
                   height, duration, loop):
-    spritesheet = loadImage(filepath)
+    spritesheet = load_image(filepath)
     grid = pyglet.image.ImageGrid(spritesheet, spritesheet_y, spritesheet_x,
                                   item_width=width, item_height=width)
     textures = pyglet.image.TextureGrid(grid)
     images = textures[0:len(textures)]
     return pyglet.image.Animation.from_image_sequence(
         images, duration, loop=loop)
+        
 tower = {}
 enemy = {}
 
-def loadEntities():
+def load_entities():
     tower.clear()
     enemy.clear()
     with open(pathjoin("data/entities.cfg")) as conf_file:
@@ -56,13 +56,13 @@ def loadEntities():
                 # ansonsten einfuegen der attribute in das dict
                 else:
                     try:
-                        att_dict["image"] = loadImage(
+                        att_dict["image"] = load_image(
                             pathjoin("assets/{}").format(att_dict["image"]))
                     except FileNotFoundError:
                         print("Error: Image not found: {}".format(
                             att_dict["image"]))
                     try:
-                        att_dict["projectile_image"] = loadImage(
+                        att_dict["projectile_image"] = load_image(
                             pathjoin("assets/{}").format(att_dict["projectile_image"]))
                     except FileNotFoundError:
                         print("Error: Image not found: {}".format(
@@ -88,18 +88,15 @@ def loadEntities():
                                     att_dict["width"], att_dict["height"],
                                     att_dict["duration"], att_dict["loop"])
                             else:
-                                att_dict["image"] = loadImage(
+                                att_dict["image"] = load_image(
                                     pathjoin("assets/{}").format(att_dict["image"]))
                         else:
-                            att_dict["image"] = loadImage(
+                            att_dict["image"] = load_image(
                                 pathjoin("assets/{}").format(att_dict["image"]))
                     except FileNotFoundError:
                         print("Error: Image not found: {}".format(
                             att_dict["image"]))
                     enemy[enemyname][level] = att_dict
-
-
-loadEntities()
 
 settings = {}
 with open(pathjoin("data/settings.cfg")) as setting_file:
@@ -111,8 +108,7 @@ sounds = settings["general"]["sounds"]
 
 waves = {}
 
-
-def loadWaves():
+def load_waves():
     waves.clear()
     with open(pathjoin("data/waves.cfg")) as wave_file:
         for line in wave_file:
@@ -123,47 +119,40 @@ def loadWaves():
                 if len(attributes) != 0:
                     waves.update(attributes)
 
-
 def load_custom_image():
     if(os.path.isfile(pathjoin("assets/lvlcustom.png"))):
-        return loadImage(pathjoin('assets/lvlcustom.png'))
+        return load_image(pathjoin('assets/lvlcustom.png'))
     else:
         print("no custom image created but tried to load")
         return None
 
-loadWaves()
 
-noCashOverlay = loadImage(pathjoin("assets/tower-nocashoverlay.png"))
-destroyTowerIcon = loadImage(pathjoin("assets/tower-destroy.png"))
-noTowerUpgradeIcon = loadImage(pathjoin("assets/tower-noupgrade.png"))
+load_entities()
+load_waves()
+customImage = load_custom_image()
 
+# load sprites/images
+noCashOverlay = load_image(pathjoin("assets/tower-nocashoverlay.png"))
+destroyTowerIcon = load_image(pathjoin("assets/tower-destroy.png"))
+noTowerUpgradeIcon = load_image(pathjoin("assets/tower-noupgrade.png"))
 background = {
-    "lvl1": loadImage(pathjoin("assets/lvl1.png")),
-    "lvl2": loadImage(pathjoin("assets/lvl2.png")),
-    "background": loadImage(pathjoin("assets/background.png"))
+    "lvl1": load_image(pathjoin("assets/lvl1.png")),
+    "lvl2": load_image(pathjoin("assets/lvl2.png")),
+    "background": load_image(pathjoin("assets/background.png"))
     }
-
-selector0 = loadImage(pathjoin("assets/selector0.png"))
-selector1 = loadImage(pathjoin("assets/selector1.png"))
-
-path = loadImage(pathjoin("assets/path.png"))
-nopath = loadImage(pathjoin("assets/nopath.png"))
-grass = loadImage(pathjoin("assets/grass.png"))
-
-logo = loadImage(pathjoin("assets/logo.png"))
-
-particleTexture = loadImage(pathjoin("assets/particle.png"))
-
-range1920 = loadImage(pathjoin("assets/range1920.png"))
-
-picto_damage = loadImage(pathjoin("assets/explosion_pictogram.png"))
-picto_rate = loadImage(pathjoin("assets/firerate_pictogram.png"))
-
-healthBarCap = loadImage(pathjoin("assets/healthBarCap.png")).get_texture()
+selector0 = load_image(pathjoin("assets/selector0.png"))
+selector1 = load_image(pathjoin("assets/selector1.png"))
+path = load_image(pathjoin("assets/path.png"))
+nopath = load_image(pathjoin("assets/nopath.png"))
+grass = load_image(pathjoin("assets/grass.png"))
+logo = load_image(pathjoin("assets/logo.png"))
+particleTexture = load_image(pathjoin("assets/particle.png"))
+range1920 = load_image(pathjoin("assets/range1920.png"))
+picto_damage = load_image(pathjoin("assets/explosion_pictogram.png"))
+picto_rate = load_image(pathjoin("assets/firerate_pictogram.png"))
+healthBarCap = load_image(pathjoin("assets/healthBarCap.png")).get_texture()
 
 shot = pyglet.media.load(pathjoin("assets/music.wav"), streaming=False)
-
-customImage = load_custom_image()
 
 # Music
 # music_player = pyglet.media.Player()
@@ -177,7 +166,6 @@ customImage = load_custom_image()
 gameGrid = [[3 for x in range(32)] for x in range(18)]
 startTile = [0, 0]
 endTile = [0, 0]
-
 
 def initGrid(lvl):
     gameGrid = [[3 for x in range(32)] for x in range(18)]
