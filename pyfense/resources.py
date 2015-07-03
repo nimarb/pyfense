@@ -81,7 +81,7 @@ def load_entities():
                     try:
                         if "animated" in att_dict:
                             if att_dict["animated"]:
-                                att_dict["image"] = loadAnimation(
+                                att_dict["image"] = _load_animation(
                                     pathjoin("assets/{}").format(att_dict["image"]),
                                     att_dict["spritesheet_x"],
                                     att_dict["spritesheet_y"],
