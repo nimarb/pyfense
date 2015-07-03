@@ -550,7 +550,6 @@ def main():
     director.init(**resources.settings['window'])
     scene = Scene()
     scene.add(MultiplexLayer(
-
         MainMenu(scene),
         LevelSelectMenu(),
         OptionsMenu(),
