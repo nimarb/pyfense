@@ -258,7 +258,6 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                     self.menuMin_x + self.destroyTowerIcon.width * 1.5, y)
                 self.upgradeHudDisplayed = 0.5
 
-    # check WHETHER the click was on Hud Item
     def _mouse_on_tower_hud_item(self, x, y):
         # check if player clicked on an area where no tower can be built
         # check if player clicked on a menu item
