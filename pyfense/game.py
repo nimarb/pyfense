@@ -144,8 +144,8 @@ class PyFenseGame(scene.Scene):
         self.add(self.hud, z=2)
 
     def set_grid_pix(self, x, y, kind):
-        """Set the gameGrid to a certain Value at a certain point,
-        specified by the coordinates in Pixel""""
+        """Set the gameGrid (int) to a certain Value at a certain point,
+        specified by the coordinates in Pixel"""
         if kind < 0 or kind > 200:
             print("WRONG GRID TYPE, fix ur shit")
             return
@@ -154,7 +154,7 @@ class PyFenseGame(scene.Scene):
         self.set_grid(grid_x, grid_y, kind)
 
     def set_grid(self, grid_x, grid_y, kind):
-        """Set the gameGrid to a certain value at a certain point,
+        """Set the gameGrid (int) to a certain value at a certain point,
         specified by the cell"""
         if kind < 0 or kind > 200:
             print("WRONG GRID TYPE, fix ur shit")
@@ -162,7 +162,7 @@ class PyFenseGame(scene.Scene):
         self.gameGrid[grid_y][grid_x] = kind
 
     def get_grid_pix(self, x, y):
-        """Returns the value of the gameGrid at the specified pixel
+        """Returns the value of the gameGrid (int) at the specified pixel
         coordinates"""
         grid_x = int(x / 60)
         grid_y = int(y / 60)
@@ -204,7 +204,7 @@ class PyFenseGame(scene.Scene):
         if towerLevel == 3:
             return
         towerNumber = oldTower.attributes["tower"]
-        # TODO: cost check could/should be done in HUD class; see buildTower
+        # TODO: cost check could/should be done in HUD class; see build_tower
         cost = resources.tower[towerNumber][towerLevel + 1]["cost"]
         if cost > self.currentCurrency:
             return
