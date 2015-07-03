@@ -139,6 +139,11 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             if upgradeLevel < 3:
                 self.remove(self.towerUpgradeThumbnail)
                 self.remove(self.towerUpgradeText)
+                for i in range(0, len(self.noCashOverlayDisplayed)):
+                    if self.noCashOverlayDisplayed[i]:
+                        self.remove(self.noCashOverlays[i])
+                        self.noCashOverlayDisplayed[i] = False
+                        break
         elif self.upgradeHudDisplayed == 0.5:
             self.remove(self.noTowerUpgradeIcon)
         self.upgradeHudDisplayed = 0
@@ -210,7 +215,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                     self.add(self.noCashOverlays[picture])
                     self.noCashOverlays[picture].position = (
                         self.menuMin_x +
-                        picture*self.towerThumbnails[picture].width +
+                        picture * self.towerThumbnails[picture].width +
                         self.towerThumbnails[picture].width / 2, y)
                     self.noCashOverlays[picture].opacity = 127
                     self.noCashOverlayDisplayed[picture] = True
@@ -240,6 +245,14 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                     self.towerUpgradeThumbnail.width / 1.5,
                     y - self.towerUpgradeThumbnail.width * 0.55)
                 self.add(self.towerUpgradeText)
+                if (self.currentCurrency <
+                        resources.tower[towerNumber][upgradeLevel + 1]['cost']):
+                    self.add(self.noCashOverlays[towerNumber])
+                    self.noCashOverlays[towerNumber].position = (
+                            self.menuMin_x + 
+                            self.towerThumbnails[towerNumber].width / 2, y)
+                    self.noCashOverlays[towerNumber].opacity = 127
+                    self.noCashOverlayDisplayed[towerNumber] = True
             else:
                 self.add(self.noTowerUpgradeIcon)
                 self.noTowerUpgradeIcon.position = (
