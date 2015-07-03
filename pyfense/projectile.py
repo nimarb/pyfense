@@ -13,7 +13,7 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
 
     def __init__(
             self, towerParent, target, image, towerNumber, rotation,
-            velocity, damage):
+            velocity, damage, effect, effectduration):
         projectilePng = image
         super().__init__(projectilePng, position=towerParent.position,
                          scale=1)
@@ -21,11 +21,14 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
         self.moveVel(self, target, velocity)
         self.damage = damage
         clock.schedule_once(
-            self.dispatchHitEvent, self.duration, target, towerNumber)
+            self.dispatchHitEvent, self.duration, target, towerNumber,
+            effect, effectduration)
 
         # Dispatch event, when enemy is hit
-    def dispatchHitEvent(self, dt, target, towerNumber):
-        self.dispatch_event('on_enemy_hit', self, target, towerNumber)
+    def dispatchHitEvent(self, dt, target, towerNumber, effect,
+                         effectduration):
+        self.dispatch_event('on_enemy_hit', self, target, towerNumber,
+                            effect, effectduration)
 
     # Move to position of target with certain velocity
     def moveVel(self, projectile, target, velocity):
