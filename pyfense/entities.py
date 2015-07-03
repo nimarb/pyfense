@@ -207,7 +207,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
     # Overrides the Esc key and quits the game on "Q"
     def on_key_press(self, k, m):
         if k == key.ESCAPE:
-            director.push(PyFensePause(self))
+            director.push(PyFensePause())
             return True
         if k == key.Q:
             director.replace(highscore.PyFenseLost())

@@ -24,12 +24,10 @@ _font_ = 'Orbitron Light'
 
 class PyFensePause(scene.Scene):
 
-    def __init__(self, entities):
+    def __init__(self):
         super().__init__()
         self.add(PauseLayer(), z=1)
-        self.entities = entities
-        self.enemies = self.entities.enemies
-
+        
 
 class PauseLayer(Layer):
 
