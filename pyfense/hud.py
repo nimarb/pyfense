@@ -172,10 +172,9 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         pos_x = int(self.clicked_x / 60) * 60 + 30
         pos_y = int(self.clicked_y / 60) * 60 + 30
         self.rangeIndicator.position = (pos_x, pos_y)
-        towerRange = (
-            resources.tower[towerNumber][upgradeLevel]['range'])
+        towerRange = (resources.tower[towerNumber][upgradeLevel]['range'])
         self.rangeIndicator.scale = towerRange / 960
-        self.rangeIndicator.opacity = 100
+        self.rangeIndicator.opacity = 100  # value between 0 and 255
         self.rangeIndicator.visible = True
 
     def _display_tower_hud(self, kind, x, y):
@@ -333,11 +332,12 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self.cellSelectorSpriteGreen.position = (grid_x * 60 + 30,
                                                          grid_y * 60 + 30)
                 self.cellSelectorSpriteGreen.visible = True
-        if self.upgradeHudDisplayed > 0.5:
+        elif self.upgradeHudDisplayed > 0.5:
             if self._mouse_on_tower_hud_item(x, y) == 0:
                 self._display_range_indicator(nextUpgrade=True)
             else:
-                self._display_range_indicator()
+                upLevel = int(str(self.clickedCellStatus)[2])
+                self._display_range_indicator(upgradeLevel=upLevel)
         elif self.buildingHudDisplayed:
             towerOrderNumber = self._mouse_on_tower_hud_item(x, y)
             if towerOrderNumber == 0:
@@ -346,6 +346,10 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self._display_range_indicator(towerNumber=1)
             elif towerOrderNumber == 2:
                 self._display_range_indicator(towerNumber=2)
+            elif towerOrderNumber == 3:
+                self._display_range_indicator(towerNumber=3)
+            elif towerOrderNumber == 4:
+                self._display_range_indicator(towerNumber=4)
             else:
                 self.rangeIndicator.visible = False
 
