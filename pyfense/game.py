@@ -145,7 +145,8 @@ class PyFenseGame(scene.Scene):
 
     def set_grid_pix(self, x, y, kind):
         """Set the gameGrid (int) to a certain Value at a certain point,
-        specified by the coordinates in Pixel"""
+        specified by the coordinates in Pixel
+        """
         if kind < 0 or kind > 200:
             print("WRONG GRID TYPE, fix ur shit")
             return
@@ -155,7 +156,8 @@ class PyFenseGame(scene.Scene):
 
     def set_grid(self, grid_x, grid_y, kind):
         """Set the gameGrid (int) to a certain value at a certain point,
-        specified by the cell"""
+        specified by the cell
+        """
         if kind < 0 or kind > 200:
             print("WRONG GRID TYPE, fix ur shit")
             return
@@ -163,7 +165,8 @@ class PyFenseGame(scene.Scene):
 
     def get_grid_pix(self, x, y):
         """Returns the value of the gameGrid (int) at the specified pixel
-        coordinates"""
+        coordinates
+        """
         grid_x = int(x / 60)
         grid_y = int(y / 60)
         # gracefully fail for resolution edge cases
@@ -175,7 +178,8 @@ class PyFenseGame(scene.Scene):
 
     def get_position_from_grid(self, grid):
         """Returns a tupel of the cell number when providing a
-        coordinate tupel"""
+        coordinate tupel
+        """
         x_grid = grid[1]
         y_grid = grid[0]
         x = 30 + x_grid * 60
