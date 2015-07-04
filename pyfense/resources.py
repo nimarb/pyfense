@@ -27,7 +27,7 @@ def _load_animation(filepath, spritesheet_x, spritesheet_y, width,
                     height, duration, loop):
     spritesheet = load_image(filepath)
     grid = pyglet.image.ImageGrid(spritesheet, spritesheet_y, spritesheet_x,
-                                  item_width=width, item_height=width)
+                                  item_width=width, item_height=height)
     textures = pyglet.image.TextureGrid(grid)
     images = textures[0:len(textures)]
     return pyglet.image.Animation.from_image_sequence(
