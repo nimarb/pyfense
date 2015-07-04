@@ -23,9 +23,9 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.upgradeHudDisplayed = 0
         self.start_next_wave_timer()
         self.towerThumbnails = []
-        for i in range(0, 3):
+        for i in range(0, 5):
             self.towerThumbnails.append(cocos.sprite.Sprite(
-                resources.tower[i][1]["image"]))
+                resources.tower[i][1]['image']))
         self.noCashOverlays = []
         for i in range(0, 5):
             self.noCashOverlays.append(cocos.sprite.Sprite(
@@ -112,7 +112,8 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             labels.append(
                 cocos.text.Label(" ", bold=True, anchor_x='right',
                 anchor_y='center', color=(255, 0, 0, 255)))
-        self.towerCostTexts = [labels[0], labels[1], labels[2]]
+        self.towerCostTexts = [labels[0], labels[1], labels[2], labels[3],
+                labels[4]]
         self.towerUpgradeText = cocos.text.Label(
             " ", bold=True, anchor_x='center', anchor_y='center',
             color=(255, 0, 0, 255))
@@ -201,9 +202,6 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                     self.menuMin_x +
                     picture*self.towerThumbnails[picture].width +
                     self.towerThumbnails[picture].width / 2, y)
-                print("pic: " + str(picture))
-                print("rest: " + str(len(resources.tower)))
-                print("selft: " + str(len(self.towerThumbnails)))
                 self.towerCostTexts[picture].element.text = '$' + str(
                     resources.tower[picture][1]["cost"])
                 self.towerCostTexts[picture].position = (
