@@ -45,7 +45,8 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
                                 self.attributes["projectileVelocity"],
                                 self.attributes["damage"],
                                 self.attributes["effect"],
-                                self.attributes["effectduration"])
+                                self.attributes["effectduration"],
+                                self.attributes["effectfactor"])
             clock.schedule_once(
                 self._fire_interval, 1 / self.attributes['firerate'])
 
@@ -87,5 +88,14 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
             # should actually be atan2(y, x), but then the angle is wrong
             angle = math.degrees(math.atan2(x, y))
             self.rotation = angle
+
+    def get_accumulated_cost(self):
+        acc_cost = 0
+        level = self.attributes['lvl']
+        towerNumber = self.attributes['tower']
+
+        for level in range(1, level+1):
+            acc_cost += resources.tower[towerNumber][level]['cost']
+        return acc_cost
 
 PyFenseTower.register_event_type('on_projectile_fired')
