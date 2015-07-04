@@ -89,4 +89,13 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
             angle = math.degrees(math.atan2(x, y))
             self.rotation = angle
 
+    def get_accumulated_cost(self):
+        acc_cost = 0
+        level = self.attributes['lvl']
+        towerNumber = self.attributes['tower']
+
+        for level in range(1, level+1):
+            acc_cost += resources.tower[towerNumber][level]['cost']
+        return acc_cost
+
 PyFenseTower.register_event_type('on_projectile_fired')

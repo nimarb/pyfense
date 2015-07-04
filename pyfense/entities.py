@@ -115,9 +115,10 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     def remove_tower(self, position):
         tower = self.get_tower_at(position)
+        accumulated_cost = tower.get_accumulated_cost()
         self.remove(tower)
         self.towers.remove(tower)
-        return tower.attributes["cost"]
+        return accumulated_cost
 
     def on_projectile_fired(self, tower, target, projectileimage, towerNumber,
                             rotation, projectileVelocity, damage, effect,
