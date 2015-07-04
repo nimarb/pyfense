@@ -27,7 +27,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.towerThumbnails.append(cocos.sprite.Sprite(
                 resources.tower[i][1]["image"]))
         self.noCashOverlays = []
-        for i in range(0, 3):
+        for i in range(0, 5):
             self.noCashOverlays.append(cocos.sprite.Sprite(
                 resources.noCashOverlay))
         self.noCashOverlayDisplayed = [False for x in
@@ -108,7 +108,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     def _add_tower_texts(self):
         labels = []
-        for i in range(0, 3):
+        for i in range(0, 5):
             labels.append(
                 cocos.text.Label(" ", bold=True, anchor_x='right',
                 anchor_y='center', color=(255, 0, 0, 255)))
@@ -201,6 +201,9 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                     self.menuMin_x +
                     picture*self.towerThumbnails[picture].width +
                     self.towerThumbnails[picture].width / 2, y)
+                print("pic: " + str(picture))
+                print("rest: " + str(len(resources.tower)))
+                print("selft: " + str(len(self.towerThumbnails)))
                 self.towerCostTexts[picture].element.text = '$' + str(
                     resources.tower[picture][1]["cost"])
                 self.towerCostTexts[picture].position = (
