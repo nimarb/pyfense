@@ -45,7 +45,8 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
                                 self.attributes["projectileVelocity"],
                                 self.attributes["damage"],
                                 self.attributes["effect"],
-                                self.attributes["effectduration"])
+                                self.attributes["effectduration"],
+                                self.attributes["effectfactor"])
             clock.schedule_once(
                 self._fire_interval, 1 / self.attributes['firerate'])
 

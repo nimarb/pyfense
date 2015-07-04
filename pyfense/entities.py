@@ -121,14 +121,15 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     def on_projectile_fired(self, tower, target, projectileimage, towerNumber,
                             rotation, projectileVelocity, damage, effect,
-                            effectduration):
+                            effectduration, effectfactor):
         newProjectile = projectile.PyFenseProjectile(tower, target,
                                                      projectileimage,
                                                      towerNumber,
                                                      rotation,
                                                      projectileVelocity,
                                                      damage, effect,
-                                                     effectduration)
+                                                     effectduration,
+                                                     effectfactor)
         self.projectiles.append(newProjectile)
         newProjectile.push_handlers(self)
         self.add(newProjectile, z=1)
@@ -142,7 +143,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.add(cocosnode, z_after)
 
     def on_enemy_hit(self, projectile, target, towerNumber, effect,
-                     effectduration):
+                     effectduration, effectfactor):
         explosion = eval('particles.Explosion' +
                          str(towerNumber) + '()')
         explosion.position = target.position
@@ -168,7 +169,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.dispatch_event('on_enemy_death', target)
             self._is_wave_finished()
         elif effect == 'slow':
-            target.freeze(2, effectduration)
+            target.freeze(effectfactor, effectduration)
 
     def _is_wave_finished(self):
         if self.spawnedEnemies == self.enemieslength:
