@@ -184,7 +184,7 @@ def load_custom_image():
 load_entities()
 load_waves()
 customImage = load_custom_image()
-print(mine)
+
 # load sprites/images
 noCashOverlay = load_image(pathjoin("assets/tower-nocashoverlay.png"))
 destroyTowerIcon = load_image(pathjoin("assets/tower-destroy.png"))
