@@ -41,6 +41,7 @@ mine = {}
 def load_entities():
     tower.clear()
     enemy.clear()
+    mine.clear()
     with open(pathjoin("data/entities.cfg")) as conf_file:
         for line in conf_file:
             if line == "" or line[0] == "#":
