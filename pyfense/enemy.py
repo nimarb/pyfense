@@ -8,8 +8,6 @@ from cocos import sprite
 from pyglet import clock
 from pyfense import resources
 
-paused = False
-
 
 class PyFenseEnemy(sprite.Sprite):
     def __init__(self, position, enemyname, lvl, wave, path,
@@ -28,12 +26,12 @@ class PyFenseEnemy(sprite.Sprite):
         self.healthBarBackground, self.healthBar = self._draw_healthbar()
         self.turns = self.attributes['turns']
         clock.schedule_once(self._move, 0.1)
-        self.paused = paused
 
     def _move(self, dt):
+
         # check if enemy reached end
-        self.paused = False
         if self.distance != len(self.path[0]):
+            self.unschedule(self._move)
             # after 10 Moves a rotation towards the next tile can be done
             if self.distance % 11 == 0:
                 # check if rotation should be done
@@ -55,10 +53,9 @@ class PyFenseEnemy(sprite.Sprite):
             self.healthBarBackground.do(healthBarAction)
             self.healthBar.do(healthBarAction)
 
-            if not self.paused:
-                # wait until the action
-                self.distance += 1
-                clock.schedule_once(self._move, self.duration)
+            # wait until the action
+            self.distance += 1
+            self.schedule_interval(self._move, self.duration)
 
     def _draw_healthbar(self):
         self.bar_x = self.x - self.healthBarWidth / 2

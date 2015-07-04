@@ -42,8 +42,8 @@ class PyFenseGame(scene.Scene):
         self.gameGrid, self.startTile, \
                        self.endTile = resources.initGrid(levelNumber)
 
-        resources.loadWaves()
-        resources.loadEntities()
+        resources.load_waves()
+        resources.load_entities()
 
         self.movePath = self._load_path()
         self.levelMapName = "lvl" + str(levelNumber)
@@ -61,7 +61,7 @@ class PyFenseGame(scene.Scene):
         currentTile = copy.deepcopy(self.startTile)
         # move[0] for enemy with rotation and move[1] for healthbar
         move = [[], []]
-        pos = self.getPositionFromGrid(self.startTile)
+        pos = self.get_position_from_grid(self.startTile)
 
         while(currentTile[0] != self.endTile[0] or
               currentTile[1] != self.endTile[1]):
@@ -131,8 +131,8 @@ class PyFenseGame(scene.Scene):
         self.add(self.levelMap, z=0)
 
     def _display_entities(self):
-        startTile = self.getPositionFromGrid(self.startTile)
-        endTile = self.getPositionFromGrid(self.endTile)
+        startTile = self.get_position_from_grid(self.startTile)
+        endTile = self.get_position_from_grid(self.endTile)
         self.entityMap = entities.PyFenseEntities(self.movePath,
                                                   startTile, endTile)
         self.entityMap.push_handlers(self)
@@ -144,6 +144,9 @@ class PyFenseGame(scene.Scene):
         self.add(self.hud, z=2)
 
     def set_grid_pix(self, x, y, kind):
+        """Set the gameGrid (int) to a certain Value at a certain point,
+        specified by the coordinates in Pixel
+        """
         if kind < 0 or kind > 200:
             print("WRONG GRID TYPE, fix ur shit")
             return
@@ -152,12 +155,18 @@ class PyFenseGame(scene.Scene):
         self.set_grid(grid_x, grid_y, kind)
 
     def set_grid(self, grid_x, grid_y, kind):
+        """Set the gameGrid (int) to a certain value at a certain point,
+        specified by the cell
+        """
         if kind < 0 or kind > 200:
             print("WRONG GRID TYPE, fix ur shit")
             return
         self.gameGrid[grid_y][grid_x] = kind
 
     def get_grid_pix(self, x, y):
+        """Returns the value of the gameGrid (int) at the specified pixel
+        coordinates
+        """
         grid_x = int(x / 60)
         grid_y = int(y / 60)
         # gracefully fail for resolution edge cases
@@ -167,7 +176,10 @@ class PyFenseGame(scene.Scene):
             grid_y = 17
         return self.gameGrid[grid_y][grid_x]
 
-    def getPositionFromGrid(self, grid):
+    def get_position_from_grid(self, grid):
+        """Returns a tupel of the cell number when providing a
+        coordinate tupel
+        """
         x_grid = grid[1]
         y_grid = grid[0]
         x = 30 + x_grid * 60
@@ -196,7 +208,7 @@ class PyFenseGame(scene.Scene):
         if towerLevel == 3:
             return
         towerNumber = oldTower.attributes["tower"]
-        # TODO: cost check could/should be done in HUD class; see buildTower
+        # TODO: cost check could/should be done in HUD class; see build_tower
         cost = resources.tower[towerNumber][towerLevel + 1]["cost"]
         if cost > self.currentCurrency:
             return
@@ -207,12 +219,12 @@ class PyFenseGame(scene.Scene):
             towerNumber, position, towerLevel + 1)
         self.entityMap.build_tower(newTower)
         (x, y) = position
-        self.setGridPix(x, y, int(float("1" + str(towerNumber) +
-                        str(towerLevel + 1))))
+        self.set_grid_pix(x, y, int(float("1" + str(towerNumber) +
+                          str(towerLevel + 1))))
 
     def on_destroy_tower(self, position):
         (x, y) = position
-        self.setGridPix(x, y, 3)
+        self.set_grid_pix(x, y, 3)
         self.currentCurrency += 0.7 * self.entityMap.remove_tower(position)
         self.hud.update_currency_number(self.currentCurrency)
 
