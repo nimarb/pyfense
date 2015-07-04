@@ -27,11 +27,11 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
         self.counter = 0
         self.canFire = True
         self.shot = resources.shot
-        self.schedule(lambda dt: self.fire())
-        self.schedule(lambda dt: self.find_next_enemy())
-        self.schedule(lambda dt: self.rotateToTarget())
+        self.schedule(lambda dt: self._fire())
+        self.schedule(lambda dt: self._find_next_enemy())
+        self.schedule(lambda dt: self._rotate_to_target())
 
-    def fire(self):
+    def _fire(self):
         if (not self.parent.enemies) or not self.target:
             pass
         elif self.canFire:
@@ -43,22 +43,24 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
                                 self.attributes["tower"],
                                 self.rotation,
                                 self.attributes["projectileVelocity"],
-                                self.attributes["damage"])
+                                self.attributes["damage"],
+                                self.attributes["effect"],
+                                self.attributes["effectduration"])
             clock.schedule_once(
-                self.fireInterval, 1 / self.attributes['firerate'])
+                self._fire_interval, 1 / self.attributes['firerate'])
 
     # Fire the projectile only after firerate interval
-    def fireInterval(self, dt):
+    def _fire_interval(self, dt):
         if not self.canFire:
             self.canFire = True
 
-    def distance(self, a, b):
+    def _distance(self, a, b):
         return math.sqrt((b.x - a.x) ** 2 + (b.y - a.y) ** 2)
 
     # find the next enemy (that should be attacked next)
     # either first enemy in range or nearest Enemy
     # standardvalue is first
-    def find_next_enemy(self, mode="first"):
+    def _find_next_enemy(self, mode="first"):
         self.target = None
         self.dist = self.attributes["range"]
         for enemy in self.parent.enemies:
@@ -66,19 +68,19 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
                # Enemy still in window
                enemy.y < cocos.director.director.get_window_size()[1]):
                 # Distance to enemy smaller than range
-                if (self.distance(enemy, self) < self.attributes["range"]):
+                if (self._distance(enemy, self) < self.attributes["range"]):
                     if(mode == "nearest"):
                         # Check for nearest Enemy
                         # Distance smaller than previous smallest distance
-                        if(self.distance(enemy, self) < self.dist):
+                        if(self._distance(enemy, self) < self.dist):
                             self.target = enemy
-                            self.dist = self.distance(enemy, self)
+                            self.dist = self._distance(enemy, self)
                     elif(mode == "first"):
                         # first Enemy in list, which is in range is the target
                         self.target = enemy
                         break
 
-    def rotateToTarget(self):
+    def _rotate_to_target(self):
         if self.target:
             x = self.target.x - self.x
             y = self.target.y - self.y
