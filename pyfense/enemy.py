@@ -28,7 +28,7 @@ class PyFenseEnemy(sprite.Sprite):
         clock.schedule_once(self._move, 0.1)
 
     def _move(self, dt):
-        
+
         # check if enemy reached end
         if self.distance != len(self.path[0]):
             self.unschedule(self._move)
