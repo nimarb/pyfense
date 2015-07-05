@@ -17,7 +17,8 @@ def load_image(filename):
     try:
         img = pyglet.image.load(filename)
     except FileNotFoundError:
-        print(filename + " not found, please check files")
+        print(filename + " not found in load_image of tower class,"
+              +" please check files")
         return False
     return img
 
@@ -25,11 +26,18 @@ def load_image(filename):
 # Loads spritesheets as animation with frames from bottom left to top right
 def _load_animation(filepath, spritesheet_x, spritesheet_y, width,
                     height, duration, loop):
-    spritesheet = load_image(filepath)
-    grid = pyglet.image.ImageGrid(spritesheet, spritesheet_y, spritesheet_x,
+    try:
+        spritesheet = load_image(filepath)
+        grid = pyglet.image.ImageGrid(spritesheet, spritesheet_y, spritesheet_x,
                                   item_width=width, item_height=height)
-    textures = pyglet.image.TextureGrid(grid)
-    images = textures[0:len(textures)]
+        textures = pyglet.image.TextureGrid(grid)
+        images = textures[0:len(textures)]
+    except FileNotFoundError:
+        print(filepath + " not found in _load_animation of tower class")
+        return False
+    except AttributeError as e:
+        print("Problem with attribute in _load_animation of tower class:", e)
+        return False
     return pyglet.image.Animation.from_image_sequence(
         images, duration, loop=loop)
 
