@@ -1,5 +1,7 @@
-# pyfense_projectile
-# projectile class
+"""
+projectile class. Moves projectile to destination and dispatches event
+on_enemy_hit.
+"""
 
 from cocos import sprite
 from cocos import actions
@@ -18,25 +20,29 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
         super().__init__(projectilePng, position=towerParent.position,
                          scale=1)
         self.rotation = rotation
-        self.moveVel(self, target, velocity)
+        self._moveVel(self, target, velocity)
         self.damage = damage
         clock.schedule_once(
-            self.dispatchHitEvent, self.duration, target, towerNumber,
+            self._dispatchHitEvent, self.duration, target, towerNumber,
             effect, effectduration, effectfactor)
 
-        # Dispatch event, when enemy is hit
-    def dispatchHitEvent(self, dt, target, towerNumber, effect,
-                         effectduration, effectfactor):
+    def _dispatchHitEvent(self, dt, target, towerNumber, effect,
+                          effectduration, effectfactor):
+        """
+        Dispatch event, when enemy is hit
+        """
         self.dispatch_event('on_enemy_hit', self, target, towerNumber,
                             effect, effectduration, effectfactor)
 
-    # Move to position of target with certain velocity
-    def moveVel(self, projectile, target, velocity):
-        dist = self.distance(target.position, self.position)
-        self.duration = dist/velocity
+    def _moveVel(self, projectile, target, velocity):
+        """
+        Move to position of target with certain velocity
+        """
+        dist = self._distance(target.position, self.position)
+        self.duration = dist / velocity
         projectile.do(actions.MoveTo(target.position, self.duration))
 
-    def distance(self, a, b):
-        return math.sqrt((b[0] - a[0])**2 + (b[1]-a[1])**2)
+    def _distance(self, a, b):
+        return math.sqrt((b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2)
 
 PyFenseProjectile.register_event_type('on_enemy_hit')

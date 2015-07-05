@@ -36,6 +36,8 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
             self.canFire = False
             if (resources.sounds):
                 self.shot.play()
+                
+            # on_projectile_fired to be catched in entities
             self.dispatch_event('on_projectile_fired', self, self.target,
                                 self.attributes["projectile_image"],
                                 self.attributes["tower"],
