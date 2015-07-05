@@ -28,7 +28,7 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
         self.canFire = True
         self.shot = resources.shot
         self.schedule(lambda dt: self._fire())
-        self.schedule(lambda dt: self.find_next_enemy())
+        self.schedule(lambda dt: self._find_next_enemy())
         self.schedule(lambda dt: self._rotate_to_target())
 
     def _fire(self):
@@ -62,12 +62,11 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
     def _distance(self, a, b):
         return math.sqrt((b.x - a.x) ** 2 + (b.y - a.y) ** 2)
 
-    def find_next_enemy(self, mode="first"):
+    def _find_next_enemy(self, mode="first"):
         """
         Find the next enemy (that should be attacked next)
         either first enemy in range or nearest Enemy
         standardvalue is first.
-        Also used in entities class in _splash_damage.
         """
         self.target = None
         self.dist = self.attributes["range"]
