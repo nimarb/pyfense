@@ -1,6 +1,6 @@
 """
-PyFenseGame -  Top Level Scene during the game, onto which all the other Layers
-get added.Responsible for dynamic pathfinding and communication between
+PyFenseGame -  Top Level Scene during the game, onto which all the other
+Layers get added.Responsible for dynamic pathfinding and communication between
 user interaction through the HUD and entities like towers.
 """
 import os
@@ -212,8 +212,9 @@ class PyFenseGame(scene.Scene):
             return
         self.currentCurrency -= self.entityMap.build_tower(toBuildTower)
         self.hud.update_currency_number(self.currentCurrency)
-        self._set_grid_pix(pos_x, pos_y, int(float("1" + str(towerNumber) +
-            str(toBuildTower.attributes["lvl"]))))
+        self._set_grid_pix(
+            pos_x, pos_y, int(float("1" + str(towerNumber) +
+                                    str(toBuildTower.attributes["lvl"]))))
 
     def on_upgrade_tower(self, position):
         """
