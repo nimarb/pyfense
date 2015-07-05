@@ -31,7 +31,7 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
         """
         Dispatch event, when enemy is hit
         """
-        self.dispatch_event('on_enemy_hit', self, target, towerNumber,
+        self.dispatch_event('on_target_hit', self, target, towerNumber,
                             effect, effectduration, effectfactor)
 
     def _moveVel(self, projectile, target, velocity):
@@ -45,4 +45,4 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
     def _distance(self, a, b):
         return math.sqrt((b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2)
 
-PyFenseProjectile.register_event_type('on_enemy_hit')
+PyFenseProjectile.register_event_type('on_target_hit')
