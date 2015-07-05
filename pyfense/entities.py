@@ -147,29 +147,32 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
                       effectduration, effectfactor):
         """
         Handels the case, that an projectile hits the target and decides w.r.t.
-        the effect which event is called.
+        the effect which event is called. The projectile is removed.
         """
-        if effect == 'splash':
-            self._splash_damage(projectile, target, towerNumber, effect,
-                                effectduration, effectfactor)
-        else:
-            self._make_damage(projectile, target, towerNumber, effect,
-                              effectduration, effectfactor)
-
-    def _make_damage(self, projectile, target, towerNumber, effect,
-                     effectduration, effectfactor):
-        """
-        Gives damage to enemys and removes projectile. Handels event 'slow'
-        """
-        explosion = eval('particles.Explosion' +
-                         str(towerNumber) + '()')
+        explosion = eval('particles.Explosion' + str(towerNumber) + '()')
         explosion.position = target.position
         self.add(explosion, z=5)
         pyglet.clock.schedule_once(lambda dt, x: self.remove(x), 0.5,
                                    explosion)
-        target.healthPoints -= projectile.damage
+        self.damage = projectile.damage
         self.remove(projectile)
         self.projectiles.remove(projectile)
+
+        if effect == 'splash':
+            self._splash_damage(self.damage, target, towerNumber, effect,
+                                effectduration, effectfactor)
+        elif effect in ('normal', 'poison', 'slow'):
+            self._make_damage(self.damage, target, towerNumber, effect,
+                              effectduration, effectfactor)
+        else:
+            raise ValueError('unknown effect type')
+
+    def _make_damage(self, damage, target, towerNumber, effect,
+                     effectduration, effectfactor):
+        """
+        Gives damage to enemys and handels event slow.
+        """
+        target.healthPoints -= damage
         target.update_healthbar()
         if target in self.enemies and target.healthPoints <= 0:
             target.stop_movement()
@@ -190,13 +193,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     def _splash_damage(self, projectile, target, towerNumber, effect,
                        effectduration, effectfactor):
-        explosion = eval('particles.Explosion' +
-                         str(towerNumber) + '()')
-        explosion.position = target.position
-        self.add(explosion, z=5)
-        pyglet.clock.schedule_once(lambda dt, x: self.remove(x), 0.5,
-                                   explosion)
-        self.remove(projectile)
+        pass
 
     def _is_wave_finished(self):
         if self.spawnedEnemies == self.enemieslength:
