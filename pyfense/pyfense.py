@@ -140,7 +140,7 @@ class LevelSelectMenu(cocos.menu.Menu):
             os.path.isfile(os.path.join(
                 os.path.dirname(
                 os.path.abspath(__file__)), "assets/lvlcustom.png"))):
-                    customImage = resources.lvlcustom
+                    customImage = resources.load_custom_image()
                     lvl1.scale = 0.18
                     lvl1.y = 30
                     self.items.append(lvl1)
