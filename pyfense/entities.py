@@ -190,7 +190,13 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     def _splash_damage(self, projectile, target, towerNumber, effect,
                        effectduration, effectfactor):
-        pass
+        explosion = eval('particles.Explosion' +
+                         str(towerNumber) + '()')
+        explosion.position = target.position
+        self.add(explosion, z=5)
+        pyglet.clock.schedule_once(lambda dt, x: self.remove(x), 0.5,
+                                   explosion)
+        self.remove(projectile)
 
     def _is_wave_finished(self):
         if self.spawnedEnemies == self.enemieslength:
