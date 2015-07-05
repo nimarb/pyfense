@@ -12,7 +12,7 @@ import cocos
 import cocos.menu
 from cocos.director import director
 from cocos.scene import Scene
-from cocos.layer import ColorLayer, MultiplexLayer
+from cocos.layer import Layer, ColorLayer, MultiplexLayer
 from cocos.text import Label
 
 import os  # for loading custom image
@@ -96,8 +96,25 @@ class MainMenu(cocos.menu.Menu):
         self.logo.position = (self.w / 2 + 20, self.h - 90)
         self.logo.scale = 0.25
 
+# class LevelSelectLayer(Layer):
+#     is_event_handler = True
+
+#     def __init__(self):
+#         super().__init__()
+
+#     def on_enter(self):
+#         super().on_enter()
+#         self.parent.switch_to(3)
+#         director.push(LevelSelectMenu())
+
+# class LevelSelectScene(Scene):
+
+#     def __init__(self):
+#         super().__init__()
+#         self.add(LevelSelectLayer(), z=1)
 
 class LevelSelectMenu(cocos.menu.Menu):
+
     def __init__(self):
         super().__init__(' ')
         self.items = None
@@ -190,7 +207,7 @@ class LevelSelectMenu(cocos.menu.Menu):
         director.push(mapBuilder.PyFenseMapBuilder())
 
     def on_quit(self):
-        self.parent.switch_to(0)
+        director.pop()
 
 
 class ScoresLayer(ColorLayer):

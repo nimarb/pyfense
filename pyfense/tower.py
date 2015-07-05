@@ -11,10 +11,10 @@ from pyfense import resources
 
 
 class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
-	"""
-	Needs position in tuple (posx,posy)
-	Takes tower.png found in assets directory
-	"""
+    """
+    Needs position in tuple (posx,posy)
+    Takes tower.png found in assets directory
+    """ 
     def __init__(self, towerNumber, position, level=1):
         self.attributes = resources.tower[towerNumber][level]
         super().__init__(self.attributes["image"], position)
@@ -49,9 +49,9 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
                 self._fire_interval, 1 / self.attributes['firerate'])
 
     def _fire_interval(self, dt):
-    	"""
-    	Fire the projectile only after firerate interval
-    	"""
+        """
+        Fire the projectile only after firerate interval
+        """
         if not self.canFire:
             self.canFire = True
 
@@ -59,11 +59,11 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
         return math.sqrt((b.x - a.x) ** 2 + (b.y - a.y) ** 2)
 
     def _find_next_enemy(self, mode="first"):
-    	"""
-    	find the next enemy (that should be attacked next)
-    	either first enemy in range or nearest Enemy
-    	standardvalue is first
-    	"""
+        """
+        find the next enemy (that should be attacked next)
+        either first enemy in range or nearest Enemy
+        standardvalue is first
+        """
         self.target = None
         self.dist = self.attributes["range"]
         for enemy in self.parent.enemies:
