@@ -14,7 +14,7 @@ class PyFenseMap(cocos.layer.Layer):
 
     def _load_background_image(self):
         if(self.levelMap == "lvlcustom"):  # if custom image, load new
-            backgroundImage = resources.lvlcustom
+            backgroundImage = resources.load_custom_image()
         elif(self.levelMap == "background"):
             backgroundImage = resources.background["background"]
         else:
