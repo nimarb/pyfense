@@ -1,22 +1,20 @@
 """
-pyfense_tower contains PyFenseTower class
+pyfense_tower contains PyFenseTower class, inherits from game class
 """
 
 import cocos
 from cocos import sprite
-# from cocos import actions
 import pyglet
 from pyglet import clock
 import math
 from pyfense import resources
 
-# import entities
-
-# Needs position in tuple (posx,posy)
-# Takes tower.png found in assets directory
-
 
 class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
+	"""
+	Needs position in tuple (posx,posy)
+	Takes tower.png found in assets directory
+	"""
     def __init__(self, towerNumber, position, level=1):
         self.attributes = resources.tower[towerNumber][level]
         super().__init__(self.attributes["image"], position)
@@ -50,18 +48,22 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
             clock.schedule_once(
                 self._fire_interval, 1 / self.attributes['firerate'])
 
-    # Fire the projectile only after firerate interval
     def _fire_interval(self, dt):
+    	"""
+    	Fire the projectile only after firerate interval
+    	"""
         if not self.canFire:
             self.canFire = True
 
     def _distance(self, a, b):
         return math.sqrt((b.x - a.x) ** 2 + (b.y - a.y) ** 2)
 
-    # find the next enemy (that should be attacked next)
-    # either first enemy in range or nearest Enemy
-    # standardvalue is first
     def _find_next_enemy(self, mode="first"):
+    	"""
+    	find the next enemy (that should be attacked next)
+    	either first enemy in range or nearest Enemy
+    	standardvalue is first
+    	"""
         self.target = None
         self.dist = self.attributes["range"]
         for enemy in self.parent.enemies:
