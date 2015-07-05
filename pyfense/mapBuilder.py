@@ -61,6 +61,10 @@ class PyFenseMapBuilder(Scene):
         self.add(self.hud, z=2)
 
     def _set_grid_pix(self, x, y, kind):
+        """
+        Set the gameGrid (int) to a certain Value at a certain point,
+        specified by the coordinates in Pixel
+        """
         if (kind < 0 or kind > 4) and kind != 2:
             print("WRONG GRID TYPE, fix ur shit %d" % kind)
             return
@@ -69,12 +73,20 @@ class PyFenseMapBuilder(Scene):
         self._set_grid(grid_x, grid_y, kind)
 
     def _set_grid(self, grid_x, grid_y, kind):
+        """
+        Set the gameGrid (int) to a certain value at a certain point,
+        specified by the cell
+        """
         if (kind < 0 or kind > 4) and kind != 2:
             print("WRONG GRID TYPE, fix ur shit")
             return
         self.gameGrid[grid_y][grid_x] = kind
 
     def _get_grid_pix(self, x, y):
+        """
+        Returns the value of the gameGrid (int) at the specified pixel
+        coordinates
+        """
         grid_x = int(x / 60)
         grid_y = int(y / 60)
         # gracefully fail for resolution edge cases
@@ -85,6 +97,10 @@ class PyFenseMapBuilder(Scene):
         return self.gameGrid[grid_y][grid_x]
 
     def on_build_path(self, x, y):
+        """
+        Builds path->grass->neither->path->... depending on how often you click
+        Grass means potential tower placement positions.
+        """
         if(self._get_grid_pix(x, y) == 0):
             path = cocos.sprite.Sprite(resources.path,
                                        position=(x, y))
