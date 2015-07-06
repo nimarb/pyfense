@@ -82,8 +82,8 @@ def load_entities():
                         print("Error: Image not found: {}".format(
                             att_dict["image"]))
                     try:
-                        att_dict["projectile_image"] = load_image(
-                                att_dict["projectile_image"])
+                        att_dict["projectileImage"] = load_image(
+                                att_dict["projectileImage"])
                     except FileNotFoundError:
                         print("Error: Image not found: {}".format(
                             att_dict["image"]))
