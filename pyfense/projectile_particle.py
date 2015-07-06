@@ -1,4 +1,5 @@
 """
+
 Projectile class for slow tower, that is handled by emitting particles
 instead of moving an image.
 """
@@ -13,8 +14,9 @@ import pyglet
 
 class PyFenseProjectileSlow(ParticleSystem, pyglet.event.EventDispatcher):
     """
-    Projectile in the form of particles for the slow tower.
     
+    Projectile in the form of particles for the slow tower.
+    Class variables have to be used by ParticleSystem. 
     """
 
 
@@ -70,7 +72,8 @@ class PyFenseProjectileSlow(ParticleSystem, pyglet.event.EventDispatcher):
     def __init__(self, towerParent, target, towerNumber,
                  speed, damage, effect, effectDuration, effectFactor):
         """
-        Create a projectile.
+        
+        Create a projectile and schedule event.
         
         :Parameters:
             `towerParent`: tower object
@@ -79,8 +82,6 @@ class PyFenseProjectileSlow(ParticleSystem, pyglet.event.EventDispatcher):
                 Enemy that is targeted.
             `towerNumber` : int
                 Number of the parent tower. 
-            `rotation` : int
-                Rotation of the parent tower.
             `speed` : int
                 Speed of the particles.
             `damage` : int
@@ -107,6 +108,7 @@ class PyFenseProjectileSlow(ParticleSystem, pyglet.event.EventDispatcher):
     def _dispatch_hit_event(self, dt, target, towerNumber, effect,
                             effectDuration, effectFactor):
         """
+        
         Dispatch event when enemy is hit.
         The event is then handled by the enitites class in order to subtract
         health points from the enemy and to handle the different effects. 
@@ -118,6 +120,7 @@ class PyFenseProjectileSlow(ParticleSystem, pyglet.event.EventDispatcher):
 
     def _distance(self, a, b):
         """
+        
         Compute distance between two tupels (= position).
         """
         dis = math.sqrt((b[0] - a[0])**2 + (b[1]-a[1])**2)
