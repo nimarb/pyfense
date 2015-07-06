@@ -69,7 +69,7 @@ class PyFenseProjectileSlow(ParticleSystem, pyglet.event.EventDispatcher):
     # color modulate
     color_modulate = True
 
-    def __init__(self, towerParent, target, towerNumber,
+    def __init__(self, towerParent, target, towerNumber, rotation,
                  speed, damage, effect, effectDuration, effectFactor):
         """
         
@@ -82,6 +82,8 @@ class PyFenseProjectileSlow(ParticleSystem, pyglet.event.EventDispatcher):
                 Enemy that is targeted.
             `towerNumber` : int
                 Number of the parent tower. 
+            `rotation` : int
+                Rotation of the parent tower. 
             `speed` : int
                 Speed of the particles.
             `damage` : int
@@ -96,6 +98,7 @@ class PyFenseProjectileSlow(ParticleSystem, pyglet.event.EventDispatcher):
               
         super().__init__()
         self.position = towerParent.position
+        self.rotation = rotation - 90
         __class__.speed = speed
         __class__.distance = self._distance(target.position, self.position)
         __class__.life = __class__.distance / __class__.speed
