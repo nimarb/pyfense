@@ -17,7 +17,7 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
     
     def __init__(
             self, towerParent, target, image, towerNumber, rotation,
-            velocity, damage, effect, effectduration, effectfactor):
+            speed, damage, effect, effect_duration, effect_factor):
         """
         Create a projectile.
         
@@ -32,15 +32,15 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
                 Number of the parent tower. 
             `rotation` : int
                 Rotation of the parent tower.
-            `velocity` : int
-                Velocity of the projectile.
+            `speed` : int
+                Speed of the projectile.
             `damage` : int
                 Damage the projectile causes.
             `effect` : string
                 Effect that is caused by projectile (like poison or normal)
-            `effectduration` : int
+            `effect_duration` : int
                 Duration that the effect is active.
-            `effectfactor` : int
+            `effect_factor` : int
                 How strong the effect is.
         """
                 
@@ -48,16 +48,16 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
                          scale=1)
         self.rotation = rotation
         self.damage = damage
-        self.velocity = velocity
+        self.speed = speed
         self.distance = self._distance(target.position, self.position)
         self.duration = self._duration()
         self.do(actions.MoveTo(target.position, self.duration))
         self.schedule_interval(
             self._dispatch_hit_event, self.duration, target, towerNumber,
-            effect, effectduration, effectfactor)
+            effect, effect_duration, effect_factor)
 
     def _dispatch_hit_event(self, dt, target, towerNumber, effect,
-                         effectduration, effectfactor):
+                         effect_duration, effect_factor):
         """
         Dispatch event when enemy is hit.
         The event is then handled by the enitites class in order to subtract
@@ -66,13 +66,13 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
 
         self.unschedule(self._dispatch_hit_event)     
         self.dispatch_event('on_target_hit', self, target, towerNumber,
-                            effect, effectduration, effectfactor)
+                            effect, effect_duration, effect_factor)
 
     def _duration(self):
         """
         Compute duration, that the projectile flies.
         """
-        dur = self.distance/self.velocity
+        dur = self.distance/self.speed
         return dur
 
     def _distance(self, a, b):
