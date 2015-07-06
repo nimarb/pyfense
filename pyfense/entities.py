@@ -1,6 +1,17 @@
 """
  pyfense_entities.py
-contains the layer on which all enemies and towers are placed (layer)
+ contains the layer on which all enemies and towers are placed (layer)
+
+ z-order of objects in entities:
+ z = 0: empty
+ z = 1: projectiles before leaving tower radius
+ z = 2: towers
+ z = 3: enemies
+ z = 4: projectiles after leaving tower radius and particle projectiles
+ z = 5: explosion
+ z = 6: Healthbar background (red)
+ z = 7: Healthbar foreground (green)    
+ z = 8: Warning 
 """
 import os
 
@@ -15,8 +26,8 @@ from cocos.director import director
 # import pyfense_tower
 from pyfense import enemy
 from pyfense import projectile
-# import pyfense_hud
-from pyfense.pause import PyFensePause
+from pyfense import projectile_particle
+from pyfense import pause
 from pyfense import resources
 from pyfense import particles
 from pyfense import highscore
@@ -48,8 +59,8 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.polynomial1 = 2  # linear
         self.polynomial0 = -(self.polynomial1 - 1)  # offset
         self.enemyHealthFactor = 1
-        clock.schedule_interval(self._update_enemies_order, 0.2)
-
+        self.schedule_interval(self._update_enemies_order, 0.2)
+        
         # variables that you want to check or modify in the interpreter
         director.interpreter_locals["entities"] = self
         director.interpreter_locals["enemies"] = self.enemies
@@ -76,7 +87,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         elif self.modulo_wavenumber == 1 and waveNumber != 1:
             self._show_warning(3)
         self.enemieslength = len(self.enemy_list)
-        clock.schedule_once(self._add_enemy, 0, self.startTile, self.path,
+        self.schedule_interval(self._add_enemy, 0, self.startTile, self.path,
                             self.enemy_list, self.multiplier)
 
     def _show_warning(self, warningNumber):
@@ -123,22 +134,43 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
     def on_projectile_fired(self, tower, target, projectileimage, towerNumber,
                             rotation, projectileVelocity, damage, effect,
                             effectduration, effectfactor):
-        newProjectile = projectile.PyFenseProjectile(tower, target,
-                                                     projectileimage,
-                                                     towerNumber,
-                                                     rotation,
-                                                     projectileVelocity,
-                                                     damage, effect,
-                                                     effectduration,
-                                                     effectfactor)
-        self.projectiles.append(newProjectile)
-        newProjectile.push_handlers(self)
-        self.add(newProjectile, z=1)
-        duration = 80 / projectileVelocity
-        clock.schedule_once(lambda dt: self._change_z(projectile, 1, 4),
-                            duration)
 
+        
+        if towerNumber == 4:
+            new_projectile = projectile_particle.PyFenseProjectileSlow(
+                            tower, target, towerNumber,
+                            projectileVelocity, damage, effect,
+                            effectduration, effectfactor)
+            new_projectile.rotation = tower.rotation - 90   
+            
+            
+            self.projectiles.append(new_projectile)
+            new_projectile.push_handlers(self)
+            self.add(new_projectile, z=4)
+            director.interpreter_locals["projectile_slow"] = new_projectile
+            
+        else:
+            new_projectile = projectile.PyFenseProjectile(tower, target,
+                                                         projectileimage,
+                                                         towerNumber,
+                                                         rotation,
+                                                         projectileVelocity,
+                                                         damage, effect,
+                                                         effectduration,
+                                                         effectfactor)
+            self.projectiles.append(new_projectile)
+            new_projectile.push_handlers(self)
+            self.add(new_projectile, z=1)
+            
+            # Duration that projectile is beneath the tower
+            duration = 40*1.41/ projectileVelocity
+            self.schedule_interval(lambda dt: self._change_z(new_projectile, 1, 4),
+                                   duration)
+                                   
+     
+        
     def _change_z(self, cocosnode, z_before, z_after):
+        self.unschedule(self._change_z)
         if (z_before, cocosnode) in self.children:
             self.remove(cocosnode)
             self.add(cocosnode, z_after)
@@ -152,7 +184,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         explosion = eval('particles.Explosion' + str(towerNumber) + '()')
         explosion.position = target.position
         self.add(explosion, z=5)
-        pyglet.clock.schedule_once(lambda dt, x: self.remove(x), 0.5,
+        clock.schedule_once(lambda dt, x: self.remove(x), 0.5,
                                    explosion)
         self.damage = projectile.damage
         self.remove(projectile)
@@ -162,18 +194,25 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self._splash_damage(self.damage, target, towerNumber, effect,
                                 effectduration, effectfactor)
         elif effect in ('normal', 'poison', 'slow'):
-            self._make_damage(self.damage, target, effect,
+            self._deal_damage(self.damage, target, effect,
                               effectduration, effectfactor)
         else:
             raise ValueError('unknown effect type')
 
-    def _make_damage(self, damage, target, effect,
+    def _deal_damage(self, damage, target, effect,
                      effectduration, effectfactor):
-        """
-        Gives damage to enemys and handels event slow.
-        """
+        """Deals damage to enemys and handels event slow."""
         target.healthPoints -= damage
         target.update_healthbar()
+        if not self.on_has_enemy_died(target):
+            if effect == 'slow':
+                target.freeze(effectfactor, effectduration)
+            elif effect == 'poison':
+                target.poison(effectfactor, effectduration)
+                self.enemies[self.enemies.index(target)].push_handlers(self)
+
+    def on_has_enemy_died(self, target):
+        """checks whether the target has died and returns true if so"""
         if target in self.enemies and target.healthPoints <= 0:
             target.stop_movement()
             self.remove(target.healthBarBackground)
@@ -183,20 +222,20 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             deathAnimation = particles.Death()
             deathAnimation.position = target.position
             self.add(deathAnimation, z=5)
-            pyglet.clock.schedule_once(lambda dt, x: self.remove(x), 0.5,
+            clock.schedule_once(lambda dt, x: self.remove(x), 0.5,
                                        deathAnimation)
             self.diedEnemies += 1
             self.dispatch_event('on_enemy_death', target)
             self._is_wave_finished()
-        elif effect == 'slow':
-            target.freeze(effectfactor, effectduration)
+            return True
+        return False
 
     def _splash_damage(self, damage, target, towerNumber, effect,
                        effectduration, effectfactor):
         targets = self._find_enemys_in_range(target, effectfactor)
         if not target == []:
             for enemy in targets:
-                self._make_damage(damage, enemy, effect, effectduration,
+                self._deal_damage(damage, enemy, effect, effectduration,
                                   effectfactor)
 
     def _find_enemys_in_range(self, position, range):
@@ -222,6 +261,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self.dispatch_event('on_next_wave')
 
     def _add_enemy(self, dt, startTile, path, enemylist, multiplier):
+        self.unschedule(self._add_enemy)
         position = startTile
         toCreateEnemy = enemy.PyFenseEnemy(position,
                                            enemylist[self.spawnedEnemies][0],
@@ -233,7 +273,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.add(toCreateEnemy.healthBarBackground, z=6)
         self.add(toCreateEnemy.healthBar, z=7)
         if self.spawnedEnemies != self.enemieslength:
-            clock.schedule_once(self._add_enemy,
+            self.schedule_interval(self._add_enemy,
                                 self.enemy_list[self.spawnedEnemies - 1][2],
                                 self.startTile, self.path,
                                 self.enemy_list, self.multiplier)
@@ -258,7 +298,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
     # Overrides the Esc key and quits the game on "Q"
     def on_key_press(self, k, m):
         if k == key.ESCAPE:
-            director.push(PyFensePause())
+            director.push(pause.PyFensePause())
             return True
         if k == key.Q:
             director.replace(highscore.PyFenseLost())

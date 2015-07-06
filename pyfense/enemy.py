@@ -6,10 +6,11 @@ contains PyFenseEnemy class
 import cocos
 from cocos import sprite
 from pyglet import clock
+import pyglet
 from pyfense import resources
 
 
-class PyFenseEnemy(sprite.Sprite):
+class PyFenseEnemy(sprite.Sprite, pyglet.event.EventDispatcher):
 
     def __init__(self, position, enemyname, lvl, wave, path,
                  healthMultiplier):
@@ -26,10 +27,10 @@ class PyFenseEnemy(sprite.Sprite):
         self.healthBarWidth = 50
         self.healthBarBackground, self.healthBar = self._draw_healthbar()
         self.turns = self.attributes['turns']
+        self.poisoned = 0
         clock.schedule_once(self._move, 0.1)
 
     def _move(self, dt):
-
         # check if enemy reached end
         if self.distance != len(self.path[0]):
             self.unschedule(self._move)
@@ -73,27 +74,46 @@ class PyFenseEnemy(sprite.Sprite):
              self.bar_y), (0, 237, 55, 255), 3)
         healthBar._texture = resources.healthBarCap
         healthBar.visible = False
-        # self.healthBar.set_endcap('BUTT_CAP') -> cam be changed by altering
+        # self.healthBar.set_endcap('BUTT_CAP') -> can be changed by altering
         # the ending sprite which cocos.draw loads
         return healthBarBackground, healthBar
 
     def update_healthbar(self):
+        """updates the health bar of the enemy to reflect the current
+        health"""
         self.healthBarBackground.visible = True
         self.healthBar.visible = True
         self.healthBar.end = (self.bar_x + self.healthBarWidth *
                               (self.healthPoints / self.maxHealthPoints),
                               self.bar_y)
 
-    # stop the movement of this enemy
     def stop_movement(self):
+        """stop the movement of this enemy"""
         clock.unschedule(self._move)
 
-    # slow this enemy down by the factor (slowDownFactor)
-    # for some time (duration)
     def freeze(self, slowDownFactor, duration):
+        """ slow this enemy down by the factor (slowDownFactor)
+        for some time (duration)"""
         self.currentSpeed = self.attributes["speed"] / slowDownFactor
         clock.schedule_once(self._unfreeze, duration)
 
-    # turn the speed of this enemy back to normal
     def _unfreeze(self, dt):
         self.currentSpeed = self.attributes["speed"]
+
+    def poison(self, damagePerTime, duration):
+        """poisons the enemy to lose life every damagePerSec"""
+        self.poisonDuration = duration
+        self.poisonDamagePerTime = damagePerTime * 5
+        clock.schedule_interval(self._decrease_health, 0.5)
+
+    def _decrease_health(self, dt):
+        if self.poisoned >= self.poisonDuration * 2:
+            self.unschedule(self._decrease_health)
+            self.poisoned = 0
+            return
+        self.healthPoints -= self.poisonDamagePerTime
+        self.update_healthbar()
+        self.dispatch_event('on_has_enemy_died', self)
+        self.poisoned += 1
+
+PyFenseEnemy.register_event_type('on_has_enemy_died')

@@ -197,9 +197,7 @@ class PyFenseGame(scene.Scene):
         return (x, y)
 
     def on_enemy_death(self, enemy):
-        """
-        Grants the enemies worth in money to the player
-        """
+        """Credits the enemy's worth in money to the player"""
         self.currentCurrency += enemy.attributes["worth"]
         self.hud.update_currency_number(self.currentCurrency)
 
