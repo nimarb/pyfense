@@ -14,6 +14,7 @@ from cocos.director import director
 from pyfense import resources
 from pyfense import entities
 from pyfense import tower
+from pyfense import enemy
 
 settings = {
     "window": {
@@ -71,6 +72,29 @@ class TestEntities(unittest.TestCase):
         self.assertEqual(result_factor2, actualResult_factor2)
         self.assertEqual(result_multiplier2, actualResult_multiplier2)
         self.assertEqual(result_list, actualResult_list)
+
+    def test_deal_damage(self):
+        test_entities = entities.PyFenseEntities(0, 0, 0)
+        test_enemy = enemy.PyFenseEnemy((0, 0), 0, 1, 1, 0, 1)
+
+        result_health = test_enemy.attributes["maxhealth"] - 10
+        result_speed = test_enemy.attributes["speed"] / 2
+        test_entities._deal_damage(10, test_enemy, 'slow', 1, 2)
+        actualResult_health = test_enemy.healthPoints
+        actualResult_speed = test_enemy.currentSpeed
+        self.assertEqual(result_health, actualResult_health)
+        self.assertEqual(result_speed, actualResult_speed)
+
+    def test_distance(self):
+        test_enemy1 = enemy.PyFenseEnemy((0, 0), 0, 1, 1, 0, 1)
+        test_enemy2 = enemy.PyFenseEnemy((4, 3), 0, 1, 1, 0, 1)
+        test_enemy3 = enemy.PyFenseEnemy((3, 4), 0, 1, 1, 0, 1)
+        test_entities = entities.PyFenseEntities(0, 0, 0)
+        actualResult1 = test_entities._distance(test_enemy1, test_enemy2)
+        actualResult2 = test_entities._distance(test_enemy1, test_enemy3)
+        result = 5
+        self.assertEqual(result, actualResult1)
+        self.assertEqual(result, actualResult2)
 
 if __name__ == '__main__':
     unittest.main()
