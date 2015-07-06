@@ -11,10 +11,12 @@ from pyfense import resources
 
 
 class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
+
     """
     Needs position in tuple (posx,posy)
     Takes tower.png found in assets directory
-    """ 
+    """
+
     def __init__(self, towerNumber, position, level=1):
         self.attributes = resources.tower[towerNumber][level]
         super().__init__(self.attributes["image"], position)
@@ -36,6 +38,8 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
             self.canFire = False
             if (resources.sounds):
                 self.shot.play()
+
+            # on_projectile_fired to be catched in entities
             self.dispatch_event('on_projectile_fired', self, self.target,
                                 self.attributes["projectile_image"],
                                 self.attributes["tower"],
@@ -60,9 +64,9 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
 
     def _find_next_enemy(self, mode="first"):
         """
-        find the next enemy (that should be attacked next)
+        Find the next enemy (that should be attacked next)
         either first enemy in range or nearest Enemy
-        standardvalue is first
+        standardvalue is first.
         """
         self.target = None
         self.dist = self.attributes["range"]
@@ -96,7 +100,7 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
         level = self.attributes['lvl']
         towerNumber = self.attributes['tower']
 
-        for level in range(1, level+1):
+        for level in range(1, level + 1):
             acc_cost += resources.tower[towerNumber][level]['cost']
         return acc_cost
 

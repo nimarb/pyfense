@@ -26,7 +26,7 @@ class PyFenseEnemy(sprite.Sprite, pyglet.event.EventDispatcher):
         self.healthBarWidth = 50
         self.healthBarBackground, self.healthBar = self._draw_healthbar()
         self.turns = self.attributes['turns']
-        self.poisioned = 0
+        self.poisoned = 0
         clock.schedule_once(self._move, 0.1)
 
     def _move(self, dt):
@@ -99,20 +99,20 @@ class PyFenseEnemy(sprite.Sprite, pyglet.event.EventDispatcher):
     def _unfreeze(self, dt):
         self.currentSpeed = self.attributes["speed"]
         
-    def poision(self, damagePerTime, duration):
-        """poisions the enemy to lose life every damagePerSec"""
-        self.poisionDuration = duration
-        self.poisionDamagePerTime = damagePerTime * 5
+    def poison(self, damagePerTime, duration):
+        """poisons the enemy to lose life every damagePerSec"""
+        self.poisonDuration = duration
+        self.poisonDamagePerTime = damagePerTime * 5
         clock.schedule_interval(self._decrease_health, 0.5)
         
     def _decrease_health(self, dt):
-        if self.poisioned >= self.poisionDuration * 2:
+        if self.poisoned >= self.poisonDuration * 2:
             self.unschedule(self._decrease_health)
-            self.poisioned = 0
+            self.poisoned = 0
             return
-        self.healthPoints -= self.poisionDamagePerTime
+        self.healthPoints -= self.poisonDamagePerTime
         self.update_healthbar()
         self.dispatch_event('on_has_enemy_died', self)
-        self.poisioned += 1
+        self.poisoned += 1
         
 PyFenseEnemy.register_event_type('on_has_enemy_died')

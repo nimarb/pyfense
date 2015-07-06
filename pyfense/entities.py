@@ -60,18 +60,18 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self._has_enemy_reached_end()
 
     def next_wave(self, waveNumber):
-        self.modulo_wavenumber = (waveNumber-1) % self.wavequantity+1
+        self.modulo_wavenumber = (waveNumber - 1) % self.wavequantity + 1
         self.enemy_list = resources.waves[self.modulo_wavenumber]
         self.spawnedEnemies = 0
         self.diedEnemies = 0
         self.enemyHealthFactor = math.floor((waveNumber - 1) /
                                             self.wavequantity) + 1
-        self.multiplier = ((self.polynomial2 * (self.enemyHealthFactor**2)) +
+        self.multiplier = ((self.polynomial2 * (self.enemyHealthFactor ** 2)) +
                            (self.polynomial1 * self.enemyHealthFactor) +
                            self.polynomial0)
-        if self.wavequantity-self.modulo_wavenumber == 1:
+        if self.wavequantity - self.modulo_wavenumber == 1:
             self._show_warning(1)
-        elif self.wavequantity-self.modulo_wavenumber == 0:
+        elif self.wavequantity - self.modulo_wavenumber == 0:
             self._show_warning(2)
         elif self.modulo_wavenumber == 1 and waveNumber != 1:
             self._show_warning(3)
@@ -96,7 +96,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 font_name=_font_, font_size=64,
                 anchor_x='center', anchor_y='center', color=(255, 0, 0, 200))
         w, h = cocos.director.director.get_window_size()
-        warningLabel.position = w / 2, h/2
+        warningLabel.position = w / 2, h / 2
         self.add(warningLabel, z=8)
         blinkaction = cocos.actions.Blink(3, 2)
         warningLabel.do(blinkaction)
@@ -143,23 +143,42 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.remove(cocosnode)
             self.add(cocosnode, z_after)
 
-    def on_enemy_hit(self, projectile, target, towerNumber, effect,
-                     effectduration, effectfactor):
-        explosion = eval('particles.Explosion' +
-                         str(towerNumber) + '()')
+    def on_target_hit(self, projectile, target, towerNumber, effect,
+                      effectduration, effectfactor):
+        """
+        Handels the case, that an projectile hits the target and decides w.r.t.
+        the effect which event is called. The projectile is removed.
+        """
+        explosion = eval('particles.Explosion' + str(towerNumber) + '()')
         explosion.position = target.position
         self.add(explosion, z=5)
         pyglet.clock.schedule_once(lambda dt, x: self.remove(x), 0.5,
                                    explosion)
-        target.healthPoints -= projectile.damage
+        self.damage = projectile.damage
         self.remove(projectile)
         self.projectiles.remove(projectile)
+
+        if effect == 'splash':
+            self._splash_damage(self.damage, target, towerNumber, effect,
+                                effectduration, effectfactor)
+        elif effect in ('normal', 'poison', 'slow'):
+            self._make_damage(self.damage, target, effect,
+                              effectduration, effectfactor)
+        else:
+            raise ValueError('unknown effect type')
+
+    def _make_damage(self, damage, target, effect,
+                     effectduration, effectfactor):
+        """
+        Gives damage to enemys and handels event slow.
+        """
+        target.healthPoints -= damage
         target.update_healthbar()
         if not self.on_has_enemy_died(target):
             if effect == 'slow':
                 target.freeze(effectfactor, effectduration)
-            elif effect == 'poision':
-                target.poision(effectfactor, effectduration)
+            elif effect == 'poison':
+                target.poison(effectfactor, effectduration)
 
     def on_has_enemy_died(self, target):
         """checks whether the target has died and returns true if so"""
@@ -181,6 +200,31 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             return True
         return False
 
+    def _splash_damage(self, damage, target, towerNumber, effect,
+                       effectduration, effectfactor):
+        targets = self._find_enemys_in_range(target, effectfactor)
+        if not target == []:
+            for enemy in targets:
+                self._make_damage(damage, enemy, effect, effectduration,
+                                  effectfactor)
+
+    def _find_enemys_in_range(self, position, range):
+        """
+        Looks and gives back enemys in range
+        """
+        targets = []
+        for enemy in self.enemies:
+            if(enemy.x < cocos.director.director.get_window_size()[0] and
+               # Enemy still in window
+               enemy.y < cocos.director.director.get_window_size()[1]):
+                # Distance to enemy smaller than range
+                if (self._distance(enemy, position) < range):
+                    targets.append(enemy)
+        return targets
+
+    def _distance(self, a, b):
+        return math.sqrt((b.x - a.x) ** 2 + (b.y - a.y) ** 2)
+
     def _is_wave_finished(self):
         if self.spawnedEnemies == self.enemieslength:
             if self.diedEnemies == self.spawnedEnemies:
@@ -199,7 +243,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.add(toCreateEnemy.healthBar, z=7)
         if self.spawnedEnemies != self.enemieslength:
             clock.schedule_once(self._add_enemy,
-                                self.enemy_list[self.spawnedEnemies-1][2],
+                                self.enemy_list[self.spawnedEnemies - 1][2],
                                 self.startTile, self.path,
                                 self.enemy_list, self.multiplier)
         self._is_wave_finished()

@@ -1,6 +1,6 @@
 """
-PyFenseGame -  Top Level Scene during the game, onto which all the other Layers
-get added.Responsible for dynamic pathfinding and communication between
+PyFenseGame -  Top Level Scene during the game, onto which all the other
+Layers get added.Responsible for dynamic pathfinding and communication between
 user interaction through the HUD and entities like towers.
 """
 import os
@@ -25,6 +25,7 @@ pathjoin = lambda x: os.path.join(root, x)
 
 
 class PyFenseGame(scene.Scene):
+
     def __init__(self, levelNumber):
         super().__init__()
         # initialise game grid to store where enemies can walk,
@@ -73,57 +74,57 @@ class PyFenseGame(scene.Scene):
               currentTile[1] != self.endTile[1]):
 
             # Right
-            if(self.gameGrid[currentTile[0]][currentTile[1]+1] == 2):
+            if(self.gameGrid[currentTile[0]][currentTile[1] + 1] == 2):
                 # Rotate right
                 move[0].append(actions.RotateTo(0, 0))
                 move[1].append([])
                 # Move right
                 for j in range(1, 11):
-                    move[0].append((pos[0]+6*j, pos[1]))
+                    move[0].append((pos[0] + 6 * j, pos[1]))
                     move[1].append((6, 0))
                 # Next position
-                pos = (pos[0]+60, pos[1])
+                pos = (pos[0] + 60, pos[1])
                 currentTile[1] += 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
 
             # Up
-            elif(self.gameGrid[currentTile[0]+1][currentTile[1]] == 2):
+            elif(self.gameGrid[currentTile[0] + 1][currentTile[1]] == 2):
                 # Rotate up
                 move[0].append(actions.RotateTo(270, 0))
                 move[1].append([])
                 # Move up
                 for j in range(1, 11):
-                    move[0].append((pos[0], pos[1]+6*j))
+                    move[0].append((pos[0], pos[1] + 6 * j))
                     move[1].append((0, 6))
                 # Next position
-                pos = (pos[0], pos[1]+60)
+                pos = (pos[0], pos[1] + 60)
                 currentTile[0] += 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
 
             # Down
-            elif(self.gameGrid[currentTile[0]-1][currentTile[1]] == 2):
+            elif(self.gameGrid[currentTile[0] - 1][currentTile[1]] == 2):
                 # Rotate down
                 move[0].append(actions.RotateTo(90, 0))
                 move[1].append([])
                 # Move down
                 for j in range(1, 11):
-                    move[0].append((pos[0], pos[1]-6*j))
+                    move[0].append((pos[0], pos[1] - 6 * j))
                     move[1].append((0, -6))
                 # Next position
-                pos = (pos[0], pos[1]-60)
+                pos = (pos[0], pos[1] - 60)
                 currentTile[0] -= 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
             # Left
-            elif(self.gameGrid[currentTile[0]][currentTile[1]-1] == 2):
+            elif(self.gameGrid[currentTile[0]][currentTile[1] - 1] == 2):
                 # Rotate left
                 move[0].append(actions.RotateTo(180, 0))  # RotateLeft
                 move[1].append([])  # placeholder
                 # Move left
                 for j in range(1, 11):
-                    move[0].append((pos[0]-6*j, pos[1]))
+                    move[0].append((pos[0] - 6 * j, pos[1]))
                     move[1].append((-6, 0))
                 # Next position
-                pos = (pos[0]-60, pos[1])
+                pos = (pos[0] - 60, pos[1])
                 currentTile[1] -= 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
 
@@ -209,8 +210,9 @@ class PyFenseGame(scene.Scene):
             return
         self.currentCurrency -= self.entityMap.build_tower(toBuildTower)
         self.hud.update_currency_number(self.currentCurrency)
-        self._set_grid_pix(pos_x, pos_y, int(float("1" + str(towerNumber) +
-                           str(toBuildTower.attributes["lvl"]))))
+        self._set_grid_pix(
+            pos_x, pos_y, int(float("1" + str(towerNumber) +
+                                    str(toBuildTower.attributes["lvl"]))))
 
     def on_upgrade_tower(self, position):
         """
@@ -234,7 +236,7 @@ class PyFenseGame(scene.Scene):
         self.entityMap.build_tower(newTower)
         (x, y) = position
         self._set_grid_pix(x, y, int(float("1" + str(towerNumber) +
-                           str(towerLevel + 1))))
+                                           str(towerLevel + 1))))
 
     def on_destroy_tower(self, position):
         """
