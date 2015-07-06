@@ -384,8 +384,10 @@ class HelpLayer(ColorLayer):
         self.damage_pic = resources.picto_damage
         self.rate_pic = resources.picto_rate
         pic_width = resources.tower[1][1]["image"].width
+
         self.menuMin_x = (w / 2. - pic_width * (4 / 3) - 55)
-        self.menuMin_y = 550
+        self.menuMin_y = 700
+
         towername_font = {
             'bold': True,
             'anchor_x': "right",
@@ -400,11 +402,18 @@ class HelpLayer(ColorLayer):
             'font_size': 15,
         }
 
-        label1 = text.Label("Rapidfire Tower", **towername_font)
-        label2 = text.Label("Range Tower", **towername_font)
-        label3 = text.Label("Plasma Tower", **towername_font)
-        label4 = text.Label("Poison Tower", **towername_font)
-        label5 = text.Label("Slow Tower", **towername_font)
+        towername_label = []
+        towername_label.append(text.Label("Rapidfire Tower", **towername_font))
+        towername_label.append(text.Label("Range Tower", **towername_font))
+        towername_label.append(text.Label("Plasma Tower", **towername_font))
+        towername_label.append(text.Label("Poison Tower", **towername_font))
+        towername_label.append(text.Label("Slow Tower", **towername_font))
+
+        for j, m in enumerate(towername_label):
+            m.position = (self.menuMin_x - 80, self.menuMin_y -
+                          j * (pic_width + 15))
+        for j in range(nr_towers):
+            self.add(towername_label[j])
 
         price_label = text.Label("$  Price",
                                  color=(255, 0, 0, 255), **caption_font)
@@ -415,30 +424,23 @@ class HelpLayer(ColorLayer):
         rate_label = text.Label("Firerate",
                                 color=(0, 124, 244, 255), **caption_font)
 
-        label1.position = (self.menuMin_x - 80, self.menuMin_y)
-        label2.position = (self.menuMin_x - 80, self.menuMin_y -
-                           pic_width - 15)
-        label3.position = (self.menuMin_x - 80, self.menuMin_y -
-                           2 * (pic_width + 15))
         price_label.position = (self.menuMin_x - 30,
-                                self.menuMin_y - (3 * (pic_width + 15)))
+                                self.menuMin_y - (nr_towers * (pic_width + 15)))
         dam_pic.position = (self.menuMin_x + 103,
-                            self.menuMin_y - (3 * (pic_width + 15)))
+                            self.menuMin_y - (nr_towers * (pic_width + 15)))
         dam_label.position = (self.menuMin_x + 135,
-                              self.menuMin_y - (3 * (pic_width + 15)))
+                              self.menuMin_y - (nr_towers * (pic_width + 15)))
         rate_pic.position = (self.menuMin_x + 370,
-                             self.menuMin_y - (3 * (pic_width + 15)))
+                             self.menuMin_y - (nr_towers * (pic_width + 15)))
         rate_label.position = (self.menuMin_x + 402,
-                               self.menuMin_y - (3 * (pic_width + 15)))
+                               self.menuMin_y - (nr_towers * (pic_width + 15)))
 
-        self.add(label1)
-        self.add(label2)
-        self.add(label3)
         self.add(price_label)
         self.add(dam_pic)
         self.add(dam_label)
         self.add(rate_pic)
         self.add(rate_label)
+
         for l in range(1, 4):  # loop over upgrade levels
             self.towerDamagePic = []
             self.towerFireratePic = []
