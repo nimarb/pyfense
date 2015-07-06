@@ -6,7 +6,6 @@ import cocos
 from cocos import sprite
 # from cocos import actions
 import pyglet
-from pyglet import clock
 import math
 from pyfense import resources
 
@@ -46,11 +45,12 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
                                 self.attributes["damage"],
                                 self.attributes["effect"],
                                 self.attributes["effectduration"])
-            clock.schedule_once(
+            self.schedule_interval(
                 self._fire_interval, 1 / self.attributes['firerate'])
 
     # Fire the projectile only after firerate interval
     def _fire_interval(self, dt):
+        self.unschedule(self._fire_interval)
         if not self.canFire:
             self.canFire = True
 
