@@ -5,7 +5,6 @@ from cocos import sprite
 from cocos import actions
 import math
 import pyglet
-from pyglet import clock
 
 
 class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
@@ -23,13 +22,14 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
         self.distance = self._distance(target.position, self.position)
         self.duration = self._duration()
         self.do(actions.MoveTo(target.position, self.duration))
-        clock.schedule_once(
+        self.schedule_interval(
             self._dispatch_hit_event, self.duration, target, towerNumber,
             effect, effectduration)
 
         # Dispatch event, when enemy is hit
     def _dispatch_hit_event(self, dt, target, towerNumber, effect,
                          effectduration):
+        self.unschedule(self._dispatch_hit_event)     
         self.dispatch_event('on_enemy_hit', self, target, towerNumber,
                             effect, effectduration)
     
