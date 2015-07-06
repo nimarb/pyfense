@@ -47,25 +47,25 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.waveLabel = cocos.text.Label('Current Wave: 1', bold=True,
                                           anchor_x='center',
                                           anchor_y='center',
-                                          font_size=15)
+                                          font_size=13)
         w, h = cocos.director.director.get_window_size()
         self.waveLabel.position = w / 2 - 50, h - 30
         self.add(self.waveLabel)
         self.timeLabel = cocos.text.Label(
             'Time until next Wave: ' + str(self.time) + ' Seconds', bold=True,
-            anchor_x='center', anchor_y='center', font_size=15)
+            anchor_x='center', anchor_y='center', font_size=13)
         self.timeLabel.position = w / 2 - 300, h - 30
         self.add(self.timeLabel)
         self.liveLabel = cocos.text.Label('Remaining Lives: 15', bold=True,
                                           anchor_x='center', anchor_y='center',
-                                          font_size=15)
+                                          font_size=13)
         self.liveLabel.position = w / 2 + 150, h - 30
         self.add(self.liveLabel)
         self.currentCurrency = 300
         self.currencyLabel = cocos.text.Label('$' + str(self.currentCurrency),
                                               anchor_x='center',
                                               bold=True, anchor_y='center',
-                                              font_size=15)
+                                              font_size=13)
         self.currencyLabel.position = w / 2 + 300, h - 30
         self.add(self.currencyLabel)
 
@@ -328,6 +328,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                     self._remove_tower_building_hud()
                 elif self.upgradeHudDisplayed > 0:
                     self._remove_tower_upgrade_hud()
+        # self.on_mouse_motion(x, y, x, y)
 
     def on_mouse_motion(self, x, y, dx, dy):
         # selector to highlight currently selected cell

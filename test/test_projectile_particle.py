@@ -2,6 +2,9 @@
 Test projectile class.
 """
 
+
+import os
+os.chdir(os.path.join('..', 'pyfense'))
 import unittest
 import cocos
 from cocos.director import director
@@ -22,14 +25,15 @@ settings = {
         "vsync": True,
         "fullscreen": False,
         "resizable": True
-    },
+        },
     "player": {
         "currency": 200
-    },
+        },
     "general": {
         "showFps": True
-    }
+        }
 }
+
 
 class TestProjectile(unittest.TestCase, pyglet.event.EventDispatcher):
     """    
@@ -37,7 +41,7 @@ class TestProjectile(unittest.TestCase, pyglet.event.EventDispatcher):
     """
     
     is_event_handler = True
-
+    
     def test_distance(self):
         """        
         Test distance between Tower and Enemy.
@@ -55,7 +59,7 @@ class TestProjectile(unittest.TestCase, pyglet.event.EventDispatcher):
         result = new_projectile.distance
         actualResult = 30
         self.assertAlmostEqual(result, actualResult)
-
+        
     def test_rotation(self):
         """        
         Test rotation of projectile.
@@ -82,7 +86,9 @@ class TestProjectile(unittest.TestCase, pyglet.event.EventDispatcher):
         Test if event is dispatched.
         """
         
-    def test_rotation_particle(self):
+        director.init(**settings['window'])
+        new_game = game.PyFenseGame(1)
+        path = new_game.movePath
         image = resources.load_image('projectile01.png')
         new_tower = tower.PyFenseTower(0, (50, 50))
         new_enemy = enemy.PyFenseEnemy((100, 100), 0, 1, 1, path, 2)

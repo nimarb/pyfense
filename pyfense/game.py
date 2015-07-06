@@ -200,6 +200,8 @@ class PyFenseGame(scene.Scene):
         self.hud.currentCellStatus = self._get_grid_pix(x, y)
 
     def on_build_tower(self, towerNumber, pos_x, pos_y):
+        if self._get_grid_pix(pos_x, pos_y) > 3:
+            return
         toBuildTower = tower.PyFenseTower(towerNumber, (pos_x, pos_y))
         if toBuildTower.attributes["cost"] > self.currentCurrency:
             return
