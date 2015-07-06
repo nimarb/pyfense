@@ -16,12 +16,7 @@ from pyfense.highscore import PyFenseLost
 from pyfense import tower
 from pyfense import resources
 from pyfense import highscore
-
-# import particles
 import copy
-
-root = os.path.dirname(os.path.abspath(__file__))
-pathjoin = lambda x: os.path.join(root, x)
 
 
 class PyFenseGame(scene.Scene):
