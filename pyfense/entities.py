@@ -186,7 +186,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.remove(projectile)
         self.projectiles.remove(projectile)
 
-        if effect == 'splash':
+        if effect in ('splash', 'splash-slow'):
             self._splash_damage(self.damage, target, towerNumber, effect,
                                 effectduration, effectfactor)
         elif effect in ('normal', 'poison', 'slow'):
@@ -234,10 +234,16 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     def _splash_damage(self, damage, target, towerNumber, effect,
                        effectduration, effectfactor):
-        targets = self._find_enemys_in_range(target, effectfactor)
+        if effect == 'splash-slow':
+            new_effect = 'slow'
+            dmg_range = 50
+        else:
+            new_effect = 'normal'
+            dmg_range = effectfactor
+        targets = self._find_enemys_in_range(target, dmg_range)
         if not target == []:
             for enemy in targets:
-                self._deal_damage(damage, enemy, effect, effectduration,
+                self._deal_damage(damage, enemy, new_effect, effectduration,
                                   effectfactor)
 
     def _find_enemys_in_range(self, position, range):
