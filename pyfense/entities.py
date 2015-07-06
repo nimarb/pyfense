@@ -169,9 +169,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     def _make_damage(self, damage, target, effect,
                      effectduration, effectfactor):
-        """
-        Gives damage to enemys and handels event slow.
-        """
+        """Deals damage to enemys and handels event slow."""
         target.healthPoints -= damage
         target.update_healthbar()
         if not self.on_has_enemy_died(target):
@@ -182,7 +180,6 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     def on_has_enemy_died(self, target):
         """checks whether the target has died and returns true if so"""
-        print("died event fired")
         if target in self.enemies and target.healthPoints <= 0:
             target.stop_movement()
             self.remove(target.healthBarBackground)
