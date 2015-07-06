@@ -55,7 +55,7 @@ class TestGame(unittest.TestCase):
         self.hud = hud.PyFenseHud()
         self.currentCurrency = 500
         game.PyFenseGame.on_build_tower(self, 1, 0, 0)
-        self.assertEqual(50, self.currentCurrency)
+        self.assertEqual(350, self.currentCurrency)
     
     def _set_grid_pix(self, x, y, kind):
     	# needed for buildTower
