@@ -94,10 +94,12 @@ class PyFenseEnemy(sprite.Sprite, pyglet.event.EventDispatcher):
     def freeze(self, slowDownFactor, duration):
         """ slow this enemy down by the factor (slowDownFactor)
         for some time (duration)"""
+        self.unschedule(self._unfreeze)
         self.currentSpeed = self.attributes["speed"] / slowDownFactor
-        clock.schedule_once(self._unfreeze, duration)
+        self.schedule_interval(self._unfreeze, duration)
 
     def _unfreeze(self, dt):
+        self.unschedule(self._unfreeze)
         self.currentSpeed = self.attributes["speed"]
 
     def poison(self, damagePerTime, duration):
