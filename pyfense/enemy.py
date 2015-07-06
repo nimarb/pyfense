@@ -1,5 +1,5 @@
 """
-pyfense_enemy.py
+enemy.py
 contains PyFenseEnemy class
 """
 
@@ -10,6 +10,7 @@ from pyfense import resources
 
 
 class PyFenseEnemy(sprite.Sprite):
+
     def __init__(self, position, enemyname, lvl, wave, path,
                  healthMultiplier):
         self.attributes = resources.enemy[enemyname][lvl]
@@ -20,7 +21,7 @@ class PyFenseEnemy(sprite.Sprite):
         self.path = path
         self.currentSpeed = self.attributes["speed"]
         self.distance = 0
-        self.maxHealthPoints = self.attributes["maxhealth"]*healthMultiplier
+        self.maxHealthPoints = self.attributes["maxhealth"] * healthMultiplier
         self.healthPoints = self.maxHealthPoints
         self.healthBarWidth = 50
         self.healthBarBackground, self.healthBar = self._draw_healthbar()
@@ -40,7 +41,7 @@ class PyFenseEnemy(sprite.Sprite):
                 self.distance += 1
 
             # calculate the time needed until next action
-            self.duration = 1/self.currentSpeed
+            self.duration = 1 / self.currentSpeed
 
             # move the enemy
             action = cocos.actions.MoveTo(self.path[0][self.distance],
@@ -80,7 +81,7 @@ class PyFenseEnemy(sprite.Sprite):
         self.healthBarBackground.visible = True
         self.healthBar.visible = True
         self.healthBar.end = (self.bar_x + self.healthBarWidth *
-                              (self.healthPoints/self.maxHealthPoints),
+                              (self.healthPoints / self.maxHealthPoints),
                               self.bar_y)
 
     # stop the movement of this enemy
@@ -90,7 +91,7 @@ class PyFenseEnemy(sprite.Sprite):
     # slow this enemy down by the factor (slowDownFactor)
     # for some time (duration)
     def freeze(self, slowDownFactor, duration):
-        self.currentSpeed = self.attributes["speed"]/slowDownFactor
+        self.currentSpeed = self.attributes["speed"] / slowDownFactor
         clock.schedule_once(self._unfreeze, duration)
 
     # turn the speed of this enemy back to normal
