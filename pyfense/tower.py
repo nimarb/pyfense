@@ -23,9 +23,8 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
         self.posy = position[1]
         self.rotation = 0
         self.target = None
-        self.counter = 0
-        self.canFire = True
-        self.shot = resources.shot
+        self._canFire = True
+        self._shot = resources.shot
         self.schedule(lambda dt: self._fire())
         self.schedule(lambda dt: self._find_next_enemy())
         self.schedule(lambda dt: self._rotate_to_target())
@@ -33,21 +32,21 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
     def _fire(self):
         if (not self.parent.enemies) or not self.target:
             pass
-        elif self.canFire:
-            self.canFire = False
+        elif self._canFire:
+            self._canFire = False
             if (resources.sounds):
-                self.shot.play()
+                self._shot.play()
 
             # on_projectile_fired to be catched in entities
             self.dispatch_event('on_projectile_fired', self, self.target,
-                                self.attributes["projectile_image"],
+                                self.attributes["projectileImage"],
                                 self.attributes["tower"],
                                 self.rotation,
-                                self.attributes["projectileVelocity"],
+                                self.attributes["projectileSpeed"],
                                 self.attributes["damage"],
                                 self.attributes["effect"],
-                                self.attributes["effectduration"],
-                                self.attributes["effectfactor"])
+                                self.attributes["effectDuration"],
+                                self.attributes["effectFactor"])
             self.schedule_interval(
                 self._fire_interval, 1 / self.attributes['firerate'])
 
@@ -56,8 +55,8 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
         Fire the projectile only after firerate interval
         """
         self.unschedule(self._fire_interval)
-        if not self.canFire:
-            self.canFire = True
+        if not self._canFire:
+            self._canFire = True
 
     def _distance(self, a, b):
         return math.sqrt((b.x - a.x) ** 2 + (b.y - a.y) ** 2)

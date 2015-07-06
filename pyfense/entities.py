@@ -132,14 +132,14 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         return accumulated_cost
 
     def on_projectile_fired(self, tower, target, projectileimage, towerNumber,
-                            rotation, projectileVelocity, damage, effect,
-                            effectduration, effectfactor):
+                            rotation, projectileSpeed, damage, effect,
+                            effectDuration, effectFactor):
 
         if towerNumber == 4:
             new_projectile = projectile_particle.PyFenseProjectileSlow(
                 tower, target, towerNumber,
-                projectileVelocity, damage, effect,
-                effectduration, effectfactor)
+                projectileSpeed, damage, effect,
+                effectDuration, effectFactor)
             new_projectile.rotation = tower.rotation - 90
 
             self.projectiles.append(new_projectile)
@@ -152,16 +152,16 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
                                                           projectileimage,
                                                           towerNumber,
                                                           rotation,
-                                                          projectileVelocity,
+                                                          projectileSpeed,
                                                           damage, effect,
-                                                          effectduration,
-                                                          effectfactor)
+                                                          effectDuration,
+                                                          effectFactor)
             self.projectiles.append(new_projectile)
             new_projectile.push_handlers(self)
             self.add(new_projectile, z=1)
 
             # Duration that projectile is beneath the tower
-            duration = 40 * 1.41 / projectileVelocity
+            duration = 40 * 1.41 / projectileSpeed
             self.schedule_interval(lambda dt: self._change_z(new_projectile, 1, 4),
                                    duration)
 
@@ -172,7 +172,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.add(cocosnode, z_after)
 
     def on_target_hit(self, projectile, target, towerNumber, effect,
-                      effectduration, effectfactor):
+                      effectDuration, effectFactor):
         """
         Handels the case, that an projectile hits the target and decides w.r.t.
         the effect which event is called. The projectile is removed.
@@ -188,23 +188,23 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
         if effect in ('splash', 'splash-slow'):
             self._splash_damage(self.damage, target, towerNumber, effect,
-                                effectduration, effectfactor)
+                                effectDuration, effectFactor)
         elif effect in ('normal', 'poison', 'slow'):
             self._deal_damage(self.damage, target, effect,
-                              effectduration, effectfactor)
+                              effectDuration, effectFactor)
         else:
             raise ValueError('unknown effect type: ' + effect)
 
     def _deal_damage(self, damage, target, effect,
-                     effectduration, effectfactor):
+                     effectDuration, effectFactor):
         """Deals damage to enemys and handels events slow and poison."""
         target.healthPoints -= damage
         target.update_healthbar()
         if not self.on_has_enemy_died(target):
             if effect == 'slow':
-                target.freeze(effectfactor, effectduration)
+                target.freeze(effectFactor, effectDuration)
             elif effect == 'poison':
-                target.poison(effectfactor, effectduration)
+                target.poison(effectFactor, effectDuration)
                 # TODO: check why ValueError can be raised, is enemy dead or
                 # has another enemy in the list died?
                 try:
@@ -233,18 +233,18 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         return False
 
     def _splash_damage(self, damage, target, towerNumber, effect,
-                       effectduration, effectfactor):
+                       effectDuration, effectFactor):
         if effect == 'splash-slow':
             new_effect = 'slow'
             dmg_range = 50
         else:
             new_effect = 'normal'
-            dmg_range = effectfactor
+            dmg_range = effectFactor
         targets = self._find_enemys_in_range(target, dmg_range)
         if not target == []:
             for enemy in targets:
-                self._deal_damage(damage, enemy, new_effect, effectduration,
-                                  effectfactor)
+                self._deal_damage(damage, enemy, new_effect, effectDuration,
+                                  effectFactor)
 
     def _find_enemys_in_range(self, position, range):
         """
