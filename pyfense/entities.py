@@ -162,12 +162,12 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self._splash_damage(self.damage, target, towerNumber, effect,
                                 effectduration, effectfactor)
         elif effect in ('normal', 'poison', 'slow'):
-            self._make_damage(self.damage, target, effect,
+            self._deal_damage(self.damage, target, effect,
                               effectduration, effectfactor)
         else:
             raise ValueError('unknown effect type')
 
-    def _make_damage(self, damage, target, effect,
+    def _deal_damage(self, damage, target, effect,
                      effectduration, effectfactor):
         """Deals damage to enemys and handels event slow."""
         target.healthPoints -= damage
@@ -202,7 +202,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         targets = self._find_enemys_in_range(target, effectfactor)
         if not target == []:
             for enemy in targets:
-                self._make_damage(damage, enemy, effect, effectduration,
+                self._deal_damage(damage, enemy, effect, effectduration,
                                   effectfactor)
 
     def _find_enemys_in_range(self, position, range):
