@@ -328,6 +328,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                     self._remove_tower_building_hud()
                 elif self.upgradeHudDisplayed > 0:
                     self._remove_tower_upgrade_hud()
+        # self.on_mouse_motion(x, y, x, y)
 
     def on_mouse_motion(self, x, y, dx, dy):
         # selector to highlight currently selected cell
