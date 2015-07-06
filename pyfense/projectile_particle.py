@@ -1,8 +1,7 @@
-'''
-projectile_particle.py
-contains projectile for slow tower, that is handled with particles
-instead of an asset
-'''
+"""
+Projectile class for slow tower, that is handled by emitting particles
+instead of moving an image.
+"""
 
 from cocos.particle import ParticleSystem, Color
 from cocos.euclid import Point2
@@ -64,24 +63,49 @@ class PyFenseProjectileSlow(ParticleSystem, pyglet.event.EventDispatcher):
     color_modulate = True
 
     def __init__(self, towerParent, target, towerNumber,
-                 velocity, damage, effect, effectduration, effectfactor):
+                 speed, damage, effect, effect_duration, effect_factor):
+        """
+        Create a projectile.
+        
+        :Parameters:
+            `towerParent`: tower object
+                Tower that launched the projectile.
+            `target` : enemy object
+                Enemy that is targeted.
+            `towerNumber` : int
+                Number of the parent tower. 
+            `rotation` : int
+                Rotation of the parent tower.
+            `speed` : int
+                speed of the projectile.
+            `damage` : int
+                Damage the projectile causes.
+            `effect` : string
+                Effect that is caused by projectile (like poison or normal)
+            `effect_duration` : int
+                Duration that the effect is active.
+            `effect_factor` : int
+                How strong the effect is.
+        """
+                     
+                     
         super().__init__()
 
         self.position = towerParent.position
-        __class__.speed = velocity
+        __class__.speed = speed
         __class__.distance = self._distance(target.position, self.position)
         __class__.life = __class__.distance / __class__.speed
         self.damage = damage
 
         self.schedule_interval(
             self._dispatch_hit_event, __class__.life, target, towerNumber,
-            effect, effectduration, effectfactor)
+            effect, effect_duration, effect_factor)
 
     def _dispatch_hit_event(self, dt, target, towerNumber, effect,
-                            effectduration, effectfactor):
+                            effect_duration, effect_factor):
         self.unschedule(self._dispatch_hit_event)
         self.dispatch_event('on_target_hit', self, target, towerNumber,
-                            effect, effectduration, effectfactor)
+                            effect, effect_duration, effect_factor)
 
     def _distance(self, a, b):
         dis = math.sqrt((b[0] - a[0])**2 + (b[1]-a[1])**2)
