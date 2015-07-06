@@ -193,7 +193,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self._deal_damage(self.damage, target, effect,
                               effectduration, effectfactor)
         else:
-            raise ValueError('unknown effect type')
+            raise ValueError('unknown effect type: ' + effect)
 
     def _deal_damage(self, damage, target, effect,
                      effectduration, effectfactor):
