@@ -59,7 +59,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.polynomial1 = 2  # linear
         self.polynomial0 = -(self.polynomial1 - 1)  # offset
         self.enemyHealthFactor = 1
-        clock.schedule_interval(self._update_enemies_order, 0.2)
+        self.schedule_interval(self._update_enemies_order, 0.2)
         
         # variables that you want to check or modify in the interpreter
         director.interpreter_locals["entities"] = self
@@ -69,8 +69,6 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         # update runs every tick
     def _update(self, dt):
         self._has_enemy_reached_end()
-
-
 
     def next_wave(self, waveNumber):
         self.modulo_wavenumber = (waveNumber-1) % self.wavequantity+1
@@ -89,7 +87,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         elif self.modulo_wavenumber == 1 and waveNumber != 1:
             self._show_warning(3)
         self.enemieslength = len(self.enemy_list)
-        clock.schedule_once(self._add_enemy, 0, self.startTile, self.path,
+        self.schedule_interval(self._add_enemy, 0, self.startTile, self.path,
                             self.enemy_list, self.multiplier)
 
     def _show_warning(self, warningNumber):
@@ -181,7 +179,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
                          str(towerNumber) + '()')
         explosion.position = target.position
         self.add(explosion, z=5)
-        pyglet.clock.schedule_once(lambda dt, x: self.remove(x), 0.5,
+        clock.schedule_once(lambda dt, x: self.remove(x), 0.5,
                                    explosion)
         target.healthPoints -= projectile.damage
         self.remove(projectile)
@@ -196,7 +194,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             deathAnimation = particles.Death()
             deathAnimation.position = target.position
             self.add(deathAnimation, z=5)
-            pyglet.clock.schedule_once(lambda dt, x: self.remove(x), 0.5,
+            clock.schedule_once(lambda dt, x: self.remove(x), 0.5,
                                        deathAnimation)
             self.diedEnemies += 1
             self.dispatch_event('on_enemy_death', target)
@@ -210,6 +208,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 self.dispatch_event('on_next_wave')
 
     def _add_enemy(self, dt, startTile, path, enemylist, multiplier):
+        self.unschedule(self._add_enemy)
         position = startTile
         toCreateEnemy = enemy.PyFenseEnemy(position,
                                            enemylist[self.spawnedEnemies][0],
@@ -221,7 +220,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.add(toCreateEnemy.healthBarBackground, z=6)
         self.add(toCreateEnemy.healthBar, z=7)
         if self.spawnedEnemies != self.enemieslength:
-            clock.schedule_once(self._add_enemy,
+            self.schedule_interval(self._add_enemy,
                                 self.enemy_list[self.spawnedEnemies-1][2],
                                 self.startTile, self.path,
                                 self.enemy_list, self.multiplier)
