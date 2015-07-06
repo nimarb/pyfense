@@ -5,7 +5,6 @@ contains PyFenseEnemy class
 
 import cocos
 from cocos import sprite
-from pyglet import clock
 import pyglet
 from pyfense import resources
 
@@ -28,9 +27,10 @@ class PyFenseEnemy(sprite.Sprite, pyglet.event.EventDispatcher):
         self.healthBarBackground, self.healthBar = self._draw_healthbar()
         self.turns = self.attributes['turns']
         self.poisoned = 0
-        clock.schedule_once(self._move, 0.1)
+        self.schedule_interval(self._move, 0.1)
 
     def _move(self, dt):
+        self.unschedule(self._move)
         # check if enemy reached end
         if self.distance != len(self.path[0]):
             self.unschedule(self._move)
@@ -79,8 +79,10 @@ class PyFenseEnemy(sprite.Sprite, pyglet.event.EventDispatcher):
         return healthBarBackground, healthBar
 
     def update_healthbar(self):
-        """updates the health bar of the enemy to reflect the current
-        health"""
+        """
+        updates the health bar of the enemy to reflect the current
+        health
+        """
         self.healthBarBackground.visible = True
         self.healthBar.visible = True
         self.healthBar.end = (self.bar_x + self.healthBarWidth *
@@ -89,7 +91,7 @@ class PyFenseEnemy(sprite.Sprite, pyglet.event.EventDispatcher):
 
     def stop_movement(self):
         """stop the movement of this enemy"""
-        clock.unschedule(self._move)
+        self.unschedule(self._move)
 
     def freeze(self, slowDownFactor, duration):
         """ slow this enemy down by the factor (slowDownFactor)
@@ -102,11 +104,11 @@ class PyFenseEnemy(sprite.Sprite, pyglet.event.EventDispatcher):
         self.unschedule(self._unfreeze)
         self.currentSpeed = self.attributes["speed"]
 
-    def poison(self, duration, damagePerTime):
+    def poison(self, damagePerTime, duration):
         """poisons the enemy to lose life every damagePerSec"""
         self.poisonDuration = duration
         self.poisonDamagePerTime = damagePerTime * 3
-        clock.schedule_interval(self._decrease_health, 0.5)
+        self.schedule_interval(self._decrease_health, 0.5)
 
     def _decrease_health(self, dt):
         if self.poisoned >= self.poisonDuration * 2:
