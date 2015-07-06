@@ -102,10 +102,10 @@ class PyFenseEnemy(sprite.Sprite, pyglet.event.EventDispatcher):
         self.unschedule(self._unfreeze)
         self.currentSpeed = self.attributes["speed"]
 
-    def poison(self, damagePerTime, duration):
+    def poison(self, duration, damagePerTime):
         """poisons the enemy to lose life every damagePerSec"""
         self.poisonDuration = duration
-        self.poisonDamagePerTime = damagePerTime * 5
+        self.poisonDamagePerTime = damagePerTime * 3
         clock.schedule_interval(self._decrease_health, 0.5)
 
     def _decrease_health(self, dt):
