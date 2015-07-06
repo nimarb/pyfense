@@ -1,5 +1,4 @@
 # Test for pyfense_tower, to be tested with py.test
-import os
 import unittest
 import cocos
 from cocos.director import director
@@ -43,6 +42,7 @@ class TestGame(unittest.TestCase):
         game.PyFenseGame._set_grid(self, 1, 1, kind)
         result = self.gameGrid[1][1]
         self.assertEqual(result, kind)
+
     def test_on_enemy_death(self):
         testEnemy = enemy.PyFenseEnemy((0,0), 2, 1, 1, None,1)
         self.hud = hud.PyFenseHud()
@@ -50,12 +50,28 @@ class TestGame(unittest.TestCase):
         self.currentCurrency = 10
         game.PyFenseGame.on_enemy_death(self, testEnemy)
         self.assertEqual(20, self.currentCurrency)
+
     def test_on_build_tower(self):
         self.entityMap = entities.PyFenseEntities(None, [0, 0], [0, 0])
         self.hud = hud.PyFenseHud()
         self.currentCurrency = 500
         game.PyFenseGame.on_build_tower(self, 1, 0, 0)
         self.assertEqual(350, self.currentCurrency)
+        def test_on_enemy_reached_goal(self):
+        self.hud = hud.PyFenseHud()
+        self.currentLives = 15
+        game.PyFenseGame.on_enemy_reached_goal(self)
+        self.assertEqual(14, self.currentLives)
+        self.assertEqual("Remaining Lives: 14",
+                         self.hud.liveLabel.element.text)
+
+    def test_on_next_wave_timer_finished(self):
+        self.hud = hud.PyFenseHud()
+        self.currentWave = 1
+        self.entityMap = entities.PyFenseEntities(None, [0, 0], [0, 0])
+        game.PyFenseGame.on_next_wave_timer_finished(self)
+        self.assertEqual(2, self.currentWave)
+        self.assertEqual("Current Wave: 2", self.hud.waveLabel.element.text)
     
     def _set_grid_pix(self, x, y, kind):
     	# needed for buildTower
