@@ -177,6 +177,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 target.freeze(effectfactor, effectduration)
             elif effect == 'poison':
                 target.poison(effectfactor, effectduration)
+                self.enemies[self.enemies.index(target)].push_handlers(self)
 
     def on_has_enemy_died(self, target):
         """checks whether the target has died and returns true if so"""
