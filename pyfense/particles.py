@@ -303,7 +303,7 @@ class Explosion4(ParticleSystem):
     end_color_var = Color(0.0, 0.0, 0.0, 0.0)
 
     # size, in pixels
-    size = 70.0
+    size = 80.0
     size_var = 10.0
 
     # blend additive
@@ -311,7 +311,7 @@ class Explosion4(ParticleSystem):
 
     # color modulate
     color_modulate = True
-
+    
 class ExplosionHuge(ParticleSystem):
     # total particles
     total_particles = 500
