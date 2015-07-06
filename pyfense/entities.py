@@ -155,6 +155,15 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.remove(projectile)
         self.projectiles.remove(projectile)
         target.update_healthbar()
+        if not self.on_has_enemy_died(target):
+            if effect == 'slow':
+                target.freeze(effectfactor, effectduration)
+            elif effect == 'poision':
+                target.poision(effectfactor, effectduration)
+
+    def on_has_enemy_died(self, target):
+        """checks whether the target has died and returns true if so"""
+        print("died event fired")
         if target in self.enemies and target.healthPoints <= 0:
             target.stop_movement()
             self.remove(target.healthBarBackground)
@@ -169,8 +178,8 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.diedEnemies += 1
             self.dispatch_event('on_enemy_death', target)
             self._is_wave_finished()
-        elif effect == 'slow':
-            target.freeze(effectfactor, effectduration)
+            return True
+        return False
 
     def _is_wave_finished(self):
         if self.spawnedEnemies == self.enemieslength:
