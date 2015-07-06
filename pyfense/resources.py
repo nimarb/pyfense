@@ -9,16 +9,21 @@ import pickle
 
 # Function that makes the filepath relative to the path of resources.
 # Load file with pathjoin('relative/path/to/fil.e')
+
 root = os.path.dirname(os.path.abspath(__file__))
-pathjoin = lambda x: os.path.join(root, x)
+
+def pathjoin(relative_path):
+    return os.path.join(root, relative_path)
+
+pyglet.resource.path.append(pathjoin('assets'))
+pyglet.resource.reindex()
 
 
 def load_image(filename):
     try:
-        img = pyglet.image.load(filename)
+        img = pyglet.resource.image(filename)
     except FileNotFoundError:
-        print(filename + " not found in load_image of tower class,"
-              +" please check files")
+        print(filename + " not found in load_image," +" please check files")
         return False
     return img
 
@@ -72,15 +77,13 @@ def load_entities():
                 else:
                     # Laden der Bilder
                     try:
-                        att_dict["image"] = load_image(
-                            pathjoin("assets/{}").format(att_dict["image"]))
+                        att_dict["image"] = load_image(att_dict["image"])
                     except FileNotFoundError:
                         print("Error: Image not found: {}".format(
                             att_dict["image"]))
                     try:
                         att_dict["projectile_image"] = load_image(
-                            pathjoin("assets/{}").format(
-                                att_dict["projectile_image"]))
+                                att_dict["projectile_image"])
                     except FileNotFoundError:
                         print("Error: Image not found: {}".format(
                             att_dict["image"]))
@@ -103,21 +106,15 @@ def load_entities():
                     try:
                         if "animated" in att_dict:
                             if att_dict["animated"]:
-                                att_dict["image"] = _load_animation(
-                                    pathjoin("assets/{}").format(
-                                        att_dict["image"]),
+                                att_dict["image"] = _load_animation(att_dict["image"],
                                     att_dict["spritesheet_x"],
                                     att_dict["spritesheet_y"],
                                     att_dict["width"], att_dict["height"],
                                     att_dict["duration"], att_dict["loop"])
                             else:
-                                att_dict["image"] = load_image(
-                                    pathjoin("assets/{}").format(
-                                        att_dict["image"]))
+                                att_dict["image"] = load_image(att_dict["image"])
                         else:
-                            att_dict["image"] = load_image(
-                                pathjoin("assets/{}").format(
-                                    att_dict["image"]))
+                            att_dict["image"] = load_image(att_dict["image"])
                     except FileNotFoundError:
                         print("Error: Image not found: {}".format(
                             att_dict["image"]))
@@ -138,21 +135,15 @@ def load_entities():
                     try:
                         if "animated" in att_dict:
                             if att_dict["animated"]:
-                                att_dict["image"] = _load_animation(
-                                    pathjoin("assets/{}").format(
-                                        att_dict["image"]),
+                                att_dict["image"] = _load_animation(att_dict["image"],
                                     att_dict["spritesheet_x"],
                                     att_dict["spritesheet_y"],
                                     att_dict["width"], att_dict["height"],
                                     att_dict["duration"], att_dict["loop"])
                             else:
-                                att_dict["image"] = load_image(
-                                    pathjoin("assets/{}").format(
-                                        att_dict["image"]))
+                                att_dict["image"] = load_image(att_dict["image"])
                         else:
-                            att_dict["image"] = load_image(
-                                pathjoin("assets/{}").format(
-                                    att_dict["image"]))
+                            att_dict["image"] = load_image(att_dict["image"])
                     except FileNotFoundError:
                         print("Error: Image not found: {}".format(
                             att_dict["image"]))
@@ -184,7 +175,7 @@ def load_waves():
 
 def load_custom_image():
     if(os.path.isfile(pathjoin("assets/lvlcustom.png"))):
-        return load_image(pathjoin('assets/lvlcustom.png'))
+        return load_image('lvlcustom.png')
     else:
         print("no custom image created but tried to load")
         return None
@@ -195,25 +186,25 @@ load_waves()
 customImage = load_custom_image()
 
 # load sprites/images
-noCashOverlay = load_image(pathjoin("assets/tower-nocashoverlay.png"))
-destroyTowerIcon = load_image(pathjoin("assets/tower-destroy.png"))
-noTowerUpgradeIcon = load_image(pathjoin("assets/tower-noupgrade.png"))
+noCashOverlay = load_image("tower-nocashoverlay.png")
+destroyTowerIcon = load_image("tower-destroy.png")
+noTowerUpgradeIcon = load_image("tower-noupgrade.png")
 background = {
-    "lvl1": load_image(pathjoin("assets/lvl1.png")),
-    "lvl2": load_image(pathjoin("assets/lvl2.png")),
-    "background": load_image(pathjoin("assets/background.png"))
+    "lvl1": load_image("lvl1.png"),
+    "lvl2": load_image("lvl2.png"),
+    "background": load_image("background.png")
     }
-selector0 = load_image(pathjoin("assets/selector0.png"))
-selector1 = load_image(pathjoin("assets/selector1.png"))
-path = load_image(pathjoin("assets/path.png"))
-nopath = load_image(pathjoin("assets/nopath.png"))
-grass = load_image(pathjoin("assets/grass.png"))
-logo = load_image(pathjoin("assets/logo.png"))
-particleTexture = load_image(pathjoin("assets/particle.png"))
-range1920 = load_image(pathjoin("assets/range1920.png"))
-picto_damage = load_image(pathjoin("assets/explosion_pictogram.png"))
-picto_rate = load_image(pathjoin("assets/firerate_pictogram.png"))
-healthBarCap = load_image(pathjoin("assets/healthBarCap.png")).get_texture()
+selector0 = load_image("selector0.png")
+selector1 = load_image("selector1.png")
+path = load_image("path.png")
+nopath = load_image("nopath.png")
+grass = load_image("grass.png")
+logo = load_image("logo.png")
+particleTexture = load_image("particle.png")
+range1920 = load_image("range1920.png")
+picto_damage = load_image("explosion_pictogram.png")
+picto_rate = load_image("firerate_pictogram.png")
+healthBarCap = load_image("healthBarCap.png").get_texture()
 
 shot = pyglet.media.load(pathjoin("assets/music.wav"), streaming=False)
 
