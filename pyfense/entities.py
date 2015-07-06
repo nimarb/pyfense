@@ -89,6 +89,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.enemieslength = len(self.enemy_list)
         self.schedule_interval(self._add_enemy, 0, self.startTile, self.path,
                                self.enemy_list, self.multiplier)
+        #import pdb; pdb.set_trace()
 
     def _show_warning(self, warningNumber):
         if warningNumber == 1:
@@ -144,7 +145,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             new_projectile.push_handlers(self)
             self.add(new_projectile, z=4)
             director.interpreter_locals["projectile_slow"] = new_projectile
-
+        
         else:
             new_projectile = projectile.PyFenseProjectile(
                 tower, target, projectileimage, towerNumber, rotation,
@@ -152,9 +153,9 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.projectiles.append(new_projectile)
             new_projectile.push_handlers(self)
             self.add(new_projectile, z=1)
-
+    
             # Duration that projectile is beneath the tower
-            duration = 40 * 1.41 / projectileSpeed
+            duration = 80 * 1.41 / projectileSpeed
             self.schedule_interval(lambda dt: self._change_z(
                                    new_projectile, 1, 4), duration)
 
