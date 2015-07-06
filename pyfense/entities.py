@@ -137,10 +137,8 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
         if towerNumber == 4:
             new_projectile = projectile_particle.PyFenseProjectileSlow(
-                tower, target, towerNumber,
-                projectileSpeed, damage, effect,
-                effectDuration, effectFactor)
-            new_projectile.rotation = tower.rotation - 90
+                tower, target, towerNumber, rotation, projectileSpeed,
+                damage, effect, effectDuration, effectFactor)
 
             self.projectiles.append(new_projectile)
             new_projectile.push_handlers(self)
@@ -148,22 +146,17 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             director.interpreter_locals["projectile_slow"] = new_projectile
 
         else:
-            new_projectile = projectile.PyFenseProjectile(tower, target,
-                                                          projectileimage,
-                                                          towerNumber,
-                                                          rotation,
-                                                          projectileSpeed,
-                                                          damage, effect,
-                                                          effectDuration,
-                                                          effectFactor)
+            new_projectile = projectile.PyFenseProjectile(
+                tower, target, projectileimage, towerNumber, rotation,
+                projectileSpeed, damage, effect, effectDuration, effectFactor)
             self.projectiles.append(new_projectile)
             new_projectile.push_handlers(self)
             self.add(new_projectile, z=1)
 
             # Duration that projectile is beneath the tower
             duration = 40 * 1.41 / projectileSpeed
-            self.schedule_interval(lambda dt: self._change_z(new_projectile, 1, 4),
-                                   duration)
+            self.schedule_interval(lambda dt: self._change_z(
+                                   new_projectile, 1, 4), duration)
 
     def _change_z(self, cocosnode, z_before, z_after):
         self.unschedule(self._change_z)
