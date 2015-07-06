@@ -43,12 +43,6 @@ class Death(ParticleSystem):
     # emission_rate = total_particles / life
     emission_rate = 1000
 
-    # color of particles
-    # start_color = Color(1.0, 0.3, 0, 0.7)
-    # start_color_var = Color(0.0, 0.1, 0., 0.4)
-    # end_color = Color(1.0, 1, 1, 0)
-    # end_color_var = Color(0, 0, 0, 0.2)
-
     start_color = Color(1, 0.53, 0, 1.0)
     start_color_var = Color(0.0, 0.0, 0.0, 0.0)
     end_color = Color(1, 1, 1, 0)
