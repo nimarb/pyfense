@@ -1,18 +1,20 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Jun 16 21:48:14 2015
+'''
+Test for projectiles
+'''
 
-@author: Matthias
-"""
+
 import os
 os.chdir(os.path.join('..', 'pyfense'))
 import unittest
 import cocos
 from cocos.director import director
 
-import pyfense_projectile
-import pyfense_tower
-import pyfense_resources
+from pyfense import projectile
+from pyfense import projectile_particle
+from pyfense import tower
+from pyfense import enemy
+from pyfense import resources
+from pyfense import game
 
 settings = {
     "window": {
@@ -33,19 +35,75 @@ settings = {
 
 
 class TestProjectile(unittest.TestCase):
-    def test_build_remove(self):
+    
+    def test_distance(self):
         director.init(**settings['window'])
         scene = cocos.scene.Scene()
         director.run(scene)
-        tower1 = pyfense_tower.PyFenseTower(0, (50, 70))
-        tower2 = pyfense_tower.PyFenseTower(0, (20, 70))
-        image = pyfense_resources.load_image('assets/projectile01.png')
-        projectile = pyfense_projectile.PyFenseProjectile(tower1, tower2,
-                                                          image, 0, 0, 1000,
-                                                          50)
-        result = projectile.distance(tower1.position, tower2.position)
+        new_game = game.PyFenseGame(1)
+        path = new_game.movePath
+    
+        new_tower = tower.PyFenseTower(0, (50, 70))
+        new_enemy = enemy.PyFenseEnemy((50, 40), 0, 1, 1, path, 2)
+        image = resources.load_image('assets/projectile01.png')
+        new_projectile = projectile.PyFenseProjectile(new_tower, new_enemy,
+                                                      image, 0, 0, 1000,
+                                                      50, 'normal', 5)
+        result = new_projectile.distance
         actualResult = 30
         self.assertAlmostEqual(result, actualResult)
+        
+    def test_rotation(self):
+        director.init(**settings['window'])
+        scene = cocos.scene.Scene()
+        director.run(scene)
+        new_game = game.PyFenseGame(1)
+        path = new_game.movePath
+        
+        
+        image = resources.load_image('assets/projectile01.png')
+    
+        new_tower = tower.PyFenseTower(0, (50, 50))
+        new_enemy = enemy.PyFenseEnemy((100, 100), 0, 1, 1, path, 2)
+        new_tower.target = new_enemy
+        new_tower._rotate_to_target()
+        rotation = new_tower.rotation
+        
+        
+        new_projectile = projectile.PyFenseProjectile(new_tower, new_enemy,
+                                                      image, 0, rotation, 1000,
+                                                      50, 'normal', 5)
+        result = new_projectile.rotation
+        actualResult = 45
+        self.assertAlmostEqual(result, actualResult)
+        
+        
 
+    def test_rotation_particle(self):
+        director.init(**settings['window'])
+        scene = cocos.scene.Scene()
+        director.run(scene)
+        new_game = game.PyFenseGame(1)
+        path = new_game.movePath
+        
+        
+        image = resources.load_image('assets/projectile01.png')
+    
+        new_tower = tower.PyFenseTower(0, (50, 50))
+        new_enemy = enemy.PyFenseEnemy((100, 100), 0, 1, 1, path, 2)
+        new_tower.target = new_enemy
+        new_tower._rotate_to_target()
+        rotation = new_tower.rotation
+                
+        new_projectile = projectile_particle.PyFenseProjectileSlow(new_tower, new_enemy,
+                                                      0, rotation, 1000,
+                                                      50, 'normal', 5)
+        
+        
+        result = new_projectile.__class__.angle
+        actualResult = 45
+        self.assertAlmostEqual(result, actualResult)        
+        
+        
 if __name__ == '__main__':
     unittest.main()
