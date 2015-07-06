@@ -321,7 +321,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                     if hudItem == 0:
                         self._upgrade_tower()
                     elif hudItem == 1:
-                        self._destroyTower()
+                        self._destroy_tower()
                     self._remove_tower_upgrade_hud()
             elif hudItem == -1:
                 if self.buildingHudDisplayed:

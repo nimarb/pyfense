@@ -1,6 +1,7 @@
 """
-PyFenseGame - Responsible for dynamic pathfinding and communication between
-user interaction through the HUD and Entities like Towers
+PyFenseGame -  Top Level Scene during the game, onto which all the other
+Layers get added.Responsible for dynamic pathfinding and communication between
+user interaction through the HUD and entities like towers.
 """
 import os
 
@@ -24,6 +25,7 @@ pathjoin = lambda x: os.path.join(root, x)
 
 
 class PyFenseGame(scene.Scene):
+
     def __init__(self, levelNumber):
         super().__init__()
         # initialise game grid to store where enemies can walk,
@@ -40,7 +42,7 @@ class PyFenseGame(scene.Scene):
         # 100-200 := 1 + towerNr + towerLvl has been built here
         self.gameGrid = [[0 for x in range(32)] for x in range(18)]
         self.gameGrid, self.startTile, \
-                       self.endTile = resources.initGrid(levelNumber)
+            self.endTile = resources.initGrid(levelNumber)
 
         resources.load_waves()
         resources.load_entities()
@@ -58,66 +60,71 @@ class PyFenseGame(scene.Scene):
         director.interpreter_locals["game"] = self
 
     def _load_path(self):
+        """
+        Dynamically finds the path for the enemies, by going through the
+        gameGrid Matrix. Contains both the path for enemies and their health-
+        bars, enemies rotate additionally to moving.
+        """
         currentTile = copy.deepcopy(self.startTile)
         # move[0] for enemy with rotation and move[1] for healthbar
         move = [[], []]
-        pos = self.get_position_from_grid(self.startTile)
+        pos = self._get_position_from_grid(self.startTile)
 
         while(currentTile[0] != self.endTile[0] or
               currentTile[1] != self.endTile[1]):
 
             # Right
-            if(self.gameGrid[currentTile[0]][currentTile[1]+1] == 2):
+            if(self.gameGrid[currentTile[0]][currentTile[1] + 1] == 2):
                 # Rotate right
                 move[0].append(actions.RotateTo(0, 0))
                 move[1].append([])
                 # Move right
                 for j in range(1, 11):
-                    move[0].append((pos[0]+6*j, pos[1]))
+                    move[0].append((pos[0] + 6 * j, pos[1]))
                     move[1].append((6, 0))
                 # Next position
-                pos = (pos[0]+60, pos[1])
+                pos = (pos[0] + 60, pos[1])
                 currentTile[1] += 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
 
             # Up
-            elif(self.gameGrid[currentTile[0]+1][currentTile[1]] == 2):
+            elif(self.gameGrid[currentTile[0] + 1][currentTile[1]] == 2):
                 # Rotate up
                 move[0].append(actions.RotateTo(270, 0))
                 move[1].append([])
                 # Move up
                 for j in range(1, 11):
-                    move[0].append((pos[0], pos[1]+6*j))
+                    move[0].append((pos[0], pos[1] + 6 * j))
                     move[1].append((0, 6))
                 # Next position
-                pos = (pos[0], pos[1]+60)
+                pos = (pos[0], pos[1] + 60)
                 currentTile[0] += 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
 
             # Down
-            elif(self.gameGrid[currentTile[0]-1][currentTile[1]] == 2):
+            elif(self.gameGrid[currentTile[0] - 1][currentTile[1]] == 2):
                 # Rotate down
                 move[0].append(actions.RotateTo(90, 0))
                 move[1].append([])
                 # Move down
                 for j in range(1, 11):
-                    move[0].append((pos[0], pos[1]-6*j))
+                    move[0].append((pos[0], pos[1] - 6 * j))
                     move[1].append((0, -6))
                 # Next position
-                pos = (pos[0], pos[1]-60)
+                pos = (pos[0], pos[1] - 60)
                 currentTile[0] -= 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
             # Left
-            elif(self.gameGrid[currentTile[0]][currentTile[1]-1] == 2):
+            elif(self.gameGrid[currentTile[0]][currentTile[1] - 1] == 2):
                 # Rotate left
                 move[0].append(actions.RotateTo(180, 0))  # RotateLeft
                 move[1].append([])  # placeholder
                 # Move left
                 for j in range(1, 11):
-                    move[0].append((pos[0]-6*j, pos[1]))
+                    move[0].append((pos[0] - 6 * j, pos[1]))
                     move[1].append((-6, 0))
                 # Next position
-                pos = (pos[0]-60, pos[1])
+                pos = (pos[0] - 60, pos[1])
                 currentTile[1] -= 1
                 self.gameGrid[currentTile[0]][currentTile[1]] = 1
 
@@ -131,8 +138,8 @@ class PyFenseGame(scene.Scene):
         self.add(self.levelMap, z=0)
 
     def _display_entities(self):
-        startTile = self.get_position_from_grid(self.startTile)
-        endTile = self.get_position_from_grid(self.endTile)
+        startTile = self._get_position_from_grid(self.startTile)
+        endTile = self._get_position_from_grid(self.endTile)
         self.entityMap = entities.PyFenseEntities(self.movePath,
                                                   startTile, endTile)
         self.entityMap.push_handlers(self)
@@ -143,8 +150,9 @@ class PyFenseGame(scene.Scene):
         self.hud.push_handlers(self)
         self.add(self.hud, z=2)
 
-    def set_grid_pix(self, x, y, kind):
-        """Set the gameGrid (int) to a certain Value at a certain point,
+    def _set_grid_pix(self, x, y, kind):
+        """
+        Set the gameGrid (int) to a certain Value at a certain point,
         specified by the coordinates in Pixel
         """
         if kind < 0 or kind > 200:
@@ -152,10 +160,11 @@ class PyFenseGame(scene.Scene):
             return
         grid_x = int(x / 60)
         grid_y = int(y / 60)
-        self.set_grid(grid_x, grid_y, kind)
+        self._set_grid(grid_x, grid_y, kind)
 
-    def set_grid(self, grid_x, grid_y, kind):
-        """Set the gameGrid (int) to a certain value at a certain point,
+    def _set_grid(self, grid_x, grid_y, kind):
+        """
+        Set the gameGrid (int) to a certain value at a certain point,
         specified by the cell
         """
         if kind < 0 or kind > 200:
@@ -163,8 +172,9 @@ class PyFenseGame(scene.Scene):
             return
         self.gameGrid[grid_y][grid_x] = kind
 
-    def get_grid_pix(self, x, y):
-        """Returns the value of the gameGrid (int) at the specified pixel
+    def _get_grid_pix(self, x, y):
+        """
+        Returns the value of the gameGrid (int) at the specified pixel
         coordinates
         """
         grid_x = int(x / 60)
@@ -176,7 +186,7 @@ class PyFenseGame(scene.Scene):
             grid_y = 17
         return self.gameGrid[grid_y][grid_x]
 
-    def get_position_from_grid(self, grid):
+    def _get_position_from_grid(self, grid):
         """Returns a tupel of the cell number when providing a
         coordinate tupel
         """
@@ -187,11 +197,12 @@ class PyFenseGame(scene.Scene):
         return (x, y)
 
     def on_enemy_death(self, enemy):
+        """Credits the enemy's worth in money to the player"""
         self.currentCurrency += enemy.attributes["worth"]
         self.hud.update_currency_number(self.currentCurrency)
 
     def on_user_mouse_motion(self, x, y):
-        self.hud.currentCellStatus = self.get_grid_pix(x, y)
+        self.hud.currentCellStatus = self._get_grid_pix(x, y)
 
     def on_build_tower(self, towerNumber, pos_x, pos_y):
         toBuildTower = tower.PyFenseTower(towerNumber, (pos_x, pos_y))
@@ -199,16 +210,21 @@ class PyFenseGame(scene.Scene):
             return
         self.currentCurrency -= self.entityMap.build_tower(toBuildTower)
         self.hud.update_currency_number(self.currentCurrency)
-        self.set_grid_pix(pos_x, pos_y, int(float("1" + str(towerNumber) +
-                        str(toBuildTower.attributes["lvl"]))))
+        self._set_grid_pix(
+            pos_x, pos_y, int(float("1" + str(towerNumber) +
+                                    str(toBuildTower.attributes["lvl"]))))
 
     def on_upgrade_tower(self, position):
+        """
+        Updates the the tower at the given position with a new tower with
+        upgraded attributes and assets. Also updates the change in the
+        Map-Matrix
+        """
         oldTower = self.entityMap.get_tower_at(position)
         towerLevel = oldTower.attributes["lvl"]
         if towerLevel == 3:
             return
         towerNumber = oldTower.attributes["tower"]
-        # TODO: cost check could/should be done in HUD class; see build_tower
         cost = resources.tower[towerNumber][towerLevel + 1]["cost"]
         if cost > self.currentCurrency:
             return
@@ -219,12 +235,15 @@ class PyFenseGame(scene.Scene):
             towerNumber, position, towerLevel + 1)
         self.entityMap.build_tower(newTower)
         (x, y) = position
-        self.set_grid_pix(x, y, int(float("1" + str(towerNumber) +
-                          str(towerLevel + 1))))
+        self._set_grid_pix(x, y, int(float("1" + str(towerNumber) +
+                                           str(towerLevel + 1))))
 
     def on_destroy_tower(self, position):
+        """
+        Returns 70% of the Money invested in the Tower when destroying it
+        """
         (x, y) = position
-        self.set_grid_pix(x, y, 3)
+        self._set_grid_pix(x, y, 3)
         self.currentCurrency += 0.7 * self.entityMap.remove_tower(position)
         self.hud.update_currency_number(self.currentCurrency)
 
@@ -232,18 +251,20 @@ class PyFenseGame(scene.Scene):
         self.hud.start_next_wave_timer()
 
     def on_next_wave_timer_finished(self):
+        """
+        Starts to add the next wave to the Screen and updates the display
+        """
         self.currentWave += 1
         self.entityMap.next_wave(self.currentWave)
         self.hud.update_wave_number(self.currentWave)
         highscore.currentWave = self.currentWave
 
     def on_enemy_reached_goal(self):
+        """
+        Gets called everytime an enemy reached the final cell. Transistion
+        to the GameOver Screen when the game is finished.
+        """
         self.currentLives -= 1
         self.hud.update_live_number(self.currentLives)
         if self.currentLives == 0:
-            # explosion = particles.ExplosionHuge()
-            # x = director.get_window_size()[0] / 2
-            # y = director.get_window_size()[1] / 2
-            # explosion.position = (x, y)
-            # self.add(explosion)
             director.replace(PyFenseLost())

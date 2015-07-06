@@ -64,7 +64,7 @@ class PyFenseProjectileSlow(ParticleSystem, pyglet.event.EventDispatcher):
     color_modulate = True
 
     def __init__(self, towerParent, target, towerNumber,
-                 velocity, damage, effect, effectduration):
+                 velocity, damage, effect, effectduration, effectfactor):
         super().__init__()
 
         self.position = towerParent.position
@@ -75,16 +75,16 @@ class PyFenseProjectileSlow(ParticleSystem, pyglet.event.EventDispatcher):
 
         self.schedule_interval(
             self._dispatch_hit_event, __class__.life, target, towerNumber,
-            effect, effectduration)
+            effect, effectduration, effectfactor)
 
     def _dispatch_hit_event(self, dt, target, towerNumber, effect,
-                            effectduration):
+                            effectduration, effectfactor):
         self.unschedule(self._dispatch_hit_event)
-        self.dispatch_event('on_enemy_hit', self, target, towerNumber,
-                            effect, effectduration)
+        self.dispatch_event('on_target_hit', self, target, towerNumber,
+                            effect, effectduration, effectfactor)
 
     def _distance(self, a, b):
         dis = math.sqrt((b[0] - a[0])**2 + (b[1]-a[1])**2)
         return dis
 
-PyFenseProjectileSlow.register_event_type('on_enemy_hit')
+PyFenseProjectileSlow.register_event_type('on_target_hit')

@@ -199,19 +199,19 @@ class SubmitScore(Layer):
         w, h = director.get_window_size()
         self.wave = wave
         self.font_title = {
-            'font_name':_font_,
-            'font_size':72,
-            'anchor_y':'top',
-            'anchor_x':'center'
+            'font_name': _font_,
+            'font_size': 72,
+            'anchor_y': 'top',
+            'anchor_x': 'center'
         }
         title = Label('GameOver', **self.font_title)
         title.position = (w/2., h)
         self.add(title, z=1)
         self.font_label = {
-            'font_name':_font_,
-            'font_size':40,
-            'anchor_y':'top',
-            'anchor_x':'center'
+            'font_name': _font_,
+            'font_size': 40,
+            'anchor_y': 'top',
+            'anchor_x': 'center'
         }
         label = Label('Enter your name:', **self.font_label)
         label.position = (w/2., 600.)

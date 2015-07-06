@@ -1,5 +1,7 @@
-# pyfense_projectile
-# projectile class
+"""
+projectile class. Moves projectile to destination and dispatches event
+on_enemy_hit.
+"""
 
 from cocos import sprite
 from cocos import actions
@@ -12,7 +14,7 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
 
     def __init__(
             self, towerParent, target, image, towerNumber, rotation,
-            velocity, damage, effect, effectduration):
+            velocity, damage, effect, effectduration, effectfactor):
         projectilePng = image
         super().__init__(projectilePng, position=towerParent.position,
                          scale=1)
@@ -24,15 +26,18 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
         self.do(actions.MoveTo(target.position, self.duration))
         self.schedule_interval(
             self._dispatch_hit_event, self.duration, target, towerNumber,
-            effect, effectduration)
+            effect, effectduration, effectfactor)
 
-        # Dispatch event, when enemy is hit
     def _dispatch_hit_event(self, dt, target, towerNumber, effect,
-                         effectduration):
+                         effectduration, effectfactor):
+        """
+        Dispatch event, when enemy is hit
+        """
+
         self.unschedule(self._dispatch_hit_event)     
-        self.dispatch_event('on_enemy_hit', self, target, towerNumber,
-                            effect, effectduration)
-    
+        self.dispatch_event('on_target_hit', self, target, towerNumber,
+                            effect, effectduration, effectfactor)
+
     def _duration(self):
         dur = self.distance/self.velocity
         return dur
@@ -41,4 +46,4 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
         dis = math.sqrt((b[0] - a[0])**2 + (b[1]-a[1])**2)
         return dis
 
-PyFenseProjectile.register_event_type('on_enemy_hit')
+PyFenseProjectile.register_event_type('on_target_hit')

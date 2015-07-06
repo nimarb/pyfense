@@ -14,12 +14,11 @@ class PyFenseMapBuilderHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     def __init__(self):
         super().__init__()
-        # load selector to highlight currently selected cell
         self._add_cell_selector_sprite()
         self.currentCellStatus = 0
 
-
     def _add_cell_selector_sprite(self):
+
         self.cellSelectorSpriteRed = cocos.sprite.Sprite(
             resources.selector0)
         self.cellSelectorSpriteBlue = cocos.sprite.Sprite(
@@ -43,6 +42,10 @@ class PyFenseMapBuilderHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self._buildpath()
 
     def on_key_press(self, key, modifiers):
+        """
+        Save the map by pressing Enter, restart the game afterwards to play
+        the created map
+        """
         if(key == 65293):  # == Enter
             self._save_map()
 
@@ -51,7 +54,6 @@ class PyFenseMapBuilderHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         Creates a screenshot of the current image, which can be used as
         the background for a custom lvl
         """
-        # TODO: hide FPS and cellSelctor doesnt work yet?
         self.cellSelectorSpriteBlue.visible = False
         director.show_FPS = False
         pyglet.image.get_buffer_manager().get_color_buffer().save(
@@ -61,7 +63,9 @@ class PyFenseMapBuilderHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         director.show_FPS = True
 
     def on_mouse_motion(self, x, y, dx, dy):
-        # class to highlight currently selected cell
+        """
+        highlight the currently hovered cell with the cellSelector Sprite
+        """
         (x, y) = cocos.director.director.get_virtual_coordinates(x, y)
         grid_x = int(x / 60)
         grid_y = int(y / 60)
@@ -71,4 +75,3 @@ class PyFenseMapBuilderHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
 PyFenseMapBuilderHud.register_event_type('on_build_path')
 PyFenseMapBuilderHud.register_event_type('on_save')
-

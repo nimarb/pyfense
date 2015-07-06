@@ -12,35 +12,50 @@ import pickle
 root = os.path.dirname(os.path.abspath(__file__))
 pathjoin = lambda x: os.path.join(root, x)
 
+
 def load_image(filename):
     try:
         img = pyglet.image.load(filename)
     except FileNotFoundError:
-        print(filename + " not found, please check files")
+        print(filename + " not found in load_image of tower class,"
+              +" please check files")
         return False
     return img
 
+
 # Loads spritesheets as animation with frames from bottom left to top right
 def _load_animation(filepath, spritesheet_x, spritesheet_y, width,
-                  height, duration, loop):
-    spritesheet = load_image(filepath)
-    grid = pyglet.image.ImageGrid(spritesheet, spritesheet_y, spritesheet_x,
-                                  item_width=width, item_height=width)
-    textures = pyglet.image.TextureGrid(grid)
-    images = textures[0:len(textures)]
+                    height, duration, loop):
+    try:
+        spritesheet = load_image(filepath)
+        grid = pyglet.image.ImageGrid(spritesheet, spritesheet_y, spritesheet_x,
+                                  item_width=width, item_height=height)
+        textures = pyglet.image.TextureGrid(grid)
+        images = textures[0:len(textures)]
+    except FileNotFoundError:
+        print(filepath + " not found in _load_animation of tower class")
+        return False
+    except AttributeError as e:
+        print("Problem with attribute in _load_animation of tower class:", e)
+        return False
     return pyglet.image.Animation.from_image_sequence(
         images, duration, loop=loop)
-        
+
 tower = {}
 enemy = {}
+mine = {}
+
 
 def load_entities():
     tower.clear()
     enemy.clear()
+    mine.clear()
     with open(pathjoin("data/entities.cfg")) as conf_file:
         for line in conf_file:
             if line == "" or line[0] == "#":
                 continue
+
+            # Tower
             elif line.find("tower':") != -1:
                 att_dict = eval(line)
                 towername = att_dict["tower"]
@@ -55,6 +70,7 @@ def load_entities():
                     break
                 # ansonsten einfuegen der attribute in das dict
                 else:
+                    # Laden der Bilder
                     try:
                         att_dict["image"] = load_image(
                             pathjoin("assets/{}").format(att_dict["image"]))
@@ -63,40 +79,85 @@ def load_entities():
                             att_dict["image"]))
                     try:
                         att_dict["projectile_image"] = load_image(
-                            pathjoin("assets/{}").format(att_dict["projectile_image"]))
+                            pathjoin("assets/{}").format(
+                                att_dict["projectile_image"]))
                     except FileNotFoundError:
                         print("Error: Image not found: {}".format(
                             att_dict["image"]))
                     tower[towername][lvl] = att_dict
+
+            # Enemy
             elif line.find("enemy':") != -1:
                 att_dict = eval(line)
                 enemyname = att_dict["enemy"]
                 level = att_dict["lvl"]
+                # ist Gegner schon vorhanden, sonst hinzufuegen
                 if enemyname not in enemy:
                         enemy[enemyname] = {}
+                # ist level schon vorhanden (Doppeleintrag), dann Fehlermeldung
                 if level in enemy[enemyname]:
                     print("Error: Level fuer diesen Gegner bereits vorhanden")
                     break
                 else:
+                    # Laden der Bilder oder Animation
                     try:
                         if "animated" in att_dict:
                             if att_dict["animated"]:
                                 att_dict["image"] = _load_animation(
-                                    pathjoin("assets/{}").format(att_dict["image"]),
+                                    pathjoin("assets/{}").format(
+                                        att_dict["image"]),
                                     att_dict["spritesheet_x"],
                                     att_dict["spritesheet_y"],
                                     att_dict["width"], att_dict["height"],
                                     att_dict["duration"], att_dict["loop"])
                             else:
                                 att_dict["image"] = load_image(
-                                    pathjoin("assets/{}").format(att_dict["image"]))
+                                    pathjoin("assets/{}").format(
+                                        att_dict["image"]))
                         else:
                             att_dict["image"] = load_image(
-                                pathjoin("assets/{}").format(att_dict["image"]))
+                                pathjoin("assets/{}").format(
+                                    att_dict["image"]))
                     except FileNotFoundError:
                         print("Error: Image not found: {}".format(
                             att_dict["image"]))
                     enemy[enemyname][level] = att_dict
+
+            # Mine
+            elif line.find("mine':") != -1:
+                att_dict = eval(line)
+                minename = att_dict["mine"]
+                level = att_dict["lvl"]
+                if minename not in mine:
+                        mine[minename] = {}
+                # ist level schon vorhanden (Doppeleintrag), dann Fehlermeldung
+                if level in mine[minename]:
+                    print("Error: Level fuer diese Mine bereits vorhanden")
+                    break
+                else:
+                    try:
+                        if "animated" in att_dict:
+                            if att_dict["animated"]:
+                                att_dict["image"] = _load_animation(
+                                    pathjoin("assets/{}").format(
+                                        att_dict["image"]),
+                                    att_dict["spritesheet_x"],
+                                    att_dict["spritesheet_y"],
+                                    att_dict["width"], att_dict["height"],
+                                    att_dict["duration"], att_dict["loop"])
+                            else:
+                                att_dict["image"] = load_image(
+                                    pathjoin("assets/{}").format(
+                                        att_dict["image"]))
+                        else:
+                            att_dict["image"] = load_image(
+                                pathjoin("assets/{}").format(
+                                    att_dict["image"]))
+                    except FileNotFoundError:
+                        print("Error: Image not found: {}".format(
+                            att_dict["image"]))
+                    mine[minename][level] = att_dict
+
 
 settings = {}
 with open(pathjoin("data/settings.cfg")) as setting_file:
@@ -108,6 +169,7 @@ sounds = settings["general"]["sounds"]
 
 waves = {}
 
+
 def load_waves():
     waves.clear()
     with open(pathjoin("data/waves.cfg")) as wave_file:
@@ -118,6 +180,7 @@ def load_waves():
                 attributes = eval(line)
                 if len(attributes) != 0:
                     waves.update(attributes)
+
 
 def load_custom_image():
     if(os.path.isfile(pathjoin("assets/lvlcustom.png"))):
@@ -167,6 +230,7 @@ gameGrid = [[3 for x in range(32)] for x in range(18)]
 startTile = [0, 0]
 endTile = [0, 0]
 
+
 def initGrid(lvl):
     gameGrid = [[3 for x in range(32)] for x in range(18)]
     startTile = [0, 0]
@@ -209,8 +273,8 @@ def initGrid(lvl):
     elif lvl == "custom":
         pathFile = open(pathjoin("data/path.cfg"), "rb")
         gameGrid = pickle.load(pathFile)
-        startTile=[8,0]
-        endTile=[9,31]
+        startTile = [8, 0]
+        endTile = [9, 31]
         pathFile.close()
 
     return gameGrid, startTile, endTile
