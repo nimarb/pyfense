@@ -96,5 +96,21 @@ class TestEntities(unittest.TestCase):
         self.assertEqual(result, actualResult1)
         self.assertEqual(result, actualResult2)
 
+    def test_update_enemies_order(self):
+        test_entities = entities.PyFenseEntities(0, 0, 0)
+        test_enemy1 = enemy.PyFenseEnemy((0, 0), 0, 1, 1, 0, 1)
+        test_enemy2 = enemy.PyFenseEnemy((0, 0), 0, 1, 1, 0, 1)
+        test_enemy3 = enemy.PyFenseEnemy((0, 0), 0, 1, 1, 0, 1)
+        test_entities.enemies = [test_enemy1, test_enemy2, test_enemy3]
+        test_enemy1.distance = 5
+        test_enemy2.distance = 2
+        test_enemy3.distance = 3
+        test_entities._update_enemies_order(0)
+        result = [5, 3, 2]
+        actualResult = [test_entities.enemies[0].distance,
+                        test_entities.enemies[1].distance,
+                        test_entities.enemies[2].distance]
+        self.assertEqual(result, actualResult)
+
 if __name__ == '__main__':
     unittest.main()
