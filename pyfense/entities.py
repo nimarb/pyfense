@@ -269,7 +269,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     # Removes enemy from entity when the enemy has reached
     def _has_enemy_reached_end(self):
-        if self.enemies and self.enemies[0].position = self.endTile:
+        if self.enemies and self.enemies[0].position == self.endTile:
             self.enemies[0].stop_movement()
             self.dispatch_event('on_enemy_reached_goal')
             self.remove(self.enemies[0])
