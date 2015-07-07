@@ -106,6 +106,8 @@ class PyFenseEnemy(sprite.Sprite, pyglet.event.EventDispatcher):
 
     def poison(self, damagePerTime, duration):
         """poisons the enemy to lose life every damagePerSec"""
+        if self.poisoned != 0:
+            self.unschedule(self._decrease_health)
         self.poisonDuration = duration
         self.poisonDamagePerTime = damagePerTime * 3
         self.schedule_interval(self._decrease_health, 0.5)
