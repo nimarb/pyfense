@@ -6,7 +6,11 @@ import cocos
 from cocos.director import director
 import pyglet
 
+<<<<<<< HEAD
 from pyfense import pyfense_tower
+=======
+from pyfense import tower
+>>>>>>> master
 
 settings = {
     "window": {
@@ -39,13 +43,14 @@ class TestTower(unittest.TestCase):
         enemy1.position = (1000, 700)
         enemies.append(enemy0)
         enemies.append(enemy1)
-        tower = pyfense_tower.PyFenseTower(1, (0, 0))
-        tower.target = enemy0
-        tower.rotateToTarget()
-        result = tower.rotation
+        new_tower = tower.PyFenseTower(1, (0, 0))
+        new_tower.target = enemy0
+        new_tower._rotate_to_target()
+        result = new_tower.rotation 
         print(result)
         actualResult = 56.31
         self.assertAlmostEqual(result, actualResult, places=2)
+        
 
 
 if __name__ == '__main__':
