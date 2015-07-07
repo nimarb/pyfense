@@ -10,8 +10,8 @@
  z = 4: projectiles after leaving tower radius and particle projectiles
  z = 5: explosion
  z = 6: Healthbar background (red)
- z = 7: Healthbar foreground (green)    
- z = 8: Warning 
+ z = 7: Healthbar foreground (green)
+ z = 8: Warning
 """
 import os
 
@@ -141,29 +141,13 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
                 tower, target, towerNumber, rotation, projectileSpeed,
                 damage, effect, effectDuration, effectFactor)
 
-            self.projectiles.append(new_projectile)
-            new_projectile.push_handlers(self)
-            self.add(new_projectile, z=4)
-            director.interpreter_locals["projectile_slow"] = new_projectile
-        
         else:
             new_projectile = projectile.PyFenseProjectile(
                 tower, target, projectileimage, towerNumber, rotation,
                 projectileSpeed, damage, effect, effectDuration, effectFactor)
-            self.projectiles.append(new_projectile)
-            new_projectile.push_handlers(self)
-            self.add(new_projectile, z=1)
-    
-            # Duration that projectile is beneath the tower
-            duration = 80 * 1.41 / projectileSpeed
-            self.schedule_interval(lambda dt: self._change_z(
-                                   new_projectile, 1, 4), duration)
-
-    def _change_z(self, cocosnode, z_before, z_after):
-        self.unschedule(self._change_z)
-        if (z_before, cocosnode) in self.children:
-            self.remove(cocosnode)
-            self.add(cocosnode, z_after)
+        self.projectiles.append(new_projectile)
+        new_projectile.push_handlers(self)
+        self.add(new_projectile, z=1)
 
     def on_target_hit(self, projectile, target, towerNumber, effect,
                       effectDuration, effectFactor):
