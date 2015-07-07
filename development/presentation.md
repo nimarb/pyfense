@@ -9,10 +9,11 @@
 
 ### Auf was wir stolz sind:
 * Grid und HUD
-* Textdateien zur Konfiguration
-	Verschiendene Geschwindigkeiten, Fireraten, Ranges
-* Verschiedene Tower
-	Gruppenschaden, Gift, Verlangsamen
+
+* Textdateien zur Konfiguration  
+** Verschiendene Geschwindigkeiten, Fireraten, Ranges
+* Verschiedene Tower  
+** Gruppenschaden, Gift, Verlangsamen
 * Interpreter
 * Mapbuilder
 * Pausenmenü
