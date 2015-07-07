@@ -4,6 +4,7 @@ Layers get added.Responsible for dynamic pathfinding and communication between
 user interaction through the HUD and entities like towers.
 """
 import os
+import sys
 
 from cocos.director import director
 from cocos import scene
@@ -53,6 +54,16 @@ class PyFenseGame(scene.Scene):
         self.currentCurrency = 300
         highscore.currentWave = self.currentWave
         director.interpreter_locals["game"] = self
+
+        try:
+            test = sys.argv[1]
+        except:
+            test = "notest"
+
+        if test == "test":
+            self.currentLives = 200
+            self.currentCurrency = 10000
+
 
     def _load_path(self):
         """
