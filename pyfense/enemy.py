@@ -122,4 +122,5 @@ class PyFenseEnemy(sprite.Sprite, pyglet.event.EventDispatcher):
         self.dispatch_event('on_has_enemy_died', self)
         self.poisoned += 1
 
+
 PyFenseEnemy.register_event_type('on_has_enemy_died')
