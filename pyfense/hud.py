@@ -181,7 +181,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         towerRange = (resources.tower[towerNumber][upgradeLevel]['range'])
         self.rangeIndicator.scale = towerRange / 960
         self.rangeIndicator.opacity = 100  # value between 0 and 255
-        self.rangeIndicator.visible = True
+        self.rangeIndicator.visible = True  
 
     def _display_tower_hud(self, kind, x, y):
         # displays the HUD to chose between towers to build
@@ -195,16 +195,33 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         if kind == "build":
             self.menuMax_x = (self.menuMin_x + len(self.towerThumbnails) *
                               self.towerThumbnails[0].width)
+            maxX = resources.settings['window']['width']
+            if self.menuMax_x > maxX:
+                self.menuMax_x = maxX
+                self.menuMin_x = self.menuMax_x - (len(self.towerThumbnails) *
+                    self.towerThumbnails[0].width)
+            #else:
+            #    menuMax_x = self.menuMax_x
             for picture in range(0, len(self.towerThumbnails)):
                 # ATTENTION, cocos2d always draws the CENTER of the
                 # sprite at the specified location
+                # old hud positioning: not dynamically adjusting:
                 self.towerThumbnails[picture].position = (
                     self.menuMin_x +
-                    picture*self.towerThumbnails[picture].width +
+                    picture * self.towerThumbnails[picture].width +
                     self.towerThumbnails[picture].width / 2, y)
+                    #self.menuMax_x -
+                    #((len(self.towerThumbnails) - picture - 1) *
+                    #self.towerThumbnails[picture].width +
+                    #self.towerThumbnails[picture].width / 2), y)
                 self.towerCostTexts[picture].element.text = '$' + str(
                     resources.tower[picture][1]["cost"])
                 self.towerCostTexts[picture].position = (
+                    #self.menuMax_x -
+                    #((len(self.towerThumbnails) - picture - 1) *
+                    #self.towerThumbnails[picture].width +
+                    #self.towerThumbnails[picture].width / 1.5 - 45),
+                    #y - self.towerThumbnails[picture].width * 0.55)
                     self.menuMin_x + picture *
                     self.towerThumbnails[picture].width +
                     self.towerThumbnails[picture].width / 1.5 + 15,
@@ -223,6 +240,11 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.buildingHudDisplayed = True
         elif kind == "upgrade":
             self.menuMax_x = self.menuMin_x + 2 * self.destroyTowerIcon.width
+            maxX = resources.settings['window']['width']
+            if self.menuMax_x > maxX:
+                self.menuMax_x = maxX
+                self.menuMin_x = self.menuMax_x - (2 *
+                    self.destroyTowerIcon.width)
             self.clickedCellStatus = self.currentCellStatus
             towerNumber = int(str(self.clickedCellStatus)[1])
             upgradeLevel = int(str(self.clickedCellStatus)[2])
