@@ -30,9 +30,8 @@ Ablauf
 1. Einleitung (Wir haben TD programmiert) Robin
 2. Help Screen, tower + effekte erklären Robin
 3. Spiel starten
-4. Specialtower + HUD demonstrieren Matthias
-5. Interpreter Daniel
+4. Specialtower + HUD demonstrieren Daniel
 6. Spiel neustarten
-7. Entities.cfg verändern
+7. Entities.cfg verändern Matthias
 8. Mapbuilder Jakob
 9. Development process Nimar
