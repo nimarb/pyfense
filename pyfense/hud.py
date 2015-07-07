@@ -79,7 +79,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     def update_currency_number(self, currencyNumber):
         """Updates the number of current Cash displayed in the Statusbar"""
-        self.currencyLabel.element.text = '$' + str(currencyNumber)
+        self.currencyLabel.element.text = '$' + str(int(currencyNumber))
         self.currentCurrency = currencyNumber
 
     def start_next_wave_timer(self):
@@ -181,7 +181,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         towerRange = (resources.tower[towerNumber][upgradeLevel]['range'])
         self.rangeIndicator.scale = towerRange / 960
         self.rangeIndicator.opacity = 100  # value between 0 and 255
-        self.rangeIndicator.visible = True  
+        self.rangeIndicator.visible = True
 
     def _display_tower_hud(self, kind, x, y):
         # displays the HUD to chose between towers to build
@@ -272,7 +272,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                         resources.tower[towerNumber][upgradeLevel + 1]['cost']):
                     self.add(self.noCashOverlays[towerNumber])
                     self.noCashOverlays[towerNumber].position = (
-                            self.menuMin_x + 
+                            self.menuMin_x +
                             self.towerThumbnails[towerNumber].width / 2, y)
                     self.noCashOverlays[towerNumber].opacity = 127
                     self.noCashOverlayDisplayed[towerNumber] = True

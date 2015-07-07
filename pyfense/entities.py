@@ -140,14 +140,16 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             new_projectile = projectile_particle.PyFenseProjectileSlow(
                 tower, target, towerNumber, rotation, projectileSpeed,
                 damage, effect, effectDuration, effectFactor)
-
+            self.projectiles.append(new_projectile)
+            new_projectile.push_handlers(self)
+            self.add(new_projectile, z=4)
         else:
             new_projectile = projectile.PyFenseProjectile(
                 tower, target, projectileimage, towerNumber, rotation,
                 projectileSpeed, damage, effect, effectDuration, effectFactor)
-        self.projectiles.append(new_projectile)
-        new_projectile.push_handlers(self)
-        self.add(new_projectile, z=1)
+            self.projectiles.append(new_projectile)
+            new_projectile.push_handlers(self)
+            self.add(new_projectile, z=1)
 
     def on_target_hit(self, projectile, target, towerNumber, effect,
                       effectDuration, effectFactor):
@@ -267,7 +269,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
 
     # Removes enemy from entity when the enemy has reached
     def _has_enemy_reached_end(self):
-        if self.enemies and not self.enemies[0].position != self.endTile:
+        if self.enemies and self.enemies[0].position == self.endTile:
             self.enemies[0].stop_movement()
             self.dispatch_event('on_enemy_reached_goal')
             self.remove(self.enemies[0])
