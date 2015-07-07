@@ -412,8 +412,13 @@ class HelpLayer(ColorLayer):
         for j, m in enumerate(towername_label):
             m.position = (self.menuMin_x - 80, self.menuMin_y -
                           j * (pic_width + 15))
-        for j in range(nr_towers):
-            self.add(towername_label[j])
+
+        try:
+            for j in range(nr_towers):
+                self.add(towername_label[j])
+        except IndexError:
+            print("please add towerame_label for all towers. " +
+                  "otherwise no labels will be printed")
 
         price_label = text.Label("$  Price",
                                  color=(255, 0, 0, 255), **caption_font)
@@ -446,9 +451,14 @@ class HelpLayer(ColorLayer):
             self.towerFireratePic = []
             self.towerThumbnails = []
             # loop over all tower thumbnails
-            for i in range(nr_towers):
-                self.towerThumbnails.append(cocos.sprite.Sprite(
-                    resources.tower[i][l]["image"]))
+            try:
+                for i in range(nr_towers):
+                    self.towerThumbnails.append(cocos.sprite.Sprite(
+                        resources.tower[i][l]["image"]))
+            except KeyError:
+                print("check your tower naming, first tower should start " +
+                      "with 0 and no number should be left out.")
+                nr_towers = 0
             text_font = {
                 'bold': True,
                 'anchor_x': "left",
@@ -473,7 +483,7 @@ class HelpLayer(ColorLayer):
                 cost_label.append(text.Label(" ", **text_font))
             self.towerCostTexts = [n for n in cost_label]
 
-            for picture in range(0, len(self.towerThumbnails)):
+            for picture in range(nr_towers):
                 self.towerThumbnails[picture].position = (
                     self.menuMin_x +
                     (l - 1) * (self.towerThumbnails[picture].width + 100),
