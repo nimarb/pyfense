@@ -290,6 +290,9 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             return True
         if k == key.Q:
             director.replace(highscore.PyFenseLost())
+        if k == key.B:
+            import pdb; pdb.set_trace()
+            return True
 
 PyFenseEntities.register_event_type('on_next_wave')
 PyFenseEntities.register_event_type('on_enemy_death')
