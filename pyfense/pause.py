@@ -36,7 +36,7 @@ class PauseLayer(Layer):
     def __init__(self):
         super().__init__()
         w, h = director.get_window_size()
-        self.nr_towers = len(resources.tower)
+        nr_towers = len(resources.tower)
         y_pos = h / 2. + 300  # moves the lower bound of settings description
 
         text = []
@@ -91,7 +91,7 @@ class PauseLayer(Layer):
             self.towerFireratePic = []
             self.towerThumbnails = []
             # add different tower thubnails
-            for i in range(self.nr_towers):
+            for i in range(nr_towers):
                 self.towerThumbnails.append(cocos.sprite.Sprite(
                     resources.tower[i][l]["image"]))
 
@@ -106,19 +106,19 @@ class PauseLayer(Layer):
 
             # make labels for damage
             damage_label = []
-            for i in range(self.nr_towers):
+            for i in range(nr_towers):
                 damage_label.append(Label(" ", **text_font))
             self.towerDamageTexts = [n for n in damage_label]
 
             # make labels for firerate
             text_font['color'] = (0, 124, 244, 255)
             firerate_label = []
-            for i in range(self.nr_towers):
+            for i in range(nr_towers):
                 firerate_label.append(Label(" ", **text_font))
             self.towerFirerateTexts = [n for n in firerate_label]
 
             self.menuMin_x = (
-                w / 2. - self.nr_towers / 2. * (
+                w / 2. - nr_towers / 2. * (
                     self.towerThumbnails[0].width + 40) +
                 self.towerThumbnails[0].width / 4.)
             self.menuMin_y = 550

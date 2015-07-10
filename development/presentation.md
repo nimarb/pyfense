@@ -25,3 +25,13 @@
 ### multiplatform problems (win, mac, linux)
 
 **above topics are only suggestions**
+
+Ablauf
+1. Einleitung (Wir haben TD programmiert) Robin
+2. Help Screen, tower + effekte erklären Robin
+3. Spiel starten
+4. HUD + Spiel demonstrieren Daniel
+5. Entities.cfg verändern Matthias
+6. Level neu laden + Effekt zeigen
+7. Mapbuilder Jakob
+8. Development process Nimar
