@@ -1,6 +1,5 @@
 """
-enemy.py
-contains PyFenseEnemy class
+Create and move enemy and healthbar.
 """
 
 import cocos
@@ -10,9 +9,24 @@ from pyfense import resources
 
 
 class PyFenseEnemy(sprite.Sprite, pyglet.event.EventDispatcher):
+    """
+    Cocos Sprite that creates an enemy and its corresponding healthbar.
+    Contains actions for movement and slowdown and for poison damage.
+    """
+
 
     def __init__(self, position, enemyname, lvl, wave, path,
                  healthMultiplier):
+        """
+        Create an enemy.
+
+        :Parameters:
+            `position`: tuple
+                Starting position of enemy.
+            `enemyname`: 
+
+        """
+
         self.attributes = resources.enemy[enemyname][lvl]
         self.currentPos = position
         super(PyFenseEnemy, self).__init__(self.attributes["image"],

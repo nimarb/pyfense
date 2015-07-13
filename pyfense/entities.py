@@ -249,7 +249,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             if self.diedEnemies == self.spawnedEnemies:
                 self.dispatch_event('on_next_wave')
 
-    def _add_enemy(self, dt, enemyName):
+    def _add_enemy(self, dt):
         self.unschedule(self._add_enemy)
         newEnemy = enemy.PyFenseEnemy(self.startTile,
                                       self.spawningList[self.spawnedEnemies][0],
@@ -262,9 +262,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.add(newEnemy.healthBar, z=7)
         if self.spawnedEnemies != self.enemieslength:
             self.schedule_interval(self._add_enemy,
-                                   self.spawningList[self.spawnedEnemies - 1][2],
-                                   self.startTile, self.path,
-                                   self.spawningList, self.multiplier)
+                                   self.spawningList[self.spawnedEnemies - 1][2])
         self._is_wave_finished()
 
     # Removes enemy from entity when the enemy has reached
