@@ -23,7 +23,13 @@ class PyFenseEnemy(sprite.Sprite, pyglet.event.EventDispatcher):
         :Parameters:
             `position`: tuple
                 Starting position of enemy.
-            `enemyname`: 
+            `enemyname`: int
+                Number of enemy.
+            `lvl`: int
+                Level of enemy.
+            `wave`: int
+                Current wave number.
+            `path`: 
 
         """
 
