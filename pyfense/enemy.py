@@ -29,8 +29,11 @@ class PyFenseEnemy(sprite.Sprite, pyglet.event.EventDispatcher):
                 Level of enemy.
             `wave`: int
                 Current wave number.
-            `path`: 
-
+            `path`: Cocos Action
+                Move action, calculated by loadpath in game.
+            `healthMultiplier`: int
+                Multiplier for healthpoints, that makes enemies stronger
+                after each successful playthrough.
         """
 
         self.attributes = resources.enemy[enemyname][lvl]
@@ -50,10 +53,13 @@ class PyFenseEnemy(sprite.Sprite, pyglet.event.EventDispatcher):
         self.schedule_interval(self._move, 0.1)
 
     def _move(self, dt):
+        """
+        Move enemy and healthbar and add one distance unit every movement of 6 pixels.
+        """
+
         self.unschedule(self._move)
         # check if enemy reached end
         if self.distance != len(self.path[0]):
-            self.unschedule(self._move)
             # after 10 Moves a rotation towards the next tile can be done
             if self.distance % 11 == 0:
                 # check if rotation should be done
@@ -62,22 +68,23 @@ class PyFenseEnemy(sprite.Sprite, pyglet.event.EventDispatcher):
                 self.distance += 1
 
             # calculate the time needed until next action
-            self.duration = 1 / self.currentSpeed
+            duration = 1 / self.currentSpeed
 
             # move the enemy
             action = cocos.actions.MoveTo(self.path[0][self.distance],
-                                          self.duration)
+                                          duration)
             self.do(action)
 
             # move the healthBar
-            healthBarAction = cocos.actions.MoveBy(self.path[1][self.distance],
-                                                   self.duration)
+            healthBarAction = cocos.actions.MoveBy(
+                                                   self.path[1][self.distance],
+                                                   duration)
             self.healthBarBackground.do(healthBarAction)
             self.healthBar.do(healthBarAction)
 
             # wait until the action
             self.distance += 1
-            self.schedule_interval(self._move, self.duration)
+            self.schedule_interval(self._move, duration)
 
     def _draw_healthbar(self):
         self.bar_x = self.x - self.healthBarWidth / 2
@@ -94,15 +101,13 @@ class PyFenseEnemy(sprite.Sprite, pyglet.event.EventDispatcher):
              self.bar_y), (0, 237, 55, 255), 3)
         healthBar._texture = resources.healthBarCap
         healthBar.visible = False
-        # self.healthBar.set_endcap('BUTT_CAP') -> can be changed by altering
-        # the ending sprite which cocos.draw loads
         return healthBarBackground, healthBar
 
     def update_healthbar(self):
         """
-        updates the health bar of the enemy to reflect the current
-        health
+        Update healthbar to reflect current health.
         """
+
         self.healthBarBackground.visible = True
         self.healthBar.visible = True
         self.healthBar.end = (self.bar_x + self.healthBarWidth *
@@ -110,22 +115,35 @@ class PyFenseEnemy(sprite.Sprite, pyglet.event.EventDispatcher):
                               self.bar_y)
 
     def stop_movement(self):
-        """stop the movement of this enemy"""
+        """
+        Stop the movement of enemy, when enemy has died.
+        """
+
         self.unschedule(self._move)
 
     def freeze(self, slowDownFactor, duration):
-        """ slow this enemy down by the factor (slowDownFactor)
-        for some time (duration)"""
+        """
+        Slow enemy down by speed/slowDownFactor for a certain duration.
+        """
+
         self.unschedule(self._unfreeze)
         self.currentSpeed = self.attributes["speed"] / slowDownFactor
         self.schedule_interval(self._unfreeze, duration)
 
     def _unfreeze(self, dt):
+        """
+        Bring back enemy back to normal speed.
+        """
+
         self.unschedule(self._unfreeze)
         self.currentSpeed = self.attributes["speed"]
 
     def poison(self, damagePerTime, duration):
-        """poisons the enemy to lose life every damagePerTime"""
+        """
+        Poison the enemy to lose healthPoints every damagePerTime
+        for certain duration.
+        """
+
         if self.poisoned != 0:
             self.unschedule(self._decrease_health)
         self.poisonDuration = duration
@@ -133,6 +151,11 @@ class PyFenseEnemy(sprite.Sprite, pyglet.event.EventDispatcher):
         self.schedule_interval(self._decrease_health, 0.5)
 
     def _decrease_health(self, dt):
+        """
+        Decrease health of enemy from poison and dispatch_event
+        Event on_has_enemy_died.
+        """
+
         if self.poisoned >= self.poisonDuration * 2:
             self.unschedule(self._decrease_health)
             self.poisoned = 0
