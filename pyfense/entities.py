@@ -251,15 +251,15 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
     def _add_enemy(self, dt, startTile, path, enemylist, multiplier):
         self.unschedule(self._add_enemy)
         position = startTile
-        toCreateEnemy = enemy.PyFenseEnemy(position,
+        newEnemy = enemy.PyFenseEnemy(position,
                                            enemylist[self.spawnedEnemies][0],
                                            enemylist[self.spawnedEnemies][1],
                                            1, path, multiplier)
-        self.enemies.append(toCreateEnemy)
+        self.enemies.append(newnemy)
         self.spawnedEnemies += 1
-        self.add(toCreateEnemy, z=3)
-        self.add(toCreateEnemy.healthBarBackground, z=6)
-        self.add(toCreateEnemy.healthBar, z=7)
+        self.add(newEnemy, z=3)
+        self.add(newEnemy.healthBarBackground, z=6)
+        self.add(newEnemy.healthBar, z=7)
         if self.spawnedEnemies != self.enemieslength:
             self.schedule_interval(self._add_enemy,
                                    self.enemy_list[self.spawnedEnemies - 1][2],
