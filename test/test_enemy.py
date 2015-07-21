@@ -3,9 +3,7 @@ Test enemy class.
 """
 
 import unittest
-import cocos
 from cocos.director import director
-import time
 
 from pyfense import game
 from pyfense import enemy
@@ -38,7 +36,7 @@ class TestEnemy(unittest.TestCase):
         testEnemy._move(0)
         actionAssigned = testEnemy.actions
         if not actionAssigned:
-            fail('No actions assigned!')
+            self.fail('No actions assigned!')
 
     def test_is_move_function_scheduled(self):
         testGame = game.PyFenseGame(1)
@@ -70,10 +68,8 @@ class TestEnemy(unittest.TestCase):
         testGame = game.PyFenseGame(1)
         testEnemy = enemy.PyFenseEnemy((0, 0), 0, 1, 1, testGame.movePath, 1)
         actualResult = testEnemy.healthPoints - 5
-
         testEnemy.poison(5, 2)
         testEnemy._decrease_health(0)
-
         result = testEnemy.healthPoints
 
         self.assertEqual(result, actualResult)
