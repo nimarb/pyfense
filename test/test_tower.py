@@ -1,6 +1,5 @@
 # Test for pyfense_tower, to be tested with py.test
-import os
-os.chdir(os.path.join('..', 'pyfense'))
+
 import unittest
 from cocos.director import director
 
