@@ -28,15 +28,9 @@ settings = {
     }
 }
 
-"""
-Test kann nicht funktionieren, da das Bewegen Zeit benötigt und nosetest
-nicht wartet! daher ist der enemy immer noch am start.
-"""
-
 
 class TestEnemy(unittest.TestCase):
     director.init(**settings['window'])
-
 
     def test_move(self):
         testGame = game.PyFenseGame(1)
@@ -72,6 +66,17 @@ class TestEnemy(unittest.TestCase):
         result = testEnemy.currentSpeed
         self.assertEqual(result, actualResult)
 
+    def test_poison(self):
+        testGame = game.PyFenseGame(1)
+        testEnemy = enemy.PyFenseEnemy((0, 0), 0, 1, 1, testGame.movePath, 1)
+        actualResult = testEnemy.healthPoints - 5
+
+        testEnemy.poison(5, 2)
+        testEnemy._decrease_health(0)
+
+        result = testEnemy.healthPoints
+
+        self.assertEqual(result, actualResult)
 
 
 if __name__ == '__main__':
