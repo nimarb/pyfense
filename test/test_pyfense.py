@@ -4,7 +4,6 @@ Test pyfense class.
 
 import unittest
 
-import cocos
 from cocos.director import director
 
 from pyfense import pyfense

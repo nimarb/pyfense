@@ -38,8 +38,8 @@ class TestTower(unittest.TestCase):
         self.testEnemy = enemy.PyFenseEnemy((300, 200), 1, 1, 1,
                                             self.testGame.movePath, 1)
         self.testEntities = entities.PyFenseEntities(
-                            self.testGame.movePath, self.testGame.startTile,
-                            self.testGame.endTile)
+            self.testGame.movePath, self.testGame.startTile,
+            self.testGame.endTile)
         self.testEntities.add(self.testTower)
         self.testEntities.enemies.append(self.testEnemy)
 
