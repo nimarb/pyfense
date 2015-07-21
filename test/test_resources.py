@@ -21,7 +21,7 @@ class TestResources(unittest.TestCase):
             self.assertIn("image", resources.enemy[enemyname][1])
 
     def test_waves(self):
-        self.assertIn(1,resources.waves)
+        self.assertIn(1, resources.waves)
 
 if __name__ == '__main__':
     unittest.main()

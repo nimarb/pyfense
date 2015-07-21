@@ -3,9 +3,7 @@ Test projectile class.
 """
 
 import unittest
-import cocos
 from cocos.director import director
-import pyglet
 
 from pyfense import projectile
 from pyfense import tower
@@ -30,6 +28,7 @@ settings = {
     }
 }
 
+
 class TestProjectile(unittest.TestCase):
     """
     Test projectile class.
@@ -43,10 +42,10 @@ class TestProjectile(unittest.TestCase):
         self.image = resources.load_image('projectile01.png')
         self.testTower = tower.PyFenseTower(0, (50, 70))
         self.testEnemy = enemy.PyFenseEnemy(
-                         (50, 40), 0, 1, 1, self.testPath, 2)
+            (50, 40), 0, 1, 1, self.testPath, 2)
         self.testProjectile = projectile.PyFenseProjectile(
-                              self.testTower, self.testEnemy, self.image, 0, 0,
-                              1000, 50, 'normal', 5, 1)
+            self.testTower, self.testEnemy, self.image, 0, 0,
+            1000, 50, 'normal', 5, 1)
 
     def test_distance(self):
         """
@@ -57,7 +56,6 @@ class TestProjectile(unittest.TestCase):
         result = self.testProjectile.distance
         actualResult = 30
         self.assertAlmostEqual(result, actualResult)
-
 
     def test_dispatch_event(self):
         """

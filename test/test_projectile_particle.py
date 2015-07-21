@@ -3,14 +3,11 @@ Test Projectile Particle class.
 """
 
 import unittest
-import cocos
 from cocos.director import director
-import pyglet
 
 from pyfense import projectileParticle
 from pyfense import tower
 from pyfense import enemy
-from pyfense import resources
 from pyfense import game
 
 settings = {
@@ -30,6 +27,7 @@ settings = {
     }
 }
 
+
 class TestProjectileParticle(unittest.TestCase):
     """
     Test projectile particle class.
@@ -42,10 +40,10 @@ class TestProjectileParticle(unittest.TestCase):
         self.testPath = self.testGame.movePath
         self.testTower = tower.PyFenseTower(0, (50, 70))
         self.testEnemy = enemy.PyFenseEnemy(
-                         (50, 40), 0, 1, 1, self.testPath, 2)
+            (50, 40), 0, 1, 1, self.testPath, 2)
         self.testProjectile = projectileParticle.PyFenseProjectileSlow(
-                              self.testTower, self.testEnemy, 1, 45,
-                              1000, 50, 'normal', 5, 1)
+            self.testTower, self.testEnemy, 1, 45,
+            1000, 50, 'normal', 5, 1)
 
     def test_distance(self):
         """
@@ -56,7 +54,6 @@ class TestProjectileParticle(unittest.TestCase):
         result = self.testProjectile.distance
         actualResult = 30
         self.assertAlmostEqual(result, actualResult)
-
 
     def test_dispatch_event(self):
         """
