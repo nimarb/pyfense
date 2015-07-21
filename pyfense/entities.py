@@ -138,19 +138,19 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
                             effectDuration, effectFactor):
 
         if towerNumber == 4:
-            new_projectile = projectile_particle.PyFenseProjectileSlow(
+            newProjectile = projectile_particle.PyFenseProjectileSlow(
                 tower, target, towerNumber, rotation, projectileSpeed,
                 damage, effect, effectDuration, effectFactor)
-            self.projectiles.append(new_projectile)
-            new_projectile.push_handlers(self)
-            self.add(new_projectile, z=4)
+            self.projectiles.append(newProjectile)
+            newProjectile.push_handlers(self)
+            self.add(newProjectile, z=4)
         else:
-            new_projectile = projectile.PyFenseProjectile(
+            newProjectile = projectile.PyFenseProjectile(
                 tower, target, projectileimage, towerNumber, rotation,
                 projectileSpeed, damage, effect, effectDuration, effectFactor)
-            self.projectiles.append(new_projectile)
-            new_projectile.push_handlers(self)
-            self.add(new_projectile, z=1)
+            self.projectiles.append(newProjectile)
+            newProjectile.push_handlers(self)
+            self.add(newProjectile, z=1)
 
     def on_target_hit(self, projectile, target, towerNumber, effect,
                       effectDuration, effectFactor):
