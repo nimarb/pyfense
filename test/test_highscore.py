@@ -27,6 +27,6 @@ class TestHighscore(unittest.TestCase):
         actualResult = 1
         self.assertEqual(result, actualResult)
 
-    def test_get_score():
+    def test_get_score(self):
         """Test whether get_score runs without error"""
-        result = highscore.get_score()
+        highscore.get_score()
