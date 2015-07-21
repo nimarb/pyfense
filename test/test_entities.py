@@ -56,7 +56,7 @@ class TestEntities(unittest.TestCase):
         test_entities = entities.PyFenseEntities(0, 0, 0)
 
         test_entities.next_wave(1)
-        result_list = test_entities.enemy_list
+        result_list = test_entities.enemies
         result_multiplier1 = 1
         result_factor1 = 1
         actualResult_multiplier1 = test_entities.multiplier
@@ -64,7 +64,7 @@ class TestEntities(unittest.TestCase):
         self.assertEqual(result_factor1, actualResult_factor1)
         self.assertEqual(result_multiplier1, actualResult_multiplier1)
         test_entities.next_wave(number_of_waves+1)
-        actualResult_list = test_entities.enemy_list
+        actualResult_list = test_entities.enemies
         result_multiplier2 = 3
         result_factor2 = 2
         actualResult_multiplier2 = test_entities.multiplier
