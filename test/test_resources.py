@@ -1,12 +1,6 @@
-<<<<<<< HEAD
 """
 Test resources.
 """
-import os
-os.chdir(os.path.join('pyfense'))
-=======
-
->>>>>>> 8da2e0fca58630df21e868a32a9751c6ddd57abe
 import unittest
 from pyfense import resources
 
