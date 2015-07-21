@@ -29,7 +29,7 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
             `image` : image
                 Image of the projectile.
             `towerNumber` : int
-                Number of the parent tower. 
+                Number of the parent tower.
             `rotation` : int
                 Rotation of the parent tower.
             `speed` : int
@@ -57,16 +57,16 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
             effect, effectDuration, effectFactor)
 
     def _dispatch_hit_event(self, dt, target, towerNumber, effect,
-                         effectDuration, effectFactor):
+                            effectDuration, effectFactor):
         """
         Dispatch event when enemy is hit.
-        
+
         The event is then handled by the enitites class in order to subtract
-        health points from the enemy and to handle the different effects. 
+        health points from the enemy and to handle the different effects.
         Returns True when event is dispatched for testing reasons.
         """
 
-        self.unschedule(self._dispatch_hit_event)     
+        self.unschedule(self._dispatch_hit_event)
         self.dispatch_event('on_target_hit', self, target, towerNumber,
                             effect, effectDuration, effectFactor)
 
