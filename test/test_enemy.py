@@ -1,9 +1,15 @@
+"""
+Test enemy class.
+"""
 
 import unittest
 import cocos
 from cocos.director import director
+import time
 
+from pyfense import game
 from pyfense import enemy
+
 
 settings = {
     "window": {
@@ -21,33 +27,52 @@ settings = {
         "showFps": True
     }
 }
+
 """
-Test kann nicht funktionieren, da das Bewegen Zeit benötigt und nosetest 
+Test kann nicht funktionieren, da das Bewegen Zeit benötigt und nosetest
 nicht wartet! daher ist der enemy immer noch am start.
 """
 
 
 class TestEnemy(unittest.TestCase):
+    director.init(**settings['window'])
+
 
     def test_move(self):
-        director.init(**settings['window'])
-        test_path = cocos.actions.MoveBy((0, 100), 0)
-        test_path += cocos.actions.MoveBy((-50, 0), 0)
-        test_path += cocos.actions.MoveBy((0, 0), 0)
-        test_enemy = enemy.PyFenseEnemy((0, 0), 0, 1, 1, test_path, 1)
-        result = test_enemy.position
-        actualResult = (-50, 100)
-        print(result)
-        self.assertEqual(result, actualResult)
+        testGame = game.PyFenseGame(1)
+        testEnemy = enemy.PyFenseEnemy((0, 0), 0, 1, 1, testGame.movePath, 1)
+        testEnemy._move(0)
+        actionAssigned = testEnemy.actions
+        if not actionAssigned:
+            fail('No actions assigned!')
+
+    def test_is_move_function_scheduled(self):
+        testGame = game.PyFenseGame(1)
+        testEnemy = enemy.PyFenseEnemy((0, 0), 0, 1, 1, testGame.movePath, 1)
+        isScheduled = testEnemy.scheduled_interval_calls
+        if not isScheduled:
+            self.fail('No scheduled calls!')
 
     def test_healthmultiplier(self):
-        director.init(**settings['window'])
-        test_path = cocos.actions.MoveBy((0, 0), 0)
-        enemy1 = enemy.PyFenseEnemy((0, 0), 0, 1, 1, test_path, 1)
-        enemy2 = enemy.PyFenseEnemy((0, 0), 0, 1, 1, test_path, 2.5)
+        testGame = game.PyFenseGame(1)
+        enemy1 = enemy.PyFenseEnemy((0, 0), 0, 1, 1, testGame.movePath, 1)
+        enemy2 = enemy.PyFenseEnemy((0, 0), 0, 1, 1, testGame.movePath, 2.5)
+
         actualResult = enemy1.attributes["maxhealth"] * 2.5
         result = enemy2.healthPoints
         self.assertEqual(result, actualResult)
+
+    def test_freeze(self):
+        testGame = game.PyFenseGame(1)
+        testEnemy = enemy.PyFenseEnemy((0, 0), 0, 1, 1, testGame.movePath, 1)
+
+        testEnemy.freeze(5, 2)
+
+        actualResult = testEnemy.attributes['speed']/5
+        result = testEnemy.currentSpeed
+        self.assertEqual(result, actualResult)
+
+
 
 if __name__ == '__main__':
     unittest.main()
