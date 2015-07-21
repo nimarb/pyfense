@@ -23,7 +23,6 @@ from pyglet import font
 import cocos
 from cocos.director import director
 
-# import pyfense_tower
 from pyfense import enemy
 from pyfense import projectile
 from pyfense import projectileParticle
@@ -59,7 +58,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.polynomial1 = 2  # linear
         self.polynomial0 = -(self.polynomial1 - 1)  # offset
         self.enemyHealthFactor = 1
-        self.modulo_wavenumber = 0
+        self.moduloWavenumber = 0
         self.schedule(self._update)
         self.schedule_interval(self._update_enemies_order, 0.2)
 
@@ -73,8 +72,8 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self._has_enemy_reached_end()
 
     def next_wave(self, waveNumber):
-        self.modulo_wavenumber = (waveNumber - 1) % self.wavequantity + 1
-        self.spawningList = resources.waves[self.modulo_wavenumber]
+        self.moduloWavenumber = (waveNumber - 1) % self.wavequantity + 1
+        self.spawningList = resources.waves[self.moduloWavenumber]
         self.spawnedEnemies = 0
         self.diedEnemies = 0
         self.enemyHealthFactor = math.floor((waveNumber - 1) /
@@ -82,11 +81,11 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         self.multiplier = ((self.polynomial2 * (self.enemyHealthFactor ** 2)) +
                            (self.polynomial1 * self.enemyHealthFactor) +
                            self.polynomial0)
-        if self.wavequantity - self.modulo_wavenumber == 1:
+        if self.wavequantity - self.moduloWavenumber == 1:
             self._show_warning(1)
-        elif self.wavequantity - self.modulo_wavenumber == 0:
+        elif self.wavequantity - self.moduloWavenumber == 0:
             self._show_warning(2)
-        elif self.modulo_wavenumber == 1 and waveNumber != 1:
+        elif self.moduloWavenumber == 1 and waveNumber != 1:
             self._show_warning(3)
         self.enemieslength = len(self.spawningList)
         self.schedule_interval(self._add_enemy, 0)
