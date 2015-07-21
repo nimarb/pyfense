@@ -1,8 +1,7 @@
 """"
 Test Tower class.
 """"
-import os
-os.chdir(os.path.join('..', 'pyfense'))
+
 import unittest
 from cocos.director import director
 
