@@ -2,9 +2,7 @@
 import os
 os.chdir(os.path.join('..', 'pyfense'))
 import unittest
-import cocos
 from cocos.director import director
-import pyglet
 
 from pyfense import tower
 from pyfense import game
@@ -43,7 +41,6 @@ class TestTower(unittest.TestCase):
                             self.testGame.endTile)
         self.testEntities.add(self.testTower)
         self.testEntities.enemies.append(self.testEnemy)
-
 
     def test_tower_rotation(self):
         self.initiate_tower()
