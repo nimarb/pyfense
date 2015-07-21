@@ -35,7 +35,7 @@ class TestHud(unittest.TestCase):
 
     def initiate_hud(self):
         self.hud = hud.PyFenseHud()
-                              
+
     def test_on_mouse_motion(self):
         self.initiate_hud()
         self.hud.on_mouse_motion(100, 100, 1, 1)
@@ -43,7 +43,7 @@ class TestHud(unittest.TestCase):
         # careful: result depends on gameGrid data
         actualResult = False
         self.assertEqual(result, actualResult)
-        
+
     def test_display_tower_hud(self):
         self.initiate_hud()
         self.hud.clicked_x = 100
@@ -51,9 +51,11 @@ class TestHud(unittest.TestCase):
         self.hud._display_tower_hud("build", 100, 100)
         result = self.hud.buildingHudDisplayed
         actualResult = True
-        self.assertEqual(result, actualResult)        
-        
-        
+        self.assertEqual(result, actualResult)
+        result = self.hud.towerThumbnails[0].position
+        actualResult = (145.0, 100)
+        self.assertEqual(result, actualResult)
+
 
 if __name__ == '__main__':
     unittest.main()
