@@ -29,6 +29,16 @@ settings = {
 
 class TestGame(unittest.TestCase):
     director.init(**settings['window'])
+    set_grid_was_called = False;
+    set_grid_was_called = False;    
+
+    def _set_grid_pix(self, x, y, kind):
+        self.set_grid_was_called = True;
+        return 1
+        
+    def _get_grid_pix(self, x, y):
+        self.get_grid_was_called = True;
+        return 1
 
     def test_get_position_from_grid(self):
         startTile = [8, 2]
@@ -56,7 +66,9 @@ class TestGame(unittest.TestCase):
         self.hud = hud.PyFenseHud()
         self.currentCurrency = 500
         game.PyFenseGame.on_build_tower(self, 1, 0, 0)
-        self.assertEqual(350, self.currentCurrency)
+        self.assertEqual(450, self.currentCurrency)
+        self.assertEqual(self.get_grid_was_called, True)
+        self.assertEqual(self.set_grid_was_called, True)
 
     def test_on_enemy_reached_goal(self):
         self.hud = hud.PyFenseHud()
@@ -73,10 +85,6 @@ class TestGame(unittest.TestCase):
         game.PyFenseGame.on_next_wave_timer_finished(self)
         self.assertEqual(2, self.currentWave)
         self.assertEqual("Current Wave: 2", self.hud.waveLabel.element.text)
-
-    def _set_grid_pix(self, x, y, kind):
-        # needed for buildTower
-        pass
 
 
 if __name__ == '__main__':
