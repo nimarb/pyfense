@@ -1,14 +1,8 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Jun 16 20:34:47 2015
-
-@author: Matthias
-"""
+"""DOCSTRING ALTER"""
 import os
 os.chdir('pyfense')
 
 import unittest
-import cocos
 from cocos.director import director
 
 from pyfense import resources

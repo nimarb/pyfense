@@ -1,6 +1,5 @@
 # Test for pyfense_tower, to be tested with py.test
 import unittest
-import cocos
 from cocos.director import director
 
 from pyfense import game
@@ -43,7 +42,7 @@ class TestGame(unittest.TestCase):
         self.assertEqual(result, kind)
 
     def test_on_enemy_death(self):
-        testEnemy = enemy.PyFenseEnemy((0,0), 2, 1, 1, None,1)
+        testEnemy = enemy.PyFenseEnemy((0, 0), 2, 1, 1, None, 1)
         self.hud = hud.PyFenseHud()
         testEnemy.attributes["worth"] = 10
         self.currentCurrency = 10
@@ -56,6 +55,7 @@ class TestGame(unittest.TestCase):
         self.currentCurrency = 500
         game.PyFenseGame.on_build_tower(self, 1, 0, 0)
         self.assertEqual(350, self.currentCurrency)
+
     def test_on_enemy_reached_goal(self):
         self.hud = hud.PyFenseHud()
         self.currentLives = 15
@@ -73,10 +73,8 @@ class TestGame(unittest.TestCase):
         self.assertEqual("Current Wave: 2", self.hud.waveLabel.element.text)
 
     def _set_grid_pix(self, x, y, kind):
-    	# needed for buildTower
-    	pass
-
-
+        # needed for buildTower
+        pass
 
 
 if __name__ == '__main__':

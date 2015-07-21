@@ -3,9 +3,7 @@ Test map class.
 """
 
 import unittest
-import cocos
 from cocos.director import director
-import pyglet
 
 from pyfense import map
 from pyfense import resources
@@ -27,11 +25,11 @@ settings = {
     }
 }
 
+
 class TestMap(unittest.TestCase):
     """
     Test map class.
     """
-
     director.init(**settings['window'])
 
     def initiate_map(self):

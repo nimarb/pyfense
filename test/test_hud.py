@@ -3,9 +3,7 @@ Test hud class.
 """
 
 import unittest
-import cocos
 from cocos.director import director
-import pyglet
 
 from pyfense import hud
 
@@ -26,11 +24,11 @@ settings = {
     }
 }
 
+
 class TestHud(unittest.TestCase):
     """
     Test hud class.
     """
-
     director.init(**settings['window'])
 
     def initiate_hud(self):
