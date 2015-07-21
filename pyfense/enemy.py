@@ -77,8 +77,7 @@ class PyFenseEnemy(sprite.Sprite, pyglet.event.EventDispatcher):
 
             # move the healthBar
             healthBarAction = cocos.actions.MoveBy(
-                                                   self.path[1][self.distance],
-                                                   duration)
+                self.path[1][self.distance], duration)
             self.healthBarBackground.do(healthBarAction)
             self.healthBar.do(healthBarAction)
 

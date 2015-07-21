@@ -84,7 +84,7 @@ def load_entities():
                             att_dict["image"]))
                     try:
                         att_dict["projectileImage"] = load_image(
-                                att_dict["projectileImage"])
+                            att_dict["projectileImage"])
                     except FileNotFoundError:
                         print("Error: Image not found: {}".format(
                             att_dict["image"]))
@@ -180,7 +180,7 @@ def load_custom_image():
     if(os.path.isfile(pathjoin("assets/lvlcustom.png"))):
         return load_image('lvlcustom.png')
     else:
-        #print("no custom image created but tried to load")
+        # print("no custom image created but tried to load")
         return None
 
 
