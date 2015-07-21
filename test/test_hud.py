@@ -56,6 +56,17 @@ class TestHud(unittest.TestCase):
         actualResult = (145.0, 100)
         self.assertEqual(result, actualResult)
 
+    def test_update_currency_number(self):
+        self.initiate_hud()
+        self.hud.update_currency_number(70)
+        result = self.hud.currentCurrency
+        self.assertEqual(70, result)
+
+    def test__update_next_wave_timer(self):
+        self.initiate_hud()
+        self.hud._update_next_wave_timer(1)
+        self.assertEqual(2, self.hud.time)
+
 
 if __name__ == '__main__':
     unittest.main()
