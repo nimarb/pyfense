@@ -29,16 +29,6 @@ settings = {
 
 class TestGame(unittest.TestCase):
     director.init(**settings['window'])
-    set_grid_was_called = False;
-    set_grid_was_called = False;    
-
-    def _set_grid_pix(self, x, y, kind):
-        self.set_grid_was_called = True;
-        return 1
-        
-    def _get_grid_pix(self, x, y):
-        self.get_grid_was_called = True;
-        return 1
 
     def test_get_position_from_grid(self):
         startTile = [8, 2]
@@ -65,10 +55,10 @@ class TestGame(unittest.TestCase):
         self.entityMap = entities.PyFenseEntities(None, [0, 0], [0, 0])
         self.hud = hud.PyFenseHud()
         self.currentCurrency = 500
-        game.PyFenseGame.on_build_tower(self, 1, 0, 0)
-        self.assertEqual(450, self.currentCurrency)
-        self.assertEqual(self.get_grid_was_called, True)
-        self.assertEqual(self.set_grid_was_called, True)
+        testGame = game.PyFenseGame(1)
+        testGame.currentCurrency = 500
+        testGame.on_build_tower(1, 0, 0)
+        self.assertEqual(450, testGame.currentCurrency)
 
     def test_on_enemy_reached_goal(self):
         self.hud = hud.PyFenseHud()
