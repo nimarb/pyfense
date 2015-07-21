@@ -1,5 +1,5 @@
 """
-Test pyfense class.
+Test pause class.
 """
 
 import unittest
@@ -7,7 +7,7 @@ import unittest
 import cocos
 from cocos.director import director
 
-from pyfense import pyfense
+from pyfense import pause
 from pyfense import resources
 
 settings = {
@@ -30,11 +30,11 @@ settings = {
 
 class TestPyfense(unittest.TestCase):
 
-    """test pyfense class"""
+    """test pause class"""
 
     def test_new_tower(self):
         """test case when new tower is added without modifying anything in
-        pyfense
+        pause
         """
 
         testtower_name = len(resources.tower) + 1
@@ -59,7 +59,7 @@ class TestPyfense(unittest.TestCase):
                 print("Error: Image not found: {}".format("projectile01.png"))
             resources.tower[testtower_name][lvl] = att_dict
         director.init(**settings['window'])
-        pyfense.HelpLayer.on_enter(pyfense.HelpLayer())
+        pause.PauseLayer.__init__(pause.PauseLayer())
 
     def test_wrong_tower_name(self):
         """test case when a tower has no valid name (0,1,2,...)"""
@@ -84,4 +84,4 @@ class TestPyfense(unittest.TestCase):
                 print("Error: Image not found: {}".format("projectile01.png"))
             resources.tower['test_tower'][lvl] = att_dict
         director.init(**settings['window'])
-        pyfense.HelpLayer.on_enter(pyfense.HelpLayer())
+        pause.PauseLayer.__init__(pause.PauseLayer())

@@ -417,7 +417,7 @@ class HelpLayer(ColorLayer):
             for j in range(nr_towers):
                 self.add(towername_label[j])
         except IndexError:
-            print("please add towerame_label for all towers. " +
+            print("please add towername_label for all towers. " +
                   "otherwise no labels will be printed")
 
         price_label = text.Label("$  Price",

@@ -91,9 +91,15 @@ class PauseLayer(Layer):
             self.towerFireratePic = []
             self.towerThumbnails = []
             # add different tower thubnails
-            for i in range(nr_towers):
-                self.towerThumbnails.append(cocos.sprite.Sprite(
-                    resources.tower[i][l]["image"]))
+            try:
+                for i in range(nr_towers):
+                    self.towerThumbnails.append(cocos.sprite.Sprite(
+                        resources.tower[i][l]["image"]))
+            except KeyError:
+                print("check your tower naming, first tower should start " +
+                      "with 0 and no number should be left out.")
+                nr_towers = 0
+                break
 
             text_font = {
                 'bold': True,
@@ -123,7 +129,7 @@ class PauseLayer(Layer):
                 self.towerThumbnails[0].width / 4.)
             self.menuMin_y = 550
 
-            for picture in range(0, len(self.towerThumbnails)):
+            for picture in range(0, nr_towers):
                 self.towerThumbnails[picture].position = (
                     self.menuMin_x +
                     picture * (self.towerThumbnails[picture].width + 40) +
