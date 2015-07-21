@@ -27,10 +27,9 @@ settings = {
 
 
 class TestGame(unittest.TestCase):
+    director.init(**settings['window'])
+
     def test_get_position_from_grid(self):
-        director.init(**settings['window'])
-        scene = cocos.scene.Scene()
-        director.run(scene)
         startTile = [8, 2]
         result = game.PyFenseGame._get_position_from_grid(self, startTile)
         actualResult = (150, 510)
@@ -72,12 +71,12 @@ class TestGame(unittest.TestCase):
         game.PyFenseGame.on_next_wave_timer_finished(self)
         self.assertEqual(2, self.currentWave)
         self.assertEqual("Current Wave: 2", self.hud.waveLabel.element.text)
-    
+
     def _set_grid_pix(self, x, y, kind):
     	# needed for buildTower
     	pass
- 
-    	
+
+
 
 
 if __name__ == '__main__':
