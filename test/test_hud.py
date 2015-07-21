@@ -44,6 +44,14 @@ class TestHud(unittest.TestCase):
         actualResult = False
         self.assertEqual(result, actualResult)
         
+    def test_display_tower_hud(self):
+        self.initiate_hud()
+        self.hud.clicked_x = 100
+        self.hud.clicked_y = 100
+        self.hud._display_tower_hud("build", 100, 100)
+        result = self.hud.buildingHudDisplayed
+        actualResult = True
+        self.assertEqual(result, actualResult)        
         
         
 
