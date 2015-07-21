@@ -89,7 +89,6 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self._show_warning(3)
         self.enemieslength = len(self.spawningList)
         self.schedule_interval(self._add_enemy, 0)
-        #import pdb; pdb.set_trace()
 
     def _show_warning(self, warningNumber):
         if warningNumber == 1:
@@ -222,8 +221,8 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             dmgRange = effectFactor
         targets = self._find_enemys_in_range(target, dmgRange)
         if not target == []:
-            for enemy in targets:
-                self._deal_damage(damage, enemy, newEffect, effectDuration,
+            for loopEnemy in targets:
+                self._deal_damage(damage, loopEnemy, newEffect, effectDuration,
                                   effectFactor)
 
     def _find_enemys_in_range(self, position, range):
@@ -231,13 +230,13 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         Looks and gives back enemys in range
         """
         targets = []
-        for enemy in self.enemies:
-            if(enemy.x < cocos.director.director.get_window_size()[0] and
+        for loopEnemy in self.enemies:
+            if(loopEnemy.x < cocos.director.director.get_window_size()[0] and
                # Enemy still in window
-               enemy.y < cocos.director.director.get_window_size()[1]):
+               loopEnemy.y < cocos.director.director.get_window_size()[1]):
                 # Distance to enemy smaller than range
-                if (self._distance(enemy, position) < range):
-                    targets.append(enemy)
+                if (self._distance(loopEnemy, position) < range):
+                    targets.append(loopEnemy)
         return targets
 
     def _distance(self, a, b):
@@ -288,7 +287,8 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         if k == key.Q:
             director.replace(highscore.PyFenseLost())
         if k == key.B:
-            import pdb; pdb.set_trace()
+            import pdb
+            pdb.set_trace()
             return True
 
 PyFenseEntities.register_event_type('on_next_wave')

@@ -12,7 +12,7 @@ import cocos
 import cocos.menu
 from cocos.director import director
 from cocos.scene import Scene
-from cocos.layer import Layer, ColorLayer, MultiplexLayer
+from cocos.layer import ColorLayer, MultiplexLayer
 from cocos import text
 
 import os  # for loading custom image
@@ -201,7 +201,6 @@ class LevelSelectMenu(cocos.menu.Menu):
         """
         self.parent.switch_to(3)
         director.push(game.PyFenseGame(lvl))
-
 
     def on_mapBuilder(self):
         """

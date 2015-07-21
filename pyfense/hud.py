@@ -110,10 +110,11 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         labels = []
         for i in range(0, 5):
             labels.append(
-                cocos.text.Label(" ", bold=True, anchor_x='right',
-                anchor_y='center', color=(255, 0, 0, 255)))
+                           cocos.text.Label(" ", bold=True, anchor_x='right',
+                                            anchor_y='center',
+                                            color=(255, 0, 0, 255)))
         self.towerCostTexts = [labels[0], labels[1], labels[2], labels[3],
-                labels[4]]
+                               labels[4]]
         self.towerUpgradeText = cocos.text.Label(
             " ", bold=True, anchor_x='center', anchor_y='center',
             color=(255, 0, 0, 255))
@@ -165,7 +166,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                             self.cellSelectorSpriteGreen.position)
 
     def _display_range_indicator(self, nextUpgrade=False, towerNumber=None,
-                               upgradeLevel=None):
+                                 upgradeLevel=None):
         if towerNumber is None:
             towerNumber = int(str(self.clickedCellStatus)[1])
         if not nextUpgrade:
@@ -191,6 +192,7 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
         # due to cocos2d assigning the sprite's center to specified location
         self.menuMin_y = y - self.towerThumbnails[0].height / 2
         self.menuMax_y = y
+
         # draw buildable tower array
         if kind == "build":
             self.menuMax_x = (self.menuMin_x + len(self.towerThumbnails) *
@@ -198,10 +200,9 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
             maxX = resources.settings['window']['width']
             if self.menuMax_x > maxX:
                 self.menuMax_x = maxX
-                self.menuMin_x = self.menuMax_x - (len(self.towerThumbnails) *
-                    self.towerThumbnails[0].width)
-            #else:
-            #    menuMax_x = self.menuMax_x
+                self.menuMin_x = (self.menuMax_x -
+                                  (len(self.towerThumbnails) *
+                                   self.towerThumbnails[0].width))
             for picture in range(0, len(self.towerThumbnails)):
                 # ATTENTION, cocos2d always draws the CENTER of the
                 # sprite at the specified location
@@ -210,18 +211,9 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                     self.menuMin_x +
                     picture * self.towerThumbnails[picture].width +
                     self.towerThumbnails[picture].width / 2, y)
-                    #self.menuMax_x -
-                    #((len(self.towerThumbnails) - picture - 1) *
-                    #self.towerThumbnails[picture].width +
-                    #self.towerThumbnails[picture].width / 2), y)
                 self.towerCostTexts[picture].element.text = '$' + str(
                     resources.tower[picture][1]["cost"])
                 self.towerCostTexts[picture].position = (
-                    #self.menuMax_x -
-                    #((len(self.towerThumbnails) - picture - 1) *
-                    #self.towerThumbnails[picture].width +
-                    #self.towerThumbnails[picture].width / 1.5 - 45),
-                    #y - self.towerThumbnails[picture].width * 0.55)
                     self.menuMin_x + picture *
                     self.towerThumbnails[picture].width +
                     self.towerThumbnails[picture].width / 1.5 + 15,
@@ -238,13 +230,14 @@ class PyFenseHud(cocos.layer.Layer, pyglet.event.EventDispatcher):
                     self.noCashOverlays[picture].opacity = 127
                     self.noCashOverlayDisplayed[picture] = True
             self.buildingHudDisplayed = True
+
         elif kind == "upgrade":
             self.menuMax_x = self.menuMin_x + 2 * self.destroyTowerIcon.width
             maxX = resources.settings['window']['width']
             if self.menuMax_x > maxX:
                 self.menuMax_x = maxX
                 self.menuMin_x = self.menuMax_x - (2 *
-                    self.destroyTowerIcon.width)
+                                                   self.destroyTowerIcon.width)
             self.clickedCellStatus = self.currentCellStatus
             towerNumber = int(str(self.clickedCellStatus)[1])
             upgradeLevel = int(str(self.clickedCellStatus)[2])

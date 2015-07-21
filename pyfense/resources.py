@@ -12,6 +12,7 @@ import pickle
 
 root = os.path.dirname(os.path.abspath(__file__))
 
+
 def pathjoin(relative_path):
     return os.path.join(root, relative_path)
 
@@ -23,7 +24,7 @@ def load_image(filename):
     try:
         img = pyglet.resource.image(filename)
     except FileNotFoundError:
-        print(filename + " not found in load_image," +" please check files")
+        print(filename + " not found in load_image," + " please check files")
         return False
     return img
 
@@ -34,7 +35,7 @@ def _load_animation(filepath, spritesheet_x, spritesheet_y, width,
     try:
         spritesheet = load_image(filepath)
         grid = pyglet.image.ImageGrid(spritesheet, spritesheet_y, spritesheet_x,
-                                  item_width=width, item_height=height)
+                                      item_width=width, item_height=height)
         textures = pyglet.image.TextureGrid(grid)
         images = textures[0:len(textures)]
     except FileNotFoundError:
@@ -106,7 +107,8 @@ def load_entities():
                     try:
                         if "animated" in att_dict:
                             if att_dict["animated"]:
-                                att_dict["image"] = _load_animation(att_dict["image"],
+                                att_dict["image"] = _load_animation(
+                                    att_dict["image"],
                                     att_dict["spritesheet_x"],
                                     att_dict["spritesheet_y"],
                                     att_dict["width"], att_dict["height"],
@@ -135,7 +137,8 @@ def load_entities():
                     try:
                         if "animated" in att_dict:
                             if att_dict["animated"]:
-                                att_dict["image"] = _load_animation(att_dict["image"],
+                                att_dict["image"] = _load_animation(
+                                    att_dict["image"],
                                     att_dict["spritesheet_x"],
                                     att_dict["spritesheet_y"],
                                     att_dict["width"], att_dict["height"],

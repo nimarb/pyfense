@@ -12,15 +12,15 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
     """
     Cocos Sprite that moves to the target and dispatches event on_target_hit.
     """
-    
+
     is_event_handler = True
-    
+
     def __init__(
             self, towerParent, target, image, towerNumber, rotation,
             speed, damage, effect, effectDuration, effectFactor):
         """
         Create a projectile.
-        
+
         :Parameters:
             `towerParent`: tower object
                 Tower that launched the projectile.
@@ -29,7 +29,7 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
             `image` : image
                 Image of the projectile.
             `towerNumber` : int
-                Number of the parent tower. 
+                Number of the parent tower.
             `rotation` : int
                 Rotation of the parent tower.
             `speed` : int
@@ -43,7 +43,7 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
             `effectFactor` : int
                 How strong the effect is.
         """
-                
+
         super().__init__(image, position=towerParent.position,
                          scale=1)
         self.rotation = rotation
@@ -57,16 +57,16 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
             effect, effectDuration, effectFactor)
 
     def _dispatch_hit_event(self, dt, target, towerNumber, effect,
-                         effectDuration, effectFactor):
+                            effectDuration, effectFactor):
         """
         Dispatch event when enemy is hit.
-        
+
         The event is then handled by the enitites class in order to subtract
-        health points from the enemy and to handle the different effects. 
+        health points from the enemy and to handle the different effects.
         Returns True when event is dispatched for testing reasons.
         """
 
-        self.unschedule(self._dispatch_hit_event)     
+        self.unschedule(self._dispatch_hit_event)
         self.dispatch_event('on_target_hit', self, target, towerNumber,
                             effect, effectDuration, effectFactor)
 
