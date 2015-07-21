@@ -1,6 +1,7 @@
 """
 Test Tower class.
 """
+
 import unittest
 from cocos.director import director
 

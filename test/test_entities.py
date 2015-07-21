@@ -1,5 +1,4 @@
 """DOCSTRING ALTER"""
-
 import unittest
 from cocos.director import director
 

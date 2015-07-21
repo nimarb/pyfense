@@ -67,20 +67,33 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         director.interpreter_locals["enemies"] = self.enemies
         director.interpreter_locals["towers"] = self.towers
 
-        # update runs every tick
+    """
+    Ueberprueft, ob ein Enemy das Ziel erreicht hat, update runs every tick
+    """
     def _update(self, dt):
         self._has_enemy_reached_end()
 
+    """
+    Erzeugt die Gegner der Wave wavenumber
+    """
     def next_wave(self, waveNumber):
         self.moduloWavenumber = (waveNumber - 1) % self.wavequantity + 1
         self.spawningList = resources.waves[self.moduloWavenumber]
         self.spawnedEnemies = 0
         self.diedEnemies = 0
+
+        """
+        Berechnet den Lebensmultiplikator fuer diese Welle
+        """
         self.enemyHealthFactor = math.floor((waveNumber - 1) /
                                             self.wavequantity) + 1
         self.multiplier = ((self.polynomial2 * (self.enemyHealthFactor ** 2)) +
                            (self.polynomial1 * self.enemyHealthFactor) +
                            self.polynomial0)
+
+        """
+        Ueberprueft, ob Warnung wegen staerkerer Gegner angezeigt wird
+        """
         if self.wavequantity - self.moduloWavenumber == 1:
             self._show_warning(1)
         elif self.wavequantity - self.moduloWavenumber == 0:
@@ -88,8 +101,14 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
         elif self.moduloWavenumber == 1 and waveNumber != 1:
             self._show_warning(3)
         self.enemieslength = len(self.spawningList)
+        """
+        Beginnt mit dem ersten Gegner dieser Welle
+        """
         self.schedule_interval(self._add_enemy, 0)
 
+    """
+    Zeigt Warnung vor staerkeren Gegner
+    """
     def _show_warning(self, warningNumber):
         if warningNumber == 1:
             warningLabel = cocos.text.Label(
@@ -275,6 +294,9 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
             self.diedEnemies += 1
             self._is_wave_finished()
 
+    """
+    Sortiere die Gegner nach zurueckgelegter Strecke
+    """
     def _update_enemies_order(self, dt):
         if self.enemies:
             self.enemies.sort(key=lambda x: x.distance, reverse=True)
