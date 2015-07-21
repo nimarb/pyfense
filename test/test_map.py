@@ -8,6 +8,7 @@ from cocos.director import director
 import pyglet
 
 from pyfense import map
+from pyfense import resources
 
 settings = {
     "window": {
@@ -34,7 +35,13 @@ class TestMap(unittest.TestCase):
     director.init(**settings['window'])
 
     def initiate_map(self):
+        self.map = map.PyFenseMap("background")
 
+    def test_load_background_image(self):
+        self.initiate_map()
+        result = self.map._load_background_image().image
+        actualResult = resources.background["background"]
+        self.assertEqual(result, actualResult)
 
 
 if __name__ == '__main__':
