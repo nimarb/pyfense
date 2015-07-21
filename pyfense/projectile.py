@@ -12,15 +12,15 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
     """
     Cocos Sprite that moves to the target and dispatches event on_target_hit.
     """
-    
+
     is_event_handler = True
-    
+
     def __init__(
             self, towerParent, target, image, towerNumber, rotation,
             speed, damage, effect, effectDuration, effectFactor):
         """
         Create a projectile.
-        
+
         :Parameters:
             `towerParent`: tower object
                 Tower that launched the projectile.
@@ -43,7 +43,7 @@ class PyFenseProjectile(sprite.Sprite, pyglet.event.EventDispatcher):
             `effectFactor` : int
                 How strong the effect is.
         """
-                
+
         super().__init__(image, position=towerParent.position,
                          scale=1)
         self.rotation = rotation

@@ -206,8 +206,6 @@ class Explosion2(ParticleSystem):
     color_modulate = True
 
 
-
-
 class Explosion3(ParticleSystem):
     # total particles
     total_particles = 500
@@ -255,9 +253,8 @@ class Explosion3(ParticleSystem):
 
     # color modulate
     color_modulate = True
-    
-    
-    
+
+
 class Explosion4(ParticleSystem):
     # total particles
     total_particles = 500
@@ -305,7 +302,8 @@ class Explosion4(ParticleSystem):
 
     # color modulate
     color_modulate = True
-    
+
+
 class ExplosionHuge(ParticleSystem):
     # total particles
     total_particles = 500
