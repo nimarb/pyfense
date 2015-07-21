@@ -31,83 +31,49 @@ settings = {
     }
 }
 
-class TestProjectile(unittest.TestCase, pyglet.event.EventDispatcher):
-    """    
-    Test projectile class.    
+class TestProjectile(unittest.TestCase):
     """
-    
-    is_event_handler = True
+    Test projectile class.
+    """
+
+    director.init(**settings['window'])
 
     def test_distance(self):
-        """        
+        """
         Test distance between Tower and Enemy.
         """
-        
-        director.init(**settings['window'])
-        new_game = game.PyFenseGame(1)
-        path = new_game.movePath
-        new_tower = tower.PyFenseTower(0, (50, 70))
-        new_enemy = enemy.PyFenseEnemy((50, 40), 0, 1, 1, path, 2)
+
+        testGame = game.PyFenseGame(1)
+        testPath = testGame.movePath
         image = resources.load_image('projectile01.png')
-        new_projectile = projectile.PyFenseProjectile(new_tower, new_enemy,
+        testTower = tower.PyFenseTower(0, (50, 70))
+        testEnemy = enemy.PyFenseEnemy((50, 40), 0, 1, 1, testPath, 2)
+        testProjectile = projectile.PyFenseProjectile(testTower, testEnemy,
                                                       image, 0, 0, 1000,
                                                       50, 'normal', 5, 1)
-        result = new_projectile.distance
+        result = testProjectile.distance
         actualResult = 30
         self.assertAlmostEqual(result, actualResult)
 
     def test_rotation(self):
-        """        
+        """
         Test rotation of projectile.
         """
-        
-        director.init(**settings['window'])
-        new_game = game.PyFenseGame(1)
-        path = new_game.movePath
+
+        testGame = game.PyFenseGame(1)
+        testPath = testGame.movePath
         image = resources.load_image('projectile01.png')
-        new_tower = tower.PyFenseTower(0, (50, 50))
-        new_enemy = enemy.PyFenseEnemy((100, 100), 0, 1, 1, path, 2)
-        new_tower.target = new_enemy
-        new_tower._rotate_to_target()
-        rotation = new_tower.rotation
-        new_projectile = projectile.PyFenseProjectile(new_tower, new_enemy,
+        testTower = tower.PyFenseTower(0, (50, 50))
+        testEnemy = enemy.PyFenseEnemy((100, 100), 0, 1, 1, testPath, 2)
+        testTower.target = testEnemy
+        testTower._rotate_to_target()
+        rotation = testTower.rotation
+        testProjectile = projectile.PyFenseProjectile(testTower, testEnemy,
                                                       image, 0, rotation, 1000,
                                                       50, 'normal', 5, 1)
-        result = new_projectile.rotation
+        result = testProjectile.rotation
         actualResult = 45
         self.assertAlmostEqual(result, actualResult)
-        
-    def test_event_dispatch(self):
-        """
-        Test if event is dispatched.
-        """
-        
-    def test_rotation_particle(self):
-        image = resources.load_image('projectile01.png')
-        new_tower = tower.PyFenseTower(0, (50, 50))
-        new_enemy = enemy.PyFenseEnemy((100, 100), 0, 1, 1, path, 2)
-        new_tower.target = new_enemy
-        new_tower._rotate_to_target()
-        rotation = new_tower.rotation
-        new_projectile = projectile.PyFenseProjectile(
-                                    new_tower, new_enemy, image, 0, rotation,
-                                    1000, 50, 'normal', 5, 1)      
-        new_projectile.push_handlers(self)
-        self.event_dispatched = False
-        # Wait one second longer than the flight time of the projectile until
-        # event is checked
-        duration = new_projectile.duration + 1
-        pyglet.clock.schedule_once(
-            lambda dt: self.assertTrue(event_dispatched), duration)
-        pyglet.clock.schedule_once(
-            lambda dt: self.fail('Event has not been dispatched'), duration+1)
-               
-    def on_target_hit(self):
-        """
-        Needed for event dispatch
-        """
-
-        self.event_dispatched = True
 
 if __name__ == '__main__':
     unittest.main()
