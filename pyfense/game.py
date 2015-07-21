@@ -3,7 +3,6 @@ PyFenseGame -  Top Level Scene during the game, onto which all the other
 Layers get added.Responsible for dynamic pathfinding and communication between
 user interaction through the HUD and entities like towers.
 """
-import os
 import sys
 
 from cocos.director import director
@@ -63,7 +62,6 @@ class PyFenseGame(scene.Scene):
         if test == "test":
             self.currentLives = 200
             self.currentCurrency = 10000
-
 
     def _load_path(self):
         """
