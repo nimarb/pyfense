@@ -26,7 +26,7 @@ from cocos.director import director
 # import pyfense_tower
 from pyfense import enemy
 from pyfense import projectile
-from pyfense import projectile_particle
+from pyfense import projectileParticle
 from pyfense import pause
 from pyfense import resources
 from pyfense import particles
@@ -138,7 +138,7 @@ class PyFenseEntities(cocos.layer.Layer, pyglet.event.EventDispatcher):
                             effectDuration, effectFactor):
 
         if towerNumber == 4:
-            newProjectile = projectile_particle.PyFenseProjectileSlow(
+            newProjectile = projectileParticle.PyFenseProjectileSlow(
                 tower, target, towerNumber, rotation, projectileSpeed,
                 damage, effect, effectDuration, effectFactor)
             self.projectiles.append(newProjectile)

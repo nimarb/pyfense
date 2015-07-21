@@ -50,6 +50,7 @@ class PyFenseTower(sprite.Sprite, pyglet.event.EventDispatcher):
         longer than the firerate)
         Projectile fired with event on_projectile_fired.
         """
+        
         if (not self.parent.enemies) or not self.target:
             pass
         elif self._canFire:
