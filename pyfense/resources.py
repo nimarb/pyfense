@@ -180,7 +180,7 @@ def load_custom_image():
     if(os.path.isfile(pathjoin("assets/lvlcustom.png"))):
         return load_image('lvlcustom.png')
     else:
-        print("no custom image created but tried to load")
+        #print("no custom image created but tried to load")
         return None
 
 

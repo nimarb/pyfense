@@ -26,10 +26,9 @@ settings = {
 
 
 class TestHud(unittest.TestCase):
+    director.init(**settings['window'])
+
     def setUp(self):
-        director.init(**settings['window'])
-        scene = cocos.scene.Scene()
-        director.run(scene)
         self.hud = pyfense_hud.PyFenseHud()
 
     def test_update_currency_number(self):

@@ -36,7 +36,8 @@ class PyFenseGame(scene.Scene):
         # no tower can be build (can upgrade (?))
         # 100-200 := 1 + towerNr + towerLvl has been built here
         self.gameGrid = [[0 for x in range(32)] for x in range(18)]
-        self.gameGrid, self.startTile, \
+        self.gameGrid, \
+            self.startTile, \
             self.endTile = resources.initGrid(levelNumber)
 
         resources.load_waves()

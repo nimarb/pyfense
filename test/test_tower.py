@@ -7,6 +7,10 @@ from cocos.director import director
 import pyglet
 
 from pyfense import tower
+from pyfense import game
+from pyfense import enemy
+from pyfense import entities
+from pyfense import resources
 
 settings = {
     "window": {
@@ -27,27 +31,60 @@ settings = {
 
 
 class TestTower(unittest.TestCase):
+    director.init(**settings['window'])
+
+    def initiate_tower(self):
+        self.testTower = tower.PyFenseTower(1, (0, 0))
+        self.testGame = game.PyFenseGame(1)
+        self.testEnemy = enemy.PyFenseEnemy((300, 200), 1, 1, 1,
+                                            self.testGame.movePath, 1)
+        self.testEntities = entities.PyFenseEntities(
+                            self.testGame.movePath, self.testGame.startTile,
+                            self.testGame.endTile)
+        self.testEntities.add(self.testTower)
+        self.testEntities.enemies.append(self.testEnemy)
+
+
     def test_tower_rotation(self):
-        director.init(**settings['window'])
-        scene = cocos.scene.Scene()
-        director.run(scene)
-        enemies = []
-        image = pyglet.image.load('assets/enemy01.png')
-        enemy0 = cocos.sprite.Sprite(image)
-        enemy0.position = (300, 200)
-        enemy1 = cocos.sprite.Sprite(image)
-        enemy1.position = (1000, 700)
-        enemies.append(enemy0)
-        enemies.append(enemy1)
-        new_tower = tower.PyFenseTower(1, (0, 0))
-        new_tower.target = enemy0
-        new_tower._rotate_to_target()
-        result = new_tower.rotation 
-        print(result)
+        self.initiate_tower()
+        self.testTower.target = self.testEnemy
+        self.testTower._rotate_to_target()
+
+        result = self.testTower.rotation
         actualResult = 56.31
         self.assertAlmostEqual(result, actualResult, places=2)
-        
 
+    def test_fire(self):
+        """
+        Test successfull if no Error occurs.
+        That way, the event for fire has been dispatched.
+        """
+        self.initiate_tower()
+
+        self.testTower.target = self.testEnemy
+        self.testTower._fire()
+
+    def test_find_next_enemy(self):
+        self.initiate_tower()
+
+        self.testTower.attributes["range"] = 400
+        self.testTower._find_next_enemy()
+        result = self.testTower.target
+        actualResult = self.testEnemy
+        self.assertEqual(result, actualResult)
+
+        self.testTower.attributes["range"] = 200
+        self.testTower._find_next_enemy()
+        result = self.testTower.target
+        actualResult = None
+        self.assertEqual(result, actualResult)
+
+    def test_accumulated_cost(self):
+        self.initiate_tower()
+        self.testTower.attributes = resources.tower[1][3]
+        result = self.testTower.get_accumulated_cost()
+        actualResult = 400
+        self.assertEqual(result, actualResult)
 
 if __name__ == '__main__':
     unittest.main()

@@ -63,11 +63,9 @@ class MainMenu(cocos.menu.Menu):
         items.append(cocos.menu.MenuItem('About', self.on_about))
         items.append(cocos.menu.MenuItem('Exit', self.on_quit))
         self.create_menu(items)
-        # TODO: Doesn't get unscheduled.
         self.schedule(self._scale_logo_main_menu)
 
     def on_level_select(self):
-
         self._scale_logo_sub_menu()
         self.parent.switch_to(1)
 

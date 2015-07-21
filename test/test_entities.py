@@ -35,10 +35,9 @@ settings = {
 
 
 class TestEntities(unittest.TestCase):
+    director.init(**settings['window'])
+
     def test_build_remove(self):
-        director.init(**settings['window'])
-        scene = cocos.scene.Scene()
-        director.run(scene)
         test_entities = entities.PyFenseEntities(0, 0, 0)
         test_tower = tower.PyFenseTower(0, (50, 70))
         result = test_entities.build_tower(test_tower)
