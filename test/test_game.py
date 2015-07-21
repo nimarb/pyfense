@@ -55,8 +55,10 @@ class TestGame(unittest.TestCase):
         self.entityMap = entities.PyFenseEntities(None, [0, 0], [0, 0])
         self.hud = hud.PyFenseHud()
         self.currentCurrency = 500
-        game.PyFenseGame.on_build_tower(self, 1, 0, 0)
-        self.assertEqual(350, self.currentCurrency)
+        testGame = game.PyFenseGame(1)
+        testGame.currentCurrency = 500
+        testGame.on_build_tower(1, 0, 0)
+        self.assertEqual(450, testGame.currentCurrency)
 
     def test_on_enemy_reached_goal(self):
         self.hud = hud.PyFenseHud()
@@ -73,10 +75,6 @@ class TestGame(unittest.TestCase):
         game.PyFenseGame.on_next_wave_timer_finished(self)
         self.assertEqual(2, self.currentWave)
         self.assertEqual("Current Wave: 2", self.hud.waveLabel.element.text)
-
-    def _set_grid_pix(self, x, y, kind):
-        # needed for buildTower
-        pass
 
 
 if __name__ == '__main__':
