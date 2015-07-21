@@ -1,7 +1,4 @@
 """DOCSTRING ALTER"""
-import os
-os.chdir('pyfense')
-
 import unittest
 from cocos.director import director
 

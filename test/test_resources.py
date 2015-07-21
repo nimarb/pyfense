@@ -4,8 +4,6 @@ Created on Mon Jun 15 20:20:10 2015
 
 @author: Matthias
 """
-import os
-os.chdir(os.path.join('pyfense'))
 import unittest
 from pyfense import resources
 
