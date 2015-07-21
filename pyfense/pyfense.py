@@ -53,6 +53,7 @@ class MainMenu(cocos.menu.Menu):
         self.logo.position = (self.w / 2 + 20, self.h - 175)
         self.logo.scale = 0.5
         self.scene.add(self.logo, z=1)
+        director.interpreter_locals["pyfense_main"] = self
 
         items = []
         items.append(cocos.menu.MenuItem('Start Game', self.on_level_select))
@@ -62,6 +63,7 @@ class MainMenu(cocos.menu.Menu):
         items.append(cocos.menu.MenuItem('About', self.on_about))
         items.append(cocos.menu.MenuItem('Exit', self.on_quit))
         self.create_menu(items)
+        # TODO: Doesn't get unscheduled.
         self.schedule(self._scale_logo_main_menu)
 
     def on_level_select(self):
@@ -201,6 +203,7 @@ class LevelSelectMenu(cocos.menu.Menu):
         """
         self.parent.switch_to(3)
         director.push(game.PyFenseGame(lvl))
+
 
     def on_mapBuilder(self):
         """
