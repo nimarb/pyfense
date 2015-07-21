@@ -1,4 +1,6 @@
-# Test for pyfense_tower, to be tested with py.test
+"""
+Test game class.
+"""
 import unittest
 from cocos.director import director
 
