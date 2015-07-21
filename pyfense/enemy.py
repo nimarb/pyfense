@@ -14,7 +14,6 @@ class PyFenseEnemy(sprite.Sprite, pyglet.event.EventDispatcher):
     Contains actions for movement and slowdown and for poison damage.
     """
 
-
     def __init__(self, position, enemyname, lvl, wave, path,
                  healthMultiplier):
         """
@@ -54,7 +53,8 @@ class PyFenseEnemy(sprite.Sprite, pyglet.event.EventDispatcher):
 
     def _move(self, dt):
         """
-        Move enemy and healthbar and add one distance unit every movement of 6 pixels.
+        Move enemy and healthbar and add one distance unit every
+        movement of 6 pixels.
         """
 
         self.unschedule(self._move)
