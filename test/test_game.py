@@ -57,7 +57,7 @@ class TestGame(unittest.TestCase):
         self.currentCurrency = 500
         game.PyFenseGame.on_build_tower(self, 1, 0, 0)
         self.assertEqual(350, self.currentCurrency)
-        def test_on_enemy_reached_goal(self):
+    def test_on_enemy_reached_goal(self):
         self.hud = hud.PyFenseHud()
         self.currentLives = 15
         game.PyFenseGame.on_enemy_reached_goal(self)
