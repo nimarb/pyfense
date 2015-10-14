@@ -1,3 +1,2 @@
 # LICENSE
-GPLv3
-.....
+Apache V2
