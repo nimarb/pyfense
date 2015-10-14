@@ -11,3 +11,5 @@ if you just want to play and enjoy pyfense, you can simply install it from pypi 
 ## about
 pyfense was written by Daniel Lechner, Jakob Müller, Matthias Lutz, Nimar Blume and Robin Wachsmann as part of an university project at the Technical University of Munich. 
 
+## contributing
+We welcome all contributions: code, ideas, sprites/art, balancing suggestions and other improvements. Please don't hesitate to ask, write an issue or send a pull request! 
