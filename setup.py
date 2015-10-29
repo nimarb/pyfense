@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name = 'PyFense',
-    version = '0.9.3',
+    version = '0.9.4',
     license = 'GPLv3',
     packages = ['pyfense'],
     package_data = {
