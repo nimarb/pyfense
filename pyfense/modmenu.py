@@ -36,10 +36,10 @@ class ImageMenuItem (cocos.menu.BaseMenuItem):
                                                       (self.image.height/2.))
 
     def draw(self):
-        cocos.menu.glPushMatrix()
+        pyglet.gl.glPushMatrix()
         self.transform()
         if self.is_selected:
             self.selected_item.draw()
         else:
             self.item.draw()
-        cocos.menu.glPopMatrix()
+        pyglet.gl.glPopMatrix()
