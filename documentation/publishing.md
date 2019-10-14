@@ -1,5 +1,4 @@
-# How to publish the game
-## or how to turn it into a python package
+# How to Publish the Game and Turn It Into a Python Package
 
 1. go to the top level folder (pyfense is a sub folder in that one)
 2. check the version number in setup.py
