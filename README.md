@@ -1,17 +1,17 @@
 # pyFense
 
-Tower Defense game written in Python 3 using cocos2d and pyglet.
-For roadmap and further documentation/information on the project, check [documentation/roadmap.md](documentation/roadmap.md).
+PyFense is a Tower Defense game written in Python 3 using cocos2d and pyglet.
+For the roadmap and further documentation/information on the project, check [documentation/roadmap.md](documentation/roadmap.md).
 
 ## Playing the Game
 
 If you just want to play and enjoy pyfense, you can simply install it from pypi here: [https://pypi.python.org/pypi/PyFense](https://pypi.python.org/pypi/PyFense]).
-Alternatively you can clone this repo and run pyFense locally through virtualenv.
+Alternatively you can clone this repo and run pyFense locally through virtualenv, for that please see the instructions below on how to setup a development environment.
 
 ## About
 
 pyFense was written by Daniel Lechner, Jakob Müller, Matthias Lutz, Nimar Blume and Robin Wachsmann as part of an university project at the Technical University of Munich.
-The aim of the course was to get familiar with the Python programming language, git and distributed development.
+The aim of the course was to get familiar with the Python programming language, git, and distributed development.
 
 ## Contributing
 
@@ -20,19 +20,33 @@ For code, please try to adhere to the PEP8 guideline to keep the code readable a
 
 ## Dependencies
 
-python 3, pyglet>=1.2.3, cocos2d>=0.6.0, numpy>=1.9.2
+python 3, pyglet>=1.3.0, cocos2d>=0.6.5, numpy>=1.9.2  
 earlier versions might work but were not tested against. pyglet 1.2.2 and earlier cause a segfault due to incorrect calling of gdk_pixbuf.
 
 ## How to Setup the Development Environment
 
+To setup the development environment you can either use `venv` which comes with Python 3.3 or later, or you can use `virtualenv` which has to be explicitly installed but works with a wider variety of versions. `venv` is definitely recommended.
+
 Steps to replicate the development environment:
 
+### Using `venv` (recommended)
+
 1. clone this repo
-2. initiate virtualenv in the project dir: virtualenv .
-3. install pyfense in the virtualenv environment: ./bin/python setup.py develop
-4. set execute permission for the executeable: chmod +x ./bin/pyfense
-5. run pyfense: ./bin/pyfense
-6. to modify pyfense edit the responding file in ./pyfense/
+2. initiate virtualenv in the project dir: `python3 -m venv .`
+3. install pyfense in the virtualenv environment: `./bin/python setup.py develop`
+4. set execute permission for the executeable: `chmod +x ./bin/pyfense`
+5. run pyfense: `./bin/pyfense`
+6. to modify pyfense edit the responding file in `./pyfense/`
+7. have fun :)
+
+### Using `virtualenv`
+
+1. clone this repo
+2. initiate virtualenv in the project dir: `virtualenv .`
+3. install pyfense in the virtualenv environment: `./bin/python setup.py develop`
+4. set execute permission for the executeable: `chmod +x ./bin/pyfense`
+5. run pyfense: `./bin/pyfense`
+6. to modify pyfense edit the responding file in `./pyfense/`
 7. have fun :)
 
 ## Unit Tests
